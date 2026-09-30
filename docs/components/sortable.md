@@ -38,7 +38,7 @@ drawn again from the data.
 | `onDrop` | required | Called with a `SortMove` after a drop |
 | `handle` | | A selector for the part that picks an item up |
 | `filter` | | A selector for parts that never start a drag |
-| `accept` | | Whether the container takes an item of a kind (`data-kind`) |
+| `accept` | | Whether it takes an item, from its `(data-kind, data-id)` |
 | `enabled` | `true` | `false` turns the container off |
 | `onOver` | | Called while dragging with the item under the pointer |
 

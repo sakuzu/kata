@@ -6,7 +6,8 @@ things at its end.
 ## When to use
 
 Put it in a [List](list.md). An item that opens something takes
-`onclick` (Enter and Space press it too) or `href`; one that is only
+`onclick` (Enter and Space press it too, except in a field inside it)
+or `href`; one that is only
 read takes `plain`, and then a `rule` under it, or a surface, so that its
 edge can be seen. `sel` marks the selected item; set `aria-selected` or
 `aria-current` on it as the list requires. When the item ends with an

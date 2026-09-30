@@ -22,7 +22,7 @@ When the text is emptied, the caller decides what takes its place.
 | `title` | `false` | The size and weight of h2 |
 | `multiline` | `false` | Several lines |
 | `label` | | The accessible name (the placeholder by default) |
-| `editing` | `false` | Whether it is being edited (bindable) |
+| `editing` | `false` | Being edited (bindable); `true` starts an edit |
 
 ## Contract
 

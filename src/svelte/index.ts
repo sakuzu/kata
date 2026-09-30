@@ -51,6 +51,8 @@ export { default as Kbd } from './components/Kbd.svelte';
 export type { KebabAction } from './components/Kebab.svelte';
 export { default as Kebab } from './components/Kebab.svelte';
 export { default as Kv } from './components/Kv.svelte';
+export type { TreeMove, TreeNode, TreeSelectModifiers } from './components/LayerTree.svelte';
+export { default as LayerTree } from './components/LayerTree.svelte';
 export { default as LinkAction } from './components/LinkAction.svelte';
 export { default as List } from './components/List.svelte';
 export { default as ListItem } from './components/ListItem.svelte';
