@@ -6,6 +6,8 @@ follows semantic versioning.
 
 ## [Unreleased]
 
+## [1.0.0] - 2026-10-01
+
 The first release of kata: the foundation, 110 components, 20 parts for
 drawing applications, the documentation site and the checks that hold
 them to the rules.
@@ -66,3 +68,6 @@ them to the rules.
   two languages; `npm run check:terms` keeps the vocabulary of one kind
   of drawing out of kata; `npm run check:package` runs publint and Are
   the Types Wrong on the package.
+
+[Unreleased]: https://github.com/sakuzu/kata/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/sakuzu/kata/releases/tag/v1.0.0
