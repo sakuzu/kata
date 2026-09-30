@@ -19,8 +19,12 @@ kata has three layers.
    available too: Button, LinkAction, Actions, Counter, Toggle, Checkbox,
    Radio, RadioGroup, Segmented, Slider, TextInput, Textarea, NumberInput,
    SearchInput, InlineEdit, FileInput, Field, InputGroup, Select,
-   NativeSelect, ColorPicker, ColorGrid, Swatch and Palette. Lists and
-   containers such as Panel and Tree are not published yet.
+   NativeSelect, ColorPicker, ColorGrid, Swatch and Palette. So are the
+   components of data display: Badge, Tag, Chip, ChipValue, Pair, Kv,
+   ReadValue, Stat, Stats, Meter, Progress, StepBar, Bars, List,
+   ListItem, Table, ColHead, Pager, Tcard, Tcards, Card, Board, Gtile,
+   Tile, Markbox, Avatar, Presence, Pin, State and Spinner. Containers
+   such as Panel and Tree are not published yet.
 3. Parts for drawing applications: the shell, the layer tree, the
    inspector, settings and the toolbar. They know nothing about what is
    drawn; the application passes the content in. Not published yet.

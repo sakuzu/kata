@@ -21,3 +21,10 @@ follows semantic versioning.
 - A page and a live example for each component, and the Checks chapter.
 - The audit (`npm run audit`): the components' styles are read and their
   examples measured in a browser.
+- The data display components (Badge, Tag, Chip, ChipValue, Pair, Kv,
+  ReadValue, Stat, Stats, Meter, Progress, StepBar, Bars, List, ListItem,
+  Table, ColHead, Pager, Tcard, Tcards, Card, Board, Gtile, Tile, Markbox,
+  Avatar, Presence, Pin, State and Spinner), their strings and the icons
+  `chevron-left` and `chevron-right`.
+- The audit rule read-row: a list item that is only read has a line or a
+  surface.

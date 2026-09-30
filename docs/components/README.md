@@ -60,6 +60,26 @@ props, its contract (height, padding and states) and a live example.
   [Swatch](swatch.md) and [Palette](palette.md): colours and colour
   schemes.
 
+## Data display
+
+- [Badge](badge.md), [Tag](tag.md), [Chip](chip.md) and
+  [ChipValue](chip-value.md): a state, a kind, a value that can be
+  removed, and a value at a point of a canvas.
+- [Pair](pair.md), [Kv](kv.md) and [ReadValue](read-value.md): names and
+  values, and a value to read.
+- [Stat](stat.md), [Stats](stats.md), [Meter](meter.md),
+  [Progress](progress.md), [StepBar](step-bar.md) and [Bars](bars.md):
+  figures, amounts, progress and a distribution.
+- [List](list.md), [ListItem](list-item.md), [Table](table.md),
+  [ColHead](col-head.md), [Pager](pager.md), [Tcard](tcard.md) and
+  [Tcards](tcards.md): lists, tables and their pages.
+- [Card](card.md), [Board](board.md), [Gtile](gtile.md),
+  [Tile](tile.md) and [Markbox](markbox.md): cards, tiles and marks.
+- [Avatar](avatar.md), [Presence](presence.md) and [Pin](pin.md):
+  people, and marks on a canvas.
+- [State](state.md) and [Spinner](spinner.md): empty, loading and
+  failed places, and a short wait.
+
 ## Strings
 
 The strings a component shows on its own are English by default.
@@ -77,8 +97,9 @@ setMessages({}, { reset: true }); // back to English
 ## Icons
 
 `icons` lists the icons the components draw by name: `arrow-up-right`,
-`check`, `chevron-down`, `image`, `pencil`, `pipette`, `plus`, `search`
-and `x`, from [Lucide](https://lucide.dev), and kata's drawing glyphs
+`check`, `chevron-down`, `chevron-left`, `chevron-right`, `image`,
+`pencil`, `pipette`, `plus`, `search` and `x`, from
+[Lucide](https://lucide.dev), and kata's drawing glyphs
 `point`, `polyline`, `polygon`, `arrow` and `sticky-note`. Wherever a component
 takes an icon, it also takes any icon component, such as another Lucide
 icon.
