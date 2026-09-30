@@ -6,38 +6,60 @@ follows semantic versioning.
 
 ## [Unreleased]
 
+The first release of kata: the foundation, 110 components, 20 parts for
+drawing applications, the documentation site and the checks that hold
+them to the rules.
+
 ### Added
 
-- The numeric scale: one root (φ), three steps, seven sizes and eight type
-  roles, generated as CSS custom properties by `npm run scale`.
-- Tokens for spacing, type, color, lines, widths, heights and layering.
-- Base CSS: the reset and the rules every page shares.
-- The documents Principles, Scale and Tokens, and the documentation site.
-- The Svelte entry `@sakuzu/kata/svelte` with the layout and text
-  components (Stack, Row, Grid, Split, Block, Section, SectionHeader,
-  Divider, Indent, Page, PageHeader, Footer, Text, Prose, Kbd, Icon,
-  Thumbnail, Figure and Glyphs), the messages API, the icons and the
-  helpers for the text size setting, the widths and clipped text.
-- A page and a live example for each component, and the Checks chapter.
-- The audit (`npm run audit`): the components' styles are read and their
-  examples measured in a browser.
-- Controls (24): buttons, switches, inputs, selects and colour pickers.
-- Data display (30): values, figures, lists, tables, cards and marks.
-- Overlay and feedback (21): modals, sheets, menus, tooltips and toasts.
-- Structure (16): panels, bars, tabs, trees, threads and `sortable`.
-- The audit rule read-row: a list item that is only read has a line or a
-  surface.
-- Workbench (13), the parts of a drawing application, with the Workbench
-  chapter: CommentComposer and CommentList, LayerTree, the menus
-  (`MenuModel`, AppMenu, MenuList and MenuSheet, and a model for Kebab and
-  Topbar), ProcessDialog and SourcePicker, SearchPanel, SelectionSummary
-  and VersionsPanel, and SettingsRow and SettingsSection.
-- The inspector (5), in the Workbench chapter: InspectorFrame,
-  InspectorSection and InspectorRow, FieldList (on the specs `FieldSpec`)
-  and AttributeList.
-- Drawbar takes switches (`toggles`) after the tools, and folds the
-  buttons that do not fit into a More menu instead of scrolling.
-- Shell, the frame of a drawing application: the bar, the side regions
-  (beside the stage, floating over it or in sheets, by the width), the
-  stage, the toolbar and a resizable dock, with keyboard shortcuts,
-  `formatShortcut` and ShortcutsModal.
+- Foundation, usable without a framework (`@sakuzu/kata`,
+  `@sakuzu/kata/tokens.css` and `@sakuzu/kata/base.css`).
+  - The numeric scale: one root (φ), three steps, seven sizes and eight
+    type roles, generated as CSS custom properties by `npm run scale`.
+  - Tokens for spacing (padding in em, gaps in rem), type, color in a
+    dark and a light theme, lines, heights, widths, opacity and layers.
+  - Base CSS: the reset, the text size setting (`data-font-scale`), the
+    size container for the three widths and the keyboard focus ring.
+- Components for Svelte 5 (`@sakuzu/kata/svelte`), each with a page and a
+  live example.
+  - Layout and text (19): Stack, Row, Grid, Split, Block, Section,
+    SectionHeader, Divider, Indent, Page, PageHeader, Footer, Text,
+    Prose, Kbd, Icon, Thumbnail, Figure and Glyphs.
+  - Controls (24): buttons, switches, choices, inputs of text, numbers
+    and files, fields, selects, and color pickers and palettes.
+  - Data display (30): badges, tags and chips, names and values, figures
+    and meters, lists, tables, cards and tiles, people and pins, and
+    empty and loading states.
+  - Overlay and feedback (21): modals, confirmations, drawers, sheets,
+    popovers, tooltips, menus, banners and toasts, and the bar of a
+    selection.
+  - Structure (16): panels, toolbars, the top bar, the drawing toolbar
+    (Drawbar, which folds the tools that do not fit into a More menu),
+    tabs, crumbs, trees, drop targets, disclosures, the filter bar, the
+    settings page frame, comments and threads, and the `sortable`
+    action.
+  - The messages API (`setMessages`) for the strings the components show
+    on their own, the icons, and helpers for the text size, the widths,
+    clipped text, toasts and keyboard shortcuts (`formatShortcut`).
+- Workbench parts (20), the large parts of a drawing application, which
+  know nothing of what is drawn.
+  - Shell, the frame of the editor: the bar, the side regions (beside the
+    stage, floating panes over it or sheets, by the width), the stage,
+    the toolbar and a resizable dock, with keyboard shortcuts and
+    ShortcutsModal.
+  - LayerTree; the menus on one model (`MenuModel`): MenuList, AppMenu
+    and MenuSheet; the inspector: InspectorFrame, InspectorSection,
+    InspectorRow, FieldList (on `FieldSpec`) and AttributeList.
+  - SearchPanel, VersionsPanel and SelectionSummary; ProcessDialog and
+    SourcePicker; CommentList and CommentComposer; SettingsSection and
+    SettingsRow.
+- Documentation: the chapters Principles, Scale, Tokens, Measuring,
+  Layout, Components, Workbench, Patterns (a modal with a form, a menu,
+  a list with actions, a panel, a settings page and a workbench) and
+  Checks, published as a site at <https://sakuzu.github.io/kata/> with a
+  live example on every page (`npm run site:deploy`).
+- Checks: `npm run audit` reads the components' styles and measures every
+  example in a browser at three widths, two text sizes, both themes and
+  two languages; `npm run check:terms` keeps the vocabulary of one kind
+  of drawing out of kata; `npm run check:package` runs publint and Are
+  the Types Wrong on the package.
