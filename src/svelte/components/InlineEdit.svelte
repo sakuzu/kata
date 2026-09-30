@@ -1,6 +1,6 @@
 <script lang="ts">
   import '../styles/components.css';
-  import { tick } from 'svelte';
+  import { tick, untrack } from 'svelte';
   import Icon from './Icon.svelte';
 
   // InlineEdit: text that is changed where it stands. Read, it is a control without a line (the
@@ -53,6 +53,10 @@
 
   function start() {
     if (!editable || editing) return;
+    begin();
+  }
+
+  function begin() {
     draft = value;
     editing = true;
     armed = true;
@@ -61,6 +65,11 @@
       inputEl?.select();
     });
   }
+
+  // editing set to true by the caller (a key such as F2) starts an edit as a press does
+  $effect(() => {
+    if (editing && !armed && editable) untrack(begin);
+  });
 
   function commit() {
     if (!armed) return;

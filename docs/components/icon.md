@@ -56,6 +56,11 @@ the same grid for the shapes Lucide does not have.
 | `triangle-alert` | Lucide |
 | `ungroup` | Lucide |
 | `x` | Lucide |
+| `eye` | Lucide |
+| `eye-off` | Lucide |
+| `lock` | Lucide |
+| `lock-open` | Lucide |
+| `undo-2` | Lucide |
 | `point` | kata |
 | `polyline` | kata |
 | `polygon` | kata |

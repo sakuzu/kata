@@ -46,8 +46,11 @@ export interface SortableParams {
   handle?: string | null;
   /** A selector for parts that never start a drag (the actions of a row); clicks go through */
   filter?: string;
-  /** Whether the container accepts an item of a kind (its data-kind); without it, every item */
-  accept?: (kind: string) => boolean;
+  /**
+   * Whether the container accepts an item of a kind (its data-kind; the second argument is its
+   * data-id); without it, every item
+   */
+  accept?: (kind: string, id: string) => boolean;
   /** false turns the container off (read only) */
   enabled?: boolean;
   /** Called on a drop that changed the order. The DOM is already back as it was. */
@@ -89,7 +92,7 @@ export function sortable(node: HTMLElement, params: SortableParams) {
       group: {
         name: cur.group,
         pull: true,
-        put: (_to, _from, el) => (cur.accept ? cur.accept(data(el, 'kind')) : true),
+        put: (_to, _from, el) => (cur.accept ? cur.accept(data(el, 'kind'), data(el, 'id')) : true),
       },
       handle: cur.handle ?? undefined,
       filter: cur.filter,

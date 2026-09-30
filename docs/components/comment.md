@@ -19,6 +19,7 @@ after the time. Actions on the message, such as a menu, go in
 | `initial` | required | The initials in the person's Avatar |
 | `time` | | When it was written |
 | `edited` | | A note after the time |
+| `color` | | The person's colour on their Avatar, a CSS colour |
 | `actions` | | The actions on the right of the name (a snippet) |
 | `children` | | The body |
 

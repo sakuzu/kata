@@ -147,3 +147,11 @@ any icon component, such as another Lucide icon.
 - `toast` is the store of the messages that [ToastHost](toast-host.md)
   shows: `toast.show()` and `toast.error()` add one, `toast.dismiss()`
   removes one, and each goes by itself after `TOAST_DURATION`.
+
+## The workbench
+
+The parts of a drawing application that are built from these
+components, such as LayerTree, the menus and the comments, have their
+pages in [Workbench](../workbench/README.md). `MenuModel`, the shape of
+a menu as data, is described with [MenuList](../workbench/menu-list.md);
+Kebab and Topbar take it too.

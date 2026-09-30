@@ -16,11 +16,15 @@ import CircleCheck from '@lucide/svelte/icons/circle-check';
 import Copy from '@lucide/svelte/icons/copy';
 import CornerUpRight from '@lucide/svelte/icons/corner-up-right';
 import Ellipsis from '@lucide/svelte/icons/ellipsis';
+import Eye from '@lucide/svelte/icons/eye';
+import EyeOff from '@lucide/svelte/icons/eye-off';
 import Funnel from '@lucide/svelte/icons/funnel';
 import Globe from '@lucide/svelte/icons/globe';
 import GripVertical from '@lucide/svelte/icons/grip-vertical';
 import Image from '@lucide/svelte/icons/image';
 import Info from '@lucide/svelte/icons/info';
+import Lock from '@lucide/svelte/icons/lock';
+import LockOpen from '@lucide/svelte/icons/lock-open';
 import Pencil from '@lucide/svelte/icons/pencil';
 import Pipette from '@lucide/svelte/icons/pipette';
 import Plus from '@lucide/svelte/icons/plus';
@@ -29,6 +33,7 @@ import Settings2 from '@lucide/svelte/icons/settings-2';
 import Share2 from '@lucide/svelte/icons/share-2';
 import Trash2 from '@lucide/svelte/icons/trash-2';
 import TriangleAlert from '@lucide/svelte/icons/triangle-alert';
+import Undo2 from '@lucide/svelte/icons/undo-2';
 import Ungroup from '@lucide/svelte/icons/ungroup';
 import X from '@lucide/svelte/icons/x';
 import type { Component } from 'svelte';
@@ -68,6 +73,11 @@ export const icons = {
   'triangle-alert': TriangleAlert as unknown as IconComponent,
   ungroup: Ungroup as unknown as IconComponent,
   x: X as unknown as IconComponent,
+  eye: Eye as unknown as IconComponent,
+  'eye-off': EyeOff as unknown as IconComponent,
+  lock: Lock as unknown as IconComponent,
+  'lock-open': LockOpen as unknown as IconComponent,
+  'undo-2': Undo2 as unknown as IconComponent,
   point: Point as IconComponent,
   polyline: Polyline as IconComponent,
   polygon: Polygon as IconComponent,

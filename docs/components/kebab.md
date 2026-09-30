@@ -13,7 +13,9 @@ such an action never goes in a Footer.
 | Prop | Default | Description |
 | --- | --- | --- |
 | `actions` | settings, share, copy, move, delete | The actions to offer |
-| `onaction` | required | Called with the chosen action |
+| `onaction` | | Called with the chosen action |
+| `items` | | A menu drawn from a model (`MenuModel[]`) instead of the actions |
+| `onselect` | | Called with the id of the chosen item of `items` |
 
 The actions are `settings`, `share`, `publish`, `copy`, `move`,
 `ungroup` and `delete` (the type `KebabAction`).
@@ -27,7 +29,9 @@ The actions come in the fixed order above, whatever the order given,
 each with its icon; `delete` comes last, after a divider, in red, with
 an ellipsis after its name. Choosing an action closes the menu. The
 names are the strings `settings`, `share`, `linkShare`, `duplicate`,
-`move`, `ungroup` and `delete`.
+`move`, `ungroup` and `delete`. With `items`, the menu is a
+[MenuList](../workbench/menu-list.md) of the model instead, with its
+submenus, and the fixed actions do not show.
 
 ## Example
 

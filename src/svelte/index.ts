@@ -3,6 +3,7 @@
 // the rules they share (styles/components.css) itself.
 
 export { default as Actions } from './components/Actions.svelte';
+export { default as AppMenu } from './components/AppMenu.svelte';
 export { default as Avatar } from './components/Avatar.svelte';
 export { default as Badge } from './components/Badge.svelte';
 export { default as Banner } from './components/Banner.svelte';
@@ -20,6 +21,13 @@ export { default as ColHead } from './components/ColHead.svelte';
 export { default as ColorGrid } from './components/ColorGrid.svelte';
 export { default as ColorPicker } from './components/ColorPicker.svelte';
 export { default as Comment } from './components/Comment.svelte';
+export { default as CommentComposer } from './components/CommentComposer.svelte';
+export type {
+  CommentAuthor,
+  CommentReply,
+  CommentThread,
+} from './components/CommentList.svelte';
+export { default as CommentList } from './components/CommentList.svelte';
 export { default as Confirm } from './components/Confirm.svelte';
 export { default as Counter } from './components/Counter.svelte';
 export { default as Crumbs } from './components/Crumbs.svelte';
@@ -50,6 +58,8 @@ export { default as Kbd } from './components/Kbd.svelte';
 export type { KebabAction } from './components/Kebab.svelte';
 export { default as Kebab } from './components/Kebab.svelte';
 export { default as Kv } from './components/Kv.svelte';
+export type { TreeMove, TreeNode, TreeSelectModifiers } from './components/LayerTree.svelte';
+export { default as LayerTree } from './components/LayerTree.svelte';
 export { default as LinkAction } from './components/LinkAction.svelte';
 export { default as List } from './components/List.svelte';
 export { default as ListItem } from './components/ListItem.svelte';
@@ -58,6 +68,8 @@ export { default as Menu } from './components/Menu.svelte';
 export { default as MenuDivider } from './components/MenuDivider.svelte';
 export { default as MenuHead } from './components/MenuHead.svelte';
 export { default as MenuItem } from './components/MenuItem.svelte';
+export { default as MenuList } from './components/MenuList.svelte';
+export { default as MenuSheet } from './components/MenuSheet.svelte';
 export { default as Meter } from './components/Meter.svelte';
 export { default as Modal } from './components/Modal.svelte';
 export { default as NativeSelect } from './components/NativeSelect.svelte';
@@ -144,6 +156,7 @@ export {
   readFontScale,
   setFontScale,
 } from './lib/fontScale.js';
+export { isMenuItem, type MenuModel, type MenuModelItem } from './lib/menuModel.js';
 export { formatShortcut, type Shortcut } from './lib/shortcuts.js';
 export { createNarrow, isNarrowerThan, WIDTHS } from './lib/viewport.svelte.js';
 export { defaultMessages, getMessages, type Messages, setMessages } from './messages.js';

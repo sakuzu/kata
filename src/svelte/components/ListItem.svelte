@@ -55,6 +55,8 @@
     onkeydown?.(e);
     if (e.defaultPrevented) return;
     if (e.key !== 'Enter' && e.key !== ' ') return;
+    // The keys typed into a field inside the item stay the field's
+    if ((e.target as HTMLElement).closest('input, textarea, select, [contenteditable]')) return;
     e.preventDefault();
     (e.currentTarget as HTMLElement).click();
   }

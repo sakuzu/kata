@@ -264,6 +264,12 @@ export default defineConfig({
         items: [
           { text: 'Using the workbench parts', link: '/workbench/' },
           ...[
+            ['AppMenu', 'app-menu'],
+            ['CommentComposer', 'comment-composer'],
+            ['CommentList', 'comment-list'],
+            ['LayerTree', 'layer-tree'],
+            ['MenuList', 'menu-list'],
+            ['MenuSheet', 'menu-sheet'],
             ['ProcessDialog', 'process-dialog'],
             ['SearchPanel', 'search-panel'],
             ['SelectionSummary', 'selection-summary'],
