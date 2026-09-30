@@ -9,11 +9,20 @@ import ArrowLeft from '@lucide/svelte/icons/arrow-left';
 import ArrowUpRight from '@lucide/svelte/icons/arrow-up-right';
 import Check from '@lucide/svelte/icons/check';
 import ChevronDown from '@lucide/svelte/icons/chevron-down';
+import ChevronRight from '@lucide/svelte/icons/chevron-right';
+import Copy from '@lucide/svelte/icons/copy';
+import CornerUpRight from '@lucide/svelte/icons/corner-up-right';
+import Ellipsis from '@lucide/svelte/icons/ellipsis';
+import Globe from '@lucide/svelte/icons/globe';
 import Image from '@lucide/svelte/icons/image';
 import Pencil from '@lucide/svelte/icons/pencil';
 import Pipette from '@lucide/svelte/icons/pipette';
 import Plus from '@lucide/svelte/icons/plus';
 import Search from '@lucide/svelte/icons/search';
+import Settings2 from '@lucide/svelte/icons/settings-2';
+import Share2 from '@lucide/svelte/icons/share-2';
+import Trash2 from '@lucide/svelte/icons/trash-2';
+import Ungroup from '@lucide/svelte/icons/ungroup';
 import X from '@lucide/svelte/icons/x';
 import type { Component } from 'svelte';
 import Arrow from './glyphs/Arrow.svelte';
@@ -30,11 +39,20 @@ export const icons = {
   'arrow-up-right': ArrowUpRight as unknown as IconComponent,
   check: Check as unknown as IconComponent,
   'chevron-down': ChevronDown as unknown as IconComponent,
+  'chevron-right': ChevronRight as unknown as IconComponent,
+  copy: Copy as unknown as IconComponent,
+  'corner-up-right': CornerUpRight as unknown as IconComponent,
+  ellipsis: Ellipsis as unknown as IconComponent,
+  globe: Globe as unknown as IconComponent,
   image: Image as unknown as IconComponent,
   pencil: Pencil as unknown as IconComponent,
   pipette: Pipette as unknown as IconComponent,
   plus: Plus as unknown as IconComponent,
   search: Search as unknown as IconComponent,
+  'settings-2': Settings2 as unknown as IconComponent,
+  'share-2': Share2 as unknown as IconComponent,
+  'trash-2': Trash2 as unknown as IconComponent,
+  ungroup: Ungroup as unknown as IconComponent,
   x: X as unknown as IconComponent,
   point: Point as IconComponent,
   polyline: Polyline as IconComponent,

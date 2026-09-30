@@ -107,6 +107,8 @@ const TRIM_OK = new Set([
   'TextInput',
   'Toggle',
   'Modal',
+  'MenuItem',
+  'MenuHead',
 ]);
 // The components whose root may have an outer margin: the layouts, the icon and Prose
 const MARGIN_OK = new Set(['Stack', 'Row', 'Grid', 'Icon', 'Prose']);
