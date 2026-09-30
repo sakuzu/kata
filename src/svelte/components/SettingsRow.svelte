@@ -4,9 +4,9 @@
 
   // SettingsRow: one setting. The name and an optional description on the left, the control on the
   // right, level with the middle of the text. The name is body text, the description a muted
-  // caption gap-xs below it; neither is trimmed. The text column takes the rest of the row and the
-  // control keeps its own width (or the width given), gap-lg from the text. Below 48rem the control
-  // moves under the text, gap-sm from it, at the start.
+  // caption gap-xs below it; they are trimmed only where the row meets an edge. The text column
+  // takes the rest of the row and the control keeps its own width (or the width given), gap-lg
+  // from the text. Below 48rem the control moves under the text, gap-sm from it, at the start.
   //
   // The row is a group named by the name and described by the description, so a screen reader
   // reads both on entering the control. With for, the name is the <label> of the control.
@@ -77,11 +77,15 @@
   .sized {
     grid-template-columns: minmax(0, 1fr) var(--kata-settings-control);
   }
+  // The text column stands beside the control, so it touches the same edges as the row: it takes
+  // the row's edge flags, and its first and last lines are trimmed where the row meets an edge
   .text {
     display: flex;
     flex-direction: column;
     gap: gap(xs);
     min-width: 0;
+    --kata-at-start: inherit;
+    --kata-at-end: inherit;
   }
   .label {
     display: block;
@@ -108,6 +112,10 @@
     .sized {
       grid-template-columns: minmax(0, 1fr);
       row-gap: gap(sm);
+    }
+    // The control is under the text, so the text's last line no longer meets the row's edge
+    .text {
+      --kata-at-end: 0;
     }
     .control {
       justify-content: flex-start;
