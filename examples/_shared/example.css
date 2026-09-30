@@ -1,0 +1,49 @@
+/* The frame of the examples. Everything here is written with the tokens of the foundation. */
+
+.example {
+  padding: var(--kata-gap-lg);
+}
+
+.surface {
+  background: var(--kata-color-panel);
+  border: var(--kata-border-width) solid var(--kata-color-line);
+}
+
+.demo-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--kata-gap-sm);
+  height: var(--kata-box, var(--kata-height-button));
+  padding: 0 var(--kata-pad-md);
+  border: var(--kata-border-width) solid var(--kata-color-line-strong);
+  background: transparent;
+  color: var(--kata-color-text);
+  font-size: var(--kata-text-size-body);
+  line-height: var(--kata-text-leading-label);
+  letter-spacing: var(--kata-text-tracking-body);
+  white-space: nowrap;
+  cursor: pointer;
+}
+.demo-button:hover {
+  background: var(--kata-color-raise);
+}
+.demo-button[data-variant="primary"] {
+  background: var(--kata-color-solid);
+  border-color: var(--kata-color-solid);
+  color: var(--kata-color-on-solid);
+}
+.demo-button[data-variant="primary"]:hover {
+  background: var(--kata-color-solid-hover);
+}
+.demo-button.icon {
+  width: var(--kata-height-icon-button);
+  height: var(--kata-height-icon-button);
+  padding: 0;
+  border-color: transparent;
+}
+.demo-button .label {
+  text-box: trim-both cap alphabetic;
+  padding-top: calc(var(--kata-ink-over) * 1em);
+  padding-bottom: calc(var(--kata-ink-under) * 1em);
+}
