@@ -34,6 +34,14 @@ export interface Messages {
   fontScaleLarger: string;
   fontScaleLargest: string;
   fontScaleMax: string;
+  /** The name of the button that goes back a step (Modal on a full screen) */
+  back: string;
+  /** The cancel button of Confirm */
+  cancel: string;
+  /** The confirm button of Confirm, when no label is given */
+  confirm: string;
+  /** The name of the handle of a Sheet */
+  sheetHeight: string;
 }
 
 const english: Messages = {
@@ -60,6 +68,10 @@ const english: Messages = {
   fontScaleLarger: 'Larger',
   fontScaleLargest: 'Largest',
   fontScaleMax: 'Maximum',
+  back: 'Back',
+  cancel: 'Cancel',
+  confirm: 'Confirm',
+  sheetHeight: 'Sheet height',
 };
 
 /** The English defaults */
