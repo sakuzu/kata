@@ -119,7 +119,7 @@
   function focusRow(index: number) {
     void tick().then(() => {
       rows()
-        .find((el) => el.dataset.index === String(index))
+        .find((el) => el.getAttribute('data-index') === String(index))
         ?.focus();
     });
   }
@@ -141,7 +141,7 @@
     else if (e.key === 'ArrowRight' && el.getAttribute('aria-haspopup') === 'menu') {
       e.preventDefault();
       e.stopPropagation();
-      openAt(Number(el.dataset.index), el, true);
+      openAt(Number(el.getAttribute('data-index')), el, true);
     } else if (e.key === 'ArrowLeft' && onexit) {
       e.preventDefault();
       e.stopPropagation();

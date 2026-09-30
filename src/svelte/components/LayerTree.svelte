@@ -224,7 +224,7 @@
   function onkeydown(e: KeyboardEvent) {
     const target = e.target as HTMLElement;
     if (!target.matches('[role="treeitem"] > [data-role="list-item"]')) return;
-    const id = target.parentElement?.dataset.node;
+    const id = target.parentElement?.getAttribute('data-node');
     const at = id ? index.get(id) : undefined;
     if (!at || e.defaultPrevented) return;
     const list = rows();
