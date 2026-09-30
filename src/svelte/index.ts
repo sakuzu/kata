@@ -5,6 +5,7 @@
 export { default as Actions } from './components/Actions.svelte';
 export { default as Block } from './components/Block.svelte';
 export { default as Button } from './components/Button.svelte';
+export { default as Checkbox } from './components/Checkbox.svelte';
 export { default as Counter } from './components/Counter.svelte';
 export { default as Divider } from './components/Divider.svelte';
 export { default as Figure } from './components/Figure.svelte';
@@ -18,13 +19,18 @@ export { default as LinkAction } from './components/LinkAction.svelte';
 export { default as Page } from './components/Page.svelte';
 export { default as PageHeader } from './components/PageHeader.svelte';
 export { default as Prose } from './components/Prose.svelte';
+export { default as Radio } from './components/Radio.svelte';
+export { default as RadioGroup } from './components/RadioGroup.svelte';
 export { default as Row } from './components/Row.svelte';
 export { default as Section } from './components/Section.svelte';
 export { default as SectionHeader } from './components/SectionHeader.svelte';
+export { default as Segmented } from './components/Segmented.svelte';
+export { default as Slider } from './components/Slider.svelte';
 export { default as Split } from './components/Split.svelte';
 export { default as Stack } from './components/Stack.svelte';
 export { default as Text } from './components/Text.svelte';
 export { default as Thumbnail } from './components/Thumbnail.svelte';
+export { default as Toggle } from './components/Toggle.svelte';
 export {
   type IconComponent,
   type IconName,
