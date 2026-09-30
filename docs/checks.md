@@ -13,8 +13,9 @@ repository ([CONTRIBUTING](../CONTRIBUTING.md) lists them).
 - Spacing, type and colour take a token, never a raw length or colour.
 - `padding` takes the pad scale and `gap` the gap scale.
 - Only the components that hold text in a control (Button, Toggle,
-  TextInput and the other controls), at a container's edge (Text) or next
-  to a line (Section, SectionHeader) trim text.
+  TextInput and the other controls, a mark such as Badge, a list item, a
+  pair or a table cell), at a container's edge (Text) or next to a line
+  (Section, SectionHeader) trim text.
 - No negative distance, no outer margin on a component's root (the
   layouts, Icon and Prose aside), no `@media` for a width and no `:has()`
   other than the next sibling.
@@ -51,6 +52,7 @@ element inside the example is measured; a finding fails the audit.
 | head-near | A group's head is nearer its content than the group above |
 | page-head-gap | A page's head is pad-lg from its content |
 | section-head-gap | A section's head is gap-lg from its content |
+| read-row | A list item that is only read has a line or a surface |
 | overlap | The children of a layout do not overlap |
 | crush | Text is never squeezed narrower than two characters |
 

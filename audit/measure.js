@@ -27,6 +27,8 @@
 //   head-near      a section header's head is closer to its content than to what comes before
 //   page-head-gap  a page's head is pad-lg from the first visible thing of its content
 //   section-head-gap  a section's head is gap-lg from its content
+//   read-row       a list item that is neither pressed nor parted by a line or a surface is not an
+//                  outline (unless another item of its list is)
 //   overlap        the children of a layout do not overlap
 //   crush          text is never squeezed into a column narrower than two characters
 //
@@ -828,6 +830,39 @@
     }
   }
 
+  // ---- Lists ------------------------------------------------------------------------------------
+
+  // A list item may be an outline only when it is pressed, or parted from its neighbours by a line
+  // or a surface. A row that is only read has no visible edge, so an outline would set its
+  // distances by something that cannot be seen. The line is read from the item's declaration
+  // (data-rule), since the last item of a list drops its line.
+  function readRow(root, bad) {
+    const PRESS = 'a[href], button, input, label, select, textarea, summary';
+    const press = (k) =>
+      k.matches(PRESS) ||
+      k.hasAttribute('role') ||
+      k.hasAttribute('tabindex') ||
+      !!k.querySelector(PRESS);
+    const ruled = (k) => k.hasAttribute('data-rule');
+    const surfaced = (k) => shownColor(getComputedStyle(k).backgroundColor);
+    const ITEM = '[data-h="list-item"], [data-h="list-item-two"], [data-h="thumbnail-row"]';
+    for (const el of root.querySelectorAll(ITEM)) {
+      if (!visible(el) || skipped(el)) continue;
+      if (press(el) || el.parentElement?.closest(PRESS)) continue;
+      if (ruled(el) || surfaced(el)) continue;
+      // Another item of the same list that is pressed, ruled or surfaced makes it an item of
+      // that list
+      const holder = el.closest('[data-role="list"], [data-role="tree"], [data-role="table"]');
+      const items = [...((holder ?? el.parentElement)?.querySelectorAll(ITEM) ?? [])];
+      if (items.some((k) => k !== el && (ruled(k) || surfaced(k) || press(k)))) continue;
+      bad.push({
+        kind: 'read-row',
+        el: label(el),
+        v: 'a list item that is neither pressed nor ruled nor surfaced',
+      });
+    }
+  }
+
   // ---- Layout -----------------------------------------------------------------------------------
 
   function overlap(root, bad) {
@@ -884,6 +919,7 @@
       headNear(root, bad);
       pageHeadGap(root, bad);
       sectionHeadGap(root, bad);
+      readRow(root, bad);
       overlap(root, bad);
       crush(root, bad);
     }
