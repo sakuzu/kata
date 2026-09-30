@@ -35,7 +35,7 @@ function walk(dir) {
   });
 }
 
-const FN = '(pad|gap|fs|lh|ls|h|off|color|bw|z|dim)\\(';
+const FN = '(pad|gap|fs|lh|ls|h|off|color|bw|z|dim|inset)\\(';
 const SIMPLE =
   /^\s*(0|auto|100%|50%|inherit|initial|unset|none|normal|transparent|currentColor|tabular-nums)\s*$/i;
 const TOKEN = new RegExp(`var\\(--kata-|${FN}|#\\{`);
@@ -89,7 +89,24 @@ const SHORTHANDS = new Set([
 const COLORISH =
   /#[0-9a-f]{3,8}\b|\brgba?\(|\bhsla?\(|\b(white|black|red|blue|gray|grey)(?![\w-])/i;
 // The components that hold text inside a control, at an edge or in a column, and may trim it
-const TRIM_OK = new Set(['Text', 'Kbd', 'SectionHeader', 'Section']);
+const TRIM_OK = new Set([
+  'Text',
+  'Kbd',
+  'SectionHeader',
+  'Section',
+  'Button',
+  'Checkbox',
+  'Counter',
+  'InlineEdit',
+  'LinkAction',
+  'NumberInput',
+  'Radio',
+  'Segmented',
+  'Select',
+  'Slider',
+  'TextInput',
+  'Toggle',
+]);
 // The components whose root may have an outer margin: the layouts, the icon and Prose
 const MARGIN_OK = new Set(['Stack', 'Row', 'Grid', 'Icon', 'Prose']);
 

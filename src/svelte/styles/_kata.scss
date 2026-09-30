@@ -7,6 +7,8 @@
 //   padding-inline: pad(md);    padding: follows the element's own text (em)
 //   gap: gap(sm);               distance between items: follows the root (rem); never mixed with pad
 //   height: h(button);          the height of a component, named after it
+//   height: box-h();            the height its container declares for controls (a button's)
+//   @include box;               a control: height, pad-md at the sides, one line around it
 //   margin-top: off(h1);        the distance below a heading (inside Prose only)
 //   color: color(muted);        a color token
 //   @include trim;              text inside a control only
@@ -130,6 +132,54 @@
 // The height of the controls inside an element (a container declares it, a control reads it)
 @mixin scope-box($name) {
   --kata-box: var(--kata-height-#{$name});
+}
+// The height of a control: the one its container declares, or a button's
+@function box-h() {
+  @return var(--kata-box, var(--kata-height-button));
+}
+// The padding at the sides of an item that reaches the edges of its container (0 in a container
+// with padding, md in one without)
+@function inset() {
+  @return var(--kata-inset, 0px);
+}
+
+// A control: a fixed height, the content centred, pad-md at the sides and one line around it. The
+// text inside is trimmed with the trim mixin, so the height is the ink and the padding.
+@mixin box($h: box-h()) {
+  display: inline-flex;
+  align-items: center;
+  gap: gap(sm);
+  height: $h;
+  padding-block: 0;
+  padding-inline: pad(md);
+  border: bw() solid color(line-strong);
+  border-radius: 0;
+  background: transparent;
+  color: color(text);
+  white-space: nowrap;
+  font: inherit;
+  @include text(body);
+  transition:
+    background-color 0.12s ease,
+    border-color 0.12s ease,
+    color 0.12s ease;
+}
+
+// A bare input, select or textarea inside a control: no border, no surface and no ring of its own.
+// The control around it draws the line and shows the focus with :focus-within.
+@mixin bare-control {
+  border: 0;
+  background: transparent;
+  padding: 0;
+  margin: 0;
+  min-width: 0;
+  outline: none;
+  color: inherit;
+  font: inherit;
+  appearance: none;
+  &:focus-visible {
+    outline: none;
+  }
 }
 
 // One line with an ellipsis. Text trimmed to the cap height would lose the top of CJK ink and the
