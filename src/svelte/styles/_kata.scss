@@ -200,3 +200,59 @@
     outline-offset: -2px;
   }
 }
+
+// ---- Rows of lists and tables --------------------------------------------------------------------
+
+// The least height of the list items of one list or the rows of one table, named after what they
+// hold: mark (a badge, a tag, an avatar), box (a control with an outline), thumb (a thumbnail) or
+// two (a title and a caption). A container raises it with data-rows so that the items that hold
+// different things line up; without it the least height is a list item of text.
+@mixin rows {
+  &[data-rows='mark'] {
+    --kata-list-item-height: #{h(list-item-mark)};
+  }
+  &[data-rows='box'] {
+    --kata-list-item-height: #{h(list-item-lg)};
+  }
+  &[data-rows='thumb'] {
+    --kata-list-item-height: #{h(thumbnail-row)};
+  }
+  &[data-rows='two'] {
+    --kata-list-item-height: #{h(list-item-two)};
+  }
+}
+
+// The content of a list item: every visible thing (a mark, a control with a line or a surface,
+// stacked content) keeps one body size above and below it, and the item grows to fit. Things as
+// tall as the ink (an icon, a markbox, a ghost icon button) do not push. The size is the body's,
+// not the mark's own em.
+@mixin row-content {
+  :global([data-role='mark'][data-h]:not([data-h='icon'])),
+  :global([data-role='mark'][data-kata-tall]),
+  :global([data-role='box'][data-h]:not(.ghost)),
+  :global(input:not([type='checkbox']):not([type='radio'])),
+  :global(select),
+  :global(textarea) {
+    margin-block: fs(body);
+  }
+  :global([data-role='stack']) {
+    padding-block: fs(body);
+  }
+  // Only the outer stack keeps the distance; inside it nothing is measured from the item's edge
+  :global([data-role='stack'] [data-role='stack']) {
+    padding-block: 0;
+  }
+  // Inside the outer stack, and a bare input inside a control (the control keeps the distance).
+  // Each selector repeats the one above it, so that it is at least as specific
+  :global([data-role='stack'] [data-role='mark'][data-h]:not([data-h='icon'])),
+  :global([data-role='stack'] [data-role='mark'][data-kata-tall]),
+  :global([data-role='stack'] [data-role='box'][data-h]:not(.ghost)),
+  :global([data-role='stack'] input:not([type='checkbox']):not([type='radio'])),
+  :global([data-role='stack'] select),
+  :global([data-role='stack'] textarea),
+  :global([data-role='box'] input:not([type='checkbox']):not([type='radio'])),
+  :global([data-role='box'] select),
+  :global([data-role='box'] textarea) {
+    margin-block: 0;
+  }
+}

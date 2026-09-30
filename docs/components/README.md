@@ -60,6 +60,42 @@ props, its contract (height, padding and states) and a live example.
   [Swatch](swatch.md) and [Palette](palette.md): colours and colour
   schemes.
 
+## Data display
+
+- [Badge](badge.md), [Tag](tag.md), [Chip](chip.md) and
+  [ChipValue](chip-value.md): a state, a kind, a value that can be
+  removed, and a value at a point of a canvas.
+- [Pair](pair.md), [Kv](kv.md) and [ReadValue](read-value.md): names and
+  values, and a value to read.
+- [Stat](stat.md), [Stats](stats.md), [Meter](meter.md),
+  [Progress](progress.md), [StepBar](step-bar.md) and [Bars](bars.md):
+  figures, amounts, progress and a distribution.
+- [List](list.md), [ListItem](list-item.md), [Table](table.md),
+  [ColHead](col-head.md), [Pager](pager.md), [Tcard](tcard.md) and
+  [Tcards](tcards.md): lists, tables and their pages.
+- [Card](card.md), [Board](board.md), [Gtile](gtile.md),
+  [Tile](tile.md) and [Markbox](markbox.md): cards, tiles and marks.
+- [Avatar](avatar.md), [Presence](presence.md) and [Pin](pin.md):
+  people, and marks on a canvas.
+- [State](state.md) and [Spinner](spinner.md): empty, loading and
+  failed places, and a short wait.
+
+## Overlay and feedback
+
+- [Modal](modal.md), [Confirm](confirm.md), [Drawer](drawer.md),
+  [Sheet](sheet.md) and [Veil](veil.md): surfaces laid over the screen
+  or over a frame.
+- [Popover](popover.md), [Bubble](bubble.md), [Tooltip](tooltip.md) and
+  [Floating](floating.md): small surfaces next to a trigger, a word that
+  explains a control, and a container over a drawing.
+- [Menu](menu.md), [MenuItem](menu-item.md), [MenuHead](menu-head.md),
+  [MenuDivider](menu-divider.md), [Dropdown](dropdown.md) and
+  [Kebab](kebab.md): lists of actions and the place they open in.
+- [Banner](banner.md), [Note](note.md), [Notices](notices.md),
+  [Toast](toast.md), [ToastHost](toast-host.md) and [Bulk](bulk.md):
+  notices, messages that go by themselves, and the bar of actions on a
+  selection.
+
 ## Structure
 
 - [Panel](panel.md), [Toolbar](toolbar.md), [Topbar](topbar.md),
@@ -93,12 +129,17 @@ setMessages({}, { reset: true }); // back to English
 ## Icons
 
 `icons` lists the icons the components draw by name: `arrow-up-right`,
-`check`, `chevron-down`, `chevron-right`, `funnel`, `grip-vertical`,
-`image`, `pencil`, `pipette`, `plus`, `search` and `x`, from
-[Lucide](https://lucide.dev), and kata's drawing glyphs
+`check`, `chevron-down`, `image`, `pencil`, `pipette`, `plus`, `search`
+and `x`, from [Lucide](https://lucide.dev), and kata's drawing glyphs
 `point`, `polyline`, `polygon`, `arrow` and `sticky-note`. Wherever a component
 takes an icon, it also takes any icon component, such as another Lucide
 icon.
+
+The overlay and feedback components add `arrow-left`, `chevron-right`,
+`circle-alert`, `circle-check`, `copy`, `corner-up-right`, `ellipsis`,
+`globe`, `info`, `settings-2`, `share-2`, `trash-2`, `triangle-alert`
+and `ungroup`. The data display components add `chevron-left`, and the
+structure components `funnel` and `grip-vertical`.
 
 ## Helpers
 
@@ -110,3 +151,6 @@ icon.
   holds the three widths (24, 48 and 64rem).
 - `clampTip` is an action for an element that clips its text with an
   ellipsis: the full text shows on hover and on keyboard focus.
+- `toast` is the store of the messages that [ToastHost](toast-host.md)
+  shows: `toast.show()` and `toast.error()` add one, `toast.dismiss()`
+  removes one, and each goes by itself after `TOAST_DURATION`.
