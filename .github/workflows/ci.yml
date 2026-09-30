@@ -1,0 +1,40 @@
+# The gates of kata, run on every pull request and on pushes to main.
+# They are the same commands a contributor runs locally.
+name: CI
+on:
+  pull_request:
+  push:
+    branches: [main]
+  # release.yml runs the same gates before it publishes
+  workflow_call:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # The job name is the required status check of the main branch
+  check:
+    name: check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run lint
+      - run: npm test
+      - name: The generated scale is up to date
+        run: npm run scale:check
+      - name: No geography vocabulary
+        run: npm run check:terms
+      - name: The package (build and publint)
+        run: npm run check:package
+      - name: Documentation site and examples (fails on a dead link)
+        run: npm run site:build
