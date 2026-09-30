@@ -128,18 +128,11 @@ setMessages({}, { reset: true }); // back to English
 
 ## Icons
 
-`icons` lists the icons the components draw by name: `arrow-up-right`,
-`check`, `chevron-down`, `image`, `pencil`, `pipette`, `plus`, `search`
-and `x`, from [Lucide](https://lucide.dev), and kata's drawing glyphs
-`point`, `polyline`, `polygon`, `arrow` and `sticky-note`. Wherever a component
-takes an icon, it also takes any icon component, such as another Lucide
-icon.
-
-The overlay and feedback components add `arrow-left`, `chevron-right`,
-`circle-alert`, `circle-check`, `copy`, `corner-up-right`, `ellipsis`,
-`globe`, `info`, `settings-2`, `share-2`, `trash-2`, `triangle-alert`
-and `ungroup`. The data display components add `chevron-left`, and the
-structure components `funnel` and `grip-vertical`.
+`icons` lists the icons the components draw by name, from
+[Lucide](https://lucide.dev), and kata's drawing glyphs `point`,
+`polyline`, `polygon`, `arrow` and `sticky-note`. The [Icon](icon.md)
+page lists them all. Wherever a component takes an icon, it also takes
+any icon component, such as another Lucide icon.
 
 ## Helpers
 

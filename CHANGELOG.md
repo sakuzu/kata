@@ -21,19 +21,9 @@ follows semantic versioning.
 - A page and a live example for each component, and the Checks chapter.
 - The audit (`npm run audit`): the components' styles are read and their
   examples measured in a browser.
-- The data display components (Badge, Tag, Chip, ChipValue, Pair, Kv,
-  ReadValue, Stat, Stats, Meter, Progress, StepBar, Bars, List, ListItem,
-  Table, ColHead, Pager, Tcard, Tcards, Card, Board, Gtile, Tile, Markbox,
-  Avatar, Presence, Pin, State and Spinner), their strings and the icon
-  `chevron-left`.
+- Controls (24): buttons, switches, inputs, selects and colour pickers.
+- Data display (30): values, figures, lists, tables, cards and marks.
+- Overlay and feedback (21): modals, sheets, menus, tooltips and toasts.
+- Structure (16): panels, bars, tabs, trees, threads and `sortable`.
 - The audit rule read-row: a list item that is only read has a line or a
   surface.
-- The overlay and feedback components: Modal, Confirm, Drawer, Sheet,
-  Veil, Popover, Bubble, Tooltip, Floating, Menu, MenuItem, MenuHead,
-  MenuDivider, Dropdown, Kebab, Banner, Note, Notices, Toast, ToastHost
-  and Bulk, with the toast store (`toast`), their strings and their
-  icons. Button shows a tooltip (`tip`, `shortcut`).
-- The structure components (Panel, Toolbar, Topbar, Drawbar, Fab, Tabs,
-  Crumbs, Tree, TreeRow, DropLine, DropTarget, Disclosure, FilterBar,
-  SettingsPage, Comment and Thread) and the `sortable` action, which
-  reorders items by dragging with SortableJS.

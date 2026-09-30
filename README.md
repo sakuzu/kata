@@ -12,25 +12,26 @@ kata has three layers.
    golden ratio φ as its single root, tokens (CSS custom properties for
    spacing, type and color), base CSS, and the rules that tie them
    together. One stylesheet brings it into any web page.
-2. Components, bound first for Svelte (`@sakuzu/kata/svelte`). The layout
-   and text components are available: Stack, Row, Grid, Split, Block,
-   Section, SectionHeader, Divider, Indent, Page, PageHeader, Footer, Text,
-   Prose, Kbd, Icon, Thumbnail, Figure and Glyphs. The controls are
-   available too: Button, LinkAction, Actions, Counter, Toggle, Checkbox,
-   Radio, RadioGroup, Segmented, Slider, TextInput, Textarea, NumberInput,
-   SearchInput, InlineEdit, FileInput, Field, InputGroup, Select,
-   NativeSelect, ColorPicker, ColorGrid, Swatch and Palette. So are the
-   components of data display: Badge, Tag, Chip, ChipValue, Pair, Kv,
-   ReadValue, Stat, Stats, Meter, Progress, StepBar, Bars, List,
-   ListItem, Table, ColHead, Pager, Tcard, Tcards, Card, Board, Gtile,
-   Tile, Markbox, Avatar, Presence, Pin, State and Spinner, and the
-   overlay and feedback components: Modal, Confirm, Drawer, Sheet, Veil,
-   Popover, Bubble, Tooltip, Floating, Menu, MenuItem, MenuHead,
-   MenuDivider, Dropdown, Kebab, Banner, Note, Notices, Toast, ToastHost
-   and Bulk. The structure is available as well: Panel, Toolbar, Topbar,
-   Drawbar, Fab, Tabs, Crumbs, Tree, TreeRow, DropLine, DropTarget,
-   Disclosure, FilterBar, SettingsPage, Comment and Thread, with the
-   `sortable` action.
+2. Components, bound first for Svelte and published in
+   `@sakuzu/kata/svelte`: 110 of them, in the layout and text components
+   and four families.
+   - Layout and text: Stack, Row, Grid, Split, Block, Section,
+     SectionHeader, Divider, Indent, Page, PageHeader, Footer, Text,
+     Prose, Kbd, Icon, Thumbnail, Figure and Glyphs.
+   - Controls: Button, LinkAction, Actions, Counter, Toggle, Checkbox,
+     Radio, RadioGroup, Segmented, Slider, TextInput, Textarea,
+     NumberInput, SearchInput, InlineEdit, FileInput, Field, InputGroup,
+     Select, NativeSelect, ColorPicker, ColorGrid, Swatch and Palette.
+   - Data display: Badge, Tag, Chip, ChipValue, Pair, Kv, ReadValue,
+     Stat, Stats, Meter, Progress, StepBar, Bars, List, ListItem, Table,
+     ColHead, Pager, Tcard, Tcards, Card, Board, Gtile, Tile, Markbox,
+     Avatar, Presence, Pin, State and Spinner.
+   - Overlay and feedback: Modal, Confirm, Drawer, Sheet, Veil, Popover,
+     Bubble, Tooltip, Floating, Menu, MenuItem, MenuHead, MenuDivider,
+     Dropdown, Kebab, Banner, Note, Notices, Toast, ToastHost and Bulk.
+   - Structure: Panel, Toolbar, Topbar, Drawbar, Fab, Tabs, Crumbs, Tree,
+     TreeRow, DropLine, DropTarget, Disclosure, FilterBar, SettingsPage,
+     Comment and Thread, with the `sortable` action.
 3. Parts for drawing applications: the shell, the layer tree, the
    inspector, settings and the toolbar. They know nothing about what is
    drawn; the application passes the content in. Not published yet.
