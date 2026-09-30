@@ -51,6 +51,10 @@ export interface Messages {
   you: string;
   roleEditor: string;
   roleViewer: string;
+  /** The column menu of ColHead */
+  sortAscending: string;
+  sortDescending: string;
+  clearSort: string;
   /** The name of the button that goes back a step (Modal on a full screen) */
   back: string;
   /** The cancel button of Confirm */
@@ -108,6 +112,9 @@ const english: Messages = {
   you: '(you)',
   roleEditor: 'Can edit',
   roleViewer: 'Can view',
+  sortAscending: 'Sort ascending',
+  sortDescending: 'Sort descending',
+  clearSort: 'Clear the sort',
   back: 'Back',
   cancel: 'Cancel',
   confirm: 'Confirm',

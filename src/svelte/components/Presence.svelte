@@ -4,6 +4,7 @@
   import Avatar from './Avatar.svelte';
   import Badge from './Badge.svelte';
   import Block from './Block.svelte';
+  import Dropdown from './Dropdown.svelte';
   import List from './List.svelte';
   import ListItem from './ListItem.svelte';
   import SearchInput from './SearchInput.svelte';
@@ -14,8 +15,8 @@
   // Presence: the people who are here now, as overlapping avatars. The avatars (the square of a
   // small button) overlap by gap-xs and are parted by a ring of two lines in the panel colour; the
   // overlap comes from grid columns narrower than an avatar, not from a negative margin. The
-  // people after max gather at the end as "+n", so that many people never widen it. The avatar
-  // under the pointer comes to the front.
+  // people after max gather at the end as "+n", so that many people never widen it; "+n" is a
+  // button that opens the roster. The avatar under the pointer comes to the front.
   //
   // A person's colour is the surface of their avatar (avatars have none of their own); without
   // one it is the fill surface. Colours are data, so their contrast is the caller's.
@@ -25,9 +26,6 @@
   //
   //   <Presence users={[{ name: 'Sam', you: true }, { name: 'Kim', color: '#6f86e6', role: 'view' }]} />
   //   <Presence {users} roster />
-  //
-  // TODO(kata): uses Dropdown once the overlay family lands: "+n" becomes a button that opens the
-  // roster in a popover (the width of a popover, a strong line, the panel surface).
   type User = {
     /** A unique key; without it the position in the list */
     id?: string;
@@ -121,8 +119,24 @@
       </span>
     {/each}
     {#if rest > 0}
-      <span class="slot more" title={getMessages().showMore({ count: rest })}>
-        <Avatar initial={`+${rest}`} />
+      <span class="slot">
+        <Dropdown align="end" bare>
+          {#snippet trigger(toggle, open)}
+            <button
+              class="more"
+              type="button"
+              onclick={toggle}
+              aria-haspopup="true"
+              aria-expanded={open}
+              aria-label={getMessages().showMore({ count: rest })}
+            >
+              <Avatar initial={`+${rest}`} />
+            </button>
+          {/snippet}
+          {#snippet panel()}
+            <div class="roster" data-role="menu">{@render rosterBody()}</div>
+          {/snippet}
+        </Dropdown>
       </span>
     {/if}
   </span>
@@ -155,6 +169,25 @@
   }
   .slot:hover {
     z-index: 1;
+  }
+  // "+n": a button without a line that looks like an avatar
+  .more {
+    display: inline-flex;
+    padding: 0;
+    border: 0;
+    background: none;
+    border-radius: 50%;
+    cursor: pointer;
+    color: inherit;
+    font: inherit;
+  }
+  // The roster opened from "+n": a container without padding, the width of a popover, with the
+  // panel surface and a strong line
+  .roster {
+    width: var(--kata-width-popover);
+    @include bundle;
+    background: color(panel);
+    border: bw() solid color(line-strong);
   }
   // Eight list items show; more scroll
   .list {

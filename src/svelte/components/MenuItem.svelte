@@ -112,7 +112,7 @@
     gap: gap(sm);
     width: 100%;
     // The least height is a text item's; the content can make it higher
-    min-height: var(--kata-row-h, #{h(list-item)});
+    min-height: var(--kata-list-item-height, #{h(list-item)});
     padding-inline: pad(md);
     border: 0;
     background: none;
@@ -130,27 +130,8 @@
     > :global(svg) {
       flex: none;
     }
-    // TODO(kata): these rules of a row's content are the list item's own; share them with ListItem
-    // (the data display family) once it is published.
-    //
-    // A control or a stack inside the item is md from its top and bottom edges; only the outermost
-    // one is measured from the edge.
-    :global(:is([data-role='box'][data-h]:not(.ghost), [data-kata-tall])),
-    :global(input:not([type='checkbox']):not([type='radio'])),
-    :global(select),
-    :global(textarea) {
-      margin-block: fs(body);
-    }
-    :global([data-role='stack']) {
-      padding-block: fs(body);
-    }
-    :global([data-role='stack'] [data-role='stack']) {
-      padding-block: 0;
-    }
-    :global([data-role='stack'] :is([data-role='box'], input, select, textarea)),
-    :global([data-role='box'] :is(input, select, textarea)) {
-      margin-block: 0;
-    }
+    // Every visible thing inside keeps md above and below, as in a list item
+    @include row-content;
   }
   // Text in a control: trimmed to its ink and centred
   .t {

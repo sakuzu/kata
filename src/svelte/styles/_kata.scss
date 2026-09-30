@@ -235,23 +235,22 @@
   :global(textarea) {
     margin-block: fs(body);
   }
-  :global(.stack) {
+  :global([data-role='stack']) {
     padding-block: fs(body);
   }
   // Only the outer stack keeps the distance; inside it nothing is measured from the item's edge
-  :global(.stack .stack) {
+  :global([data-role='stack'] [data-role='stack']) {
     padding-block: 0;
   }
-  :global(.stack [data-role='mark'][data-h]),
-  :global(.stack [data-role='mark'][data-kata-tall]),
-  :global(.stack [data-role='box'][data-h]),
-  :global(.stack input),
-  :global(.stack select),
-  :global(.stack textarea) {
-    margin-block: 0;
-  }
-  // A bare input inside a control: the control keeps the distance
-  :global([data-role='box'] input),
+  // Inside the outer stack, and a bare input inside a control (the control keeps the distance).
+  // Each selector repeats the one above it, so that it is at least as specific
+  :global([data-role='stack'] [data-role='mark'][data-h]:not([data-h='icon'])),
+  :global([data-role='stack'] [data-role='mark'][data-kata-tall]),
+  :global([data-role='stack'] [data-role='box'][data-h]:not(.ghost)),
+  :global([data-role='stack'] input:not([type='checkbox']):not([type='radio'])),
+  :global([data-role='stack'] select),
+  :global([data-role='stack'] textarea),
+  :global([data-role='box'] input:not([type='checkbox']):not([type='radio'])),
   :global([data-role='box'] select),
   :global([data-role='box'] textarea) {
     margin-block: 0;

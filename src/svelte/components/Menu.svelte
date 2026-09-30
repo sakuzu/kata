@@ -35,17 +35,6 @@
     max-width: calc(100vw - #{gap(md)} * 2);
     display: flex;
     flex-direction: column;
-    &[data-rows='mark'] {
-      --kata-row-h: #{h(list-item-mark)};
-    }
-    &[data-rows='box'] {
-      --kata-row-h: #{h(list-item-lg)};
-    }
-    &[data-rows='thumb'] {
-      --kata-row-h: #{h(thumbnail-row)};
-    }
-    &[data-rows='two'] {
-      --kata-row-h: #{h(list-item-two)};
-    }
+    @include rows;
   }
 </style>

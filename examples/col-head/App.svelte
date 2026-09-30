@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { ColHead, Table } from '@sakuzu/kata/svelte';
+  import { ColHead, MenuItem, Table } from '@sakuzu/kata/svelte';
   import Case from '../_shared/Case.svelte';
   import Example from '../_shared/Example.svelte';
   import Surface from '../_shared/Surface.svelte';
@@ -23,7 +23,7 @@
 </script>
 
 <Example>
-  <Case label="Press a name to sort; a column of dates starts descending; Kind is not sorted">
+  <Case label="Press a name to sort, or use the column menu; dates start descending; Kind is not sorted">
     <Surface>
       <Table>
         {#snippet head()}
@@ -31,9 +31,10 @@
             <ColHead dir={key === 'name' ? dir : undefined} onsort={(d) => sortBy('name', d)}>Name</ColHead>
           </th>
           <th aria-sort={aria('updated')}>
-            <ColHead dir={key === 'updated' ? dir : undefined} first="desc" onsort={(d) => sortBy('updated', d)}
-              >Updated</ColHead
-            >
+            <ColHead dir={key === 'updated' ? dir : undefined} first="desc" onsort={(d) => sortBy('updated', d)}>
+              Updated
+              {#snippet menu(close)}<MenuItem onclick={close}>Hide the column</MenuItem>{/snippet}
+            </ColHead>
           </th>
           <th><ColHead>Kind</ColHead></th>
         {/snippet}

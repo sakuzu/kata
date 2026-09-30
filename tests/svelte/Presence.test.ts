@@ -78,4 +78,14 @@ describe('Presence', () => {
     const { getByRole } = render(Presence, { users: [{ name: 'Kim' }] });
     expect(getByRole('group', { name: '1 人' })).toBeTruthy();
   });
+
+  it('opens the roster from "+n"', async () => {
+    const users = ['Ann', 'Ben', 'Cy', 'Dee', 'Eve'].map((name) => ({ name }));
+    const { getByRole } = render(Presence, { users, max: 3 });
+    const more = getByRole('button', { name: 'Show 2 more' });
+    expect(more.getAttribute('aria-expanded')).toBe('false');
+    await fireEvent.click(more);
+    expect(more.getAttribute('aria-expanded')).toBe('true');
+    expect(document.querySelectorAll('.roster [data-role="list-item"]').length).toBe(5);
+  });
 });
