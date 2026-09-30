@@ -80,10 +80,13 @@ export { default as RadioGroup } from './components/RadioGroup.svelte';
 export { default as ReadValue } from './components/ReadValue.svelte';
 export { default as Row } from './components/Row.svelte';
 export { default as SearchInput } from './components/SearchInput.svelte';
+export type { SearchGroup, SearchItem } from './components/SearchPanel.svelte';
+export { default as SearchPanel } from './components/SearchPanel.svelte';
 export { default as Section } from './components/Section.svelte';
 export { default as SectionHeader } from './components/SectionHeader.svelte';
 export { default as Segmented } from './components/Segmented.svelte';
 export { default as Select } from './components/Select.svelte';
+export { default as SelectionSummary } from './components/SelectionSummary.svelte';
 export { default as SettingsPage } from './components/SettingsPage.svelte';
 export { default as SettingsRow } from './components/SettingsRow.svelte';
 export { default as SettingsSection } from './components/SettingsSection.svelte';
@@ -117,6 +120,8 @@ export { default as Topbar } from './components/Topbar.svelte';
 export { default as Tree } from './components/Tree.svelte';
 export { default as TreeRow } from './components/TreeRow.svelte';
 export { default as Veil } from './components/Veil.svelte';
+export type { VersionEntry } from './components/VersionsPanel.svelte';
+export { default as VersionsPanel } from './components/VersionsPanel.svelte';
 export {
   type IconComponent,
   type IconName,
