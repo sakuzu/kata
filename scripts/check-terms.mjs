@@ -23,7 +23,6 @@ export const WORDS = [
   'lng',
   'longitude',
   'latitude',
-  'meters?',
   'bbox',
   'geojson',
   'maplibre',
@@ -31,7 +30,6 @@ export const WORDS = [
   'basemap',
   'dataset',
   'mercator',
-  'tiles?',
 ];
 const TERM = new RegExp(`\\b(${WORDS.join('|')})\\b`, 'gi');
 
