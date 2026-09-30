@@ -35,7 +35,8 @@ The name column is 7.5rem wide, gap-sm from the value, and the name is
 muted, trimmed to its ink and level with the first line of the value.
 An edit pair has the height of a button (`--kata-box`) and its control
 fills the column. A read pair, a pair with a note and a `top` pair take
-the height of their content; the note is gap-xs under the value.
+the height of their content; the note, a caption in the color of the
+text, is gap-xs under the value.
 `indent` moves the name by md for each level. The pair owns the padding
 at its sides: the inset its container declares, none inside a container
 with padding. Below 24rem the name sits above the value.

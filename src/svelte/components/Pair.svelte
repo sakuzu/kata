@@ -156,10 +156,10 @@
     @include ellipsis;
     overflow-wrap: normal;
   }
+  // The note: caption, in the color of the text, in the value's column
   .note {
     grid-column: 2;
     @include text(caption);
-    color: color(muted);
   }
   // A value of several lines: the name sits at the centre of the first line of the control
   .top {
