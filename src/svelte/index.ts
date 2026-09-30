@@ -13,6 +13,8 @@ export { default as Crumbs } from './components/Crumbs.svelte';
 export { default as Divider } from './components/Divider.svelte';
 export type { DrawbarTool } from './components/Drawbar.svelte';
 export { default as Drawbar } from './components/Drawbar.svelte';
+export { default as DropLine } from './components/DropLine.svelte';
+export { default as DropTarget } from './components/DropTarget.svelte';
 export { default as Fab } from './components/Fab.svelte';
 export { default as Field } from './components/Field.svelte';
 export { default as Figure } from './components/Figure.svelte';
@@ -53,6 +55,8 @@ export { default as Thumbnail } from './components/Thumbnail.svelte';
 export { default as Toggle } from './components/Toggle.svelte';
 export { default as Toolbar } from './components/Toolbar.svelte';
 export { default as Topbar } from './components/Topbar.svelte';
+export { default as Tree } from './components/Tree.svelte';
+export { default as TreeRow } from './components/TreeRow.svelte';
 export {
   type IconComponent,
   type IconName,
@@ -71,3 +75,4 @@ export {
 } from './lib/fontScale.js';
 export { createNarrow, isNarrowerThan, WIDTHS } from './lib/viewport.svelte.js';
 export { defaultMessages, getMessages, type Messages, setMessages } from './messages.js';
+export { type SortableParams, type SortMove, type SortOver, sortable } from './sortable.js';

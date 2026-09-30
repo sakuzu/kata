@@ -34,6 +34,9 @@ export interface Messages {
   fontScaleLarger: string;
   fontScaleLargest: string;
   fontScaleMax: string;
+  /** The names of the button that opens or closes a row of a Tree */
+  expand: string;
+  collapse: string;
 }
 
 const english: Messages = {
@@ -60,6 +63,8 @@ const english: Messages = {
   fontScaleLarger: 'Larger',
   fontScaleLargest: 'Largest',
   fontScaleMax: 'Maximum',
+  expand: 'Expand',
+  collapse: 'Collapse',
 };
 
 /** The English defaults */
