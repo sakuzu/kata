@@ -9,4 +9,14 @@ export {
   iconComponent,
   icons,
 } from './icons.js';
+export { clampTip } from './lib/clampTip.js';
+export {
+  FONT_SCALE_STORAGE_KEY,
+  FONT_SCALES,
+  type FontScale,
+  fontScaleLabel,
+  readFontScale,
+  setFontScale,
+} from './lib/fontScale.js';
+export { createNarrow, isNarrowerThan, WIDTHS } from './lib/viewport.svelte.js';
 export { defaultMessages, getMessages, type Messages, setMessages } from './messages.js';
