@@ -4,6 +4,8 @@
 
 export { default as Actions } from './components/Actions.svelte';
 export { default as AppMenu } from './components/AppMenu.svelte';
+export type { AttributeItem } from './components/AttributeList.svelte';
+export { default as AttributeList } from './components/AttributeList.svelte';
 export { default as Avatar } from './components/Avatar.svelte';
 export { default as Badge } from './components/Badge.svelte';
 export { default as Banner } from './components/Banner.svelte';
@@ -41,6 +43,8 @@ export { default as DropLine } from './components/DropLine.svelte';
 export { default as DropTarget } from './components/DropTarget.svelte';
 export { default as Fab } from './components/Fab.svelte';
 export { default as Field } from './components/Field.svelte';
+export type { FieldKind, FieldSpec } from './components/FieldList.svelte';
+export { default as FieldList } from './components/FieldList.svelte';
 export { default as Figure } from './components/Figure.svelte';
 export { default as FileInput } from './components/FileInput.svelte';
 export type { FilterBarItem } from './components/FilterBar.svelte';
@@ -54,6 +58,9 @@ export { default as Icon } from './components/Icon.svelte';
 export { default as Indent } from './components/Indent.svelte';
 export { default as InlineEdit } from './components/InlineEdit.svelte';
 export { default as InputGroup } from './components/InputGroup.svelte';
+export { default as InspectorFrame } from './components/InspectorFrame.svelte';
+export { default as InspectorRow } from './components/InspectorRow.svelte';
+export { default as InspectorSection } from './components/InspectorSection.svelte';
 export { default as Kbd } from './components/Kbd.svelte';
 export type { KebabAction } from './components/Kebab.svelte';
 export { default as Kebab } from './components/Kebab.svelte';

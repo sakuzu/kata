@@ -265,8 +265,13 @@ export default defineConfig({
           { text: 'Using the workbench parts', link: '/workbench/' },
           ...[
             ['AppMenu', 'app-menu'],
+            ['AttributeList', 'attribute-list'],
             ['CommentComposer', 'comment-composer'],
             ['CommentList', 'comment-list'],
+            ['FieldList', 'field-list'],
+            ['InspectorFrame', 'inspector-frame'],
+            ['InspectorRow', 'inspector-row'],
+            ['InspectorSection', 'inspector-section'],
             ['LayerTree', 'layer-tree'],
             ['MenuList', 'menu-list'],
             ['MenuSheet', 'menu-sheet'],

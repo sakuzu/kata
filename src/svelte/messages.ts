@@ -121,6 +121,19 @@ export interface Messages {
   dockHeight: string;
   /** Shell: the name of the scrim that closes the panels floating over the stage */
   closePanes: string;
+  /** InspectorFrame: the action shown while the name is empty (rename names its input) */
+  addName: string;
+  /** FieldList: what a field shows when the things selected do not share one value */
+  mixed: string;
+  /** AttributeList: its empty state, the inputs of a new attribute, the empty value, the add and
+   * remove actions, and the name of the lock of a locked attribute */
+  noAttributes: string;
+  attributeName: string;
+  attributeValue: string;
+  addValue: string;
+  addAttribute: string;
+  removeAttribute: (p: { key: string }) => string;
+  locked: string;
 }
 
 const english: Messages = {
@@ -208,6 +221,15 @@ const english: Messages = {
   keyboardShortcuts: 'Keyboard shortcuts',
   dockHeight: 'Dock height',
   closePanes: 'Close the panels',
+  addName: 'Add a name',
+  mixed: 'Mixed',
+  noAttributes: 'No attributes.',
+  attributeName: 'Attribute name',
+  attributeValue: 'Value',
+  addValue: 'Add a value',
+  addAttribute: 'Add an attribute',
+  removeAttribute: ({ key }) => `Remove ${key}`,
+  locked: 'Locked',
 };
 
 /** The English defaults */

@@ -32,6 +32,9 @@ follows semantic versioning.
   (`MenuModel`, AppMenu, MenuList and MenuSheet, and a model for Kebab and
   Topbar), ProcessDialog and SourcePicker, SearchPanel, SelectionSummary
   and VersionsPanel, and SettingsRow and SettingsSection.
+- The inspector (5), in the Workbench chapter: InspectorFrame,
+  InspectorSection and InspectorRow, FieldList (on the specs `FieldSpec`)
+  and AttributeList.
 - Drawbar takes switches (`toggles`) after the tools, and folds the
   buttons that do not fit into a More menu instead of scrolling.
 - Shell, the frame of a drawing application: the bar, the side regions
