@@ -1,7 +1,6 @@
 <script lang="ts">
-  import { Kbd, Stack, Text } from '@sakuzu/kata/svelte';
+  import { Button, Kbd, Stack, Text } from '@sakuzu/kata/svelte';
   import Case from '../_shared/Case.svelte';
-  import DemoButton from '../_shared/DemoButton.svelte';
   import Example from '../_shared/Example.svelte';
 </script>
 
@@ -15,8 +14,8 @@
   </Case>
   <Case label="gap md: controls stacked">
     <Stack gap="md" align="start">
-      <DemoButton>First</DemoButton>
-      <DemoButton>Second</DemoButton>
+      <Button>First</Button>
+      <Button>Second</Button>
     </Stack>
   </Case>
   <Case label="gap lg: separate topics">

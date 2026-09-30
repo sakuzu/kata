@@ -1,7 +1,6 @@
 <script lang="ts">
-  import { Block, Icon, Indent, Row, Stack, Text } from '@sakuzu/kata/svelte';
+  import { Block, Button, Icon, Indent, Row, Stack, Text } from '@sakuzu/kata/svelte';
   import Case from '../_shared/Case.svelte';
-  import DemoButton from '../_shared/DemoButton.svelte';
   import Example from '../_shared/Example.svelte';
   import Surface from '../_shared/Surface.svelte';
 </script>
@@ -12,7 +11,7 @@
       <Stack gap={0}>
         <Block>
           <Row>
-            <DemoButton icon label="Collapse"><Icon name="polygon" /></DemoButton>
+            <Button variant="ghost" icon aria-label="Collapse"><Icon name="polygon" /></Button>
             <Text role="label">Outline</Text>
           </Row>
         </Block>

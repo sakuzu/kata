@@ -1,7 +1,6 @@
 <script lang="ts">
-  import { Icon, Kbd, Row, Text } from '@sakuzu/kata/svelte';
+  import { Button, Icon, Kbd, Row, Text } from '@sakuzu/kata/svelte';
   import Case from '../_shared/Case.svelte';
-  import DemoButton from '../_shared/DemoButton.svelte';
   import Example from '../_shared/Example.svelte';
 
   const keys = ['⌘K', '⌘P', '⌘S', '⌘Z', '⇧⌘Z', '⌘C', '⌘V', '⌘X', '⌘A', '⌘F'];
@@ -12,7 +11,7 @@
     <Row gap="2xs"><Icon name="image" /><Text>Cover image</Text></Row>
   </Case>
   <Case label="gap sm (default): controls">
-    <Row><DemoButton>Cancel</DemoButton><DemoButton variant="primary">Save</DemoButton></Row>
+    <Row><Button>Cancel</Button><Button variant="primary">Save</Button></Row>
   </Case>
   <Case label="gap lg: groups">
     <Row gap="lg">
@@ -24,7 +23,7 @@
     <Row between><Text>Shortcuts</Text><Kbd>⌘/</Kbd></Row>
   </Case>
   <Case label="justify end">
-    <Row justify="end"><DemoButton>Cancel</DemoButton><DemoButton variant="primary">Save</DemoButton></Row>
+    <Row justify="end"><Button>Cancel</Button><Button variant="primary">Save</Button></Row>
   </Case>
   <Case label="wrap: items move to the next line whole">
     <Row wrap>

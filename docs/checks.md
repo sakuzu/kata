@@ -12,7 +12,9 @@ repository ([CONTRIBUTING](../CONTRIBUTING.md) lists them).
 
 - Spacing, type and colour take a token, never a raw length or colour.
 - `padding` takes the pad scale and `gap` the gap scale.
-- Only Text, Kbd, Section and SectionHeader trim text.
+- Only the components that hold text in a control (Button, Toggle,
+  TextInput and the other controls), at a container's edge (Text) or next
+  to a line (Section, SectionHeader) trim text.
 - No negative distance, no outer margin on a component's root (the
   layouts, Icon and Prose aside), no `@media` for a width and no `:has()`
   other than the next sibling.

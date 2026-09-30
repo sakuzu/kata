@@ -1,7 +1,6 @@
 <script lang="ts">
-  import { Block, Kbd, Row, Stack, Text } from '@sakuzu/kata/svelte';
+  import { Block, Button, Kbd, Row, Stack, Text } from '@sakuzu/kata/svelte';
   import Case from '../_shared/Case.svelte';
-  import DemoButton from '../_shared/DemoButton.svelte';
   import Example from '../_shared/Example.svelte';
   import Surface from '../_shared/Surface.svelte';
 </script>
@@ -22,7 +21,7 @@
       <Block>
         <Stack gap="sm">
           <Text>Press <Kbd>⌘K</Kbd> to open the command menu.</Text>
-          <Row><DemoButton>Show all</DemoButton></Row>
+          <Row><Button>Show all</Button></Row>
         </Stack>
       </Block>
     </Surface>
