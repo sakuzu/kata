@@ -219,8 +219,9 @@
       opacity: 0;
     }
   }
-  // A mark among the actions does not add to the row's height
-  .end :global([data-role='mark'][data-h]) {
+  // A mark among the actions does not add to the row's height. The selector outweighs the list
+  // item's rule for the content of a row (a class, three attributes and the scope)
+  .tree-row .end :global([data-role='mark'][data-h]) {
     margin-block: 0;
   }
   // Where the name would be squeezed, the actions float over its end instead of taking a column
