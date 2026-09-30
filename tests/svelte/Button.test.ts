@@ -1,8 +1,10 @@
 import { fireEvent, render } from '@testing-library/svelte';
-import { createRawSnippet } from 'svelte';
-import { describe, expect, it, vi } from 'vitest';
+import { createRawSnippet, tick } from 'svelte';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import Button from '../../src/svelte/components/Button.svelte';
 
+const html = (markup: string) => createRawSnippet(() => ({ render: () => markup }));
+const tipOf = () => document.body.querySelector<HTMLElement>(':scope > .tip');
 const text = (t: string) => createRawSnippet(() => ({ render: () => `<span>${t}</span>` }));
 
 describe('Button', () => {
@@ -47,5 +49,40 @@ describe('Button', () => {
   it('shows no count at zero', () => {
     const { container } = render(Button, { icon: true, badge: 0, children: text('!') });
     expect(container.querySelector('.unread')).toBeNull();
+  });
+});
+
+describe('Button with a tooltip', () => {
+  beforeEach(() => vi.useFakeTimers());
+  afterEach(() => vi.useRealTimers());
+
+  it('shows the aria-label of an icon button and its shortcut', async () => {
+    const { container } = render(Button, {
+      icon: true,
+      'aria-label': 'Undo',
+      shortcut: '⌘Z',
+      children: html('<span>↶</span>'),
+    });
+    const seat = container.querySelector('.seat') as HTMLElement;
+    expect(seat.querySelector('button')?.getAttribute('aria-label')).toBe('Undo');
+    await fireEvent.pointerEnter(seat);
+    vi.advanceTimersByTime(400);
+    await tick();
+    expect(tipOf()?.textContent).toContain('Undo');
+    expect(tipOf()?.textContent).toContain('⌘Z');
+  });
+
+  it('has no tooltip on a text button unless tip is given, and none with tip={false}', () => {
+    const plain = render(Button, { children: html('<span>Save</span>') });
+    expect(plain.container.querySelector('.seat')).toBeNull();
+    const tipped = render(Button, { tip: 'Save a copy', children: html('<span>Save</span>') });
+    expect(tipped.container.querySelector('.seat')).not.toBeNull();
+    const off = render(Button, {
+      icon: true,
+      tip: false,
+      'aria-label': 'Close',
+      children: html('<span>×</span>'),
+    });
+    expect(off.container.querySelector('.seat')).toBeNull();
   });
 });

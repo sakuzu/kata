@@ -4,6 +4,7 @@
 
 export { default as Actions } from './components/Actions.svelte';
 export { default as Block } from './components/Block.svelte';
+export { default as Bubble } from './components/Bubble.svelte';
 export { default as Button } from './components/Button.svelte';
 export { default as Checkbox } from './components/Checkbox.svelte';
 export { default as ColorGrid } from './components/ColorGrid.svelte';
@@ -16,6 +17,7 @@ export { default as Dropdown } from './components/Dropdown.svelte';
 export { default as Field } from './components/Field.svelte';
 export { default as Figure } from './components/Figure.svelte';
 export { default as FileInput } from './components/FileInput.svelte';
+export { default as Floating } from './components/Floating.svelte';
 export { default as Footer } from './components/Footer.svelte';
 export { default as Glyphs } from './components/Glyphs.svelte';
 export { default as Grid } from './components/Grid.svelte';
@@ -37,6 +39,7 @@ export { default as NumberInput } from './components/NumberInput.svelte';
 export { default as Page } from './components/Page.svelte';
 export { default as PageHeader } from './components/PageHeader.svelte';
 export { default as Palette } from './components/Palette.svelte';
+export { default as Popover } from './components/Popover.svelte';
 export { default as Prose } from './components/Prose.svelte';
 export { default as Radio } from './components/Radio.svelte';
 export { default as RadioGroup } from './components/RadioGroup.svelte';
@@ -56,6 +59,7 @@ export { default as Textarea } from './components/Textarea.svelte';
 export { default as TextInput } from './components/TextInput.svelte';
 export { default as Thumbnail } from './components/Thumbnail.svelte';
 export { default as Toggle } from './components/Toggle.svelte';
+export { default as Tooltip } from './components/Tooltip.svelte';
 export { default as Veil } from './components/Veil.svelte';
 export {
   type IconComponent,

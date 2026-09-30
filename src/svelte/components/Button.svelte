@@ -5,6 +5,7 @@
   import type { IconSource } from '../icons.js';
   import Counter from './Counter.svelte';
   import Icon from './Icon.svelte';
+  import Tooltip from './Tooltip.svelte';
 
   // Button: a control that is pressed. Its height is the ink of its text, pad-md above and below
   // and a line on each side. Inside a list item, a toolbar or a bar of bulk actions the container
@@ -24,8 +25,12 @@
   //   <Button kbd="⌘⏎">Send</Button>                         a key hint after the text
   //   <Button trailing="chevron-down">{#snippet mark()}<Swatch color={c} />{/snippet}#FF0077</Button>
   //   <Button icon badge={3} aria-label="Notifications"><Icon name={Bell} /></Button>
+  //   <Button icon aria-label="Undo" shortcut="⌘Z"><Icon name={Undo} /></Button>
+  //   <Button tip="Export as a file">Export</Button>          a tooltip on a text button
   //
-  // The children of a text button are text only; icons go in leading and trailing.
+  // The children of a text button are text only; icons go in leading and trailing. An icon button
+  // shows its aria-label in a Tooltip, with shortcut as the key hint inside it; tip gives a text
+  // button a tooltip, or turns the tooltip of an icon button off (false).
   let {
     variant = 'outline',
     icon = false,
@@ -44,6 +49,8 @@
     href,
     target,
     onclick,
+    shortcut,
+    tip,
     badge,
     'aria-label': ariaLabel,
     children,
@@ -78,6 +85,10 @@
     href?: string;
     /** Opens the link in another tab; the component adds rel */
     target?: '_blank';
+    /** The key hint inside the tooltip */
+    shortcut?: string;
+    /** The text of the tooltip (an icon button's aria-label by default); false shows none */
+    tip?: string | false;
     /** A count over the top right of an icon button; 100 and more shows 99+ */
     badge?: number;
     'aria-label'?: string;
@@ -85,6 +96,9 @@
     children: Snippet;
   } = $props();
   const badged = $derived(badge !== undefined && badge > 0);
+  const tipText = $derived(tip === false ? undefined : (tip ?? (icon ? ariaLabel : undefined)));
+  // A container that shows an icon button only on hover reads data-keep on the wrapper too
+  const keep = $derived(rest['data-keep' as keyof typeof rest] !== undefined);
   // A full-width button with a trailing icon is a chooser: the text on the left, the icon at the
   // right end
   const spread = $derived(block && !!trailing);
@@ -104,47 +118,55 @@
     >{/if}
 {/snippet}
 
-{#if href}
-  <a
-    class="btn {variant}"
-    class:icon
-    class:block
-    class:spread
-    class:busy
-    class:on
-    class:badged
-    data-tone={tone}
-    data-role="box"
-    data-h={icon ? 'icon-button' : 'button'}
-    {href}
-    {onclick}
-    aria-label={ariaLabel}
-    {target}
-    rel={target ? 'noopener' : undefined}
-    {...rest}
-  >
-    {@render inner()}{@render unread()}
-  </a>
+{#snippet control()}
+  {#if href}
+    <a
+      class="btn {variant}"
+      class:icon
+      class:block
+      class:spread
+      class:busy
+      class:on
+      class:badged
+      data-tone={tone}
+      data-role="box"
+      data-h={icon ? 'icon-button' : 'button'}
+      {href}
+      {onclick}
+      aria-label={ariaLabel}
+      {target}
+      rel={target ? 'noopener' : undefined}
+      {...rest}
+    >
+      {@render inner()}{@render unread()}
+    </a>
+  {:else}
+    <button
+      class="btn {variant}"
+      class:icon
+      class:block
+      class:spread
+      class:busy
+      class:on
+      class:badged
+      data-tone={tone}
+      data-role="box"
+      data-h={icon ? 'icon-button' : 'button'}
+      {type}
+      disabled={disabled || busy}
+      {onclick}
+      aria-label={ariaLabel}
+      {...rest}
+    >
+      {@render inner()}{@render unread()}
+    </button>
+  {/if}
+{/snippet}
+
+{#if tipText}
+  <Tooltip text={tipText} {shortcut} role="box" {keep}>{@render control()}</Tooltip>
 {:else}
-  <button
-    class="btn {variant}"
-    class:icon
-    class:block
-    class:spread
-    class:busy
-    class:on
-    class:badged
-    data-tone={tone}
-    data-role="box"
-    data-h={icon ? 'icon-button' : 'button'}
-    {type}
-    disabled={disabled || busy}
-    {onclick}
-    aria-label={ariaLabel}
-    {...rest}
-  >
-    {@render inner()}{@render unread()}
-  </button>
+  {@render control()}
 {/if}
 
 <style lang="scss">

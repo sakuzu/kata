@@ -2,6 +2,7 @@
   import Bell from '@lucide/svelte/icons/bell';
   import Download from '@lucide/svelte/icons/download';
   import Ellipsis from '@lucide/svelte/icons/ellipsis';
+  import Undo from '@lucide/svelte/icons/undo-2';
   import { Block, Button, Icon, Row, Swatch } from '@sakuzu/kata/svelte';
   import Case from '../_shared/Case.svelte';
   import Example from '../_shared/Example.svelte';
@@ -43,6 +44,14 @@
       <Button variant="ghost" icon badge={3} aria-label="Notifications"><Icon name={Bell} /></Button>
       <Button variant="ghost" icon badge={120} aria-label="Messages"><Icon name={Bell} /></Button>
     </Row>
+  </Case>
+  <Case label="Tooltips: the name of an icon button with its key, and a text button with tip">
+    <Row gap="0">
+      <Button variant="ghost" icon aria-label="Undo" shortcut="⌘Z"><Icon name={Undo} /></Button>
+      <Button variant="ghost" icon aria-label="Edit" shortcut="E"><Icon name="pencil" /></Button>
+      <Button variant="ghost" icon tip={false} aria-label="Close"><Icon name="x" /></Button>
+    </Row>
+    <Row><Button tip="Save a copy as a file">Export</Button></Row>
   </Case>
   <Case label="The small button, declared by the container">
     <Small>
