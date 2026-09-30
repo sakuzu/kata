@@ -2,7 +2,8 @@
 // custom property directly; it goes through these, so that every value is one of the tokens of the
 // foundation (src/tokens/tokens.css, docs/tokens.md).
 //
-//   @use '../styles/kata' as *;
+//   @use '../styles/kata' as *;                         (in a component of kata)
+//   @use '@sakuzu/kata/svelte/styles/kata.scss' as *;   (in an application's own styles)
 //   font-size: fs(body);        the size, leading and tracking of a type role
 //   padding-inline: pad(md);    padding: follows the element's own text (em)
 //   gap: gap(sm);               distance between items: follows the root (rem); never mixed with pad

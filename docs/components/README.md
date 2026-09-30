@@ -149,6 +149,32 @@ any icon component, such as another Lucide icon.
   shows: `toast.show()` and `toast.error()` add one, `toast.dismiss()`
   removes one, and each goes by itself after `TOAST_DURATION`.
 
+## Sass helpers
+
+The functions and mixins that the components' styles are written with
+ship as `@sakuzu/kata/svelte/styles/kata.scss`, so that an application's
+own styles take the same tokens: `pad()` for padding (em, following the
+element's text), `gap()` for the distance between items (rem), `box-h()`
+for the height of a control (the one its container declares, or a
+button's) and `inset()` for the padding at the sides of an item that
+reaches the edges of its container. Among the row mixins, `rows` lets a
+list or a table raise the least height of its items with `data-rows`
+(`mark`, `box`, `thumb` or `two`), and `row-content` keeps one body size
+above and below the visible things inside an item, as a list item does;
+it writes `:global()`, so it belongs in the style of a Svelte component.
+The file emits no CSS of its own and needs the tokens of the foundation
+on the page.
+
+```scss
+@use '@sakuzu/kata/svelte/styles/kata.scss' as *;
+
+.layer {
+  padding-inline: inset();
+  gap: gap(sm);
+  height: box-h();
+}
+```
+
 ## The workbench
 
 The parts of a drawing application that are built from these

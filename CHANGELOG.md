@@ -41,6 +41,9 @@ them to the rules.
   - The messages API (`setMessages`) for the strings the components show
     on their own, the icons, and helpers for the text size, the widths,
     clipped text, toasts and keyboard shortcuts (`formatShortcut`).
+  - The Sass functions and mixins the components are written with
+    (`@sakuzu/kata/svelte/styles/kata.scss`), for an application's own
+    styles.
 - Workbench parts (20), the large parts of a drawing application, which
   know nothing of what is drawn.
   - Shell, the frame of the editor: the bar, the side regions (beside the

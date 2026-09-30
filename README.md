@@ -52,8 +52,8 @@ kata has three layers.
 npm install @sakuzu/kata
 ```
 
-The package has four entries. The first three are plain CSS; the fourth
-needs Svelte 5, which is an optional peer dependency.
+The package has five entries. The first three are plain CSS; the fourth
+needs Svelte 5, which is an optional peer dependency; the fifth is Sass.
 
 | Entry | Contents |
 | --- | --- |
@@ -61,6 +61,7 @@ needs Svelte 5, which is an optional peer dependency.
 | `@sakuzu/kata/tokens.css` | The scale and the tokens, no global rules |
 | `@sakuzu/kata/base.css` | The base CSS alone (it needs the tokens) |
 | `@sakuzu/kata/svelte` | The Svelte components (they need the tokens) |
+| `@sakuzu/kata/svelte/styles/kata.scss` | The Sass functions and mixins |
 
 Import the whole foundation once and write with the tokens.
 
