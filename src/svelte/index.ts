@@ -25,7 +25,7 @@ export { default as Counter } from './components/Counter.svelte';
 export { default as Crumbs } from './components/Crumbs.svelte';
 export { default as Disclosure } from './components/Disclosure.svelte';
 export { default as Divider } from './components/Divider.svelte';
-export type { DrawbarTool } from './components/Drawbar.svelte';
+export type { DrawbarToggle, DrawbarTool } from './components/Drawbar.svelte';
 export { default as Drawbar } from './components/Drawbar.svelte';
 export { default as Drawer } from './components/Drawer.svelte';
 export { default as Dropdown } from './components/Dropdown.svelte';
