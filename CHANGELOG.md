@@ -13,3 +13,9 @@ follows semantic versioning.
 - Tokens for spacing, type, color, lines, widths, heights and layering.
 - Base CSS: the reset and the rules every page shares.
 - The documents Principles, Scale and Tokens, and the documentation site.
+- The Svelte entry `@sakuzu/kata/svelte` with the layout and text
+  components (Stack, Row, Grid, Split, Block, Section, SectionHeader,
+  Divider, Indent, Page, PageHeader, Footer, Text, Prose, Kbd, Icon,
+  Thumbnail, Figure and Glyphs), the messages API, the icons and the
+  helpers for the text size setting, the widths and clipped text.
+- A page and a live example for each component.

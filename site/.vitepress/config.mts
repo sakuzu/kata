@@ -87,7 +87,7 @@ export default defineConfig({
   lang: 'en-US',
   base: BASE,
   srcDir: '../docs',
-  rewrites: { 'README.md': 'index.md' },
+  rewrites: { 'README.md': 'index.md', 'components/README.md': 'components/index.md' },
   cleanUrls: true,
   appearance: 'dark',
   lastUpdated: false,
@@ -98,7 +98,10 @@ export default defineConfig({
     },
   },
   themeConfig: {
-    nav: [{ text: 'Chapters', link: '/' }],
+    nav: [
+      { text: 'Chapters', link: '/' },
+      { text: 'Components', link: '/components/' },
+    ],
     sidebar: [
       {
         text: 'Chapters',
@@ -106,6 +109,36 @@ export default defineConfig({
           { text: 'Principles', link: '/principles' },
           { text: 'Scale', link: '/scale' },
           { text: 'Tokens', link: '/tokens' },
+        ],
+      },
+      {
+        text: 'Components',
+        items: [
+          { text: 'Using the components', link: '/components/' },
+          {
+            text: 'Layout and text',
+            items: [
+              ['Stack', 'stack'],
+              ['Row', 'row'],
+              ['Grid', 'grid'],
+              ['Split', 'split'],
+              ['Block', 'block'],
+              ['Section', 'section'],
+              ['SectionHeader', 'section-header'],
+              ['Divider', 'divider'],
+              ['Indent', 'indent'],
+              ['Page', 'page'],
+              ['PageHeader', 'page-header'],
+              ['Footer', 'footer'],
+              ['Text', 'text'],
+              ['Prose', 'prose'],
+              ['Kbd', 'kbd'],
+              ['Icon', 'icon'],
+              ['Thumbnail', 'thumbnail'],
+              ['Figure', 'figure'],
+              ['Glyphs', 'glyphs'],
+            ].map(([text, page]) => ({ text, link: `/components/${page}` })),
+          },
         ],
       },
     ],

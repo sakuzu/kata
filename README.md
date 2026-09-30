@@ -12,8 +12,11 @@ kata has three layers.
    golden ratio φ as its single root, tokens (CSS custom properties for
    spacing, type and color), base CSS, and the rules that tie them
    together. One stylesheet brings it into any web page.
-2. Components such as Button, Input, Panel and Tree, bound first for Svelte
-   (`@sakuzu/kata/svelte`). Not published yet.
+2. Components, bound first for Svelte (`@sakuzu/kata/svelte`). The layout
+   and text components are available: Stack, Row, Grid, Split, Block,
+   Section, SectionHeader, Divider, Indent, Page, PageHeader, Footer, Text,
+   Prose, Kbd, Icon, Thumbnail, Figure and Glyphs. Controls, lists and
+   containers such as Button, Input, Panel and Tree are not published yet.
 3. Parts for drawing applications: the shell, the layer tree, the
    inspector, settings and the toolbar. They know nothing about what is
    drawn; the application passes the content in. Not published yet.
@@ -24,13 +27,15 @@ kata has three layers.
 npm install @sakuzu/kata
 ```
 
-The package has three entries, all plain CSS.
+The package has four entries. The first three are plain CSS; the fourth
+needs Svelte 5, which is an optional peer dependency.
 
 | Entry | Contents |
 | --- | --- |
 | `@sakuzu/kata` | The scale, the tokens and the base CSS |
 | `@sakuzu/kata/tokens.css` | The scale and the tokens, no global rules |
 | `@sakuzu/kata/base.css` | The base CSS alone (it needs the tokens) |
+| `@sakuzu/kata/svelte` | The Svelte components (they need the tokens) |
 
 Import the whole foundation once and write with the tokens.
 
@@ -60,9 +65,10 @@ and lists the values.
 
 ## Documentation
 
-The chapters are in [docs](docs/README.md): the principles, the scale and
-the tokens, with more to come as the components arrive. `npm run site:dev`
-serves them as a site.
+The chapters are in [docs](docs/README.md): the principles, the scale, the
+tokens and the [components](docs/components/README.md).
+`npm run site:dev` serves them as a site, with a live example of each
+component.
 
 ## Contributing
 
@@ -72,8 +78,10 @@ See [CONTRIBUTING](CONTRIBUTING.md) for the checks that a change must pass.
 
 ```sh
 npm install
-npm test               # the scale and the tokens against their pinned values
+npm test               # the scale, the tokens and the components
+npm run typecheck      # TypeScript and svelte-check
 npm run lint           # Biome and markdownlint
+npm run package        # the CSS and the Svelte entry in dist/
 npm run check:terms    # the vocabulary rule
 npm run site:build     # the documentation site and the examples
 ```
