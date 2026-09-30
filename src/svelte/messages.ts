@@ -92,6 +92,9 @@ export interface Messages {
   backToLatest: string;
   /** SelectionSummary: the title, with the number of things selected */
   selected: (p: { count: number }) => string;
+  /** ProcessDialog: the action that starts the process, and what shows while it runs */
+  run: string;
+  running: string;
 }
 
 const english: Messages = {
@@ -158,6 +161,8 @@ const english: Messages = {
   restore: 'Restore',
   backToLatest: 'Back to the latest',
   selected: ({ count }) => `${count} selected`,
+  run: 'Run',
+  running: 'Running',
 };
 
 /** The English defaults */
