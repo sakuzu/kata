@@ -95,6 +95,8 @@ export interface Messages {
   /** ProcessDialog: the action that starts the process, and what shows while it runs */
   run: string;
   running: string;
+  /** The title of ShortcutsModal */
+  keyboardShortcuts: string;
   /** Shell: the name of the dock's grip */
   dockHeight: string;
   /** Shell: the name of the scrim that closes the panels floating over the stage */
@@ -167,6 +169,7 @@ const english: Messages = {
   selected: ({ count }) => `${count} selected`,
   run: 'Run',
   running: 'Running',
+  keyboardShortcuts: 'Keyboard shortcuts',
   dockHeight: 'Dock height',
   closePanes: 'Close the panels',
 };

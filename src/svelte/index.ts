@@ -94,6 +94,7 @@ export { default as SettingsSection } from './components/SettingsSection.svelte'
 export { default as Sheet } from './components/Sheet.svelte';
 export type { ShellLayout, ShellMode, ShellWidth } from './components/Shell.svelte';
 export { default as Shell } from './components/Shell.svelte';
+export { default as ShortcutsModal } from './components/ShortcutsModal.svelte';
 export { default as Slider } from './components/Slider.svelte';
 export type { PickerSource } from './components/SourcePicker.svelte';
 export { default as SourcePicker } from './components/SourcePicker.svelte';
@@ -143,6 +144,7 @@ export {
   readFontScale,
   setFontScale,
 } from './lib/fontScale.js';
+export { formatShortcut, type Shortcut } from './lib/shortcuts.js';
 export { createNarrow, isNarrowerThan, WIDTHS } from './lib/viewport.svelte.js';
 export { defaultMessages, getMessages, type Messages, setMessages } from './messages.js';
 export { type SortableParams, type SortMove, type SortOver, sortable } from './sortable.js';

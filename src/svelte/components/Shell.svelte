@@ -16,10 +16,18 @@
   import type { Snippet } from 'svelte';
   import { tick, untrack } from 'svelte';
   import type { Attachment } from 'svelte/attachments';
+  import {
+    isEditable,
+    isHelpKey,
+    isMacPlatform,
+    matchesShortcut,
+    type Shortcut,
+  } from '../lib/shortcuts.js';
   import { createNarrow, WIDTHS } from '../lib/viewport.svelte.js';
   import { getMessages } from '../messages.js';
   import Floating from './Floating.svelte';
   import Sheet from './Sheet.svelte';
+  import ShortcutsModal from './ShortcutsModal.svelte';
   import Veil from './Veil.svelte';
 
   // Shell: the frame of a drawing application. The bar at the top, a region on the left and one on
@@ -33,7 +41,12 @@
   // and the toolbar rises to stay above them. leftOpen and rightOpen open and close them; onlayout
   // reports the width and where each region is.
   //
-  //   <Shell bind:leftOpen>
+  // shortcuts are attached to the document while the shell is mounted, and the help key (?, Help or
+  // F1) opens a ShortcutsModal that lists them. Escape closes the pane opened last that floats or is
+  // a sheet; when none is open it goes to onescape. Keys typed into a field, and keys pressed while
+  // a modal dialog or a popover is open, belong to them.
+  //
+  //   <Shell bind:leftOpen shortcuts={keys} onescape={clearSelection}>
   //     {#snippet top()}<Topbar …/>{/snippet}
   //     {#snippet left()}<Panel label="Contents">…</Panel>{/snippet}
   //     {#snippet stage()}<canvas …></canvas>{/snippet}
@@ -44,9 +57,12 @@
     leftOpen = $bindable(true),
     rightOpen = $bindable(false),
     dockHeight = $bindable(),
+    shortcutsOpen = $bindable(false),
+    shortcuts = [],
     leftLabel,
     rightLabel,
     onlayout,
+    onescape,
     top,
     left,
     right,
@@ -61,11 +77,17 @@
     rightOpen?: boolean;
     /** The height of the dock in px; without it, 38.2% of the height under the bar */
     dockHeight?: number;
+    /** Whether the list of shortcuts is open */
+    shortcutsOpen?: boolean;
+    /** The keyboard shortcuts, attached while the shell is mounted */
+    shortcuts?: Shortcut[];
     /** The names of the sheets that hold the side regions on a narrow screen */
     leftLabel?: string;
     rightLabel?: string;
     /** Called with the width and the place of each side region, and again when they change */
     onlayout?: (layout: ShellLayout) => void;
+    /** Escape when no pane is left to close; returning false leaves the key to the browser */
+    onescape?: (e: KeyboardEvent) => unknown;
     /** The bar at the top: a Topbar */
     top?: Snippet;
     /** The left region: a Panel */
@@ -194,7 +216,45 @@
     e.preventDefault();
     settle();
   }
+
+  // ---- The keys ----
+  function modalOpen(): boolean {
+    if (document.querySelector('dialog[open]')) return true;
+    try {
+      return !!document.querySelector(':popover-open');
+    } catch {
+      return false;
+    }
+  }
+  function onkeydown(e: KeyboardEvent) {
+    if (e.defaultPrevented || e.isComposing || shortcutsOpen || modalOpen()) return;
+    if (isEditable(e.target) || isEditable(document.activeElement)) return;
+    if (e.key === 'Escape' && !e.metaKey && !e.ctrlKey && !e.altKey) {
+      const topmost = mode === 'beside' ? undefined : order.at(-1);
+      if (topmost) {
+        e.preventDefault();
+        close(topmost);
+      } else if (onescape && onescape(e) !== false) {
+        e.preventDefault();
+      }
+      return;
+    }
+    const mac = isMacPlatform();
+    for (const s of shortcuts) {
+      if (s.when && !s.when()) continue;
+      if (!matchesShortcut(s.key, e, mac)) continue;
+      if (s.run(e) === false) continue;
+      e.preventDefault();
+      return;
+    }
+    if (shortcuts.length > 0 && isHelpKey(e)) {
+      e.preventDefault();
+      shortcutsOpen = true;
+    }
+  }
 </script>
+
+<svelte:document {onkeydown} />
 
 {#snippet seat(side: Side)}
   {@render region(side)?.()}
@@ -274,6 +334,8 @@
     {/if}
   </div>
 </div>
+
+<ShortcutsModal bind:open={shortcutsOpen} {shortcuts} />
 
 <style lang="scss">
   @use '../styles/kata' as *;

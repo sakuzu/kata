@@ -1,4 +1,5 @@
 <script lang="ts">
+  import Keyboard from '@lucide/svelte/icons/keyboard';
   import MousePointer from '@lucide/svelte/icons/mouse-pointer';
   import PanelLeft from '@lucide/svelte/icons/panel-left';
   import PanelRight from '@lucide/svelte/icons/panel-right';
@@ -15,6 +16,7 @@
     SectionHeader,
     Shell,
     type ShellLayout,
+    type Shortcut,
     Stack,
     Text,
     TextInput,
@@ -28,6 +30,7 @@
 
   let leftOpen = $state(true);
   let rightOpen = $state(true);
+  let shortcutsOpen = $state(false);
   let dockHeight = $state<number>();
   let layout = $state<ShellLayout>();
   let tool = $state('select');
@@ -39,6 +42,30 @@
     { id: 'line', label: 'Line', icon: 'polyline', kbd: 'L', group: 'draw' },
     { id: 'shape', label: 'Shape', icon: Square, kbd: 'S', group: 'draw' },
     { id: 'note', label: 'Note', icon: 'sticky-note', kbd: 'N', group: 'text' },
+  ];
+  const shortcuts: Shortcut[] = [
+    ...tools.map((t) => ({
+      key: t.kbd?.toLowerCase() ?? '',
+      label: t.label,
+      group: 'Tools',
+      run: () => {
+        tool = t.id;
+      },
+    })),
+    {
+      key: 'shift+l',
+      label: 'Show the contents',
+      group: 'Panels',
+      run: () => (leftOpen = !leftOpen),
+    },
+    {
+      key: 'shift+r',
+      label: 'Show the details',
+      group: 'Panels',
+      run: () => (rightOpen = !rightOpen),
+    },
+    { key: 'mod+z', label: 'Undo', group: 'Edit', run: () => {} },
+    { key: 'shift+mod+z', label: 'Redo', group: 'Edit', run: () => {} },
   ];
 
   let loading = $state(true);
@@ -64,6 +91,14 @@
         onclick={() => (rightOpen = !rightOpen)}
       >
         <Icon name={PanelRight} />
+      </Button>
+      <Button
+        variant="ghost"
+        icon
+        aria-label="Keyboard shortcuts"
+        onclick={() => (shortcutsOpen = true)}
+      >
+        <Icon name={Keyboard} />
       </Button>
     {/snippet}
   </Topbar>
@@ -119,10 +154,13 @@
       <Shell
         bind:leftOpen
         bind:rightOpen
+        bind:shortcutsOpen
         bind:dockHeight
+        {shortcuts}
         leftLabel="Contents"
         rightLabel="Details"
         onlayout={(l) => (layout = l)}
+        onescape={() => (selected = '')}
         top={bar}
         left={contents}
         right={details}
