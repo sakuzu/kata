@@ -4,6 +4,8 @@
 
 export { default as Actions } from './components/Actions.svelte';
 export { default as AppMenu } from './components/AppMenu.svelte';
+export type { AttributeItem } from './components/AttributeList.svelte';
+export { default as AttributeList } from './components/AttributeList.svelte';
 export { default as Avatar } from './components/Avatar.svelte';
 export { default as Badge } from './components/Badge.svelte';
 export { default as Banner } from './components/Banner.svelte';

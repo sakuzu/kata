@@ -1,6 +1,7 @@
 import { fireEvent, render } from '@testing-library/svelte';
 import { createRawSnippet, tick } from 'svelte';
 import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
+import AttributeList from '../../src/svelte/components/AttributeList.svelte';
 import FieldList, { type FieldSpec } from '../../src/svelte/components/FieldList.svelte';
 import InspectorFrame from '../../src/svelte/components/InspectorFrame.svelte';
 import InspectorRow from '../../src/svelte/components/InspectorRow.svelte';
@@ -255,5 +256,93 @@ describe('FieldList', () => {
     expect(container.textContent).not.toContain('40%');
     // The button of the colour and the hint of each field
     expect(getAllByText('Mixed').length).toBeGreaterThanOrEqual(4);
+  });
+});
+
+describe('AttributeList', () => {
+  const items = [
+    { key: 'id', value: 'a41f' },
+    { key: 'Kind', value: 'Entrance' },
+    { key: '_order', value: '7' },
+  ];
+  const hide = (key: string) => key.startsWith('_');
+
+  it('shows the attributes, leaves out the hidden ones, and locks the locked ones', () => {
+    const { getByText, queryByText, getByRole, queryByRole } = render(AttributeList, {
+      items,
+      locked: ['id'],
+      hide,
+      onchange: () => {},
+      onremove: () => {},
+    });
+    expect(getByText('Entrance')).toBeTruthy();
+    expect(queryByText('_order')).toBeNull();
+    expect(getByRole('img', { name: 'Locked' })).toBeTruthy();
+    // The locked attribute is not a button to edit, and has no remove button
+    expect(queryByRole('button', { name: 'id' })).toBeNull();
+    expect(queryByRole('button', { name: 'Remove id' })).toBeNull();
+    expect(getByRole('button', { name: 'Kind' })).toBeTruthy();
+  });
+
+  it('reports a value changed where it stands, by its index in items', async () => {
+    const onchange = vi.fn();
+    const { getByRole } = render(AttributeList, { items, hide, onchange });
+    await fireEvent.click(getByRole('button', { name: 'Kind' }));
+    await tick();
+    const input = getByRole('textbox', { name: 'Kind' });
+    await fireEvent.input(input, { target: { value: 'Exit' } });
+    await fireEvent.keyDown(input, { key: 'Enter' });
+    expect(onchange).toHaveBeenCalledWith(1, { key: 'Kind', value: 'Exit' });
+  });
+
+  it('does not report a name emptied, and shows the name again', async () => {
+    const onchange = vi.fn();
+    const { getAllByRole, getByText } = render(AttributeList, { items, hide, onchange });
+    await fireEvent.click(getAllByRole('button', { name: 'Attribute name' })[1]);
+    await tick();
+    const input = getAllByRole('textbox', { name: 'Attribute name' })[0];
+    await fireEvent.input(input, { target: { value: ' ' } });
+    await fireEvent.keyDown(input, { key: 'Enter' });
+    await tick();
+    expect(onchange).not.toHaveBeenCalled();
+    expect(getByText('Kind')).toBeTruthy();
+  });
+
+  it('removes an attribute by its index', async () => {
+    const onremove = vi.fn();
+    const { getByRole } = render(AttributeList, { items, hide, onremove });
+    await fireEvent.click(getByRole('button', { name: 'Remove Kind' }));
+    expect(onremove).toHaveBeenCalledWith(1);
+  });
+
+  it('adds an attribute from the new row with Enter, and drops it with Escape', async () => {
+    const onadd = vi.fn();
+    const { getByRole, queryByRole } = render(AttributeList, { items: [], onadd });
+    expect(getByRole('button', { name: 'Add an attribute' })).toBeTruthy();
+    await fireEvent.click(getByRole('button', { name: 'Add an attribute' }));
+    await tick();
+    await fireEvent.input(getByRole('textbox', { name: 'Attribute name' }), {
+      target: { value: ' Floor ' },
+    });
+    const value = getByRole('textbox', { name: 'Value' });
+    await fireEvent.input(value, { target: { value: '2' } });
+    await fireEvent.keyDown(value, { key: 'Enter' });
+    expect(onadd).toHaveBeenCalledWith({ key: 'Floor', value: '2' });
+    expect(queryByRole('textbox', { name: 'Value' })).toBeNull();
+    await fireEvent.click(getByRole('button', { name: 'Add an attribute' }));
+    await tick();
+    const name = getByRole('textbox', { name: 'Attribute name' });
+    await fireEvent.input(name, { target: { value: 'Other' } });
+    await fireEvent.keyDown(name, { key: 'Escape' });
+    expect(onadd).toHaveBeenCalledTimes(1);
+    expect(queryByRole('textbox', { name: 'Attribute name' })).toBeNull();
+  });
+
+  it('is a list to read with readonly, and says when it is empty', () => {
+    const read = render(AttributeList, { items, hide, readonly: true, onadd: () => {} });
+    expect(read.container.textContent).toContain('Entrance');
+    expect(read.container.querySelector('button')).toBeNull();
+    const empty = render(AttributeList, { items: [], readonly: true });
+    expect(empty.container.textContent).toContain('No attributes.');
   });
 });
