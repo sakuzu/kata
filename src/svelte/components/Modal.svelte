@@ -10,9 +10,10 @@
   import Icon from './Icon.svelte';
   import Stack from './Stack.svelte';
   import Text from './Text.svelte';
+  import Toolbar from './Toolbar.svelte';
 
-  // Modal: a container laid over the screen. From top to bottom: the head (the title and the close
-  // button, with a line below), an optional band for steps (sub), the body and the Footer. Only the
+  // Modal: a container laid over the screen. From top to bottom: the head (a Toolbar with the title
+  // and the close button, and a line below), an optional band for steps (sub), the body and the Footer. Only the
   // body shrinks and scrolls. The body has pad-md inside and stacks its children gap-md apart; flush
   // drops the padding, for content that reaches the edges and holds its own. The Footer fixes the
   // order of the actions, so the caller only fills its slots.
@@ -118,7 +119,7 @@
             '.body input:not([type="hidden"]), .body textarea, .body select',
           ) ??
           seats[seats.length - 1] ??
-          d.querySelector<HTMLElement>('.head .end button'));
+          d.querySelector<HTMLElement>(':scope > [data-role="toolbar"] .end button'));
       target?.focus();
     });
   });
@@ -149,15 +150,6 @@
   </Button>
 {/snippet}
 
-<!-- TODO(kata): the head is the Toolbar of the structure family once it is published -->
-{#snippet head(start: Snippet | undefined, end: Snippet | undefined, tail: boolean)}
-  <div class="head" class:tail data-role="toolbar" data-h="toolbar">
-    {@render start?.()}
-    <h2 class="title" id={titleId}>{title}</h2>
-    {#if end}<div class="end">{@render end()}</div>{/if}
-  </div>
-{/snippet}
-
 {#snippet fullStart()}
   {#if onback}{@render backButton()}{:else if !persistent}{@render closeButton()}{/if}
 {/snippet}
@@ -167,11 +159,18 @@
 
 {#snippet surface()}
   {#if full}
-    {@render head(fullStart, primary || status ? fullEnd : undefined, !primary)}
+    <Toolbar
+      {title}
+      {titleId}
+      rule
+      tail={!primary}
+      start={fullStart}
+      end={primary || status ? fullEnd : undefined}
+    />
   {:else if persistent}
-    {@render head(undefined, undefined, false)}
+    <Toolbar {title} {titleId} rule />
   {:else}
-    {@render head(undefined, closeButton, true)}
+    <Toolbar {title} {titleId} rule tail end={closeButton} />
   {/if}
   {#if sub}
     <div class="sub">{@render sub()}</div>
@@ -277,37 +276,6 @@
     margin: 0;
     max-height: none;
     width: min(var(--kata-modal-width), 100%);
-  }
-  // The head: the height of a toolbar, pad-md at the sides (pad-sm after an icon button at the
-  // end), small buttons inside, a line below. The title is h2 on one line.
-  .head {
-    display: flex;
-    align-items: center;
-    gap: gap(sm);
-    height: h(toolbar);
-    padding-inline: pad(md);
-    flex: none;
-    min-width: 0;
-    border-bottom: bw() solid color(line);
-    @include text(body);
-    @include scope-box(button-sm);
-  }
-  .tail {
-    padding-inline-end: pad(sm);
-  }
-  .title {
-    flex: 1;
-    @include text(h2);
-    margin: 0;
-    @include trim;
-    @include ellipsis;
-  }
-  .end {
-    display: flex;
-    align-items: center;
-    gap: 0;
-    margin-left: auto;
-    flex: none;
   }
   // The band for steps: pad-sm above and below, pad-md at the sides
   .sub {

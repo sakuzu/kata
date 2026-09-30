@@ -36,9 +36,9 @@ Escape and the close button. A modal does not open another modal.
 
 A modal is a `<dialog>` opened with `showModal()`: the page behind is
 inert, the focus stays inside and a scrim covers the rest. From top to
-bottom it holds the head (as high as a toolbar, an h2 title on one line
-and a close button, a line below), the band for steps, the body and the
-[Footer](footer.md), which orders the actions. Only the body shrinks and
+bottom it holds the head (a [Toolbar](toolbar.md) with an h2 title on
+one line and a close button, a line below), the band for steps, the body
+and the [Footer](footer.md), which orders the actions. Only the body shrinks and
 scrolls. The body has pad-md inside and its children are gap-md apart.
 The width is 25, 35, 45 or 60rem and the modal is at least gap-lg from
 the edges of the screen. It opens with the focus on the first input of

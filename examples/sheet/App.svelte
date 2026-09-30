@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Block, Button, Sheet, Stack, Text } from '@sakuzu/kata/svelte';
+  import { Block, Button, Sheet, Stack, Text, Toolbar } from '@sakuzu/kata/svelte';
   import Case from '../_shared/Case.svelte';
   import Example from '../_shared/Example.svelte';
 
@@ -7,9 +7,8 @@
   let two = $state<'peek' | 'half' | 'full'>('full');
 </script>
 
-<!-- TODO(kata): the head of a sheet is a Toolbar once the structure family is published -->
 {#snippet head()}
-  <Block><Text role="h2">Details</Text></Block>
+  <Toolbar title="Details" rule />
 {/snippet}
 
 {#snippet body()}

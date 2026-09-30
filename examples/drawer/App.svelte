@@ -1,21 +1,23 @@
 <script lang="ts">
-  import { Block, Button, Drawer, Row, Stack, Text } from '@sakuzu/kata/svelte';
+  import { Block, Button, Drawer, Icon, List, ListItem, Row, Text } from '@sakuzu/kata/svelte';
   import Case from '../_shared/Case.svelte';
   import Example from '../_shared/Example.svelte';
 
   let open = $state(true);
 </script>
 
-<!-- TODO(kata): the content of a drawer is a List once the data display family is published -->
 {#snippet navigation()}
-  <Block>
-    <Stack gap="sm">
-      <Text role="label">Documents</Text>
-      <Text>Recent</Text>
-      <Text>Shared with me</Text>
-      <Text>Bin</Text>
-    </Stack>
-  </Block>
+  <List label="Documents">
+    <ListItem columns="auto minmax(0, 1fr)" sel onclick={() => {}}>
+      <Icon name="image" /><span>Recent</span>
+    </ListItem>
+    <ListItem columns="auto minmax(0, 1fr)" onclick={() => {}}>
+      <Icon name="share-2" /><span>Shared with me</span>
+    </ListItem>
+    <ListItem columns="auto minmax(0, 1fr)" onclick={() => {}}>
+      <Icon name="trash-2" /><span>Bin</span>
+    </ListItem>
+  </List>
 {/snippet}
 
 <Example>
