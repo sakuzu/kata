@@ -20,7 +20,8 @@ repository ([CONTRIBUTING](../CONTRIBUTING.md) lists them).
   layouts, Icon and Prose aside), no `@media` for a width and no `:has()`
   other than the next sibling.
 - Every custom property a component reads is defined.
-- Every component is exported, has an example and has a page here.
+- Every component is exported, has an example and has a page here or in
+  the [Workbench](workbench/README.md) chapter.
 
 ## The examples
 
