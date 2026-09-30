@@ -1,0 +1,55 @@
+/*
+ * The numeric scale of kata, generated from φ = 1.618 by `npm run scale`. Do not edit.
+ * The formulas are in src/scale/scale.mjs and docs/scale.md.
+ */
+:root {
+  --kata-step-whole: 1.618;
+  --kata-step-half: 1.272;
+  --kata-step-quarter: 1.128;
+  --kata-size-2xs: 0.2360828548em;
+  --kata-size-xs: 0.3819820591em;
+  --kata-size-sm: 0.6180469716em;
+  --kata-size-md: 1em;
+  --kata-size-lg: 1.618em;
+  --kata-size-xl: 2.617924em;
+  --kata-size-2xl: 4.235801032em;
+  --kata-size-2xs-rem: 0.2360828548rem;
+  --kata-size-xs-rem: 0.3819820591rem;
+  --kata-size-sm-rem: 0.6180469716rem;
+  --kata-size-md-rem: 1rem;
+  --kata-size-lg-rem: 1.618rem;
+  --kata-size-xl-rem: 2.617924rem;
+  --kata-size-2xl-rem: 4.235801032rem;
+  --kata-fs-display2: 2.617924rem;
+  --kata-lh-display2: 1.272;
+  --kata-ls-display2: -0.022em;
+  --kata-offset-display2: 2.058096rem;
+  --kata-fs-title1: 2.058096rem;
+  --kata-lh-title1: 1.272;
+  --kata-ls-title1: -0.022em;
+  --kata-offset-title1: 1.617984rem;
+  --kata-fs-title2: 1.618rem;
+  --kata-lh-title2: 1.272;
+  --kata-ls-title2: -0.02em;
+  --kata-offset-title2: 1.272rem;
+  --kata-fs-title3: 1.272rem;
+  --kata-lh-title3: 1.272;
+  --kata-ls-title3: -0.017em;
+  --kata-offset-title3: 0.9999901112rem;
+  --kata-fs-heading: 1.128rem;
+  --kata-lh-heading: 1.272;
+  --kata-ls-heading: -0.014em;
+  --kata-offset-heading: 0.8867836836rem;
+  --kata-fs-subheading: 0.8865248227rem;
+  --kata-lh-subheading: 1.272;
+  --kata-ls-subheading: -0.007em;
+  --kata-offset-subheading: 0.696946585rem;
+  --kata-fs-body: 1rem;
+  --kata-lh-body: 1.618;
+  --kata-ls-body: -0.011em;
+  --kata-offset-body: 0.6180469716rem;
+  --kata-fs-capline: 0.786163522rem;
+  --kata-lh-capline: 1.272;
+  --kata-ls-capline: 0.0618em;
+  --kata-offset-capline: 0.6180469716rem;
+}
