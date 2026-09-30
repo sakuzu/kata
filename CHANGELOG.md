@@ -18,4 +18,6 @@ follows semantic versioning.
   Divider, Indent, Page, PageHeader, Footer, Text, Prose, Kbd, Icon,
   Thumbnail, Figure and Glyphs), the messages API, the icons and the
   helpers for the text size setting, the widths and clipped text.
-- A page and a live example for each component.
+- A page and a live example for each component, and the Checks chapter.
+- The audit (`npm run audit`): the components' styles are read and their
+  examples measured in a browser.

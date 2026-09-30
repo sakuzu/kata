@@ -109,6 +109,7 @@ export default defineConfig({
           { text: 'Principles', link: '/principles' },
           { text: 'Scale', link: '/scale' },
           { text: 'Tokens', link: '/tokens' },
+          { text: 'Checks', link: '/checks' },
         ],
       },
       {

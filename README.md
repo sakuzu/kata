@@ -66,9 +66,9 @@ and lists the values.
 ## Documentation
 
 The chapters are in [docs](docs/README.md): the principles, the scale, the
-tokens and the [components](docs/components/README.md).
-`npm run site:dev` serves them as a site, with a live example of each
-component.
+tokens, the [components](docs/components/README.md) and the
+[checks](docs/checks.md). `npm run site:dev` serves them as a site, with a
+live example of each component.
 
 ## Contributing
 
@@ -81,6 +81,7 @@ npm install
 npm test               # the scale, the tokens and the components
 npm run typecheck      # TypeScript and svelte-check
 npm run lint           # Biome and markdownlint
+npm run audit          # the components' styles and measurements
 npm run package        # the CSS and the Svelte entry in dist/
 npm run check:terms    # the vocabulary rule
 npm run site:build     # the documentation site and the examples

@@ -20,5 +20,5 @@ the ones before it.
    boundary with the application, and a live example.
 8. Patterns (coming). Common arrangements of components: modal, menu,
    list, panel and page.
-9. Checks (coming). What the automated checks measure and what they
-   reject.
+9. [Checks](checks.md). What the automated checks of the components
+   measure and what they reject.

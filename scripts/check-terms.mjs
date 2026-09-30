@@ -2,7 +2,8 @@
 //
 // kata serves every kind of drawing application, so none of its layers may speak of what a
 // particular application draws. This script looks for the listed words (whole words, in any
-// case) in the sources, the documents, the site, the examples, the README and the changelog.
+// case) in the sources, the documents, the site, the examples, the audit, the tests, the README
+// and the changelog.
 //
 // A line that must contain one of the words is listed in scripts/check-terms.allow.json:
 // `[{ "file": "<path from the repository root>", "pattern": "<regular expression>",
@@ -34,7 +35,7 @@ export const WORDS = [
 ];
 const TERM = new RegExp(`\\b(${WORDS.join('|')})\\b`, 'gi');
 
-const SCAN = ['README.md', 'CHANGELOG.md', 'src', 'docs', 'site', 'examples'];
+const SCAN = ['README.md', 'CHANGELOG.md', 'src', 'docs', 'site', 'examples', 'audit', 'tests'];
 const SKIP_DIRS = new Set(['node_modules', 'dist', 'cache']);
 const EXT = /\.(md|mjs|js|ts|mts|css|html|json|svelte|vue)$/;
 
