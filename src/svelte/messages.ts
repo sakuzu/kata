@@ -95,6 +95,8 @@ export interface Messages {
   /** ProcessDialog: the action that starts the process, and what shows while it runs */
   run: string;
   running: string;
+  /** Shell: the name of the dock's grip */
+  dockHeight: string;
 }
 
 const english: Messages = {
@@ -163,6 +165,7 @@ const english: Messages = {
   selected: ({ count }) => `${count} selected`,
   run: 'Run',
   running: 'Running',
+  dockHeight: 'Dock height',
 };
 
 /** The English defaults */

@@ -1,0 +1,162 @@
+<script lang="ts">
+  import MousePointer from '@lucide/svelte/icons/mouse-pointer';
+  import PanelLeft from '@lucide/svelte/icons/panel-left';
+  import PanelRight from '@lucide/svelte/icons/panel-right';
+  import Square from '@lucide/svelte/icons/square';
+  import {
+    Block,
+    Button,
+    Drawbar,
+    type DrawbarTool,
+    Field,
+    Icon,
+    Panel,
+    Row,
+    SectionHeader,
+    Shell,
+    Stack,
+    Text,
+    TextInput,
+    Toolbar,
+    Topbar,
+    Tree,
+    TreeRow,
+  } from '@sakuzu/kata/svelte';
+  import Case from '../_shared/Case.svelte';
+  import Example from '../_shared/Example.svelte';
+
+  let leftOpen = $state(true);
+  let rightOpen = $state(true);
+  let dockHeight = $state<number>();
+  let tool = $state('select');
+  let name = $state('Hill');
+  let selected = $state('hill');
+
+  const tools: DrawbarTool[] = [
+    { id: 'select', label: 'Select', icon: MousePointer, kbd: 'V', group: 'pick' },
+    { id: 'line', label: 'Line', icon: 'polyline', kbd: 'L', group: 'draw' },
+    { id: 'shape', label: 'Shape', icon: Square, kbd: 'S', group: 'draw' },
+    { id: 'note', label: 'Note', icon: 'sticky-note', kbd: 'N', group: 'text' },
+  ];
+
+  let loading = $state(true);
+</script>
+
+{#snippet bar()}
+  <Topbar brand="Sketchbook">
+    {#snippet end()}
+      <Button
+        variant="ghost"
+        icon
+        aria-label="Contents"
+        aria-pressed={leftOpen}
+        onclick={() => (leftOpen = !leftOpen)}
+      >
+        <Icon name={PanelLeft} />
+      </Button>
+      <Button
+        variant="ghost"
+        icon
+        aria-label="Details"
+        aria-pressed={rightOpen}
+        onclick={() => (rightOpen = !rightOpen)}
+      >
+        <Icon name={PanelRight} />
+      </Button>
+    {/snippet}
+  </Topbar>
+{/snippet}
+
+{#snippet contents()}
+  <Panel label="Contents">
+    {#snippet head()}<Toolbar title="Contents" rule />{/snippet}
+    <Tree label="Contents">
+      <TreeRow expandable expanded>Background</TreeRow>
+      <TreeRow depth={1} sel={selected === 'sky'} onclick={() => (selected = 'sky')}>Sky</TreeRow>
+      <TreeRow depth={1} sel={selected === 'hill'} onclick={() => (selected = 'hill')}>Hill</TreeRow>
+      <TreeRow>Figures</TreeRow>
+      <TreeRow>Notes</TreeRow>
+    </Tree>
+  </Panel>
+{/snippet}
+
+{#snippet details()}
+  <Panel label="Details">
+    {#snippet head()}<Toolbar title="Details" rule />{/snippet}
+    <Stack gap={0}>
+      <SectionHeader label="Shape">
+        <Field label="Name" for="shell-name">
+          <TextInput id="shell-name" bind:value={name} />
+        </Field>
+      </SectionHeader>
+      <Block>
+        <Text muted>Close this panel with the button at the right of the bar.</Text>
+      </Block>
+    </Stack>
+  </Panel>
+{/snippet}
+
+{#snippet surface()}<div class="grid" aria-label="Drawing" role="img"></div>{/snippet}
+
+{#snippet loadingNote()}<Text muted>Loading the drawing</Text>{/snippet}
+
+{#snippet toolbar()}
+  <Drawbar label="Tools" {tools} current={tool} onselect={(id) => (tool = id)} />
+{/snippet}
+
+{#snippet output()}
+  <Panel side="fill" label="Output">
+    {#snippet head()}<Toolbar title="Output" rule />{/snippet}
+    <Block><Text>Drag the top edge of the dock, or focus it and press the arrow keys.</Text></Block>
+  </Panel>
+{/snippet}
+
+<Example>
+  <Case label="Every region: the bar, both panels, the stage, the toolbar and the dock">
+    <div class="frame">
+      <Shell
+        bind:leftOpen
+        bind:rightOpen
+        bind:dockHeight
+        top={bar}
+        left={contents}
+        right={details}
+        stage={surface}
+        bottom={toolbar}
+        dock={output}
+      />
+    </div>
+  </Case>
+  <Case label="Only the stage and the toolbar, with a veil while the drawing loads">
+    <div class="frame short">
+      <Shell stage={surface} bottom={toolbar} veil={loading ? loadingNote : undefined} />
+    </div>
+    <Row>
+      <Button onclick={() => (loading = !loading)}>{loading ? 'Finish loading' : 'Load again'}</Button>
+    </Row>
+  </Case>
+</Example>
+
+<style>
+  /* The shell fills its frame, as it fills the window of an application */
+  .frame {
+    position: relative;
+    height: 36rem;
+    background: var(--kata-color-ground);
+    border: var(--kata-border-width) solid var(--kata-color-line);
+  }
+  .frame.short {
+    height: 16rem;
+  }
+  /* A plain drawing surface with a grid */
+  .grid {
+    width: 100%;
+    height: 100%;
+    background-color: var(--kata-color-ground);
+    background-image:
+      linear-gradient(var(--kata-color-line) var(--kata-border-width), transparent 0),
+      linear-gradient(90deg, var(--kata-color-line) var(--kata-border-width), transparent 0);
+    background-size: var(--kata-gap-xl) var(--kata-gap-xl);
+    background-position: center;
+  }
+</style>

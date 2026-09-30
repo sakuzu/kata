@@ -92,6 +92,7 @@ export { default as SettingsPage } from './components/SettingsPage.svelte';
 export { default as SettingsRow } from './components/SettingsRow.svelte';
 export { default as SettingsSection } from './components/SettingsSection.svelte';
 export { default as Sheet } from './components/Sheet.svelte';
+export { default as Shell } from './components/Shell.svelte';
 export { default as Slider } from './components/Slider.svelte';
 export type { PickerSource } from './components/SourcePicker.svelte';
 export { default as SourcePicker } from './components/SourcePicker.svelte';
