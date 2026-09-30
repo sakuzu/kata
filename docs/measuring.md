@@ -1,0 +1,130 @@
+# Measuring
+
+A distance in kata runs between two things you can see. This chapter says
+where the edge of each thing is, which scale a distance takes, and how the
+width of the window changes a layout. The [checks](checks.md) measure the
+examples by the same rules.
+
+## The visible edge
+
+Four things have an edge.
+
+- A component with a line or a surface: the outside of its outline.
+- A line (a [Divider](components/divider.md), or the line a section draws
+  along its top).
+- A container with padding: the inside of its border.
+- Text: its ink, from the top of the capitals to the baseline.
+
+Anything else, such as the box of a layout or a wrapper, has no edge of its
+own; a distance to it runs to the first visible thing inside it.
+
+## Text and its ink
+
+A line of text sits in a line box that is taller than its ink: the half of
+the leading above the capitals and below the baseline is empty. kata trims
+that space away in three places only, so that the ink sits exactly where
+the scale says.
+
+```text
+  untrimmed (Text in a Stack)        trimmed (the label of a Button)
+  ┌──────────────────────────┐       ┌──────────────────────────┐
+  │ half-leading             │       │ line                     │
+  │ ▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔ │       │ pad-md                   │
+  │ Cap height to baseline   │       │ Cap height to baseline   │
+  │ ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁ │       │ pad-md                   │
+  │ half-leading             │       │ line                     │
+  └──────────────────────────┘       └──────────────────────────┘
+```
+
+- Inside a control. A component that declares its height (a
+  [Button](components/button.md), a [ListItem](components/list-item.md), a
+  [Toolbar](components/toolbar.md), a [Badge](components/badge.md), a
+  [Pair](components/pair.md)) trims its text on both sides. Its height is
+  then the ink, its padding and its lines, and nothing else.
+- Where a text edge meets a container edge or a line. The first line of
+  text in a container with padding is trimmed at the top and the last one
+  at the bottom; a line of text right above or below a line is trimmed on
+  that side. The distance from the edge to the ink is then exactly the
+  padding, or the same above and below the line. A [Row](components/row.md)
+  at an edge trims all of its text, so that its items stay level.
+- Where text aligns to a column. The cells of a
+  [Table](components/table.md) and the names and values of a
+  [Tcard](components/tcard.md) are trimmed, so that the columns line up by
+  their ink.
+
+Everywhere else, text keeps its line box. Two paragraphs in a
+[Stack](components/stack.md) are apart by the gap plus their leading,
+which is how reading text should breathe.
+
+The ink is `--kata-ink` times the font size: the cap height (0.698 of the
+em) and nothing more for Latin text. When the root element's language is
+Chinese, Japanese or Korean, the ink also reaches the top and the bottom of
+CJK characters, and the trim adds that part back as padding, so a control
+is a little taller and no character is cut.
+
+## Padding and gaps
+
+Every distance is one of two scales, and each property takes only one.
+
+| Scale | Tokens | Unit | Used for |
+| --- | --- | --- | --- |
+| pad | `--kata-pad-<step>` | em | `padding`: an edge to what is inside |
+| gap | `--kata-gap-<step>` | rem | `gap`: between things; a page's margin |
+
+Padding is in em, so it is measured against the component's own text: a
+component with larger text gets more room around it. Gaps are in rem, so
+they are measured against the root: a layout has no text of its own, and
+its gaps stay the same however deeply it is nested. The steps are the
+seven sizes of the [scale](scale.md), from 2xs to 2xl.
+
+```text
+  ┌─ Block (a container with padding) ───────────────┐
+  │   pad-md                                          │
+  │ ┌───────────────────────────────────────────────┐ │
+  │ │ Name                        (trimmed at top)  │ │
+  │ └───────────────────────────────────────────────┘ │
+  │   gap-sm   (Stack gap="sm")                       │
+  │ ┌───────────────────────────────────────────────┐ │
+  │ │ [ Text input                                ] │ │
+  │ └───────────────────────────────────────────────┘ │
+  │   pad-md                                          │
+  └───────────────────────────────────────────────────┘
+```
+
+Components have no outer margin: the distance between two components is
+the gap of the layout that holds them, and the distance to an edge is the
+padding of the container. [Prose](components/prose.md) is the one
+exception, where headings and paragraphs keep the margins of reading text.
+
+## Heights
+
+A height is a sum, never a number chosen by eye.
+
+| Height | Sum |
+| --- | --- |
+| button | ink + pad-md × 2 + line × 2 |
+| small button | ink + pad-sm × 2 + line × 2 |
+| list item | ink + pad-md × 2 |
+| toolbar | small button + pad-md × 2 |
+| footer | button + pad-md × 2 |
+
+At the default root of 16px, a button is 16 × (0.698 + 2) + 2 = 45.2px. A
+container that holds controls declares their height, and the controls
+read it: a list item and a toolbar hold small buttons, a footer holds
+buttons. [Tokens](tokens.md#heights) lists every height.
+
+## Lines
+
+A line is as far from what is above it as from what is below it, and two
+lines never run along one edge. A line that runs along one side of a
+component only is an edge on that side only: seen from the other side,
+the distance runs to what is inside it, such as the text of the tabs that
+have a line along their bottom.
+
+## The three widths
+
+Layouts change at three widths of the window, measured in rem: tiny below
+24rem, narrow below 48rem and mid below 64rem. Because they are in rem, a
+larger text size makes the same window count as narrower, and the layout
+folds before anything is squeezed. [Layout](layout.md) says what changes at
+each width.
