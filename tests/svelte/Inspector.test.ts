@@ -1,6 +1,7 @@
 import { fireEvent, render } from '@testing-library/svelte';
 import { createRawSnippet, tick } from 'svelte';
 import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
+import FieldList, { type FieldSpec } from '../../src/svelte/components/FieldList.svelte';
 import InspectorFrame from '../../src/svelte/components/InspectorFrame.svelte';
 import InspectorRow from '../../src/svelte/components/InspectorRow.svelte';
 import InspectorSection from '../../src/svelte/components/InspectorSection.svelte';
@@ -160,5 +161,99 @@ describe('InspectorRow', () => {
     });
     expect(container.querySelector('.end [role="switch"]')).toBeTruthy();
     expect(container.querySelector('.inspector-row.small')).toBeTruthy();
+  });
+});
+
+describe('FieldList', () => {
+  const fields: FieldSpec[] = [
+    { key: 'label', kind: 'text', label: 'Label', value: 'Gate' },
+    { key: 'width', kind: 'number', label: 'Width', value: 2, unit: 'px' },
+    {
+      key: 'dash',
+      kind: 'select',
+      label: 'Style',
+      value: 'solid',
+      options: [
+        { value: 'solid', label: 'Solid' },
+        { value: 'dashed', label: 'Dashed' },
+      ],
+    },
+    { key: 'fill', kind: 'color', label: 'Fill', value: '#E5484D' },
+    { key: 'shadow', kind: 'toggle', label: 'Shadow', value: false },
+    { key: 'opacity', kind: 'slider', label: 'Opacity', value: 40, unit: '%' },
+    {
+      key: 'cap',
+      kind: 'segmented',
+      label: 'Ends',
+      value: 'butt',
+      options: [
+        { value: 'butt', label: 'Flat' },
+        { value: 'round', label: 'Round' },
+      ],
+    },
+    { key: 'mark', kind: 'custom', label: 'Marker', value: 'pin' },
+  ];
+  const field = createRawSnippet((spec: () => FieldSpec) => ({
+    render: () => `<span>custom ${String(spec().value)}</span>`,
+  }));
+
+  it('draws each kind with its control, named by the label', () => {
+    const { getByRole, getByText } = render(FieldList, { fields, field });
+    expect((getByRole('textbox', { name: 'Label' }) as HTMLInputElement).value).toBe('Gate');
+    expect((getByRole('spinbutton', { name: 'Width' }) as HTMLInputElement).value).toBe('2');
+    expect((getByRole('combobox', { name: 'Style' }) as HTMLSelectElement).value).toBe('solid');
+    expect(getByRole('button', { name: 'Fill' }).textContent).toContain('#E5484D');
+    expect(getByRole('switch', { name: 'Shadow' })).toBeTruthy();
+    expect(getByRole('slider', { name: 'Opacity' })).toBeTruthy();
+    expect(getByText('40%')).toBeTruthy();
+    expect(getByRole('group', { name: 'Ends' })).toBeTruthy();
+    expect(getByText('custom pin')).toBeTruthy();
+  });
+
+  it('reports the change of each kind with its key', async () => {
+    const onchange = vi.fn();
+    const { getByRole } = render(FieldList, { fields, onchange, field });
+    await fireEvent.change(getByRole('textbox', { name: 'Label' }), { target: { value: 'Door' } });
+    expect(onchange).toHaveBeenLastCalledWith('label', 'Door');
+    const width = getByRole('spinbutton', { name: 'Width' });
+    await fireEvent.change(width, { target: { value: '3.5' } });
+    expect(onchange).toHaveBeenLastCalledWith('width', 3.5);
+    await fireEvent.change(width, { target: { value: '' } });
+    expect(onchange).toHaveBeenLastCalledWith('width', null);
+    await fireEvent.change(getByRole('combobox', { name: 'Style' }), {
+      target: { value: 'dashed' },
+    });
+    expect(onchange).toHaveBeenLastCalledWith('dash', 'dashed');
+    await fireEvent.click(getByRole('switch', { name: 'Shadow' }));
+    expect(onchange).toHaveBeenLastCalledWith('shadow', true);
+    const slider = getByRole('slider', { name: 'Opacity' });
+    await fireEvent.input(slider, { target: { value: '60' } });
+    expect(onchange).not.toHaveBeenCalledWith('opacity', 60);
+    await fireEvent.change(slider, { target: { value: '60' } });
+    expect(onchange).toHaveBeenLastCalledWith('opacity', 60);
+    await fireEvent.click(getByRole('button', { name: 'Round' }));
+    expect(onchange).toHaveBeenLastCalledWith('cap', 'round');
+    await fireEvent.click(getByRole('button', { name: 'Fill' }));
+    await tick();
+    await fireEvent.click(getByRole('radio', { name: 'Blue' }));
+    expect(onchange).toHaveBeenLastCalledWith('fill', '#2D7FF9');
+  });
+
+  it('shows no value for a mixed field, and says Mixed', () => {
+    const { getByRole, getAllByText, container } = render(FieldList, {
+      fields: [
+        { key: 'fill', kind: 'color', label: 'Fill', value: '#E5484D', mixed: true },
+        { key: 'width', kind: 'number', label: 'Width', value: 2, mixed: true },
+        { key: 'opacity', kind: 'slider', label: 'Opacity', value: 40, mixed: true, unit: '%' },
+      ],
+    });
+    expect(getByRole('button', { name: 'Fill' }).textContent).not.toContain('#E5484D');
+    expect(container.querySelector('[data-role="swatch"], .swatch')).toBeNull();
+    const width = getByRole('spinbutton', { name: 'Width' }) as HTMLInputElement;
+    expect(width.value).toBe('');
+    expect(width.placeholder).toBe('Mixed');
+    expect(container.textContent).not.toContain('40%');
+    // The button of the colour and the hint of each field
+    expect(getAllByText('Mixed').length).toBeGreaterThanOrEqual(4);
   });
 });

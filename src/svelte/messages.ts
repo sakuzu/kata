@@ -117,6 +117,8 @@ export interface Messages {
   running: string;
   /** InspectorFrame: the action shown while the name is empty (rename names its input) */
   addName: string;
+  /** FieldList: what a field shows when the things selected do not share one value */
+  mixed: string;
 }
 
 const english: Messages = {
@@ -202,6 +204,7 @@ const english: Messages = {
   run: 'Run',
   running: 'Running',
   addName: 'Add a name',
+  mixed: 'Mixed',
 };
 
 /** The English defaults */

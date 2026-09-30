@@ -41,6 +41,8 @@ export { default as DropLine } from './components/DropLine.svelte';
 export { default as DropTarget } from './components/DropTarget.svelte';
 export { default as Fab } from './components/Fab.svelte';
 export { default as Field } from './components/Field.svelte';
+export type { FieldKind, FieldSpec } from './components/FieldList.svelte';
+export { default as FieldList } from './components/FieldList.svelte';
 export { default as Figure } from './components/Figure.svelte';
 export { default as FileInput } from './components/FileInput.svelte';
 export type { FilterBarItem } from './components/FilterBar.svelte';
