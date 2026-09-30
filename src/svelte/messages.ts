@@ -34,6 +34,23 @@ export interface Messages {
   fontScaleLarger: string;
   fontScaleLargest: string;
   fontScaleMax: string;
+  /** The accessible name of a Chip's ✕ */
+  removeValue: string;
+  /** Pager: the name of the navigation, its arrows and a page's button */
+  pagination: string;
+  previousPage: string;
+  nextPage: string;
+  page: (p: { page: number }) => string;
+  /** Presence: the name of the group and of the roster, and the button that opens it */
+  participants: (p: { count: number }) => string;
+  showMore: (p: { count: number }) => string;
+  /** Presence: the search of the roster, its empty state, and the words after a name */
+  searchByName: string;
+  searchParticipants: string;
+  noParticipants: string;
+  you: string;
+  roleEditor: string;
+  roleViewer: string;
 }
 
 const english: Messages = {
@@ -60,6 +77,19 @@ const english: Messages = {
   fontScaleLarger: 'Larger',
   fontScaleLargest: 'Largest',
   fontScaleMax: 'Maximum',
+  removeValue: 'Remove',
+  pagination: 'Pages',
+  previousPage: 'Previous page',
+  nextPage: 'Next page',
+  page: ({ page }) => `Page ${page}`,
+  participants: ({ count }) => (count === 1 ? '1 participant' : `${count} participants`),
+  showMore: ({ count }) => `Show ${count} more`,
+  searchByName: 'Search by name',
+  searchParticipants: 'Search the participants',
+  noParticipants: 'No one matches.',
+  you: '(you)',
+  roleEditor: 'Can edit',
+  roleViewer: 'Can view',
 };
 
 /** The English defaults */

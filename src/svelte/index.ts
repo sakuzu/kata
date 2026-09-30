@@ -3,9 +3,12 @@
 // the rules they share (styles/components.css) itself.
 
 export { default as Actions } from './components/Actions.svelte';
+export { default as Badge } from './components/Badge.svelte';
 export { default as Block } from './components/Block.svelte';
 export { default as Button } from './components/Button.svelte';
 export { default as Checkbox } from './components/Checkbox.svelte';
+export { default as Chip } from './components/Chip.svelte';
+export { default as ChipValue } from './components/ChipValue.svelte';
 export { default as ColorGrid } from './components/ColorGrid.svelte';
 export { default as ColorPicker } from './components/ColorPicker.svelte';
 export { default as Counter } from './components/Counter.svelte';
@@ -40,6 +43,7 @@ export { default as Slider } from './components/Slider.svelte';
 export { default as Split } from './components/Split.svelte';
 export { default as Stack } from './components/Stack.svelte';
 export { default as Swatch } from './components/Swatch.svelte';
+export { default as Tag } from './components/Tag.svelte';
 export { default as Text } from './components/Text.svelte';
 export { default as Textarea } from './components/Textarea.svelte';
 export { default as TextInput } from './components/TextInput.svelte';
