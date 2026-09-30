@@ -4,8 +4,8 @@
   import Avatar from './Avatar.svelte';
   import Text from './Text.svelte';
 
-  // Comment: one message of a conversation. Its head takes its height from its content, with
-  // pad-md above and below: the person's Avatar (the small one) in the first column, centred on
+  // Comment: one message of a conversation. Its head is a list item that is not pressed, whose
+  // height comes from its content, with pad-md above and below: the person's Avatar (the small one) in the first column, centred on
   // the first line; the first line holds the name (one line with an ellipsis) and the actions at
   // the right end, the second line the time (caption), with "(edited)" or the application's own
   // note after it. The name and the time never share a line, so that neither is cut in a narrow
@@ -48,7 +48,7 @@
 </script>
 
 <article class="post" data-role="comment">
-  <div class="head">
+  <div class="head" data-role="list-item" data-h="list-item">
     <span class="who" style:--kata-color-fill={color} data-kata-datacolor={color ? '' : undefined}
       ><Avatar {initial} in /></span
     >
@@ -78,13 +78,14 @@
   }
   // The head: the avatar, then the name and the actions on the first line and the time on the
   // second, pad-md above and below. Its columns are the comment's, so the body lines up with the
-  // name
+  // name. It is a list item that is not pressed: the least height of the list's items, and the
+  // text inside trimmed to its ink as in a control
   .head {
     grid-column: 1 / 3;
     display: grid;
     grid-template-columns: subgrid;
     align-items: start;
-    min-height: h(list-item);
+    min-height: var(--kata-list-item-height, #{h(list-item)});
     min-width: 0;
     padding-block: pad(md);
     @include text(body);

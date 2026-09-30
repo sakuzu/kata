@@ -32,7 +32,8 @@
 //   page-head-gap  a page's head is pad-lg from the first visible thing of its content
 //   section-head-gap  a section's head is gap-lg from its content
 //   read-row       a list item that is neither pressed nor parted by a line or a surface is not an
-//                  outline (unless another item of its list is)
+//                  outline (unless another item of its list is; the head of a comment is not an
+//                  item of a list)
 //   overlap        the children of a layout do not overlap
 //   crush          text is never squeezed into a column narrower than two characters
 //
@@ -890,6 +891,8 @@
       if (!visible(el) || skipped(el)) continue;
       if (press(el) || el.parentElement?.closest(PRESS)) continue;
       if (ruled(el) || surfaced(el)) continue;
+      // The head of a comment has the metrics of a list item but is not an item of a list
+      if (el.parentElement?.matches('[data-role="comment"]')) continue;
       // Another item of the same list that is pressed, ruled or surfaced makes it an item of
       // that list
       const holder = el.closest('[data-role="list"], [data-role="tree"], [data-role="table"]');
