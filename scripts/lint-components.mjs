@@ -112,6 +112,11 @@ const TRIM_OK = new Set([
   'Pair',
   'ReadValue',
   'StepBar',
+  'ColHead',
+  'ListItem',
+  'Pager',
+  'Table',
+  'Tcard',
 ]);
 // The components whose root may have an outer margin: the layouts, the icon and Prose
 const MARGIN_OK = new Set(['Stack', 'Row', 'Grid', 'Icon', 'Prose']);
