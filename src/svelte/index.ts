@@ -4,8 +4,11 @@
 
 export { default as Actions } from './components/Actions.svelte';
 export { default as Badge } from './components/Badge.svelte';
+export { default as Bars } from './components/Bars.svelte';
 export { default as Block } from './components/Block.svelte';
+export { default as Board } from './components/Board.svelte';
 export { default as Button } from './components/Button.svelte';
+export { default as Card } from './components/Card.svelte';
 export { default as Checkbox } from './components/Checkbox.svelte';
 export { default as Chip } from './components/Chip.svelte';
 export { default as ChipValue } from './components/ChipValue.svelte';
@@ -20,6 +23,7 @@ export { default as FileInput } from './components/FileInput.svelte';
 export { default as Footer } from './components/Footer.svelte';
 export { default as Glyphs } from './components/Glyphs.svelte';
 export { default as Grid } from './components/Grid.svelte';
+export { default as Gtile } from './components/Gtile.svelte';
 export { default as Icon } from './components/Icon.svelte';
 export { default as Indent } from './components/Indent.svelte';
 export { default as InlineEdit } from './components/InlineEdit.svelte';
@@ -29,6 +33,7 @@ export { default as Kv } from './components/Kv.svelte';
 export { default as LinkAction } from './components/LinkAction.svelte';
 export { default as List } from './components/List.svelte';
 export { default as ListItem } from './components/ListItem.svelte';
+export { default as Markbox } from './components/Markbox.svelte';
 export { default as Meter } from './components/Meter.svelte';
 export { default as NativeSelect } from './components/NativeSelect.svelte';
 export { default as NumberInput } from './components/NumberInput.svelte';
@@ -63,6 +68,7 @@ export { default as Text } from './components/Text.svelte';
 export { default as Textarea } from './components/Textarea.svelte';
 export { default as TextInput } from './components/TextInput.svelte';
 export { default as Thumbnail } from './components/Thumbnail.svelte';
+export { default as Tile } from './components/Tile.svelte';
 export { default as Toggle } from './components/Toggle.svelte';
 export {
   type IconComponent,
