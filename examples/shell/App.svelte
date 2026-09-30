@@ -14,6 +14,7 @@
     Row,
     SectionHeader,
     Shell,
+    type ShellLayout,
     Stack,
     Text,
     TextInput,
@@ -28,6 +29,7 @@
   let leftOpen = $state(true);
   let rightOpen = $state(true);
   let dockHeight = $state<number>();
+  let layout = $state<ShellLayout>();
   let tool = $state('select');
   let name = $state('Hill');
   let selected = $state('hill');
@@ -90,7 +92,7 @@
         </Field>
       </SectionHeader>
       <Block>
-        <Text muted>Close this panel with the button at the right of the bar.</Text>
+        <Text muted>The width is {layout?.width ?? 'wide'}; the panels are {layout?.leftMode ?? 'beside'}.</Text>
       </Block>
     </Stack>
   </Panel>
@@ -118,6 +120,9 @@
         bind:leftOpen
         bind:rightOpen
         bind:dockHeight
+        leftLabel="Contents"
+        rightLabel="Details"
+        onlayout={(l) => (layout = l)}
         top={bar}
         left={contents}
         right={details}

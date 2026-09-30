@@ -1,7 +1,7 @@
-import { render } from '@testing-library/svelte';
+import { fireEvent, render } from '@testing-library/svelte';
 import { createRawSnippet, tick } from 'svelte';
-import { beforeAll, describe, expect, it } from 'vitest';
-import Shell from '../../src/svelte/components/Shell.svelte';
+import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
+import Shell, { type ShellLayout } from '../../src/svelte/components/Shell.svelte';
 
 const html = (markup: string) => createRawSnippet(() => ({ render: () => markup }));
 const regions = {
@@ -20,9 +20,19 @@ beforeAll(() => {
   };
 });
 
+/** Resizes the window (in px, at a root of 16px) and lets the shell measure again */
+async function resize(width: number) {
+  Object.defineProperty(window, 'innerWidth', { configurable: true, value: width });
+  window.dispatchEvent(new Event('resize'));
+  await tick();
+  await tick();
+}
+
 const region = (el: HTMLElement, name: string) => el.querySelector(`[data-region="${name}"]`);
 
 describe('Shell', () => {
+  afterEach(() => resize(1024));
+
   it('draws the regions it is given and leaves out the others', async () => {
     const { container } = render(Shell, { ...regions, right: undefined });
     await tick();
@@ -50,5 +60,48 @@ describe('Shell', () => {
     await tick();
     expect(region(container, 'left')).not.toBeNull();
     expect(region(container, 'right')).not.toBeNull();
+  });
+
+  it('puts the side regions beside, floating or in sheets by the width', async () => {
+    const onlayout = vi.fn<(l: ShellLayout) => void>();
+    const { container } = render(Shell, { ...regions, rightOpen: true, onlayout });
+    await tick();
+    expect(onlayout).toHaveBeenLastCalledWith({
+      width: 'wide',
+      leftMode: 'beside',
+      rightMode: 'beside',
+    });
+    expect(container.querySelector('.side.left')).not.toBeNull();
+
+    // 60rem: between the narrow and the medium width
+    await resize(960);
+    expect(onlayout).toHaveBeenLastCalledWith({
+      width: 'mid',
+      leftMode: 'floating',
+      rightMode: 'floating',
+    });
+    expect(container.querySelectorAll('[data-role="floating"]')).toHaveLength(2);
+    expect(container.querySelector('.scrim')).not.toBeNull();
+    expect(container.querySelector('.side')).toBeNull();
+
+    // 30rem: below the narrow width
+    await resize(480);
+    expect(onlayout).toHaveBeenLastCalledWith({
+      width: 'narrow',
+      leftMode: 'sheet',
+      rightMode: 'sheet',
+    });
+    expect(container.querySelector('[data-sheet="left"]')).not.toBeNull();
+    expect(container.querySelector('[data-sheet="right"]')).not.toBeNull();
+    expect(container.querySelector('[data-role="floating"]')).toBeNull();
+  });
+
+  it('closes the floating panes when the scrim is pressed', async () => {
+    await resize(960);
+    const { container, getByRole } = render(Shell, { ...regions, rightOpen: true });
+    await tick();
+    await fireEvent.click(getByRole('button', { name: 'Close the panels' }));
+    await tick();
+    expect(container.querySelector('[data-role="floating"]')).toBeNull();
   });
 });

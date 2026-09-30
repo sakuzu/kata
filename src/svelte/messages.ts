@@ -97,6 +97,8 @@ export interface Messages {
   running: string;
   /** Shell: the name of the dock's grip */
   dockHeight: string;
+  /** Shell: the name of the scrim that closes the panels floating over the stage */
+  closePanes: string;
 }
 
 const english: Messages = {
@@ -166,6 +168,7 @@ const english: Messages = {
   run: 'Run',
   running: 'Running',
   dockHeight: 'Dock height',
+  closePanes: 'Close the panels',
 };
 
 /** The English defaults */
