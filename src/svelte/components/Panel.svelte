@@ -119,7 +119,7 @@
     ></div>
   {/if}
   {@render head?.()}
-  <div class="scroll" data-bundle>{@render children()}</div>
+  <div class="scroll">{@render children()}</div>
   {@render foot?.()}
 </section>
 

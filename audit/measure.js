@@ -20,8 +20,9 @@
 //   focus-halo     text fields show a 2px ring on focus and keep their surface
 //   double-rule    no two lines run along one edge
 //   double-inset   a container with padding never sits directly in another one
-//   bundle-edge    text inside a container without padding ([data-bundle]: a Panel's content) that
-//                  no component with padding of its own holds is at least pad-md from its left edge
+//   bundle-edge    text inside a container without padding (one that declares a non-zero inset for
+//                  its items: a Panel's content, a drawer, a flush group) that no component with
+//                  padding of its own holds is at least pad-md from its left edge
 //   inner-gap      inside a container with padding, neighbours are no further apart than the edge
 //   box-touch      a control with an outline never touches the padded edge of its container
 //   box-gap        controls stacked vertically are at least md apart
@@ -639,11 +640,25 @@
   // list item, a head and the rows of a table
   const INSET_OWNERS =
     '[data-inset], [data-h], [data-role="list-item"], [data-role="toolbar"], [data-role="section-head"], [data-role="tabs"], [data-role="comment"], [data-role="thread"], [data-role="footer"], [data-role="field"], td, th';
+  // A container without padding declares a non-zero inset for the items that reach its edges
+  // (the bundle mixin); a container with padding declares 0. The nearest element that declares an
+  // inset (its value differs from its parent's) is the container the text belongs to.
+  const insetOf = (el) => getComputedStyle(el).getPropertyValue('--kata-inset').trim();
+  function bundleOf(el) {
+    for (let n = el; n && n !== document.body; n = n.parentElement) {
+      const v = insetOf(n);
+      if (n.parentElement && v === insetOf(n.parentElement)) continue;
+      if (!v || Number.parseFloat(v) === 0) return null;
+      return Number.parseFloat(getComputedStyle(n).paddingLeft) === 0 ? n : null;
+    }
+    return null;
+  }
   function bundleEdge(root, bad) {
-    for (const el of root.querySelectorAll('[data-bundle] *')) {
+    for (const el of root.querySelectorAll('*')) {
       if (!visible(el) || skipped(el) || el.closest('svg')) continue;
       if (![...el.childNodes].some((n) => n.nodeType === 3 && n.textContent.trim())) continue;
-      const bundle = el.closest('[data-bundle]');
+      const bundle = bundleOf(el);
+      if (!bundle) continue;
       const owner = el.closest(INSET_OWNERS);
       if (owner && bundle.contains(owner)) continue;
       const md = Number.parseFloat(getComputedStyle(bundle).fontSize);
