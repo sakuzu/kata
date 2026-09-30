@@ -151,18 +151,19 @@
     width: h(icon-button);
     flex: none;
   }
-  // The grip sits gap-2xs left of the first thing the row shows (the name, over the empty place
-  // of the chevron; or the chevron itself, over the padding): placed at that thing's left edge,
-  // then moved left by its own width and gap-2xs
+  // The grip sits just left of the first thing the row shows: over the empty place of the chevron
+  // (its left edge at the place's width plus pad-sm), or over the padding before the chevron (its
+  // left edge at the chevron's). Its box is pad-md wide with the icon centred, moved left from that
+  // edge by the icon and pad-2xs
   .grip {
     position: absolute;
     top: 50%;
-    left: calc(#{pad(md)} + var(--kata-tree-depth, 0) * #{pad(md)} + #{h(icon-button)} + #{gap(sm)});
-    translate: calc(-100% - #{gap(2xs)}) -50%;
+    left: calc(#{pad(md)} + var(--kata-tree-depth, 0) * #{pad(md)} + #{h(icon-button)} + #{pad(sm)});
+    translate: calc(-1 * (#{h(icon)} + #{pad(2xs)})) -50%;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: h(icon);
+    width: pad(md);
     height: h(icon-button);
     color: color(faint);
     cursor: grab;
