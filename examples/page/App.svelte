@@ -1,6 +1,5 @@
 <script lang="ts">
-  import { Icon, Page, PageHeader, Row, Section, Stack, Text } from '@sakuzu/kata/svelte';
-  import DemoButton from '../_shared/DemoButton.svelte';
+  import { Button, Icon, Page, PageHeader, Row, Section, Stack, Text } from '@sakuzu/kata/svelte';
 </script>
 
 <div data-audit>
@@ -10,11 +9,11 @@
         <PageHeader title="Documents" note="Everything shared with this team.">
           {#snippet crumbs()}<a href="#top">Team</a>{/snippet}
           {#snippet titleEnd()}
-            <DemoButton icon label="Rename"><Icon name="sticky-note" /></DemoButton>
+            <Button variant="ghost" icon aria-label="Rename"><Icon name="sticky-note" /></Button>
           {/snippet}
         </PageHeader>
       {/snippet}
-      <Row><DemoButton variant="primary">New document</DemoButton><DemoButton>Import</DemoButton></Row>
+      <Row><Button variant="primary">New document</Button><Button>Import</Button></Row>
       <Text>The content starts with a row of actions: pad-lg from the head to its outline.</Text>
     </Page>
     <Page width="settings">

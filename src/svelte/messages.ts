@@ -5,6 +5,29 @@
 import { createSubscriber } from 'svelte/reactivity';
 
 export interface Messages {
+  /** The name of the button that closes a board (ColorPicker) */
+  close: string;
+  /** The title of ColorPicker and the name of its grid of colors */
+  color: string;
+  /** The names of ColorPicker's default colors */
+  colorRed: string;
+  colorOrange: string;
+  colorGold: string;
+  colorGreen: string;
+  colorBlue: string;
+  colorPurple: string;
+  colorBlack: string;
+  colorBrown: string;
+  colorWhite: string;
+  /** The names of ColorPicker's parts */
+  colorCode: string;
+  eyedropper: string;
+  hue: string;
+  saturation: string;
+  lightness: string;
+  saturationValue: string;
+  /** What a screen reader says for the saturation and value plane */
+  saturationValueText: (p: { s: number; v: number }) => string;
   /** The text size settings (fontScaleLabel) */
   fontScaleDefault: string;
   fontScaleLarge: string;
@@ -14,6 +37,24 @@ export interface Messages {
 }
 
 const english: Messages = {
+  close: 'Close',
+  color: 'Color',
+  colorRed: 'Red',
+  colorOrange: 'Orange',
+  colorGold: 'Gold',
+  colorGreen: 'Green',
+  colorBlue: 'Blue',
+  colorPurple: 'Purple',
+  colorBlack: 'Black',
+  colorBrown: 'Brown',
+  colorWhite: 'White',
+  colorCode: 'Color code',
+  eyedropper: 'Eyedropper',
+  hue: 'Hue',
+  saturation: 'Saturation',
+  lightness: 'Lightness',
+  saturationValue: 'Saturation and value',
+  saturationValueText: ({ s, v }) => `Saturation ${s}%, value ${v}%`,
   fontScaleDefault: 'Default',
   fontScaleLarge: 'Large',
   fontScaleLarger: 'Larger',

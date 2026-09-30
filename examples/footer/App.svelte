@@ -1,7 +1,6 @@
 <script lang="ts">
-  import { Block, Footer, Stack, Text } from '@sakuzu/kata/svelte';
+  import { Block, Button, Footer, Stack, Text } from '@sakuzu/kata/svelte';
   import Case from '../_shared/Case.svelte';
-  import DemoButton from '../_shared/DemoButton.svelte';
   import Example from '../_shared/Example.svelte';
   import Surface from '../_shared/Surface.svelte';
 </script>
@@ -12,8 +11,8 @@
       <Stack gap={0}>
         <Block><Text>The content of a modal.</Text></Block>
         <Footer>
-          {#snippet cancel()}<DemoButton>Cancel</DemoButton>{/snippet}
-          {#snippet primary()}<DemoButton variant="primary">Save</DemoButton>{/snippet}
+          {#snippet cancel()}<Button>Cancel</Button>{/snippet}
+          {#snippet primary()}<Button variant="primary">Save</Button>{/snippet}
         </Footer>
       </Stack>
     </Surface>
@@ -24,9 +23,9 @@
         <Block><Text>The content of a modal.</Text></Block>
         <Footer>
           {#snippet lead()}<Text role="caption" muted>Saved a minute ago</Text>{/snippet}
-          {#snippet secondary()}<DemoButton>Save as copy</DemoButton>{/snippet}
-          {#snippet cancel()}<DemoButton>Cancel</DemoButton>{/snippet}
-          {#snippet primary()}<DemoButton variant="primary">Save</DemoButton>{/snippet}
+          {#snippet secondary()}<Button>Save as copy</Button>{/snippet}
+          {#snippet cancel()}<Button>Cancel</Button>{/snippet}
+          {#snippet primary()}<Button variant="primary">Save</Button>{/snippet}
         </Footer>
       </Stack>
     </Surface>

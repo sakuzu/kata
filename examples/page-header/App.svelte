@@ -1,7 +1,6 @@
 <script lang="ts">
-  import { Icon, PageHeader } from '@sakuzu/kata/svelte';
+  import { Button, Icon, PageHeader } from '@sakuzu/kata/svelte';
   import Case from '../_shared/Case.svelte';
-  import DemoButton from '../_shared/DemoButton.svelte';
   import Example from '../_shared/Example.svelte';
 </script>
 
@@ -16,7 +15,7 @@
     <PageHeader title="Quarterly plan" note="Edited today.">
       {#snippet crumbs()}<a href="#team">Team</a><span>/</span><a href="#documents">Documents</a>{/snippet}
       {#snippet titleEnd()}
-        <DemoButton icon label="Rename"><Icon name="sticky-note" /></DemoButton>
+        <Button variant="ghost" icon aria-label="Rename"><Icon name="sticky-note" /></Button>
       {/snippet}
     </PageHeader>
   </Case>

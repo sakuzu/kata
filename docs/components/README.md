@@ -40,6 +40,26 @@ props, its contract (height, padding and states) and a live example.
   [Figure](figure.md) and [Glyphs](glyphs.md): small marks, pictures and
   symbols.
 
+## Controls
+
+- [Button](button.md), [LinkAction](link-action.md),
+  [Actions](actions.md) and [Counter](counter.md): actions, a row of
+  them, and a count on a button.
+- [Toggle](toggle.md), [Checkbox](checkbox.md), [Radio](radio.md),
+  [RadioGroup](radio-group.md), [Segmented](segmented.md) and
+  [Slider](slider.md): switches, choices and a value on a range.
+- [TextInput](text-input.md), [Textarea](textarea.md),
+  [NumberInput](number-input.md), [SearchInput](search-input.md),
+  [InlineEdit](inline-edit.md) and [FileInput](file-input.md): the inputs
+  of text, numbers and files.
+- [Field](field.md) and [InputGroup](input-group.md): the name and note
+  of an input, and an input with its actions.
+- [Select](select.md) and [NativeSelect](native-select.md): one value
+  from a list.
+- [ColorPicker](color-picker.md), [ColorGrid](color-grid.md),
+  [Swatch](swatch.md) and [Palette](palette.md): colours and colour
+  schemes.
+
 ## Strings
 
 The strings a component shows on its own are English by default.
@@ -56,9 +76,10 @@ setMessages({}, { reset: true }); // back to English
 
 ## Icons
 
-`icons` lists the icons the components draw by name: `image`, from
-[Lucide](https://lucide.dev), and kata's drawing glyphs `point`,
-`polyline`, `polygon`, `arrow` and `sticky-note`. Wherever a component
+`icons` lists the icons the components draw by name: `arrow-up-right`,
+`check`, `chevron-down`, `image`, `pencil`, `pipette`, `plus`, `search`
+and `x`, from [Lucide](https://lucide.dev), and kata's drawing glyphs
+`point`, `polyline`, `polygon`, `arrow` and `sticky-note`. Wherever a component
 takes an icon, it also takes any icon component, such as another Lucide
 icon.
 
