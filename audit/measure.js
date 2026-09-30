@@ -15,10 +15,13 @@
 //                  next to a line
 //   trim-clip      trimmed text is clipped with overflow: clip and a clip margin of at least 0.3em
 //   cursor         everything that can be pressed shows the pointer
-//   contrast       text reaches 7:1 on its surface (4.5:1 when disabled)
+//   contrast       text reaches 7:1 on its surface (4.5:1 when disabled, or dimmed as a state:
+//                  data-dim)
 //   focus-halo     text fields show a 2px ring on focus and keep their surface
 //   double-rule    no two lines run along one edge
 //   double-inset   a container with padding never sits directly in another one
+//   bundle-edge    text inside a container without padding ([data-bundle]: a Panel's content) that
+//                  no component with padding of its own holds is at least pad-md from its left edge
 //   inner-gap      inside a container with padding, neighbours are no further apart than the edge
 //   box-touch      a control with an outline never touches the padded edge of its container
 //   box-gap        controls stacked vertically are at least md apart
@@ -155,9 +158,11 @@
     'img, svg, input, textarea, select, [data-role="mark"], [data-role="swatch"], [data-role="markbox"], [data-role="avatar"], [data-role="progress"], [data-role="bar"], [data-role="switch"]';
   /**
    * The visible things inside an element: outlines with a border or a surface (the hover surface
-   * of a list item is a state and does not count), leaves, and lines of text
+   * of a list item is a state and does not count), leaves, and lines of text. Seen from one side
+   * (start: from above, end: from below), a line along the other side only is not an edge on
+   * this side, so the element is looked into instead (tabs with a line along their bottom).
    */
-  function inkCandidates(el) {
+  function inkCandidates(el, side) {
     const out = [];
     const walk = (n) => {
       if (!(n instanceof HTMLElement) || !visible(n)) return;
@@ -165,8 +170,12 @@
       const lineTop = Number.parseFloat(cs.borderTopWidth) > 0 && shownColor(cs.borderTopColor);
       const lineBottom =
         Number.parseFloat(cs.borderBottomWidth) > 0 && shownColor(cs.borderBottomColor);
+      const surface = shownColor(cs.backgroundColor) || cs.backgroundImage !== 'none';
       const painted =
-        lineTop || lineBottom || shownColor(cs.backgroundColor) || cs.backgroundImage !== 'none';
+        surface ||
+        (lineTop && lineBottom) ||
+        (lineTop && side !== 'end') ||
+        (lineBottom && side !== 'start');
       const stateSurface =
         n.matches('[data-role="list-item"], [data-role="menu-item"]') && !lineTop && !lineBottom;
       if (n.matches(LEAF) || (painted && !stateSurface)) {
@@ -187,7 +196,7 @@
   /** The top of the first visible thing: an outline's edge, or the ink of text */
   function inkTop(el) {
     let best = null;
-    for (const t of inkCandidates(el)) {
+    for (const t of inkCandidates(el, 'start')) {
       const r = t.el.getBoundingClientRect();
       const v = t.box ? r.top : r.top + capPad(t.el, 'start');
       if (best === null || v < best) best = v;
@@ -196,7 +205,7 @@
   }
   function inkBottom(el) {
     let best = null;
-    for (const t of inkCandidates(el)) {
+    for (const t of inkCandidates(el, 'end')) {
       const r = t.el.getBoundingClientRect();
       const v = t.box ? r.bottom : r.bottom - capPad(t.el, 'end');
       if (best === null || v > best) best = v;
@@ -451,7 +460,7 @@
       if (!text.trim() || !/[\p{L}\p{N}]/u.test(text)) continue;
       if (!visible(el) || opacityProduct(el) === 0) continue;
       const off =
-        el.closest('[disabled], [aria-disabled="true"], .busy, .disabled') ||
+        el.closest('[disabled], [aria-disabled="true"], .busy, .disabled, [data-dim]') ||
         el.matches(':disabled');
       const col = parseColor(getComputedStyle(el).color);
       if (!col) continue;
@@ -622,6 +631,22 @@
           break;
         }
       }
+    }
+  }
+  // What brings its own padding inside a container without padding: a container, a control, a
+  // list item, a head and the rows of a table
+  const INSET_OWNERS =
+    '[data-inset], [data-h], [data-role="list-item"], [data-role="toolbar"], [data-role="section-head"], [data-role="tabs"], [data-role="comment"], [data-role="thread"], [data-role="footer"], [data-role="field"], td, th';
+  function bundleEdge(root, bad) {
+    for (const el of root.querySelectorAll('[data-bundle] *')) {
+      if (!visible(el) || skipped(el) || el.closest('svg')) continue;
+      if (![...el.childNodes].some((n) => n.nodeType === 3 && n.textContent.trim())) continue;
+      const bundle = el.closest('[data-bundle]');
+      const owner = el.closest(INSET_OWNERS);
+      if (owner && bundle.contains(owner)) continue;
+      const md = Number.parseFloat(getComputedStyle(bundle).fontSize);
+      const d = el.getBoundingClientRect().left - bundle.getBoundingClientRect().left;
+      if (d < md - 1) bad.push({ kind: 'bundle-edge', el: label(el), v: +d.toFixed(1) });
     }
   }
   function innerGap(root, bad) {
@@ -877,6 +902,7 @@
       doubleRule(root, bad);
       ruleGap(root, bad);
       doubleInset(root, bad);
+      bundleEdge(root, bad);
       innerGap(root, bad);
       boxTouch(root, bad);
       boxGap(root, bad);

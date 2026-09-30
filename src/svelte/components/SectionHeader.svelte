@@ -48,7 +48,7 @@
     <span class="label">{label}</span>
     {#if actions}<div class="side">{@render actions()}</div>{/if}
   </div>
-  <div class="body" data-inset={flush ? undefined : true}>
+  <div class="body" data-inset={flush ? undefined : true} data-bundle={flush ? true : undefined}>
     {#if flush}{@render children()}{:else}<Stack {gap}>{@render children()}</Stack>{/if}
   </div>
 </div>

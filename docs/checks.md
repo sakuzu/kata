@@ -39,10 +39,11 @@ element inside the example is measured; a finding fails the audit.
 | trim | Text is trimmed in a control, at a container's edge or at a line |
 | trim-clip | Trimmed text is clipped with a margin, never cut |
 | cursor | What can be pressed shows the pointer |
-| contrast | Text reaches 7:1 on its surface (4.5:1 when disabled) |
+| contrast | Text reaches 7:1 on its surface (4.5:1 when disabled or dimmed) |
 | focus-halo | A text field shows a 2px ring on focus |
 | double-rule | No two lines run along one edge |
 | double-inset | A container with padding never sits in another one |
+| bundle-edge | Text in a container without padding keeps pad-md from its edge |
 | inner-gap | In a padded container, neighbours are no further than the edge |
 | box-touch | A control never touches the padded edge of its container |
 | box-gap | Controls stacked vertically are at least md apart |
