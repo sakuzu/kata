@@ -32,12 +32,16 @@ kata has three layers.
    - Structure: Panel, Toolbar, Topbar, Drawbar, Fab, Tabs, Crumbs, Tree,
      TreeRow, DropLine, DropTarget, Disclosure, FilterBar, SettingsPage,
      Comment and Thread, with the `sortable` action.
-3. Parts for drawing applications, the workbench: the shell, the layer
-   tree, the menus, the comments, the inspector, settings and the
-   toolbar. They know nothing about what is drawn; the application
-   passes the content in. Published so far in `@sakuzu/kata/svelte`:
-   LayerTree, MenuList, AppMenu, MenuSheet, CommentList and
-   CommentComposer.
+3. Parts for drawing applications: the shell, the layer tree, the
+   inspector, settings and the toolbar. They know nothing about what is
+   drawn; the application passes the content in.
+   - Comments: CommentList and CommentComposer.
+   - Dialogs: ProcessDialog and SourcePicker.
+   - Layers: LayerTree.
+   - Menus: MenuList, AppMenu and MenuSheet, on the model `MenuModel`.
+   - Panels: SearchPanel, VersionsPanel and SelectionSummary.
+   - Settings: SettingsSection and SettingsRow, on SettingsPage.
+   - Toolbar: Drawbar, with the switches of the aids and a More menu.
 
 ## Install
 

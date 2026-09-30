@@ -27,6 +27,10 @@ follows semantic versioning.
 - Structure (16): panels, bars, tabs, trees, threads and `sortable`.
 - The audit rule read-row: a list item that is only read has a line or a
   surface.
-- Workbench, the parts of a drawing application: LayerTree, the menus
-  (`MenuModel`, MenuList, AppMenu and MenuSheet, and a model for Kebab and
-  Topbar) and the comments (CommentList and CommentComposer).
+- Workbench (13), the parts of a drawing application, with the Workbench
+  chapter: CommentComposer and CommentList, LayerTree, the menus
+  (`MenuModel`, AppMenu, MenuList and MenuSheet, and a model for Kebab and
+  Topbar), ProcessDialog and SourcePicker, SearchPanel, SelectionSummary
+  and VersionsPanel, and SettingsRow and SettingsSection.
+- Drawbar takes switches (`toggles`) after the tools, and folds the
+  buttons that do not fit into a More menu instead of scrolling.

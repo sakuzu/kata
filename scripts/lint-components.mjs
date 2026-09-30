@@ -266,13 +266,12 @@ for (const file of components) {
   if (!index.includes(`as ${name} }`)) report(file, 0, 'not exported from src/svelte/index.ts');
   if (!statSync(join(ROOT, 'examples', kebab(name), 'index.html'), { throwIfNoEntry: false }))
     report(file, 0, `no example (examples/${kebab(name)}/)`);
-  // A component's page is in docs/components, or in docs/workbench for a part of a drawing
-  // application
-  const page =
-    ['docs/components', 'docs/workbench']
-      .map((dir) => join(ROOT, dir, `${kebab(name)}.md`))
-      .find((p) => statSync(p, { throwIfNoEntry: false })) ?? '';
-  if (!page) report(file, 0, `no page (docs/components/${kebab(name)}.md)`);
+  // A component has its page among the components or, for a part of a drawing application, in
+  // the Workbench chapter
+  const page = ['docs/components', 'docs/workbench']
+    .map((dir) => join(ROOT, dir, `${kebab(name)}.md`))
+    .find((path) => statSync(path, { throwIfNoEntry: false }));
+  if (!page) report(file, 0, `no page (docs/components/ or docs/workbench/${kebab(name)}.md)`);
   else if (!readFileSync(page, 'utf8').includes(`examples/${kebab(name)}/`))
     report(page, 0, `does not embed its example (examples/${kebab(name)}/)`);
 }

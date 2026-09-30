@@ -102,6 +102,19 @@ export interface Messages {
   /** CommentComposer: the placeholder and the button that posts */
   writeComment: string;
   post: string;
+  /** SearchPanel: the title and the name of the input, and what shows when nothing matches */
+  search: string;
+  noMatches: string;
+  /** VersionsPanel: the title, the empty state and the actions on a version shown */
+  versions: string;
+  noVersions: string;
+  restore: string;
+  backToLatest: string;
+  /** SelectionSummary: the title, with the number of things selected */
+  selected: (p: { count: number }) => string;
+  /** ProcessDialog: the action that starts the process, and what shows while it runs */
+  run: string;
+  running: string;
 }
 
 const english: Messages = {
@@ -177,6 +190,15 @@ const english: Messages = {
   replies: ({ count }) => (count === 1 ? '1 reply' : `${count} replies`),
   writeComment: 'Write a comment',
   post: 'Post',
+  search: 'Search',
+  noMatches: 'Nothing matches.',
+  versions: 'Versions',
+  noVersions: 'No versions yet.',
+  restore: 'Restore',
+  backToLatest: 'Back to the latest',
+  selected: ({ count }) => `${count} selected`,
+  run: 'Run',
+  running: 'Running',
 };
 
 /** The English defaults */

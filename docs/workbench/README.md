@@ -1,16 +1,44 @@
 # Workbench
 
-The workbench is the parts of a drawing application: the layer tree, the
-menus, the comments and the rest. They are built from the
-[components](../components/README.md) and are published in
-`@sakuzu/kata/svelte` with them. Each part takes the application's data
-in one general shape and its content through props and snippets; it
-knows nothing of what is drawn, and it reports what the person does for
-the application to apply.
+The workbench parts are the large parts that drawing applications share:
+the comments, the dialogs, the layer tree, the menus, the panels, the
+settings and the toolbar. They are Svelte 5
+components in `@sakuzu/kata/svelte`, built from the
+[components](../components/README.md), and they need the same stylesheet.
+
+```svelte
+<script>
+  import '@sakuzu/kata';
+  import { SearchPanel } from '@sakuzu/kata/svelte';
+</script>
+
+<SearchPanel {groups} onpick={(id) => select(id)} />
+```
+
+A workbench part knows nothing of what the application draws. It takes
+its data in general shapes (an id, a name, an icon and a count), and the
+application passes the content in through props and snippets: the
+fields, the actions and the detail of a place. A part reports what the
+person does, and the application applies it to its own data. The words
+a part shows on its own come from the
+[messages API](../components/README.md#strings), in English by default.
 
 Each page below describes one part: what it is, when to use it, its
-props, its contract (its boundary with the application, its keys and
-its states) and a live example.
+props, its contract and a live example.
+
+## Comments
+
+- [CommentComposer](comment-composer.md): where a comment or a reply is
+  written.
+- [CommentList](comment-list.md): the threads of a document, with their
+  replies, to open and resolve.
+
+## Dialogs
+
+- [ProcessDialog](process-dialog.md): a process with its fields, run or
+  cancelled.
+- [SourcePicker](source-picker.md): the places something can come from,
+  and the detail of the current one.
 
 ## Layers
 
@@ -20,15 +48,28 @@ its states) and a live example.
 
 ## Menus
 
+- [AppMenu](app-menu.md): the menu of the application behind one button.
 - [MenuList](menu-list.md): a menu drawn from its model (`MenuModel`),
   with submenus.
-- [AppMenu](app-menu.md): the menu of the application behind one button.
 - [MenuSheet](menu-sheet.md): the same menu in a sheet on a narrow
   screen.
 
-## Comments
+## Panels
 
-- [CommentList](comment-list.md): the threads of a document, with their
-  replies, to open and resolve.
-- [CommentComposer](comment-composer.md): where a comment or a reply is
-  written.
+- [SearchPanel](search-panel.md): an input and the results in groups.
+- [SelectionSummary](selection-summary.md): the counts, the shared fields
+  and the actions of a selection of several things.
+- [VersionsPanel](versions-panel.md): the saved versions of a document,
+  to look at and to restore.
+
+## Settings
+
+- [SettingsRow](settings-row.md) and
+  [SettingsSection](settings-section.md): the rows and the groups of a
+  [SettingsPage](../components/settings-page.md).
+
+## Toolbar
+
+- [Drawbar](../components/drawbar.md): the bar of drawing tools, with the
+  switches of the aids after the tools and a More menu for what does not
+  fit.
