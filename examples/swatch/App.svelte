@@ -18,7 +18,7 @@
       </Row>
     </Row>
   </Case>
-  <Case label="A pale colour keeps its edge">
+  <Case label="A pale color keeps its edge">
     <Row><Swatch color="#FFFFFF" /><Swatch shape="icon" icon="polygon" color="#FFF5B0" /></Row>
   </Case>
   <Case label="A ramp at the width of its container">

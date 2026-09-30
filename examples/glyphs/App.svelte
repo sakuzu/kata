@@ -25,6 +25,7 @@
   ];
   let picked = $state('▲');
   let inRow = $state('●');
+  let at = $state(2);
 </script>
 
 <Example>
@@ -35,5 +36,13 @@
   </Case>
   <Case label="row: one line that scrolls sideways">
     <Glyphs items={symbols.slice(0, 6)} value={inRow} onselect={(g) => (inRow = g)} row />
+  </Case>
+  <Case label="selected: the same symbol twice, told apart by position">
+    <Glyphs
+      items={['★', '●', '★', '▲']}
+      onselect={(_, i) => (at = i)}
+      selected={(_, i) => i === at}
+      row
+    />
   </Case>
 </Example>

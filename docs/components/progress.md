@@ -19,8 +19,8 @@ is used is a [Meter](meter.md); a short wait is a [Spinner](spinner.md).
 
 ## Contract
 
-A bar gap-2xs high in the line colour. With a value it fills with the
-solid colour from the left, up to the share done (from 0 to 100%);
+A bar gap-2xs high in the line color. With a value it fills with the
+solid color from the left, up to the share done (from 0 to 100%);
 without one, a block of 30% runs across it, and with reduced motion it
 rests at the centre. It is a `progressbar` for assistive technology.
 

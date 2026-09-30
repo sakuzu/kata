@@ -1,7 +1,6 @@
 # Fab
 
-Fab is the main action of a small screen, floating over the drawing
-area.
+Fab is the main action of a small screen, floating over the stage.
 
 ## When to use
 
@@ -25,7 +24,7 @@ modal's primary action is the filled one then.
 ## Contract
 
 A square as tall as a button, with square corners, the solid fill and a
-strong line, and its icon in the colour on the fill; hover and press
+strong line, and its icon in the color on the fill; hover and press
 darken the fill one step each. It is placed absolutely in its positioned
 container; `top` frees the bottom and `left` frees the right. Disabled,
 it is dimmed.

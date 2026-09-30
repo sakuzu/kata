@@ -8,8 +8,9 @@ headings and the submenus, described as data.
 Use it wherever a menu is described once and shown in more than one
 place: in a [Dropdown](../components/dropdown.md) with `menu`, in a
 [Menu](../components/menu.md) inside an element with `role="menu"`, or
-through the parts that take the same model: [AppMenu](app-menu.md),
-[MenuSheet](menu-sheet.md), [Kebab](../components/kebab.md) (`items`),
+through the parts and components that take the same model:
+[AppMenu](app-menu.md), [MenuSheet](menu-sheet.md),
+[Kebab](../components/kebab.md) (`items`),
 [Topbar](../components/topbar.md) (`menu`) and
 [LayerTree](layer-tree.md) (`addMenu`). For a few fixed actions, write
 [MenuItem](../components/menu-item.md)s directly.
@@ -54,6 +55,9 @@ tells an item from the other two.
 | `onselect` | | Called with the id of the chosen item (not for a link) |
 | `onclose` | | Called after an item was chosen, to close the menu |
 | `inline` | `false` | Submenus take the place of the list at every width |
+
+`level`, `backLabel` and `onexit` are set by MenuList on its own
+submenus; the application leaves them out.
 
 ## Contract
 

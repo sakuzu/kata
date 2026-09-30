@@ -31,7 +31,7 @@
 </Example>
 
 <style>
-  /* A positioned frame, as the frame of a drawing is */
+  /* A positioned frame, as the stage is */
   .frame {
     position: relative;
     height: 16rem;

@@ -4,10 +4,10 @@ Menu is the surface of a list of actions.
 
 ## When to use
 
-A menu opened from a trigger is a [Dropdown](dropdown.md) with `menu`,
-which wears this surface itself. Use Menu for a menu the caller places,
-such as a submenu that opens to the right. To choose a value, use a
-[Select](select.md).
+Use it for a menu the application places itself, such as a submenu
+that opens to the right. A menu opened from a trigger is a
+[Dropdown](dropdown.md) with `menu`, which wears this surface itself. To
+choose a value, use a [Select](select.md).
 
 ## Props
 
@@ -18,7 +18,7 @@ such as a submenu that opens to the right. To choose a value, use a
 
 ## Contract
 
-It has the panel colour, a strong line and no padding, so the hover
+It has the panel color, a strong line and no padding, so the hover
 surface of each [MenuItem](menu-item.md) reaches the edges and the
 dividers. It is at least 12rem wide and never wider than the window less
 gap-md on each side. An item is as high as its content plus pad-md above

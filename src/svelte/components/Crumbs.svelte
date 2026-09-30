@@ -4,7 +4,7 @@
   import Icon from './Icon.svelte';
 
   // Crumbs: a trail of places that shows where the user is. It is not an action, so it keeps the
-  // muted colour; a place that can be pressed is underlined on hover. The places are separated by a
+  // muted color; a place that can be pressed is underlined on hover. The places are separated by a
   // chevron, and the last one is the current place, which cannot be pressed.
   //
   // The text is caption, the same in a PageHeader and in a Topbar; inside a component with a
@@ -53,7 +53,7 @@
     @include text(caption);
     color: color(muted);
   }
-  // A place. One that can be pressed keeps the colour and is underlined on hover
+  // A place. One that can be pressed keeps the color and is underlined on hover
   .t {
     display: block;
     max-width: 12rem;

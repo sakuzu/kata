@@ -7,8 +7,8 @@ the whole screen.
 
 ## When to use
 
-Use it once, as the whole screen of the editor. Each region is a snippet
-and any may be absent: the application passes a
+Use it once, as the whole screen of a drawing application. Each region
+is a snippet and any may be absent: the application passes a
 [Topbar](../components/topbar.md) in `top`, a
 [Panel](../components/panel.md) in `left` and in `right`, a
 [Drawbar](../components/drawbar.md) in `bottom`, a Panel with
@@ -83,7 +83,7 @@ strong line along its top, at least a toolbar high, and it leaves the
 stage a toolbar's height at least. Its top edge is a grip without a
 look: a drag changes `dockHeight`, the arrow keys move it by 32px, and
 the value that is kept is the height after those limits. The grip's name
-is the `dockHeight` string and the scrim's the `closePanes` string.
+is the `dockHeight` message and the scrim's the `closePanes` message.
 
 The shortcuts are attached to the document while the shell is mounted.
 The first shortcut whose key matches and whose `when` holds runs. The
@@ -92,10 +92,10 @@ help key (?, the Help key or F1) opens a
 takes the key first. Escape closes the floating pane or the sheet that
 was opened last and returns the focus to where it was when that pane
 opened; when none is open, it goes to `onescape`. Beside the stage, the
-panels stay open on Escape. Keys typed into a field, keys the IME is
-composing, keys already handled (`defaultPrevented`) and keys pressed
-while a modal dialog or a popover is open belong to them, not to the
-shell.
+panels stay open on Escape. Keys typed into a field, keys an input
+method is composing, keys already handled (`defaultPrevented`) and keys
+pressed while a modal dialog or a popover is open belong to them, not to
+the shell.
 
 ## Example
 

@@ -4,8 +4,8 @@
   import type { IconName } from '../icons.js';
   import Icon from './Icon.svelte';
 
-  // Toast: a short notice in a corner of the screen. It has the panel colour, a strong line, the
-  // width of a toast (never wider than its place) and pad-md inside. The tone colours its icon
+  // Toast: a short notice in a corner of the screen. It has the panel color, a strong line, the
+  // width of a toast (never wider than its place) and pad-md inside. The tone colors its icon
   // (info blue, warn yellow, error red, ok green); an error also turns the line red. One action
   // (undo, close) sits at the right end, as a small button; when it does not fit, it moves below
   // the text. ToastHost decides where toasts stack and when they go; Toast is the look of one.

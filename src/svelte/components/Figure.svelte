@@ -4,7 +4,7 @@
 
   // Figure: a frame for a picture that draws itself (a canvas, an SVG, an image, a live preview).
   // It has no padding, one line (line color), square corners and no shadow; the picture keeps its
-  // own colours and lines, and the frame only gives it an edge. A picture that reaches the edges of
+  // own colors and lines, and the frame only gives it an edge. A picture that reaches the edges of
   // the screen (the drawing surface of an editor) has no line and does not go in a Figure.
   //
   //   <Figure height="12rem" label="Preview"><canvas …></canvas></Figure>

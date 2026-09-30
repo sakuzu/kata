@@ -7,7 +7,8 @@ Toast is a short message in a corner of the screen.
 Use it to confirm what just happened, or to report a failure that needs
 no answer. Most toasts come from the toast store through a
 [ToastHost](toast-host.md); a Toast placed by hand takes any of the four
-tones and one action, such as undo.
+tones and one action, such as undo. A notice that stays until its cause
+is gone is a [Banner](banner.md).
 
 ## Props
 
@@ -19,9 +20,9 @@ tones and one action, such as undo.
 
 ## Contract
 
-It has the panel colour, a strong line (red for an error), pad-md
+It has the panel color, a strong line (red for an error), pad-md
 inside and the width of a toast (`--kata-width-toast`), never wider
-than its place. The icon takes the colour of the tone; the icon, the
+than its place. The icon takes the color of the tone; the icon, the
 text and the action are gap-sm apart, and the action is a small button
 at the right end that moves below the text when it does not fit. Its
 role is `alert` for an error and `status` otherwise.

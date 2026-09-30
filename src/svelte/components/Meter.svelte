@@ -4,7 +4,7 @@
   // Meter: how much of a limit is used. The name (left) and the amount (right) sit above a bar
   // gap-sm high; they are text that is not trimmed, gap-xs above the bar, as a field's name above
   // its control. Near the limit it turns yellow and over it red; where "near" begins depends on
-  // the screen, so the caller sets tone. The progress of a task is a Progress.
+  // the screen, so the application sets tone. The progress of a task is a Progress.
   //
   //   <Meter value={120} max={500} label="Storage" text="120 MB of 500 MB" />
   let {

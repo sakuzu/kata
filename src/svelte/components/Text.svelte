@@ -13,7 +13,7 @@
   //   <Text role="caption">A note</Text>                   a span shown as a block
   //   <Text role="prose">A paragraph to read</Text>        a p
   //   <Text role="caption" mono clamp>name@example.com</Text>
-  //   <Text as="a" href="/files/1" clamp>A name</Text>     a link that keeps the colour around it
+  //   <Text as="a" href="/files/1" clamp>A name</Text>     a link that keeps the color around it
   type Role = 'num' | 'title' | 'h1' | 'h2' | 'prose' | 'body' | 'caption' | 'label' | 'glyph';
   let {
     role = 'body',
@@ -153,7 +153,7 @@
     font-family: var(--kata-font-mono);
     font-variant-numeric: tabular-nums;
   }
-  // A name that links (as="a"): the colour of the text around it, underlined on hover only
+  // A name that links (as="a"): the color of the text around it, underlined on hover only
   a.kata-text {
     color: inherit;
     text-decoration: none;

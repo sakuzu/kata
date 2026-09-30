@@ -18,7 +18,7 @@ person is an [Avatar](avatar.md); a picture of a document is a
 ## Contract
 
 A square of `--kata-height-badge` on the raise-2 surface, its content
-centred. Initials are glyphs in the heavy weight and the text colour. In
+centred. Initials are glyphs in the heavy weight and the text color. In
 a list item it keeps md above and below.
 
 ## Example

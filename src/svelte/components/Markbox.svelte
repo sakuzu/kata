@@ -3,7 +3,7 @@
   import type { Snippet } from 'svelte';
 
   // Markbox: the place of an icon. A square of an icon's size that centres what it holds (an
-  // icon, an emoji, a colour mark, a Swatch), so that the first column of a list stays in place
+  // icon, an emoji, a color mark, a Swatch), so that the first column of a list stays in place
   // when the marks differ in size. It has no surface and no line, and it does not change the
   // height of a list item.
   //

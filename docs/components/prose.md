@@ -7,12 +7,13 @@ Prose is a container for text meant to be read: help, terms, tutorials.
 Use it for long text written as plain HTML: headings h1 to h4, paragraphs,
 lists, terms and descriptions, code, quotations, figures, tables and
 folded parts. Prose styles the elements; the content needs no classes.
+Short text in the interface is a [Text](text.md).
 
 ## Props
 
 | Prop | Default | Description |
 | --- | --- | --- |
-| `children` | | The content, plain HTML |
+| `children` | required | The content, plain HTML |
 
 ## Contract
 

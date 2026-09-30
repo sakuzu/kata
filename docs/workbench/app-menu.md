@@ -31,7 +31,7 @@ chevron, or with `icon` a ghost icon button named by the label. It opens
 a [Dropdown](../components/dropdown.md) menu that holds a MenuList of the
 model, so the keys, the submenus and the narrow width behave as a
 MenuList's do. Choosing an item reports its id and closes the menu. The
-name of the trigger is the string `menu` when no label is given.
+name of the trigger is the `menu` message when no label is given.
 
 ## Example
 

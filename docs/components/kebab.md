@@ -4,9 +4,10 @@ Kebab is the menu of actions on an item of a list or a card.
 
 ## When to use
 
-Put it at the right end of an item. It is also where a destructive
+Use it at the right end of an item. It is also where a destructive
 action on the item is reached, besides a context menu or the Delete key;
-such an action never goes in a Footer.
+such an action never goes in a Footer. The actions on several selected
+items are a [Bulk](bulk.md).
 
 ## Props
 
@@ -23,12 +24,12 @@ The actions are `settings`, `share`, `publish`, `copy`, `move`,
 ## Contract
 
 The trigger is a ghost icon button with an ellipsis, of the size its
-container declares, named by the `actions` string. It opens a
+container declares, named by the `actions` message. It opens a
 [Dropdown](dropdown.md) menu at its right edge, with the keys of a menu.
 The actions come in the fixed order above, whatever the order given,
 each with its icon; `delete` comes last, after a divider, in red, with
 an ellipsis after its name. Choosing an action closes the menu. The
-names are the strings `settings`, `share`, `linkShare`, `duplicate`,
+names are the messages `settings`, `share`, `linkShare`, `duplicate`,
 `move`, `ungroup` and `delete`. With `items`, the menu is a
 [MenuList](../workbench/menu-list.md) of the model instead, with its
 submenus, and the fixed actions do not show.

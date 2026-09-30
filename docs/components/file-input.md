@@ -4,9 +4,10 @@ FileInput is the means to choose files, with no look of its own.
 
 ## When to use
 
-Place a [Button](button.md) that the person presses, and call `pick()` on
-the FileInput, taken with `bind:this`, to open the system's file chooser.
-The chosen files reach `onpick`.
+Use it behind a [Button](button.md) that the person presses: call
+`pick()` on the FileInput, taken with `bind:this`, to open the system's
+file chooser. The chosen files reach `onpick`. A place where files can
+also be dropped is a [DropTarget](drop-target.md).
 
 ```svelte
 <Button onclick={() => picker?.pick()}>Choose images</Button>

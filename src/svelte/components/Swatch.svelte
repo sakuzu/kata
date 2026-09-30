@@ -3,16 +3,16 @@
   import type { IconSource } from '../icons.js';
   import Icon from './Icon.svelte';
 
-  // Swatch: a sample of a colour, a mark of that colour in the square of an icon. The colour is a
-  // value of the content (the colour of a shape, a colour scheme), not a role of the design, so it
+  // Swatch: a sample of a color, a mark of that color in the square of an icon. The color is a
+  // value of the content (the color of a shape, a color scheme), not a role of the design, so it
   // is the one thing a component takes as a style (--kata-swatch-color). A line is drawn inside, so
-  // that a pale colour still shows its edge without growing the mark. In a list item it is centred
+  // that a pale color still shows its edge without growing the mark. In a list item it is centred
   // and does not change the item's height.
   //
   // The shape tells the kind of thing drawn: box (the default) a filled square, dot a point, line a
   // segment, area a small square with a line, ramp a continuous scheme (pass a gradient as the
-  // colour), and icon the tool's glyph in that colour, over a halo of line-strong (the same glyph
-  // drawn thicker) so that a light colour still stands out. The sizes are fixed in rem.
+  // color), and icon the tool's glyph in that color, over a halo of line-strong (the same glyph
+  // drawn thicker) so that a light color still stands out. The sizes are fixed in rem.
   //
   // A swatch that is pressed goes inside an icon button.
   //
@@ -23,7 +23,7 @@
     icon,
     fill = false,
   }: {
-    /** A CSS colour, or a background for ramp */
+    /** A CSS color, or a background for ramp */
     color: string;
     /** The shape of the mark */
     shape?: 'box' | 'dot' | 'line' | 'area' | 'ramp' | 'icon';
@@ -77,7 +77,7 @@
     height: 0.625rem;
     box-shadow: inset 0 0 0 bw() color(line-strong);
   }
-  // The coloured glyph over a halo of line-strong; the halo reaches one line further only
+  // The colored glyph over a halo of line-strong; the halo reaches one line further only
   .swatch[data-shape='icon'] {
     position: relative;
     background: none;

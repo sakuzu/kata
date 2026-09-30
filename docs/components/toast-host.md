@@ -4,8 +4,9 @@ ToastHost shows the toasts of the toast store.
 
 ## When to use
 
-Place one at the root of the application, then call the store from
-anywhere.
+Use it once, at the root of the application, then call the store from
+anywhere. A toast with another tone or an action is a
+[Toast](toast.md) placed by hand.
 
 ```ts
 import { toast } from '@sakuzu/kata/svelte';
@@ -36,9 +37,9 @@ toast.error('The file could not be read');
 
 The toasts stack at the bottom right of the screen, gap-md from its
 edges, the newest at the bottom, at most three, gap-sm apart, on the
-toast layer; each has a close button named by the `close` string. An
+toast layer; each has a close button named by the `close` message. An
 error is a [Toast](toast.md) with a red line, anything else a neutral
-one. Each toast goes after `TOAST_DURATION`. The host is announced
+one. Each toast goes after `TOAST_DURATION`. ToastHost is announced
 politely (`aria-live`), and draws nothing while the store is empty.
 
 ## Example

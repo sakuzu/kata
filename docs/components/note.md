@@ -19,7 +19,7 @@ its [Field](field.md).
 
 ## Contract
 
-It is text in the caption role, muted or in the colour of its tone. An
+It is text in the caption role, muted or in the color of its tone. An
 icon is gap-sm from the text and centred on the ink of the first line.
 In a layout the text keeps its line box; inside a control, such as a
 list item, it is trimmed to its ink. With `clamp` it is one line with an

@@ -26,7 +26,7 @@
   </Case>
   <Case label="danger: actions that remove something">
     <Card danger>
-      <Text role="h2">Delete the workspace</Text>
+      <Text role="h2">Delete the team</Text>
       <Text role="caption">Every document in it is deleted. This cannot be undone.</Text>
       <Row><Button variant="danger">Delete…</Button></Row>
     </Card>

@@ -81,4 +81,22 @@
       </Table>
     </Surface>
   </Case>
+  <Case label="fill: the table fills its container and scrolls; the headers stay at the top">
+    <Surface width="24rem">
+      <div class="frame">
+        <Table fill>
+          {#snippet head()}<th>Name</th><th data-align="end">Size</th>{/snippet}
+          {#each [...files, ...files, ...files] as f, i (i)}
+            <tr><td>{f.name}</td><td data-align="end">{f.size}</td></tr>
+          {/each}
+        </Table>
+      </div>
+    </Surface>
+  </Case>
 </Example>
+
+<style>
+  .frame {
+    height: 10rem;
+  }
+</style>

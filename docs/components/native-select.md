@@ -29,7 +29,7 @@ The control is a `<label>` of the height its container declares, with
 one line in line-strong, pad-md at the sides and a chevron on the right;
 the select inside is transparent. Focus turns the line blue-ink. While
 the placeholder shows, the text is faint. The list takes the panel
-colour.
+color.
 
 ## Example
 

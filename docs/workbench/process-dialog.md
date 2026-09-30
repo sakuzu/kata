@@ -10,7 +10,8 @@ conversion, an export or an operation on a selection. The application
 passes the fields as children, runs the process on `onrun`, sets
 `running` (and `progress` when it can tell) while it runs, and closes the
 dialog when it is done. It shows why a run failed in `error`, and stops a
-run on `oncancel`.
+run on `oncancel`. To ask before an action that takes no settings, use
+a [Confirm](../components/confirm.md).
 
 ## Props
 

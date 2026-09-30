@@ -6,7 +6,8 @@ Grid is the layout in columns of equal width.
 
 Use it for cards, thumbnails and other items of the same kind that fill
 the width in columns. Choose the number of columns at full width; the grid
-folds them on its own as the page narrows.
+folds them on its own as the page narrows. Things of different widths in
+one line are a [Row](row.md).
 
 ## Props
 
@@ -14,7 +15,7 @@ folds them on its own as the page narrows.
 | --- | --- | --- |
 | `cols` | `2` | `2`, `3` or `4` columns at full width |
 | `gap` | `md` | `sm`, `md` or `lg` |
-| `children` | | The cells |
+| `children` | required | The cells |
 
 ## Contract
 

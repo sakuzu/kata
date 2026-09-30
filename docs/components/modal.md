@@ -24,7 +24,7 @@ Escape and the close button. A modal does not open another modal.
 | `status` | | A status at the left end of the Footer |
 | `onclose` | | Called once when it closes, however it closes |
 | `onback` | | On a full screen, the head starts with back instead |
-| `children` | | The body |
+| `children` | required | The body |
 | `sub` | | A band under the head, for steps (a snippet) |
 | `lead` | | The left end of the Footer (a snippet) |
 | `secondary` | | A secondary action (a snippet) |
@@ -42,11 +42,12 @@ and the [Footer](footer.md), which orders the actions. Only the body shrinks and
 scrolls. The body has pad-md inside and its children are gap-md apart.
 The width is 25, 35, 45 or 60rem and the modal is at least gap-lg from
 the edges of the screen. It opens with the focus on the first input of
-the body, else on the primary action. Escape, the close button and a
+the body, else on the primary action (a confirmation, on its first
+action). Escape, the close button and a
 press on the scrim close it (a confirmation ignores the scrim, a
 persistent modal ignores all three). Below 48rem it fills the screen:
 the close button (or back) starts the head, the primary action ends it,
-and the other actions move to the end of the body. Its strings are
+and the other actions move to the end of the body. Its messages are
 `close` and `back`.
 
 ## Example

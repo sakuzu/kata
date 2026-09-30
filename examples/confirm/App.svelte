@@ -1,13 +1,14 @@
 <script lang="ts">
-  import { Button, Confirm, Row, Text } from '@sakuzu/kata/svelte';
+  import { Button, Checkbox, Confirm, Row, Stack, Text } from '@sakuzu/kata/svelte';
   import Case from '../_shared/Case.svelte';
   import Example from '../_shared/Example.svelte';
 
   let open = $state(false);
   let busy = $state(false);
   let result = $state('');
+  let understood = $state(false);
 
-  // The caller closes the confirmation when the work is done, and shows busy until then
+  // The application closes the confirmation when the work is done, and shows busy until then
   function remove() {
     busy = true;
     setTimeout(() => {
@@ -36,6 +37,21 @@
       message="Anyone with the link can read it."
       onconfirm={() => {}}
     />
+  </Case>
+  <Case label="A body in place of the message, and disabled until a condition is met">
+    <Confirm
+      inline
+      title="Delete the team?"
+      confirmLabel="Delete"
+      danger
+      disabled={!understood}
+      onconfirm={() => {}}
+    >
+      <Stack gap="sm">
+        <Text>Every document of the team is deleted. This cannot be undone.</Text>
+        <Checkbox bind:checked={understood} label="I understand" />
+      </Stack>
+    </Confirm>
   </Case>
   <Case label="Over the page: cancel has the first focus; busy while the work runs">
     <Row>

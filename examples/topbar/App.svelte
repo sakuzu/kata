@@ -12,6 +12,7 @@
   } from '@sakuzu/kata/svelte';
   import Case from '../_shared/Case.svelte';
   import Example from '../_shared/Example.svelte';
+  import { appMenu } from '../_shared/menu.js';
 
   let name = $state('Spring layout');
   const people = [
@@ -63,6 +64,11 @@
         <MenuDivider />
         <MenuItem onclick={close}>Settings</MenuItem>
       {/snippet}
+      {#snippet end()}<Button>Share</Button>{/snippet}
+    </Topbar>
+  </Case>
+  <Case label="The brand opens a menu drawn from a model (menu)">
+    <Topbar brand="Sketchbook" brandLabel="Menu of Sketchbook" menu={appMenu} onmenu={() => {}}>
       {#snippet end()}<Button>Share</Button>{/snippet}
     </Topbar>
   </Case>

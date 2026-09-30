@@ -18,7 +18,7 @@ waits; with `label` it says what happens. A longer task is a
 ## Contract
 
 Three squares of 1 ÷ φ² of an icon's height (size-xs), gap-2xs apart,
-in the muted colour at three strengths; they pulse in turn, and with
+in the muted color at three strengths; they pulse in turn, and with
 reduced motion they rest. Nothing turns or blinks. It follows the
 text around it, and the label is gap-sm after the dots, not trimmed. It
 is a `status` for assistive technology.

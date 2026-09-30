@@ -4,7 +4,7 @@ List is a column of [ListItems](list-item.md) and nothing else.
 
 ## When to use
 
-Use it for things of one kind: documents, people, notifications. Put it
+Use it for items of one kind: documents, people, notifications. Put it
 where it reaches the edges of its container (a panel, a page), not in a
 container with padding. A switch, a checkbox or a radio is not a list
 item and goes in a [Stack](stack.md); values in columns are a

@@ -4,7 +4,7 @@
 
   // Tag: the label of a kind: what a thing is (a place, a role, a plan, a source). It has the
   // outline of a Badge (the same height, pad-sm at the sides, caption text trimmed to its ink, a
-  // capsule) and the same colours: a hue is its fill with the text on it, and without a hue it is
+  // capsule) and the same colors: a hue is its fill with the text on it, and without a hue it is
   // a line and text. A state that changes over time is a Badge; in one line, Tags come before
   // Badges.
   //

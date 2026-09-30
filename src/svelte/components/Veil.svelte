@@ -2,8 +2,8 @@
   import '../styles/components.css';
   import type { Snippet } from 'svelte';
 
-  // Veil: a surface that covers its parent with the ground colour and centres its content (a
-  // loading state). It lies over a drawing that must not show yet. It has a surface and a layer
+  // Veil: a surface that covers its parent with the ground color and centres its content (a
+  // loading state). It lies over a stage that must not show yet. It has a surface and a layer
   // only, no text and no spacing of its own. The parent must be a positioned element.
   //
   //   <Veil busy><Text role="caption">Loading</Text></Veil>

@@ -4,7 +4,7 @@
     name: string;
     /** The initials in the Avatar, one or two characters */
     initial: string;
-    /** The person's colour, a CSS colour */
+    /** The person's color, a CSS color */
     color?: string;
   }
 

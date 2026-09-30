@@ -5,6 +5,8 @@
 
   let stage = $state<'peek' | 'half' | 'full'>('half');
   let two = $state<'peek' | 'half' | 'full'>('full');
+  let low = $state<'peek' | 'half' | 'full'>('peek');
+  let shown = $state(true);
 </script>
 
 {#snippet head()}
@@ -34,6 +36,26 @@
           <Block><Button variant="primary" block>Share</Button></Block>
         {/snippet}
       </Sheet>
+    </div>
+  </Case>
+  <Case label="closable: a drag below peek, or ArrowDown on the handle at peek, closes it">
+    <div class="frame">
+      {#if shown}
+        <Sheet
+          bind:stage={low}
+          stages={['peek', 'half']}
+          closable
+          onclose={() => (shown = false)}
+          label="Filters"
+          {head}
+        >
+          {@render body()}
+        </Sheet>
+      {:else}
+        <Block>
+          <Button onclick={() => ((low = 'peek'), (shown = true))}>Show the sheet</Button>
+        </Block>
+      {/if}
     </div>
   </Case>
   <Case label="In the flow (inline), at peek">

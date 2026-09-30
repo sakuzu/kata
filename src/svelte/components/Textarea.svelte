@@ -35,7 +35,7 @@
     /** The value is committed (when focus leaves) */
     onchange?: (e: Event & { currentTarget: HTMLTextAreaElement }) => void;
     onblur?: (e: FocusEvent) => void;
-    /** The keys (send with Enter, cancel with Escape) are the caller's */
+    /** The keys (send with Enter, cancel with Escape) are the application's */
     onkeydown?: (e: KeyboardEvent) => void;
     /** The textarea itself, to move focus or the selection */
     el?: HTMLTextAreaElement;

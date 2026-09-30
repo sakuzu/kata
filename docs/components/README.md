@@ -112,12 +112,13 @@ props, its contract (height, padding and states) and a live example.
 - [Comment](comment.md) and [Thread](thread.md): the messages of a
   conversation and their replies.
 
-## Strings
+## Messages
 
-The strings a component shows on its own are English by default.
-`setMessages` replaces any of them, for example when the application's
-language changes, and the components on screen update. `getMessages`
-returns the strings in effect and `defaultMessages` the English ones.
+The messages are the words a component shows on its own, such as the
+name of a close button. They are English by default. `setMessages`
+replaces any of them, for example when the application's language
+changes, and the components on screen update. `getMessages` returns the
+messages in effect and `defaultMessages` the English ones.
 
 ```ts
 import { setMessages } from '@sakuzu/kata/svelte';

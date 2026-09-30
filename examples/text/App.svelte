@@ -39,6 +39,6 @@
     </Stack>
   </Case>
   <Case label="as a link">
-    <Text as="a" href="#top">A name that links, in the colour of the text around it</Text>
+    <Text as="a" href="#top">A name that links, in the color of the text around it</Text>
   </Case>
 </Example>

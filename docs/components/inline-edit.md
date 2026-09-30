@@ -9,7 +9,9 @@ field would be too heavy. Empty and editable, it shows the action
 "+ placeholder"; with a value, the text and a pencil; not editable, the
 text alone (nothing when empty). Enter commits and Escape restores;
 `multiline` adds lines with Enter and commits on blur or ⌘/Ctrl+Enter.
-When the text is emptied, the caller decides what takes its place.
+When the text is emptied, the application decides what takes its place.
+A name entered in a form is a [TextInput](text-input.md) in a
+[Field](field.md).
 
 ## Props
 

@@ -15,7 +15,7 @@ padding.
 
 | Prop | Default | Description |
 | --- | --- | --- |
-| `children` | | The content, usually a Stack |
+| `children` | required | The content, usually a Stack |
 
 ## Contract
 

@@ -19,7 +19,7 @@
 </script>
 
 <Example>
-  <Case label="Nine columns, one colour chosen">
+  <Case label="Nine columns, one color chosen">
     <Surface width="15rem">
       <Block>
         <ColorGrid {colors} {value} label="Color" onselect={(hex) => (value = hex)} />

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Button, Row, Section, Stack, Text } from '@sakuzu/kata/svelte';
+  import { Avatar, Button, List, ListItem, Row, Section, Stack, Text } from '@sakuzu/kata/svelte';
   import Case from '../_shared/Case.svelte';
   import Example from '../_shared/Example.svelte';
 </script>
@@ -18,6 +18,24 @@
       </Section>
       <Section title="Danger zone" note="These actions cannot be undone.">
         <Row><Button>Delete document</Button></Row>
+      </Section>
+    </Stack>
+  </Case>
+  <Case label="flush: the content ends with a list">
+    <Stack gap={0}>
+      <Section title="Members" gap="md" flush>
+        <Row><Button variant="primary">Invite</Button></Row>
+        <List label="Members">
+          <ListItem columns="auto minmax(0, 1fr)" plain rule>
+            <Avatar initial="SL" in /><span>Sam Lee</span>
+          </ListItem>
+          <ListItem columns="auto minmax(0, 1fr)" plain rule>
+            <Avatar initial="KI" in /><span>Kim</span>
+          </ListItem>
+        </List>
+      </Section>
+      <Section title="Danger zone">
+        <Row><Button>Leave the team</Button></Row>
       </Section>
     </Stack>
   </Case>

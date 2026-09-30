@@ -26,7 +26,7 @@
     size?: string;
     /** The icon shown without an image (default image) */
     icon?: IconSource;
-    /** Called when the image fails to load (the caller drops src to show the icon) */
+    /** Called when the image fails to load (the application drops src to show the icon) */
     onerror?: () => void;
   } = $props();
   const full = $derived(size === 'full');

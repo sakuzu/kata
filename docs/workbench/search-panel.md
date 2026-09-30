@@ -6,11 +6,13 @@ groups.
 ## When to use
 
 Use it to find anything the application can list by name: the things on
-the canvas, the pages, the commands. The application passes the results
+the stage, the pages, the commands. The application passes the results
 in groups and decides what a pick does; the panel knows nothing of what
 is found. For a short list that is already at hand, let the panel filter
 it (the default). For a search that runs elsewhere, pass `filter={false}`,
-search on `onquery` and pass the results back in `groups`.
+search on `onquery` and pass the results back in `groups`. An input
+alone, without results of its own, is a
+[SearchInput](../components/search-input.md).
 
 ## Props
 

@@ -15,7 +15,7 @@
   }: {
     /** The name */
     label: string;
-    /** The figure, with its unit written by the caller */
+    /** The figure, with its unit written by the application */
     value: string;
     /** An icon before the name, when an icon says what kind of figure it is */
     icon?: IconSource;

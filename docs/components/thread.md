@@ -4,8 +4,9 @@ Thread holds the replies to a message, under it.
 
 ## When to use
 
-Put it after the [Comment](comment.md) it answers, in a Stack with gap
-sm, and put the replies in it as Comments.
+Use it for the replies to a [Comment](comment.md): put it after the
+Comment it answers, in a Stack with gap sm, and put the replies in it as
+Comments. Messages that answer nothing are stacked without a Thread.
 
 ## Props
 

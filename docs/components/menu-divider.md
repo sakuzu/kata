@@ -13,7 +13,7 @@ MenuDivider has no props.
 
 ## Contract
 
-It is one line of the line colour with no space above or below: the
+It is one line of the line color with no space above or below: the
 hover surface of the items meets it, and the padding of the items is the
 distance. Its role is `separator`.
 

@@ -25,4 +25,18 @@
       </Block>
     </Surface>
   </Case>
+  <Case label="The post fails (onpost returns false): the text is kept">
+    <Surface width="22.5rem">
+      <Block>
+        <CommentComposer value="A reply that could not be sent" onpost={() => false} />
+      </Block>
+    </Surface>
+  </Case>
+  <Case label="Disabled: nothing can be written or posted">
+    <Surface width="22.5rem">
+      <Block>
+        <CommentComposer disabled onpost={() => {}} />
+      </Block>
+    </Surface>
+  </Case>
 </Example>

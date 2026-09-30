@@ -6,6 +6,7 @@ PageHeader is the head of a page: a trail of links, the title and a note.
 
 Use it as the head of a [Page](page.md). The only control it holds is a
 borderless icon button beside the title (to rename, or to open a menu).
+The head of a part of the page is a [Section](section.md).
 
 ## Props
 

@@ -19,7 +19,7 @@ should separate the groups. On a page, use [Section](section.md).
 | `flush` | `false` | The content reaches the edges |
 | `rule` | `false` | Draws a line above the group |
 | `gap` | `sm` | `0`, `sm` or `md` between the content's children |
-| `children` | | The content |
+| `children` | required | The content |
 
 ## Contract
 

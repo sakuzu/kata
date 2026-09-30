@@ -1,27 +1,29 @@
 # ColorPicker
 
-ColorPicker is a board to pick one colour.
+ColorPicker is a board to pick one color.
 
 ## When to use
 
-Use it to choose a colour for something drawn. In the content, the board
-draws its own surface and line; in a floating slot that draws them, pass
-`bare`. The fields show the value as hex, RGB or HSL, starting with
-`format`. The names of the parts come from the [strings](README.md#strings)
+Use it to choose a color for something drawn. In the flow of a page or
+a panel, the board draws its own surface and line; inside a surface that
+already draws them, such as a [Popover](popover.md), pass `bare`. A
+small set of named colors alone is a [ColorGrid](color-grid.md). The
+fields show the value as hex, RGB or HSL, starting with `format`. The
+names of the parts come from the [messages](README.md#messages)
 (`color`, `close`, `hue`, `saturation`, `lightness`, `saturationValue`,
 `saturationValueText`, `eyedropper`, `colorCode`, and the names of the
-default colours).
+default colors).
 
 ## Props
 
 | Prop | Default | Description |
 | --- | --- | --- |
-| `value` | `#E5484D` | The chosen colour as #RRGGBB (bindable) |
-| `swatches` | nine colours | The preset colours, `{ name, hex }[]` |
+| `value` | `#E5484D` | The chosen color as #RRGGBB (bindable) |
+| `swatches` | nine colors | The preset colors, `{ name, hex }[]` |
 | `format` | `hex` | The format the fields start in: `hex`, `rgb` or `hsl` |
 | `bare` | `false` | Keeps only its padding, for a slot with a surface |
-| `title` | Color | The title |
-| `onpick` | | Called with the colour and its name (the hex without one) |
+| `title` | the `color` message | The title |
+| `onpick` | | Called with the color and its name (the hex without one) |
 | `onclose` | | Called by the close button |
 
 ## Contract
@@ -32,8 +34,8 @@ inside. It stacks, gap-sm apart, the title (h2) and a close button, a
 of hues with an eyedropper, and the fields with a [Select](select.md) of
 the format. The plane and the strip follow the pointer and the arrow
 keys; their knobs are the square of an icon with two edges, so they show
-on any colour. The eyedropper works where the browser has the EyeDropper
-API. An invalid hex code is turned back to the current colour.
+on any color. The eyedropper works where the browser has the EyeDropper
+API. An invalid hex code is turned back to the current color.
 
 ## Example
 

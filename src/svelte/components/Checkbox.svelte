@@ -25,7 +25,7 @@
     ariaLabel?: string;
     disabled?: boolean;
     id?: string;
-    /** Called when the state changes, for a caller that keeps the selection itself */
+    /** Called when the state changes, for an application that keeps the selection itself */
     onchange?: (checked: boolean) => void;
   } = $props();
 
@@ -86,7 +86,7 @@
     transition: background-color 0.12s ease;
   }
   // The check mark is the background image (an input draws no pseudo-elements). Its stroke is the
-  // colour of on-solid, written out because a data URI cannot read a custom property.
+  // color of on-solid, written out because a data URI cannot read a custom property.
   .check:checked {
     background:
       url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12l5 5 9-10'/%3E%3C/svg%3E")

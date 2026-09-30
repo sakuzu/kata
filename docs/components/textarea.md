@@ -4,10 +4,11 @@ Textarea is the input of text of several lines.
 
 ## When to use
 
-Use it for a description, a comment or a note. `rows` sets the least
-number of lines and `maxRows` the most it grows to; beyond them the text
-scrolls inside. The keys (send with Enter, cancel with Escape) are the
-caller's, through `onkeydown`.
+Use it for a description, a comment or a note; one line of text is a
+[TextInput](text-input.md). `rows` sets the least number of lines and
+`maxRows` the most it grows to; beyond them the text scrolls inside. The
+keys (send with Enter, cancel with Escape) are the application's,
+through `onkeydown`.
 
 ## Props
 

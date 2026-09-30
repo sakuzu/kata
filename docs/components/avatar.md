@@ -19,8 +19,8 @@ now are a [Presence](presence.md).
 ## Contract
 
 A circle of `--kata-height-button-sm`, or of `--kata-height-badge` with
-`in`. The surface is the opaque fill colour, so that overlapping
-avatars do not show through; a container gives a person a colour by
+`in`. The surface is the opaque fill color, so that overlapping
+avatars do not show through; a container gives a person a color by
 setting `--kata-color-fill`. The initials are a caption (a glyph with
 `in`) in the heavy weight, trimmed to their ink and centred.
 

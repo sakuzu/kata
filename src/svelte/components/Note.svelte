@@ -6,7 +6,7 @@
   import Icon from './Icon.svelte';
 
   // Note: a remark without a line or a surface: one sentence in the caption role, muted. tone
-  // colours it (warn yellow, error red). An icon is optional; it is centred on the ink of the first
+  // colors it (warn yellow, error red). An icon is optional; it is centred on the ink of the first
   // line, as in Banner. A notice with a line is a Banner; the remark under an input is the note of
   // its Field. Inside a control (a list item) the text is trimmed to its ink; clamp keeps it to one
   // line with an ellipsis, and the full text shows on hover.

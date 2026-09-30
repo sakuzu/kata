@@ -2,6 +2,7 @@
   import Folder from '@lucide/svelte/icons/folder';
   import Layers from '@lucide/svelte/icons/layers';
   import {
+    Button,
     Icon,
     LayerTree,
     Markbox,
@@ -63,6 +64,11 @@
       children: [shape('paper', 'Paper', 'image')],
     },
   ]);
+  let flat = $state<TreeNode[]>([
+    shape('note', 'Note', 'sticky-note', '#d9a441'),
+    shape('frame', 'Frame', 'polygon', '#8a5cf6'),
+  ]);
+  let flatSelected = $state<string[]>([]);
   let selected = $state<string[]>(['river']);
   let expanded = $state<string[]>(['sketch', 'trees', 'notes']);
   let last = $state('');
@@ -161,5 +167,29 @@
     <Text role="caption" muted>
       {selected.length} selected{last ? `; ${last}` : ''}
     </Text>
+  </Case>
+  <Case label="No head, the grip always shown (gripOnly), and an action before the eye">
+    <Surface width="22.5rem">
+      <LayerTree
+        label="Shapes"
+        head={false}
+        gripOnly
+        nodes={flat}
+        bind:selected={flatSelected}
+        onvisible={(id, v) => {
+          const n = flat.find((x) => x.id === id);
+          if (n) n.visible = v;
+        }}
+        onmove={(m) => {
+          const i = flat.findIndex((x) => x.id === m.id);
+          const [n] = flat.splice(i, 1);
+          flat.splice(m.index, 0, n);
+        }}
+      >
+        {#snippet actions()}
+          <Button variant="ghost" icon aria-label="Duplicate"><Icon name="copy" /></Button>
+        {/snippet}
+      </LayerTree>
+    </Surface>
   </Case>
 </Example>

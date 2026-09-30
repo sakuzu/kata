@@ -2,7 +2,7 @@
   import '../styles/components.css';
 
   // FileInput: the means to choose files. It has no look of its own and renders one hidden input.
-  // What is pressed is the caller's Button: pick(), taken with bind:this, opens the system's file
+  // What is pressed is the application's Button: pick(), taken with bind:this, opens the system's file
   // chooser. The chosen files reach onpick as an array of File, and the input is cleared each time,
   // so that the same file can be chosen again.
   //

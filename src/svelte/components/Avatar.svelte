@@ -3,7 +3,7 @@
 
   // Avatar: the round mark of a person, with their initials. Alone it is the square of a small
   // button; `in` is the small one inside a list item or a toolbar, as tall as a badge (marks have
-  // one height). It has no colour of its own and no picture; the initials are trimmed to their ink
+  // one height). It has no color of its own and no picture; the initials are trimmed to their ink
   // and centred. A thing that is not a person is a Tile or a Thumbnail.
   //
   //   <Avatar initial="SA" />   <Avatar initial="SA" in />

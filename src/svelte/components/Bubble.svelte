@@ -3,10 +3,10 @@
   import type { Snippet } from 'svelte';
   import Stack from './Stack.svelte';
 
-  // Bubble: the surface of a Popover, without a trigger: the panel colour, a strong line, the width
+  // Bubble: the surface of a Popover, without a trigger: the panel color, a strong line, the width
   // of a popover (never wider than the window), pad-md inside and the content in a Stack (gap-sm
   // by default). A surface opened from a trigger is a Popover, which wears this one. A Bubble is
-  // used directly where the caller places it, such as a card pinned to a point of a drawing.
+  // used directly where the application places it, such as a card pinned to a point of the stage.
   //
   // With foot, only the content scrolls and the foot stays in view, below a line; the place decides
   // the greatest height. flush drops the padding, for content that holds its own and stacks with

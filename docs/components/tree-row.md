@@ -27,7 +27,7 @@ actions in `end`. In a tree that is reordered with
 | `dimmed` | `false` | A parent is hidden: dimmed |
 | `dragging` | `false` | The row is being dragged: dimmed |
 | `onclick` | | Called when the row is pressed |
-| `children` | | The name, and a mark before it |
+| `children` | required | The name, and a mark before it |
 | `end` | | The actions on the right (a snippet) |
 
 Other attributes (`data-*`, `aria-*`) go to the row.
@@ -50,8 +50,7 @@ keeps them while a menu of the row is open. A selected row has the raise
 surface and a double blue line along its left edge; `hidden`, `dimmed`
 and `dragging` dim the row. A row with `onclick` is pressed with a
 click, Enter or Space; the right and left arrow keys open and close it,
-and the chevron never presses the row. A tree whose rows are only read
-fails the audit's read-row rule unless one of its rows is pressed.
+and the chevron never presses the row.
 
 ## Example
 

@@ -8,7 +8,7 @@
 </script>
 
 <Example>
-  <Case label="An input and its button, at a point of the canvas (press Apply to collapse)">
+  <Case label="An input and its button, at a point of the stage (press Apply to collapse)">
     <div class="frame">
       {#if open}
         <ChipValue left="md" top="md">

@@ -4,12 +4,12 @@ TextInput is the input of one line of text.
 
 ## When to use
 
-Put it in a [Field](field.md), which gives it a name, or name it with
-`aria-label`. `unit` places a unit inside on the right, `mono` sets a code
-or an identifier in the monospace font, and `title` makes it the input of
-a name, at the size of h2. `suggestions` lists values that may be picked
-or typed over. For several lines use a [Textarea](textarea.md), for a
-number a [NumberInput](number-input.md).
+Use it for one line of text, in a [Field](field.md), which gives it a
+name, or named with `aria-label`. `unit` places a unit inside on the
+right, `mono` sets a code or an identifier in the monospace font, and
+`title` makes it the input of a name, at the size of h2. `suggestions`
+lists values that may be picked or typed over. For several lines use a
+[Textarea](textarea.md), for a number a [NumberInput](number-input.md).
 
 ## Props
 

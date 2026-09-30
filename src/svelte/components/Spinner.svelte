@@ -1,8 +1,8 @@
 <script lang="ts">
   import '../styles/components.css';
 
-  // Spinner: a short wait. Three dots that pulse; nothing turns or blinks. It has no colour or
-  // size of its own: it follows the text around it. The dots are an icon ÷ φ² square, pad-2xs
+  // Spinner: a short wait. Three dots that pulse; nothing turns or blinks. It has no color or
+  // size of its own: it follows the text around it. The dots are an icon ÷ φ² square, gap-2xs
   // apart, gap-sm from the label; the label is text that is not trimmed. With reduced motion the
   // dots rest at three strengths.
   //

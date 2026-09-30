@@ -7,7 +7,8 @@ tabs and the sections.
 
 Use it for pages where people read and change settings. Pass the trail
 to the page in `crumbs`, and the pages of the settings in `tabs` with
-the `current` one; put [Section](section.md)s in the children.
+the `current` one; put [Section](section.md)s in the children. Any
+other page is a [Page](page.md).
 
 ## Props
 
@@ -21,7 +22,7 @@ the `current` one; put [Section](section.md)s in the children.
 | `tabsLabel` | | The name of the tabs |
 | `onselect` | | Called with the id of the tab that is opened |
 | `titleEnd` | | A borderless icon button beside the title (a snippet) |
-| `children` | | The sections |
+| `children` | required | The sections |
 
 ## Contract
 

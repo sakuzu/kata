@@ -5,7 +5,9 @@ the roster of everyone.
 
 ## When to use
 
-Put it in a toolbar of a shared document. `max` sets how many avatars
+Use it in a toolbar of a shared document; one person is an
+[Avatar](avatar.md), and the people of a comment on the stage are a
+[Pin](pin.md). `max` sets how many avatars
 show; the others gather as "+n", so that many people never widen it,
 and "+n" opens the roster.
 `roster` renders the list of everyone instead (name, "(you)" and role),
@@ -27,10 +29,10 @@ the position in the list), `color` (the surface of their avatar), `role`
 ## Contract
 
 The avatars are circles of a small button that overlap by gap-xs, each
-with a ring two lines wide in the panel colour; the one under the
-pointer comes to the front. A person's colour is the surface of their
-avatar, without one the fill colour; the contrast of a colour is the
-caller's. "+n" is a button that looks like an avatar and opens the
+with a ring two lines wide in the panel color; the one under the
+pointer comes to the front. A person's color is the surface of their
+avatar, without one the fill color; the contrast of a color is the
+application's. "+n" is a button that looks like an avatar and opens the
 roster in a [Dropdown](dropdown.md): the width of a popover, the panel
 surface and a strong line. The initials are the first two letters of a
 Latin name, otherwise its first character. With `roster` it has no

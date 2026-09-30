@@ -15,7 +15,7 @@ wraps and is never pressed.
 | Prop | Default | Description |
 | --- | --- | --- |
 | `tone` | | `blue`, `green`, `yellow`, `red` or `faint` |
-| `children` | | The word |
+| `children` | required | The word |
 
 Without `tone` the badge is neutral. Other attributes (`aria-*`,
 `data-*`) go to the element.

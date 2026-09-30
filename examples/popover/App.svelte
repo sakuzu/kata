@@ -21,10 +21,10 @@
       </Popover>
       <Popover align="end" gap="md">
         {#snippet anchor(toggle, open)}
-          <Button aria-expanded={open} onclick={toggle}>About the colours</Button>
+          <Button aria-expanded={open} onclick={toggle}>About the colors</Button>
         {/snippet}
         {#snippet children(close)}
-          <Text>Each colour is one group of shapes.</Text>
+          <Text>Each color is one group of shapes.</Text>
           <Row justify="end"><Button onclick={close}>Close</Button></Row>
         {/snippet}
       </Popover>

@@ -4,8 +4,9 @@ State is what a place shows when it is empty, loading or has failed.
 
 ## When to use
 
-Put it in the container that would hold the content, such as a
-[Block](block.md) in a panel. Write one sentence, at most one note and
+Use it in the container that would hold the content, such as a
+[Block](block.md) in a panel; a notice about content that is shown is a
+[Banner](banner.md). Write one sentence, at most one note and
 one action. A failure takes `tone="error"`; loading takes `loading`,
 which shows a [Spinner](spinner.md) with the sentence.
 
@@ -22,7 +23,7 @@ which shows a [Spinner](spinner.md) with the sentence.
 ## Contract
 
 No padding: the padding of its container applies. The sentence (body,
-in the text colour, red-ink for a failure) and the note (a muted
+in the text color, red-ink for a failure) and the note (a muted
 caption) are at the start and not trimmed; the action is at the end of
 its row, as in [Actions](actions.md), with a button's height. The three
 are gap-sm apart. It has no picture and no heading.

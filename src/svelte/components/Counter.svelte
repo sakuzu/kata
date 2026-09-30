@@ -4,8 +4,8 @@
 
   // Counter: a count on the solid surface, such as the number of unread items. Its height and its
   // least width are the square of an icon; with two digits it grows sideways only (pad-2xs at the
-  // sides). The caller rounds 100 and more to "99+". The text is a glyph, trimmed to its ink and
-  // centred. A ring of two lines in the panel colour separates it from an icon it sits on; alone,
+  // sides). The application rounds 100 and more to "99+". The text is a glyph, trimmed to its ink and
+  // centred. A ring of two lines in the panel color separates it from an icon it sits on; alone,
   // the ring does not show.
   //
   //   <Counter>3</Counter>   <Counter>99+</Counter>

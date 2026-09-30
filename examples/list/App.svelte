@@ -1,7 +1,17 @@
 <script lang="ts">
   import FileText from '@lucide/svelte/icons/file-text';
   import Folder from '@lucide/svelte/icons/folder';
-  import { Avatar, Badge, Icon, List, ListItem, Thumbnail } from '@sakuzu/kata/svelte';
+  import {
+    Avatar,
+    Badge,
+    Button,
+    Icon,
+    List,
+    ListItem,
+    Stack,
+    Text,
+    Thumbnail,
+  } from '@sakuzu/kata/svelte';
   import Case from '../_shared/Case.svelte';
   import Example from '../_shared/Example.svelte';
   import Surface from '../_shared/Surface.svelte';
@@ -53,6 +63,36 @@
         <ListItem columns="auto minmax(0, 1fr)" onclick={() => {}}>
           <Thumbnail size="2rem" />
           <span>Cover</span>
+        </ListItem>
+        <ListItem columns="auto minmax(0, 1fr)" onclick={() => {}}>
+          <Icon name={FileText} />
+          <span>Notes</span>
+        </ListItem>
+      </List>
+    </Surface>
+  </Case>
+  <Case label="rows box: items with and without a control line up">
+    <Surface width="22.5rem">
+      <List label="Invitations" rows="box">
+        <ListItem columns="minmax(0, 1fr) auto" plain rule>
+          <span>Kim</span>
+          <Button>Resend</Button>
+        </ListItem>
+        <ListItem columns="minmax(0, 1fr)" plain rule>
+          <span>Ana Lima, accepted</span>
+        </ListItem>
+      </List>
+    </Surface>
+  </Case>
+  <Case label="rows two: items of one line as tall as items of two">
+    <Surface width="22.5rem">
+      <List label="Recent" rows="two">
+        <ListItem columns="auto minmax(0, 1fr)" onclick={() => {}}>
+          <Icon name={FileText} />
+          <Stack gap={0}>
+            <Text clamp>Quarterly report</Text>
+            <Text role="caption" clamp>Edited 3 minutes ago</Text>
+          </Stack>
         </ListItem>
         <ListItem columns="auto minmax(0, 1fr)" onclick={() => {}}>
           <Icon name={FileText} />

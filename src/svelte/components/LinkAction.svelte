@@ -8,7 +8,7 @@
   // line ("Add a description", "Show all"). In a layout its height is the line box of its text, so
   // it is measured like the text around it; the area that is pressed reaches the square of an icon
   // button above and below it. No padding at the sides, so its edge lines up with the text around
-  // it. The colour is blue-ink, underlined on hover. An action that opens a modal or changes the
+  // it. The color is blue-ink, underlined on hover. An action that opens a modal or changes the
   // screen is a Button.
   //
   //   <LinkAction icon="plus" onclick={add}>Add a description</LinkAction>
@@ -82,7 +82,7 @@
       height: h(icon-button);
       translate: 0 -50%;
     }
-    // Disabled dims the text colour (the dimmed blue would fall below 4.5:1)
+    // Disabled dims the text color (the dimmed blue would fall below 4.5:1)
     &:disabled {
       color: color(text);
       opacity: dim();

@@ -1,6 +1,6 @@
 # Icon
 
-Icon draws a line icon in the colour of the text around it.
+Icon draws a line icon in the color of the text around it.
 
 ## When to use
 

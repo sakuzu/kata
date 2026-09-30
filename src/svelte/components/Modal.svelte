@@ -16,7 +16,7 @@
   // and the close button, and a line below), an optional band for steps (sub), the body and the Footer. Only the
   // body shrinks and scrolls. The body has pad-md inside and stacks its children gap-md apart; flush
   // drops the padding, for content that reaches the edges and holds its own. The Footer fixes the
-  // order of the actions, so the caller only fills its slots.
+  // order of the actions, so the application only fills its slots.
   //
   // Below 48rem it fills the screen and the Footer's actions move into the head: the close button
   // (or back, with onback) at the start and the primary action (or the status) at the end; the

@@ -4,8 +4,8 @@ Sheet is a panel that comes up from the bottom of a narrow screen.
 
 ## When to use
 
-Use it for a panel that sits at the side of a wide screen, such as the
-details of a selection, when the screen is too narrow. The user chooses
+Use it for a panel that sits beside the stage on a wide screen, such as
+the details of a selection, when the screen is too narrow. The user chooses
 how much of the screen it takes.
 
 ## Props
@@ -23,7 +23,7 @@ how much of the screen it takes.
 | `z` | | The stacking order; the sheet layer by default |
 | `head` | | The head, which does not shrink (a snippet) |
 | `foot` | | The foot, for a primary action (a snippet) |
-| `children` | | The content, which scrolls |
+| `children` | required | The content, which scrolls |
 | `inline` | `false` | In the flow, for documentation |
 
 ## Contract
@@ -38,7 +38,7 @@ handle steps up through the heights and returns to the lowest; ArrowUp
 and ArrowDown on the handle step up and down; a drag follows the pointer
 and snaps to the nearest height on release. With `closable`, a drag well
 below the lowest height, or ArrowDown there, closes it. The handle's
-name is the `sheetHeight` string.
+name is the `sheetHeight` message.
 
 ## Example
 

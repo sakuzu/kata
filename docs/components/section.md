@@ -20,7 +20,7 @@ count ends it, in a caption. Inside a panel, use
 | `status` | | A short status on the right of the title |
 | `gap` | `lg` | `0`, `sm`, `md` or `lg` between the content's children |
 | `flush` | `false` | The content ends with a list or a tree |
-| `children` | | The content |
+| `children` | required | The content |
 
 ## Contract
 

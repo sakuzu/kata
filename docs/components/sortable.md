@@ -5,7 +5,7 @@ dragging them, within a container and between containers.
 
 ## When to use
 
-Use it on the elements that hold the rows of a [Tree](tree.md) or of a
+Use it on the elements that hold the items of a [Tree](tree.md) or of a
 list. The application keeps the order in its own data: the action
 reports each drop, and the application applies it; the list is then
 drawn again from the data.
@@ -13,17 +13,17 @@ drawn again from the data.
 ```svelte
 <script>
   import { sortable, Tree, TreeRow } from '@sakuzu/kata/svelte';
-  let rows = $state([{ id: 'a', name: 'First' }, { id: 'b', name: 'Second' }]);
+  let items = $state([{ id: 'a', name: 'First' }, { id: 'b', name: 'Second' }]);
   function move({ oldIndex, newIndex }) {
-    const [row] = rows.splice(oldIndex, 1);
-    rows.splice(newIndex, 0, row);
+    const [item] = items.splice(oldIndex, 1);
+    items.splice(newIndex, 0, item);
   }
 </script>
 
 <Tree label="Contents">
-  <div use:sortable={{ group: 'rows', containerId: 'root', onDrop: move }}>
-    {#each rows as row (row.id)}
-      <TreeRow data-sortable-item data-id={row.id}>{row.name}</TreeRow>
+  <div use:sortable={{ group: 'items', containerId: 'root', onDrop: move }}>
+    {#each items as item (item.id)}
+      <TreeRow data-sortable-item data-id={item.id}>{item.name}</TreeRow>
     {/each}
   </div>
 </Tree>
@@ -53,9 +53,9 @@ closed group after a moment.
 
 Each item carries `data-sortable-item` and `data-id`, and `data-kind`
 when containers accept only some kinds. A movement of less than 10px is
-a click, so a row can still be pressed; with `handle`, only that part
+a click, so an item can still be pressed; with `handle`, only that part
 picks an item up, which suits touch screens, and parts that match
-`filter` (the actions of a row) never start a drag. Right after a drop
+`filter` (the actions of an item) never start a drag. Right after a drop
 the action puts the element back where it was, so that the DOM never
 differs from a keyed `each`, and reports the move; a drop in the place
 where the item was reports nothing. While dragging, the item that was

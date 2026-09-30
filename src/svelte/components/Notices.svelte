@@ -6,7 +6,7 @@
   // Notices: the column of notices of an application's frame, between its top bar and the page. It
   // stacks Banners gap-md apart, with the margin of the page around them: gap-lg, and gap-md at the
   // sides below 48rem. There is none below them; the page's own margin follows. When there is no
-  // notice, the caller leaves it out, so that no empty margin remains.
+  // notice, the application leaves it out, so that no empty margin remains.
   //
   //   {#if unverified}
   //     <Notices><Banner tone="warn">Your address is not verified yet</Banner></Notices>

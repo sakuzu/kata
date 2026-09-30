@@ -2,7 +2,7 @@
   import '../styles/components.css';
   import { type IconSource, iconComponent } from '../icons.js';
 
-  // Icon: a line icon, a square of the root size, in the current text colour. In a list item or a
+  // Icon: a line icon, a square of the root size, in the current text color. In a list item or a
   // line of text it is centred by the flex layout; its white space is never cancelled with a
   // negative margin. A button with an icon and no text is an icon button with an aria-label.
   //

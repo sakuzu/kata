@@ -6,7 +6,7 @@ where it stands, the tabs of its views and the sections that edit it.
 ## When to use
 
 Use it for the panel that shows one selected thing and lets it be
-changed, beside the drawing area. The application decides what the
+changed, beside the stage. The application decides what the
 thing is: it passes the name, the tabs and, as children, the
 [InspectorSection](inspector-section.md) groups of the current tab,
 filled with [InspectorRow](inspector-row.md) rows, a

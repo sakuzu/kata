@@ -5,13 +5,14 @@ things at its end.
 
 ## When to use
 
-Put it in a [List](list.md). An item that opens something takes
-`onclick` (Enter and Space press it too, except in a field inside it)
-or `href`; one that is only
-read takes `plain`, and then a `rule` under it, or a surface, so that its
-edge can be seen. `sel` marks the selected item; set `aria-selected` or
-`aria-current` on it as the list requires. When the item ends with an
-icon button, `tail` lines the icon up with the edge of the text.
+Use it for each item of a [List](list.md); a line of a table is a row
+of a [Table](table.md). An item that opens something takes `onclick`
+(Enter and Space press it too, except in a field inside it) or `href`;
+one that is only read takes `plain`, and then a `rule` under it, or a
+surface, so that its edge can be seen. `sel` marks the selected item;
+set `aria-selected` or `aria-current` on it as the list requires. When
+the item ends with an icon button, `tail` lines the icon up with the
+edge of the text.
 
 ## Props
 

@@ -1,12 +1,12 @@
 # Palette
 
-Palette shows a colour scheme as one rectangle, and chooses it when
+Palette shows a color scheme as one rectangle, and chooses it when
 pressed.
 
 ## When to use
 
 Use it in a group of schemes, one of which is chosen. `label` is the
-name of the scheme, which is what a screen reader says. The caller
+name of the scheme, which is what a screen reader says. The application
 arranges the palettes, in a Row with `wrap`, and gives the group
 `role="radiogroup"`.
 
@@ -14,7 +14,7 @@ arranges the palettes, in a Row with `wrap`, and gives the group
 
 | Prop | Default | Description |
 | --- | --- | --- |
-| `colors` | required | The colours, in order |
+| `colors` | required | The colors, in order |
 | `label` | required | The name of the scheme |
 | `sel` | `false` | Chosen |
 | `disabled` | `false` | Cannot be chosen |
@@ -22,7 +22,7 @@ arranges the palettes, in a Row with `wrap`, and gives the group
 
 ## Contract
 
-The rectangle is as high as a small button, each colour gap-md wide with
+The rectangle is as high as a small button, each color gap-md wide with
 no gap between them, inside one line in line-strong; the chosen palette's
 line is blue-ink, with no surface or shadow added. Each palette is a
 `radio`. Disabled is dimmed.

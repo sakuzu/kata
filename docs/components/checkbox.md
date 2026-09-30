@@ -5,9 +5,9 @@ Checkbox is a choice among several, or a confirmation.
 ## When to use
 
 Use it for options that are chosen together and saved with a form, and
-for the selection of the rows of a list. `indeterminate` shows that some
-of a list is selected. A setting that takes effect at once is a
-[Toggle](toggle.md).
+for the selection of the items of a list or the rows of a table.
+`indeterminate` shows that some of them are selected. A setting that
+takes effect at once is a [Toggle](toggle.md).
 
 ## Props
 

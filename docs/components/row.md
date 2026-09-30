@@ -19,7 +19,7 @@ that may not fit takes `wrap`.
 | `wrap` | `false` | Moves items that do not fit to the next line |
 | `align` | `center` | `start`, `end` or `stretch` |
 | `justify` | `start` | `end` moves the whole run to the right end |
-| `children` | | The content |
+| `children` | required | The content |
 
 ## Contract
 

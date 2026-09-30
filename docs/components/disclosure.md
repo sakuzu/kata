@@ -7,7 +7,8 @@ its head.
 
 Use it for settings that are not needed often, so that a panel stays
 short. Stack several with gap 0: a line divides them. The `value` shows
-what the group is set to while it is closed.
+what the group is set to while it is closed. A group that is always open
+is a [Section](section.md).
 
 ## Props
 
@@ -17,7 +18,7 @@ what the group is set to while it is closed.
 | `value` | | The current value, on the right of the head |
 | `open` | `false` | The content shows (bindable) |
 | `ontoggle` | | Called with the new state when the head is pressed |
-| `children` | | The content |
+| `children` | required | The content |
 
 ## Contract
 

@@ -5,7 +5,8 @@ documents or folders.
 
 ## When to use
 
-Put the tiles in a [Grid](grid.md). The whole tile is pressed: it takes
+Use it in a [Grid](grid.md), one tile per thing; a thing without a
+picture is a [ListItem](list-item.md). The whole tile is pressed: it takes
 `onclick` or `href`, and a `label` that names it. The picture goes in
 `thumb` (a [Thumbnail](thumbnail.md) with `size="full"`), the title and
 the details in `children`, and a menu button in `actions`.

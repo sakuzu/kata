@@ -16,13 +16,13 @@ error, a state of the document. A remark without a line is a
 | --- | --- | --- |
 | `tone` | required | `info`, `warn`, `error` or `ok` |
 | `act` | | An action at the right end (a snippet) |
-| `floating` | `false` | The panel surface, for a notice over a drawing |
+| `floating` | `false` | The panel surface, for a notice over the stage |
 | `label` | | The accessible name, when it is referred to by name |
 | `children` | required | The text, or a Stack of several lines |
 
 ## Contract
 
-Its line and its icon take the colour of the tone (blue, yellow, red,
+Its line and its icon take the color of the tone (blue, yellow, red,
 green); it has pad-md inside, the icon gap-sm from the text, centred on
 the first line, which is not trimmed. The action sits at the right end,
 gap-sm from the text; when it does not fit beside the text it moves

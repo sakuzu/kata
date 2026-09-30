@@ -19,7 +19,7 @@ components. For side by side, use [Row](row.md); for columns,
 | --- | --- | --- |
 | `gap` | required | `0`, `2xs`, `xs`, `sm`, `md`, `lg`, `xl` or `2xl` |
 | `align` | `stretch` | `start` keeps each child at its own width |
-| `children` | | The content |
+| `children` | required | The content |
 
 ## Contract
 

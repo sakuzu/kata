@@ -6,12 +6,12 @@ add menu.
 
 ## When to use
 
-Use it in the left panel of a drawing application. The application
-passes its layers, groups and items as nodes of one general shape and
-keeps them: the tree reports what the person does, and the application
-applies it to its data, from which the tree is drawn again. The tree
-knows nothing of what a kind is; `row` draws a kind in its own way. For
-a list with depth that is not a stack of layers, use a
+Use it in a panel beside the stage of a drawing application. The
+application passes its layers, groups and items as nodes of one general
+shape and keeps them: the tree reports what the person does, and the
+application applies it to its data, from which the tree is drawn again.
+The tree knows nothing of what a kind is; `row` draws a kind in its own
+way. For a list with depth that is not a stack of layers, use a
 [Tree](../components/tree.md) directly.
 
 ```svelte
@@ -41,7 +41,7 @@ a list with depth that is not a stack of layers, use a
 | `kind` | What the node is, in the application's words |
 | `name` | The name in the row |
 | `icon` | The mark before the name (a name or a component) |
-| `iconColor` | The colour of the mark, a CSS colour |
+| `iconColor` | The color of the mark, a CSS color |
 | `visible` | Shown; a hidden node dims its row and the rows below it |
 | `locked` | Locked |
 | `children` | The nodes inside; with it, even empty, the node is a group |
@@ -105,7 +105,7 @@ root) and its index among the parent's children after the move. A node
 without children goes into any group. A group keeps its depth unless
 `allowNesting`: it moves among its siblings and into other parents at
 the same depth, and never enters another group. No node goes into
-itself, and `canDrop` adds the application's own rule. The strings are
+itself, and `canDrop` adds the application's own rule. The messages are
 `hide`, `show`, `lock`, `unlock`, `rename` (the name of the input) and
 `add`.
 

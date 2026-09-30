@@ -15,7 +15,7 @@
       {/each}
     </Row>
   </Case>
-  <Case label="Pressable text, and a value that cannot be removed">
+  <Case label="Pressable text, and without onremove (no ✕)">
     <Row wrap>
       <Chip onclick={() => {}} onremove={() => {}}>Updated in the last 7 days</Chip>
       <Chip>Owner is me</Chip>

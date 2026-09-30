@@ -3,7 +3,7 @@
   import type { IconSource } from '../icons.js';
   import Icon from './Icon.svelte';
 
-  // Fab: the main action of a small screen, floating over the drawing area. A square with the
+  // Fab: the main action of a small screen, floating over the stage. A square with the
   // height of a button, square corners and the solid fill. One per screen, and none while a modal is
   // open (the modal's primary action takes the fill). It shows an icon only, so it needs a label.
   //

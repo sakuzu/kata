@@ -9,7 +9,7 @@
     name: string;
     /** The mark before the name */
     icon?: IconSource;
-    /** The colour of the mark (a CSS colour) */
+    /** The color of the mark (a CSS color) */
     iconColor?: string;
     visible: boolean;
     locked: boolean;

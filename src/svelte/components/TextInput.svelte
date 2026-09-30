@@ -7,7 +7,7 @@
   // control's line turns blue-ink; an error turns it red-ink; the placeholder is faint. The height is
   // the one the container declares (a button's, or a small button's in a list item or a cell), so
   // the author writes no size. The whole control is a <label>, so a press anywhere on it focuses the
-  // input; the name of the field is Field's own <label for>. The width is the caller's.
+  // input; the name of the field is Field's own <label for>. The width is the application's.
   //
   //   <Field label="Name" for="n"><TextInput id="n" bind:value={name} /></Field>
   let {

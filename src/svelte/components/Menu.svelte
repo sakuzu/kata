@@ -2,10 +2,10 @@
   import '../styles/components.css';
   import type { Snippet } from 'svelte';
 
-  // Menu: the surface of a menu: the panel colour, a strong line and a least width of 12rem, never
+  // Menu: the surface of a menu: the panel color, a strong line and a least width of 12rem, never
   // wider than the window. It has no padding, so the hover surface of each MenuItem reaches the
   // edges and the dividers. Dropdown with menu wears this surface itself; Menu is for a menu placed
-  // by the caller, such as a submenu that opens to the right. The roles and the keys belong to the
+  // by the application, such as a submenu that opens to the right. The roles and the keys belong to the
   // content.
   //
   // An item is as high as its content plus pad-md above and below. rows raises the least height of

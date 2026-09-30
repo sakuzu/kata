@@ -61,7 +61,7 @@
       </Dropdown>
       <Dropdown bare align="start" role="box">
         {#snippet trigger(toggle, open)}
-          <Button trailing="chevron-down" aria-expanded={open} onclick={toggle}>Colour</Button>
+          <Button trailing="chevron-down" aria-expanded={open} onclick={toggle}>Color</Button>
         {/snippet}
         {#snippet panel(close)}
           <ColorPicker value={color} onpick={(c) => (color = c)} onclose={close} />

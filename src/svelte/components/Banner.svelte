@@ -4,12 +4,12 @@
   import type { IconName } from '../icons.js';
   import Icon from './Icon.svelte';
 
-  // Banner: a notice in the flow of a page or a panel. Its line takes the colour of its tone (info
+  // Banner: a notice in the flow of a page or a panel. Its line takes the color of its tone (info
   // blue, warn yellow, error red, ok green) and so does its icon; the padding is pad-md. The icon
   // is centred on the first line of the text, which is not trimmed. An action (act) sits at the
   // right end; when it does not fit beside the text, it moves below it. A notice of several lines
-  // puts them in a Stack. floating gives it the panel surface, for a notice over a drawing; the
-  // caller places it.
+  // puts them in a Stack. floating gives it the panel surface, for a notice over the stage; the
+  // application places it.
   //
   //   <Banner tone="warn">The trial ends in 3 days{#snippet act()}<Button>Renew</Button>{/snippet}</Banner>
   let {
@@ -20,7 +20,7 @@
     act,
   }: {
     tone: 'info' | 'warn' | 'error' | 'ok';
-    /** The panel surface, for a notice over a drawing */
+    /** The panel surface, for a notice over the stage */
     floating?: boolean;
     /** The accessible name of the notice, when it is referred to by name */
     label?: string;

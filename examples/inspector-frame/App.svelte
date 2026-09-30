@@ -45,7 +45,7 @@
   });
 
   const fill = $derived([
-    spec('fill', { kind: 'color', label: 'Colour' }),
+    spec('fill', { kind: 'color', label: 'Color' }),
     spec('opacity', { kind: 'slider', label: 'Opacity', unit: '%' }),
   ]);
   const stroke = $derived([

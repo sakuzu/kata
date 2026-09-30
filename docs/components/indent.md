@@ -12,7 +12,7 @@ a list of child items. Its children reach the edges.
 
 | Prop | Default | Description |
 | --- | --- | --- |
-| `children` | | The content |
+| `children` | required | The content |
 
 ## Contract
 

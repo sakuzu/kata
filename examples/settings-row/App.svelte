@@ -26,7 +26,7 @@
         <SettingsRow label="Snap while drawing" description="Hold Alt to draw without snapping.">
           <Toggle bind:checked={snap} ariaLabel="Snap while drawing" />
         </SettingsRow>
-        <SettingsRow label="Theme" description="The colours of the whole application.">
+        <SettingsRow label="Theme" description="The colors of the whole application.">
           {#snippet control()}
             <Select
               ariaLabel="Theme"

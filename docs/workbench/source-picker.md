@@ -11,7 +11,8 @@ files of the device, a library shared with the team or a link. The
 application passes the places, keeps the current one (`onpick` asks for
 another) and draws the detail of each place with the `detail` snippet,
 which receives the place. The action that adds what was chosen goes in
-`primary`.
+`primary`. When files of the device are the only place, use a
+[FileInput](../components/file-input.md).
 
 ## Props
 

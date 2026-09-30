@@ -2,8 +2,8 @@
   import '../styles/components.css';
   import type { Snippet } from 'svelte';
 
-  // Floating: a container that floats over a drawing (a search, a navigation, a credit line), or a
-  // small panel in a place that is already positioned. It has the panel colour and one strong line,
+  // Floating: a container that floats over the stage (a search, a navigation, a credit line), or a
+  // small panel in a place that is already positioned. It has the panel color and one strong line,
   // no shadow, and floats on the floating layer. A panel placed inside needs no line of its own.
   //
   // Only its position comes from outside: the distance to each side it is pinned to. A step name

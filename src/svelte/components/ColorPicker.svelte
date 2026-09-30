@@ -12,14 +12,14 @@
   import Text from './Text.svelte';
   import TextInput from './TextInput.svelte';
 
-  // ColorPicker: a board to pick one colour. It stacks, gap-sm apart, the title and a close button,
-  // a grid of preset colours (ColorGrid), the plane of saturation and value, the strip of hues with
+  // ColorPicker: a board to pick one color. It stacks, gap-sm apart, the title and a close button,
+  // a grid of preset colors (ColorGrid), the plane of saturation and value, the strip of hues with
   // an eyedropper, and the fields of the value (hex, or the components) with a Select of the
   // format. Opened in the content, the board draws its own surface and line; floating in a slot that
   // draws them (bare), it keeps only its padding, so that no line is drawn twice.
   //
-  // The plane and the strip are pictures of the colour space, so their colours are values, not roles
-  // of the design; only their size is layout, and the edges of the knobs take colour roles. The
+  // The plane and the strip are pictures of the color space, so their colors are values, not roles
+  // of the design; only their size is layout, and the edges of the knobs take color roles. The
   // eyedropper works where the browser has the EyeDropper API.
   //
   //   <ColorPicker bind:value onpick={apply} onclose={() => (open = false)} />
@@ -32,9 +32,9 @@
     onpick,
     onclose,
   }: {
-    /** The chosen colour (#RRGGBB) */
+    /** The chosen color (#RRGGBB) */
     value?: string;
-    /** The preset colours and their names, which screen readers say */
+    /** The preset colors and their names, which screen readers say */
     swatches?: { name: string; hex: string }[];
     /** The format the fields start in */
     format?: Fmt;
@@ -42,14 +42,14 @@
     bare?: boolean;
     /** The title (Color by default) */
     title?: string;
-    /** Called with the colour picked and its name (the hex when it has none) */
+    /** Called with the color picked and its name (the hex when it has none) */
     onpick?: (hex: string, name: string) => void;
     /** Called by the close button */
     onclose?: () => void;
   } = $props();
 
   type Fmt = 'hex' | 'rgb' | 'hsl';
-  /** Nine preset colours, named from the messages */
+  /** Nine preset colors, named from the messages */
   function defaultSwatches(): { name: string; hex: string }[] {
     const m = getMessages();
     return [
@@ -449,7 +449,7 @@
     background: none;
     border: 0;
   }
-  // The plane and the strip are pictures of the colour space; their gradients are values
+  // The plane and the strip are pictures of the color space; their gradients are values
   .sv {
     position: relative;
     height: 7.5rem;
@@ -464,8 +464,8 @@
     height: 0.5rem;
     background-image: linear-gradient(to right, #f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00);
   }
-  // The knob is the square of an icon, as in Slider. Two edges, in the panel colour and in the
-  // text colour, keep it visible on any colour.
+  // The knob is the square of an icon, as in Slider. Two edges, in the panel color and in the
+  // text color, keep it visible on any color.
   .knob {
     position: absolute;
     width: h(icon);

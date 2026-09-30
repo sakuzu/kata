@@ -19,7 +19,7 @@
   //
   // A column that can be sorted, or that has menu, has a column menu (▾, a ghost icon button) at
   // the right end: the two directions as one choice with a check mark, clearing the sort (null)
-  // when the column is the key, and the caller's own items (menu receives the close function).
+  // when the column is the key, and the application's own items (menu receives the close function).
   //
   // Two columns merged into one (on a narrow screen) pass sorts: their names stack, and a press
   // calls onsortKey with the column's id and its next direction. Their ▾ holds menu only.
@@ -53,7 +53,7 @@
     }[];
     /** Called with the id and the next direction when a merged name is pressed */
     onsortKey?: (id: string, dir: 'asc' | 'desc') => void;
-    /** The caller's own items of the column menu (MenuItem); it receives the close function */
+    /** The application's own items of the column menu (MenuItem); it receives the close function */
     menu?: Snippet<[() => void]>;
     /** The name of the column */
     children?: Snippet;

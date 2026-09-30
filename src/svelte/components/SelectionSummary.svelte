@@ -19,7 +19,7 @@
   // them and names them.
   //
   //   <SelectionSummary count={5} kinds={[{ label: 'Shapes', count: 3 }, { label: 'Notes', count: 2 }]}>
-  //     {#snippet fields()}<SectionHeader label="Colour">…</SectionHeader>{/snippet}
+  //     {#snippet fields()}<SectionHeader label="Color">…</SectionHeader>{/snippet}
   //     {#snippet actions()}<Row wrap><Button>Group</Button></Row>{/snippet}
   //   </SelectionSummary>
   let {

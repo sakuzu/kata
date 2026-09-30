@@ -12,7 +12,8 @@ trigger of its menu with `brandMenu`), the trail to the current place in
 [InlineEdit](inline-edit.md) when it can be renamed), who else is here in
 `presence` (a [Presence](presence.md)), and its actions in `end`.
 `lead` holds a button before the brand, such as the one that opens a
-drawer on a narrow screen.
+drawer on a narrow screen. The head of a panel or a modal is a
+[Toolbar](toolbar.md).
 
 ## Props
 
@@ -35,7 +36,7 @@ drawer on a narrow screen.
 
 ## Contract
 
-The height is a [Toolbar](toolbar.md)'s, the surface the panel colour,
+The height is a [Toolbar](toolbar.md)'s, the surface the panel color,
 with a strong line along the bottom; pad-md at the sides and small
 buttons inside. The brand is h2, trimmed to its ink; with `brandMenu` it
 is a button without a line, with a chevron, that opens a

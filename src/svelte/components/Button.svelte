@@ -74,7 +74,7 @@
     trailing?: IconSource;
     /** A kbd hint after the text */
     kbd?: string;
-    /** A mark of the value before the text (a colour swatch), for the trigger of a value */
+    /** A mark of the value before the text (a color swatch), for the trigger of a value */
     mark?: Snippet;
     /** The trigger of a value: the text is one line with an ellipsis */
     clamp?: boolean;
@@ -236,7 +236,7 @@
       border-color: color(solid-active);
     }
   }
-  // The hint on the fill keeps the fill's text colour
+  // The hint on the fill keeps the fill's text color
   .btn.primary .kbd {
     color: color(on-solid);
   }
@@ -288,7 +288,7 @@
     opacity: dim();
     cursor: progress;
   }
-  // Selected: the stronger surface. The icon of a selected tool turns blue; text keeps its colour
+  // Selected: the stronger surface. The icon of a selected tool turns blue; text keeps its color
   .on {
     background: color(raise-2);
   }

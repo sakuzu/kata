@@ -37,9 +37,10 @@
       </Button>
     </Row>
   </Case>
-  <Case label="Icon buttons: selected, and with a count">
+  <Case label="Icon buttons: selected, with a count, and tone danger">
     <Row gap="0">
       <Button variant="ghost" icon aria-label="Close"><Icon name="x" /></Button>
+      <Button variant="ghost" icon tone="danger" aria-label="Remove"><Icon name="trash-2" /></Button>
       <Button variant="ghost" icon on aria-label="Pen"><Icon name="pencil" /></Button>
       <Button variant="ghost" icon badge={3} aria-label="Notifications"><Icon name={Bell} /></Button>
       <Button variant="ghost" icon badge={120} aria-label="Messages"><Icon name={Bell} /></Button>

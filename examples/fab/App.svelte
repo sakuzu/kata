@@ -21,7 +21,7 @@
 </Example>
 
 <style>
-  /* The drawing area: a positioned container */
+  /* The stage: a positioned container */
   .area {
     position: relative;
     height: 8rem;

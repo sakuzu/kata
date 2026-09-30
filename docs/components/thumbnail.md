@@ -6,8 +6,8 @@ place when there is no picture.
 ## When to use
 
 Use it at the start of a list item, or at full width at the top of a
-card. When the image fails to load, `onerror` lets the caller drop it so
-that the icon shows.
+card. When the image fails to load, `onerror` lets the application drop
+it so that the icon shows. A person is an [Avatar](avatar.md).
 
 ## Props
 

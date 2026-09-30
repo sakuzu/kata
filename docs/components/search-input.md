@@ -6,7 +6,7 @@ SearchInput is the input of a search.
 
 Use it above a list that it filters, or to search a collection. `label`
 names it; inside a [Field](field.md) the field names it. The keys, such
-as clearing with Escape, are the caller's, through `onkeydown`.
+as clearing with Escape, are the application's, through `onkeydown`.
 
 ## Props
 

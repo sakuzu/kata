@@ -42,7 +42,7 @@
   import MenuDivider from './MenuDivider.svelte';
   import MenuItem from './MenuItem.svelte';
 
-  // Drawbar: the toolbar of drawing tools that floats at the bottom centre of the drawing area.
+  // Drawbar: the toolbar of drawing tools that floats at the bottom centre of the stage.
   // Each tool is a ghost icon button; the current tool is on. Tools with the same group sit side by
   // side and the groups are gap-md apart, with pad-sm inside and one line around the whole bar (no
   // lines between tools). A tool with tone="danger" turns red on hover. The switches (toggles), such

@@ -5,7 +5,7 @@
   // SearchInput: the input of a search. It is the same control as TextInput with a magnifying glass
   // at its start; focus shows once, on the control's line. The height is the one the container
   // declares. label names the input (inside a Field the field names it). Keys such as clearing
-  // with Escape are the caller's, through onkeydown.
+  // with Escape are the application's, through onkeydown.
   //
   //   <SearchInput bind:value={query} placeholder="Find a document" label="Search documents" />
   let {
@@ -66,7 +66,7 @@
     &::placeholder {
       color: color(faint);
     }
-    // The browser's clear button is hidden; clearing is the caller's
+    // The browser's clear button is hidden; clearing is the application's
     &::-webkit-search-cancel-button {
       appearance: none;
     }

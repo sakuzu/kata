@@ -16,7 +16,7 @@ content starts with a list, a tree, a table or tabs.
 | `width` | `full` | `settings` limits the column to the settings width |
 | `flush` | `false` | The content starts with a list, tree, table or tabs |
 | `head` | | The head, a PageHeader (a snippet) |
-| `children` | | The content |
+| `children` | required | The content |
 
 ## Contract
 

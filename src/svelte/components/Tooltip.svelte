@@ -5,9 +5,9 @@
   import { hitRect, placeTip, tipBounds, tipHost } from '../lib/tipPlace.js';
 
   // Tooltip: a short word that explains the control it wraps, with an optional key hint. It is the
-  // inverse of the page (the text colour as the surface), in the caption role, as high as a small
+  // inverse of the page (the text color as the surface), in the caption role, as high as a small
   // button with pad-sm at the sides. The name belongs to the control inside (its aria-label), so
-  // the tooltip is aria-hidden and is not read twice. The caller passes the words; the component
+  // the tooltip is aria-hidden and is not read twice. The application passes the words; the component
   // has none of its own.
   //
   // It shows on hover after a short wait, so a pointer that only passes by does not show it, and

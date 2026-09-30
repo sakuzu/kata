@@ -5,7 +5,7 @@ Stats sets several [Stat](stat.md) side by side.
 ## When to use
 
 Use it for a row of figures at the top of a page or a section. It holds
-Stat only.
+Stat only; a single figure is a Stat on its own.
 
 ## Props
 

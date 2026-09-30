@@ -5,9 +5,10 @@ picker.
 
 ## When to use
 
-With `menu`, it is the menu of a trigger: its content is a list of
-[MenuItem](menu-item.md). With `bare`, its content brings its own
-container, such as a [ColorPicker](color-picker.md). A few settings are
+Use it for the menu of a trigger, with `menu` and a list of
+[MenuItem](menu-item.md), or for a small picker, with `bare` and content
+that brings its own container, such as a
+[ColorPicker](color-picker.md). A few settings are
 a [Popover](popover.md), which is built on it; the actions of an item
 are a [Kebab](kebab.md).
 

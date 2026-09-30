@@ -27,7 +27,7 @@ above the inputs uses [Field](field.md).
 | `muted` | `false` | A weaker read value (empty or inherited) |
 | `mono` | `false` | The value in the monospace font |
 | `clamp` | `false` | The value on one line with an ellipsis |
-| `children` | | The control or the value |
+| `children` | required | The control or the value |
 
 ## Contract
 

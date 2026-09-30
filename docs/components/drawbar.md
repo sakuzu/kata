@@ -1,17 +1,18 @@
 # Drawbar
 
 Drawbar is the bar of drawing tools that floats at the bottom centre of
-the drawing area, with the switches of the aids after the tools.
+the stage, with the switches of the aids after the tools.
 
 ## When to use
 
-Use it for the tools that change what a press on the drawing area does.
+Use it for the tools that change what a press on the stage does.
 The application passes the tools as a list and says which one is
 current; `onselect` reports the tool that is pressed. A tool that acts
 at once (delete) is in the list too, with `tone: 'danger'`, and the
 application leaves the current tool as it was. Aids that are on or off
 while any tool is in use, such as snapping or a grid, go in `toggles`;
-each reports the state it asks for, and the application keeps it.
+each reports the state it asks for, and the application keeps it. The
+actions of a panel go in its [Toolbar](toolbar.md).
 
 ## Props
 

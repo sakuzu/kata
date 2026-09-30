@@ -2,12 +2,12 @@
   import '../styles/components.css';
   import type { Snippet } from 'svelte';
 
-  // ChipValue: a small surface attached to a point of the canvas, which follows it. It holds a
+  // ChipValue: a small surface attached to a point of the stage, which follows it. It holds a
   // value: an input of a number and the button that confirms it, or the value alone to read. The
   // surface is the panel with a strong line; pad-sm inside and gap-sm between its children. It
   // declares the small button for the controls inside, so the author writes no size.
   //
-  // It is placed absolutely inside the frame that holds the canvas (a positioned parent), at the
+  // It is placed absolutely inside the frame that holds the stage (a positioned parent), at the
   // point's distance from the frame's edges: a gap step or a length.
   //
   // Collapsed, the chip only reads the value and is itself the trigger that expands it: pass

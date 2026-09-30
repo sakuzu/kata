@@ -13,13 +13,13 @@
   import Text from './Text.svelte';
 
   // Presence: the people who are here now, as overlapping avatars. The avatars (the square of a
-  // small button) overlap by gap-xs and are parted by a ring of two lines in the panel colour; the
+  // small button) overlap by gap-xs and are parted by a ring of two lines in the panel color; the
   // overlap comes from grid columns narrower than an avatar, not from a negative margin. The
   // people after max gather at the end as "+n", so that many people never widen it; "+n" is a
   // button that opens the roster. The avatar under the pointer comes to the front.
   //
-  // A person's colour is the surface of their avatar (avatars have none of their own); without
-  // one it is the fill surface. Colours are data, so their contrast is the caller's.
+  // A person's color is the surface of their avatar (avatars have none of their own); without
+  // one it is the fill surface. Colors are data, so their contrast is the application's.
   //
   // roster renders the list of everyone instead (name, "(you)" and role), without a container of
   // its own, for a menu or a panel that holds it. With more than eight people it has a search.
@@ -155,11 +155,11 @@
     padding-inline-end: pad(xs);
     flex: none;
   }
-  // Only passes the colour on to the avatar of the roster
+  // Only passes the color on to the avatar of the roster
   .tone {
     display: contents;
   }
-  // The ring in the panel colour looks cut out of the surface; later people come on top
+  // The ring in the panel color looks cut out of the surface; later people come on top
   .slot {
     display: inline-flex;
     flex: none;

@@ -3,7 +3,7 @@
   import type { Snippet } from 'svelte';
   import Stack from './Stack.svelte';
 
-  // Board: the container of a picker that opens inside a panel (a colour, an emoji, a symbol).
+  // Board: the container of a picker that opens inside a panel (a color, an emoji, a symbol).
   // It fills the width of its container; the surface is the panel and the line is the strong one,
   // a level above the panel around it. pad-md inside, and the content is a Stack gap md, so a
   // search, a Segmented and Glyphs are just placed in order. The bars of a picker (hue, lightness,

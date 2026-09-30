@@ -4,7 +4,7 @@ Pager moves between the pages of a long list by number.
 
 ## When to use
 
-Put it at the end of a list. The pages are numbers; how they map to the
+Use it at the end of a long list. The pages are numbers; how they map to the
 application's data (an offset, a cursor) is the application's.
 
 ## Props

@@ -5,7 +5,7 @@ Stat is a figure with its name below it.
 ## When to use
 
 Use it for the few figures that summarise a page, such as the number of
-documents or the storage used. The caller writes the figure with its
+documents or the storage used. The application writes the figure with its
 unit. Several stats side by side go in [Stats](stats.md).
 
 ## Props

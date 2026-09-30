@@ -8,7 +8,7 @@ message, its replies, and the actions to open and resolve it.
 Use it in the comments panel of a drawing application. The application
 passes its threads in the order it wants them, filtered as it likes
 (without the resolved ones, for example). CommentList knows nothing of
-where a thread is on the drawing: the application draws the pins, and
+where a thread is on the stage: the application draws the pins, and
 moves to a thread and opens it when `onopen` is called. A reply is
 written with a [CommentComposer](comment-composer.md) that the
 application places where the thread opens.
@@ -25,7 +25,7 @@ application places where the thread opens.
 A `CommentThread` is `{ id, author, when, body, replies?, resolved? }`,
 and each reply is `{ id, author, when, body }`. The `author` is
 `{ name, initial, color? }`: the name, the initials in the
-[Avatar](../components/avatar.md) and the person's colour; `when` is the
+[Avatar](../components/avatar.md) and the person's color; `when` is the
 time as the application words it.
 
 ## Contract
@@ -39,7 +39,7 @@ reopen (an arrow back) with `onresolve`, then open (an arrow out) with
 `onopen`. A resolved thread without `onresolve` shows a green Resolved
 [Badge](../components/badge.md) instead. Without threads, it shows a
 [State](../components/state.md) in a [Block](../components/block.md).
-The strings are `comments`, `noComments`, `openThread`, `resolve`,
+The messages are `comments`, `noComments`, `openThread`, `resolve`,
 `reopen` and `resolved`.
 
 ## Example

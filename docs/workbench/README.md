@@ -21,7 +21,7 @@ application passes the content in through props and snippets: the
 fields, the actions and the detail of a place. A part reports what the
 person does, and the application applies it to its own data. The words
 a part shows on its own come from the
-[messages API](../components/README.md#strings), in English by default.
+[messages](../components/README.md#messages), in English by default.
 
 Each page below describes one part: what it is, when to use it, its
 props, its contract and a live example.

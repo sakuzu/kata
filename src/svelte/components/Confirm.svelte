@@ -12,7 +12,7 @@
   // appears in a Footer. It is a small dialog in the centre on every screen.
   //
   // The first focus is on cancel, so Enter does not confirm by accident. The scrim does not close
-  // it; Escape and the close button do. Confirming does not close it: the caller sets open to false
+  // it; Escape and the close button do. Confirming does not close it: the application sets open to false
   // when the work is done, and can show busy until then.
   //
   //   <Confirm bind:open title="Delete 4 items?" message="This cannot be undone."

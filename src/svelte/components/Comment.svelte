@@ -11,7 +11,7 @@
   // note after it. The name and the time never share a line, so that neither is cut in a narrow
   // column. The body follows below, in the name's column, as text that is not trimmed, with pad-md
   // below.
-  // color gives the Avatar the person's colour, as in a Presence.
+  // color gives the Avatar the person's color, as in a Presence.
   //
   // The distance between comments belongs to the Stack or the Thread they are in. At the sides it
   // follows the list items: pad-md in a container without padding, none in a container with
@@ -38,7 +38,7 @@
     time?: string;
     /** A note after the time, such as "(edited)" */
     edited?: string;
-    /** The person's colour, on their Avatar (a CSS colour) */
+    /** The person's color, on their Avatar (a CSS color) */
     color?: string;
     /** The actions on the right of the name */
     actions?: Snippet;

@@ -15,7 +15,7 @@
           <Markbox><Icon name={Folder} /></Markbox><span>An icon</span>
         </ListItem>
         <ListItem columns="auto minmax(0, 1fr)" onclick={() => {}}>
-          <Markbox><Swatch color="#2d7ff9" /></Markbox><span>A colour</span>
+          <Markbox><Swatch color="#2d7ff9" /></Markbox><span>A color</span>
         </ListItem>
         <ListItem columns="auto minmax(0, 1fr)" onclick={() => {}}>
           <Markbox glyph>🏔️</Markbox><span>An emoji</span>

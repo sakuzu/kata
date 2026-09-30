@@ -4,9 +4,10 @@ Notices is the column of notices of an application's frame.
 
 ## When to use
 
-Place it between the top bar of the application and the page, with the
-[Banner](banner.md) notices that concern the whole application. When
-there is no notice, leave it out.
+Use it between the top bar of the application and the page, for the
+[Banner](banner.md) notices that concern the whole application; a notice
+about one page is a Banner inside that page. When there is no notice,
+leave it out.
 
 ## Props
 

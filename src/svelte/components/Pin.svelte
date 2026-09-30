@@ -2,10 +2,10 @@
   import '../styles/components.css';
   import type { Snippet } from 'svelte';
 
-  // Pin: a mark that stands on a point of the canvas: the people of a comment, or a point being
+  // Pin: a mark that stands on a point of the stage: the people of a comment, or a point being
   // placed. It is a capsule (a mark, like Badge and Tag) with one square corner, the top left,
   // which is the point: the pin hangs down and to the right of it, and it never moves (what it
-  // opens moves away from the edge of the screen instead). It looks like a surface on the canvas:
+  // opens moves away from the edge of the screen instead). It looks like a surface on the stage:
   // the panel and a strong line, no shadow. While selected (active: what it opens is open) it is
   // filled. pad-2xs inside; its content is small avatars or an icon, in a row. Faces overlap by
   // gap-xs through grid columns narrower than a small avatar.

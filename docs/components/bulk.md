@@ -4,8 +4,10 @@ Bulk is the bar of actions on a selection.
 
 ## When to use
 
-Show it while several items of a list are selected, with the actions
-that apply to all of them.
+Use it while several items of a list are selected, with the actions
+that apply to all of them. The actions on one item are a
+[Kebab](kebab.md); a selection of things on the stage is a
+[SelectionSummary](../workbench/selection-summary.md).
 
 ## Props
 

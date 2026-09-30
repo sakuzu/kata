@@ -7,7 +7,7 @@
   // height its container declares, no padding at the sides, so its edge lines up with the text
   // around it), with a surface and a pencil on hover. Edited, it becomes a control with a blue line
   // and pad-sm at the sides. Enter commits and Escape restores. When the text is emptied, the
-  // caller decides the name that takes its place.
+  // application decides the name that takes its place.
   //
   // Three states:
   //   empty and editable    a text action, "+ placeholder"
@@ -39,7 +39,7 @@
     onCommit: (v: string) => void;
     /** The accessible name of the input and of the text (the placeholder by default) */
     label?: string;
-    /** Whether it is being edited, for a caller that holds back updates meanwhile */
+    /** Whether it is being edited, for an application that holds back updates meanwhile */
     editing?: boolean;
   } = $props();
 
@@ -66,7 +66,7 @@
     });
   }
 
-  // editing set to true by the caller (a key such as F2) starts an edit as a press does
+  // editing set to true by the application (a key such as F2) starts an edit as a press does
   $effect(() => {
     if (editing && !armed && editable) untrack(begin);
   });

@@ -17,9 +17,9 @@ arrow after the text.
 | `icon` | | An icon before the text (a name or a component) |
 | `href` | | Renders a link |
 | `external` | `false` | A destination outside the application (with `href`) |
-| `disabled` | `false` | Keeps its place but cannot be pressed |
+| `disabled` | `false` | Cannot be pressed (not with `href`) |
 | `onclick` | | Called when pressed |
-| `children` | | The text |
+| `children` | required | The text |
 
 ## Contract
 
@@ -28,7 +28,7 @@ like the text around it; the area that is pressed reaches the height of
 an icon button. There is no padding at the sides, so its edge lines up
 with the text around it. The text is blue-ink, underlined on hover.
 Inside something that declares a height (a list item, a toolbar) the
-text is trimmed to its ink. Disabled, the text takes the text colour,
+text is trimmed to its ink. Disabled, the text takes the text color,
 dimmed.
 
 ## Example

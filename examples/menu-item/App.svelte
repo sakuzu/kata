@@ -2,6 +2,9 @@
   import { Menu, MenuItem, Stack, Text } from '@sakuzu/kata/svelte';
   import Case from '../_shared/Case.svelte';
   import Example from '../_shared/Example.svelte';
+
+  let grid = $state(true);
+  let rulers = $state(false);
 </script>
 
 <Example>
@@ -13,6 +16,15 @@
         <MenuItem sub on>Align (its submenu is open)</MenuItem>
         <MenuItem disabled>Paste</MenuItem>
         <MenuItem icon="trash-2" danger>Delete…</MenuItem>
+      </div>
+    </Menu>
+  </Case>
+  <Case label="checked: the column of check marks, and a link (href)">
+    <Menu>
+      <div role="menu">
+        <MenuItem checked={grid} onclick={() => (grid = !grid)}>Grid</MenuItem>
+        <MenuItem checked={rulers} onclick={() => (rulers = !rulers)}>Rulers</MenuItem>
+        <MenuItem icon="arrow-up-right" href="#top">Open the help</MenuItem>
       </div>
     </Menu>
   </Case>

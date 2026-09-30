@@ -36,16 +36,16 @@
     <Surface width="22.5rem">
       <SectionHeader label="Display">
         <InspectorRow label="Opacity" small>
-            <Slider
-              value={opacity}
-              ariaLabel="Opacity"
-              display={`${opacity}%`}
-              oninput={(v) => (opacity = v)}
-            />
-          </InspectorRow>
-          <InspectorRow label="Visible" align="end" small>
-            <Toggle bind:checked={visible} ariaLabel="Visible" />
-          </InspectorRow>
+          <Slider
+            value={opacity}
+            ariaLabel="Opacity"
+            display={`${opacity}%`}
+            oninput={(v) => (opacity = v)}
+          />
+        </InspectorRow>
+        <InspectorRow label="Visible" align="end" small>
+          <Toggle bind:checked={visible} ariaLabel="Visible" />
+        </InspectorRow>
       </SectionHeader>
     </Surface>
   </Case>

@@ -8,7 +8,7 @@
 </script>
 
 <Example>
-  <Case label="Between two rows at depth 0">
+  <Case label="Between two items at depth 0">
     <Surface width="22.5rem">
       <Tree label="Contents">
         <TreeRow sel={picked === 'Background'} onclick={() => (picked = 'Background')}>Background</TreeRow>

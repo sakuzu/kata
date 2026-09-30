@@ -4,9 +4,9 @@ ShortcutsModal is the list of keyboard shortcuts, in a modal.
 
 ## When to use
 
-A [Shell](shell.md) opens it with the help key and lists its
-`shortcuts`. Use it on its own to open the same list from a menu or a
-button, with the same shortcuts the application attaches.
+Use it to open the list of keyboard shortcuts from a menu or a button,
+with the same shortcuts the application attaches. A [Shell](shell.md)
+already opens it with the help key and lists its `shortcuts`.
 
 ## Props
 

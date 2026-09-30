@@ -7,7 +7,7 @@
   // glyph. A person is an Avatar (round); a picture of a document is a Thumbnail. Inside a list
   // item it keeps md above and below.
   //
-  //   <ListItem columns="auto minmax(0, 1fr)" plain><Tile>W</Tile><span>Workspace</span></ListItem>
+  //   <ListItem columns="auto minmax(0, 1fr)" plain><Tile>T</Tile><span>Team</span></ListItem>
   //   <Tile><Icon name={Folder} /></Tile>
   let { children }: { children: Snippet } = $props();
 </script>

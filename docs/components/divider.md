@@ -1,6 +1,6 @@
 # Divider
 
-Divider is one line that separates two roles.
+Divider is one line that separates two groups.
 
 ## When to use
 

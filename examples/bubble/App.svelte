@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Bubble, Button, Divider, Row, Stack, Text, TextInput } from '@sakuzu/kata/svelte';
+  import { Block, Bubble, Button, Divider, Row, Stack, Text, TextInput } from '@sakuzu/kata/svelte';
   import Case from '../_shared/Case.svelte';
   import Example from '../_shared/Example.svelte';
 
@@ -7,11 +7,18 @@
 </script>
 
 <Example>
-  <Case label="The surface of a Popover, placed by the caller">
+  <Case label="The surface of a Popover, placed by the application">
     <Bubble gap="sm">
-      <Text>A note pinned to a point of the drawing.</Text>
+      <Text>A note pinned to a point of the stage.</Text>
       <Divider />
       <Text role="caption" muted>The children are a Stack, gap-sm apart.</Text>
+    </Bubble>
+  </Case>
+  <Case label="flush: no padding and no gap; the content holds its own">
+    <Bubble flush>
+      <Block><Text>A note pinned to a point of the stage.</Text></Block>
+      <Divider />
+      <Block><Text role="caption" muted>Each Block has its own padding.</Text></Block>
     </Bubble>
   </Case>
   <Case label="With a foot that stays in view while the content scrolls">
@@ -19,7 +26,7 @@
       <Bubble>
         <Stack gap="sm">
           <Text role="label">Ana</Text>
-          <Text>Can we move the legend to the left?</Text>
+          <Text>Can we move the arrow to the left?</Text>
         </Stack>
         <Stack gap="sm">
           <Text role="label">Ken</Text>
@@ -27,7 +34,7 @@
         </Stack>
         <Stack gap="sm">
           <Text role="label">Ana</Text>
-          <Text>Done. The title moved too.</Text>
+          <Text>Done. The label moved too.</Text>
         </Stack>
         {#snippet foot()}
           <Row gap="sm">

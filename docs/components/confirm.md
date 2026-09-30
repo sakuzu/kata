@@ -17,8 +17,8 @@ action is `danger`; its button is the one red fill a Footer may hold.
 | `title` | required | The question |
 | `message` | | One paragraph of body |
 | `children` | | A body in place of the message |
-| `confirmLabel` | the `confirm` string | The name of the action |
-| `cancelLabel` | the `cancel` string | The name of cancel |
+| `confirmLabel` | the `confirm` message | The name of the action |
+| `cancelLabel` | the `cancel` message | The name of cancel |
 | `danger` | `false` | A destructive action: the button is `danger-fill` |
 | `busy` | `false` | The action is running: its button is dimmed |
 | `disabled` | `false` | The action cannot run yet |
@@ -33,8 +33,8 @@ gap-md from its edges, with the role `alertdialog`. The Footer holds
 cancel, then the action as `primary` or `danger-fill`. It opens with the
 focus on cancel, so Enter does not confirm by accident. Escape and the
 close button close it and call `oncancel`; a press on the scrim does
-nothing. Confirming calls `onconfirm` and leaves it open: the caller
-shows `busy` while the work runs and sets `open` to false when it is
+nothing. Confirming calls `onconfirm` and leaves it open: the
+application shows `busy` while the work runs and sets `open` to false when it is
 done.
 
 ## Example

@@ -19,7 +19,7 @@ figures, and it cannot be dragged; the inputs tell the values.
 
 The bars fill the width and stand at most 4rem high; the tallest bin
 fills the height. They are the blue ink, parted by a transparent line on
-each side. A break is a line in the strong line colour over the full
+each side. A break is a line in the strong line color over the full
 height. The chart is hidden from assistive technology.
 
 ## Example

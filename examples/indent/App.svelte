@@ -11,7 +11,7 @@
       <Stack gap={0}>
         <Block>
           <Row>
-            <Button variant="ghost" icon aria-label="Collapse"><Icon name="polygon" /></Button>
+            <Button variant="ghost" icon aria-label="Collapse"><Icon name="chevron-down" /></Button>
             <Text role="label">Outline</Text>
           </Row>
         </Block>

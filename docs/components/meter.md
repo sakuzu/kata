@@ -21,7 +21,7 @@ choice. The progress of a task is a [Progress](progress.md).
 ## Contract
 
 The name and the amount are body text, not trimmed, gap-xs above a bar
-gap-sm high. The bar is the line colour and fills with the solid colour
+gap-sm high. The bar is the line color and fills with the solid color
 from the left, up to the share used (from 0 to 100%). `warn` turns the
 fill and the amount yellow, `over` red. The bar is a `meter` for
 assistive technology, named by `label`.

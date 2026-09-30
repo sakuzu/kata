@@ -4,8 +4,8 @@ Kbd shows a key or a keyboard shortcut.
 
 ## When to use
 
-Use the outlined form among words: in a sentence or a tooltip. Use `bare`
-in a column of shortcuts at the right end of a menu or a list. Write one
+Use it outlined among words: in a sentence or a tooltip. Use `bare` in a
+column of shortcuts at the right end of a menu or a list. Write one
 shortcut as one Kbd (`⌘K`), not one per key.
 
 ## Props
@@ -13,7 +13,7 @@ shortcut as one Kbd (`⌘K`), not one per key.
 | Prop | Default | Description |
 | --- | --- | --- |
 | `bare` | `false` | Without the outline, for a column of shortcuts |
-| `children` | | The key or the shortcut |
+| `children` | required | The key or the shortcut |
 
 ## Contract
 

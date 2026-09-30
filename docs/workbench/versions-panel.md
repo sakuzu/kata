@@ -34,9 +34,8 @@ A [Panel](../components/panel.md) with a
 by whom, one line each with an ellipsis. The current version is
 selected. The first version is the latest; while another one is current,
 a [Footer](../components/footer.md) holds two actions, back to the latest
-(`backToLatest`, which calls `onpreview` with the latest id) and restore
-(`restore`, the primary action). The words of the buttons come from the
-messages API.
+(the `backToLatest` message; it calls `onpreview` with the latest id)
+and restore (the `restore` message, the primary action).
 
 ## Example
 

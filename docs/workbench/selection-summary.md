@@ -5,10 +5,11 @@ of each kind, the fields they share and the actions on all of them.
 
 ## When to use
 
-Use it in place of the panel of a single thing when several are
-selected. The application counts the things of each kind and names the
-kinds; it passes the editors of what the things share in `fields` and the
-actions on the whole selection in `actions`. An action that removes the
+Use it in place of the panel of a single thing, an
+[InspectorFrame](inspector-frame.md), when several are selected. The
+application counts the things of each kind and names the kinds; it
+passes the editors of what the things share in `fields` and the actions
+on the whole selection in `actions`. An action that removes the
 selection goes in `end`, as an icon button, not among the actions.
 
 ## Props
@@ -20,7 +21,7 @@ selection goes in `end`, as an icon button, not among the actions.
 | `title` | `selected` message | The title in the head |
 | `fields` | | The editors of what the things share (a snippet) |
 | `actions` | | The actions on the whole selection (a snippet) |
-| `end` | | Icon buttons in the head, before the close button |
+| `end` | | Icon buttons in the head, before the close button (a snippet) |
 | `onclose` | | Shows a close button in the head |
 | `side` | `panel` | The width, as [Panel](../components/panel.md)'s `side` |
 

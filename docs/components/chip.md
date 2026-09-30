@@ -4,8 +4,8 @@ Chip is a chosen value that can be removed, such as a filter.
 
 ## When to use
 
-Put the chosen values in a [Row](row.md), one Chip each; the ✕ removes
-one. With `onclick` the text can be pressed too, for example to edit the
+Use it for chosen values, one Chip each in a [Row](row.md); the ✕
+removes one. With `onclick` the text can be pressed too, for example to edit the
 value. A value that cannot be removed, a state or a kind is not a Chip:
 use [Badge](badge.md) or [Tag](tag.md).
 
@@ -15,8 +15,8 @@ use [Badge](badge.md) or [Tag](tag.md).
 | --- | --- | --- |
 | `onremove` | | Removes the value; without it no ✕ shows |
 | `onclick` | | Makes the text pressable |
-| `removeLabel` | | The name of the ✕ (default: `removeValue`) |
-| `children` | | The value |
+| `removeLabel` | | The name of the ✕ (default: the `removeValue` message) |
+| `children` | required | The value |
 
 ## Contract
 

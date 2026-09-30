@@ -4,10 +4,11 @@ CommentComposer is where a comment or a reply is written and posted.
 
 ## When to use
 
-Put it under a thread for a reply, at the foot of a comments panel, or
-in the place where a new comment is started on the drawing. The
-application posts the text in `onpost` and decides what a failure means;
-the composer keeps the text when the post fails.
+Use it under a thread for a reply, at the foot of a comments panel, or
+where a new comment is started on the stage. The application posts the
+text in `onpost` and decides what a failure means; the composer keeps
+the text when the post fails. Text that is not posted, such as a note,
+goes in a [Textarea](../components/textarea.md).
 
 ## Props
 
@@ -32,7 +33,7 @@ input method), Enter is the input method's. Escape calls `oncancel`.
 Empty text is not posted and the button is disabled. `onpost` receives
 the text trimmed at both ends; when it returns a promise, the composer
 waits for it, and it clears the text unless the result is `false`. The
-strings are `writeComment` and `post`.
+messages are `writeComment` and `post`.
 
 ## Example
 

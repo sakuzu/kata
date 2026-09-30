@@ -5,7 +5,8 @@ StepBar shows the progress through a sequence of steps.
 ## When to use
 
 Use it at the top of a task in several steps, such as an import. The
-steps cannot be pressed; steps that are chosen freely are tabs.
+steps cannot be pressed; steps that are chosen freely are
+[Tabs](tabs.md).
 
 ## Props
 
@@ -17,8 +18,8 @@ steps cannot be pressed; steps that are chosen freely are tabs.
 ## Contract
 
 Each step is its number in a square of `--kata-height-badge` and its
-name. A step that is done is filled with the solid colour, the current
-one has a blue line and blue number and its name in the text colour,
+name. A step that is done is filled with the solid color, the current
+one has a blue line and blue number and its name in the text color,
 and the steps to come have a strong line and a muted name. The number is
 a glyph trimmed to its ink; the name is not trimmed. gap-sm lies between
 a number and its name and between steps, and lines share the rest of the

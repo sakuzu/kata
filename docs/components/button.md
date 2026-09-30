@@ -4,9 +4,10 @@ Button is a control that is pressed to act.
 
 ## When to use
 
-Use `primary` for the one main action of a screen and the default
-`outline` for the others. `danger` marks an action that removes something
-and leads to a confirmation, whose own primary action is `danger-fill`.
+Use it for an action: `primary` for the one main action of a screen
+and the default `outline` for the others. `danger` marks an action that
+removes something and leads to a confirmation, whose own primary action
+is `danger-fill`.
 An icon button (`icon`, with an `aria-label`) is `ghost`; `ghost` is not
 used for text, since text without a line does not look pressable. An
 action that needs no line is a [LinkAction](link-action.md). The children
@@ -37,7 +38,7 @@ of a text button are text only: icons go in `leading` and `trailing`.
 | `href` | | Renders a link with the same look |
 | `target` | | `_blank` opens the link in another tab |
 | `onclick` | | Called when pressed |
-| `children` | | The text, or the icon of an icon button |
+| `children` | required | The text, or the icon of an icon button |
 
 Other attributes (`aria-*`, `data-*`) go to the element.
 

@@ -6,7 +6,7 @@ the first column of a list stays in place.
 ## When to use
 
 Use it at the start of list items whose marks differ in size: icons,
-colour marks, a [Swatch](swatch.md) or an emoji (`glyph`). The font of
+color marks, a [Swatch](swatch.md) or an emoji (`glyph`). The font of
 an emoji comes from `--kata-glyph-font`, set by the container.
 
 ## Props

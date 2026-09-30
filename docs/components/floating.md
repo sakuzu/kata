@@ -1,11 +1,12 @@
 # Floating
 
-Floating is a container that floats over a drawing.
+Floating is a container that floats over the stage.
 
 ## When to use
 
-Use it for what floats over a drawing: a search, the navigation, a
-credit line, a small panel. It takes only its position from outside.
+Use it for what floats over the stage: a search, the navigation, a
+credit line, a small floating pane. A panel beside the stage is a
+[Panel](panel.md). It takes only its position from outside.
 Without a position it stands in the flow of a place that is already
 positioned, such as the content of a [Dropdown](dropdown.md) with
 `bare`.
@@ -22,7 +23,7 @@ positioned, such as the content of a [Dropdown](dropdown.md) with
 
 ## Contract
 
-It has the panel colour and one strong line, no shadow, and floats on
+It has the panel color and one strong line, no shadow, and floats on
 the floating layer. It is placed absolutely in its frame, which must be
 a positioned element; a step name (`2xs` to `xl`) is that gap step, and
 any other string is a CSS length. With no side given it stands in the

@@ -1,11 +1,11 @@
 <script lang="ts">
   import '../styles/components.css';
 
-  // Palette: a sample of a colour scheme, one rectangle of colours side by side without a gap;
-  // pressing it chooses the scheme. It is as high as a small button, each colour is gap-md wide and
+  // Palette: a sample of a color scheme, one rectangle of colors side by side without a gap;
+  // pressing it chooses the scheme. It is as high as a small button, each color is gap-md wide and
   // the line is line-strong; the chosen palette's line is blue, with no surface or shadow added.
-  // label is the accessible name (the name of the scheme). The colours are values of the content,
-  // like a Swatch's. The caller arranges the palettes and gives the group role="radiogroup" (a Row
+  // label is the accessible name (the name of the scheme). The colors are values of the content,
+  // like a Swatch's. The application arranges the palettes and gives the group role="radiogroup" (a Row
   // with wrap).
   //
   //   <Palette colors={['#eee', '#999', '#333']} label="Greys" sel={current === 'greys'} onclick={pick} />

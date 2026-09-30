@@ -1,10 +1,10 @@
 <script lang="ts">
   import '../styles/components.css';
 
-  // ColorGrid: a grid of preset colours. The colours stand in columns (9 by default) gap-2xs
-  // apart, and each colour is itself the cell that is pressed; nothing is placed inside a cell. The
-  // chosen cell shows one ring inside, two lines wide, with no surface or shadow added. A colour
-  // cannot be described by its look, so each cell is named by the colour's name, and the group by
+  // ColorGrid: a grid of preset colors. The colors stand in columns (9 by default) gap-2xs
+  // apart, and each color is itself the cell that is pressed; nothing is placed inside a cell. The
+  // chosen cell shows one ring inside, two lines wide, with no surface or shadow added. A color
+  // cannot be described by its look, so each cell is named by the color's name, and the group by
   // label.
   //
   //   <ColorGrid colors={swatches} value={hex} label="Color" onselect={pick} />
@@ -16,7 +16,7 @@
     columns = 9,
   }: {
     colors: { hex: string; name: string }[];
-    /** The chosen colour (compared without regard to case) */
+    /** The chosen color (compared without regard to case) */
     value?: string;
     onselect: (hex: string) => void;
     /** The name of the group */
@@ -64,8 +64,8 @@
     box-shadow: inset 0 0 0 bw() color(line);
     cursor: pointer;
   }
-  // The ring: two lines of the focus colour inside, and one of the panel within them, which
-  // separates the ring from the colour
+  // The ring: two lines of the focus color inside, and one of the panel within them, which
+  // separates the ring from the color
   .cell.on {
     box-shadow:
       inset 0 0 0 calc(#{bw()} * 2) color(focus),

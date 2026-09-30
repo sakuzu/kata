@@ -7,9 +7,8 @@ Comment is one message of a conversation: who wrote it, when, and what.
 Use it for messages left on a document, stacked in a column or as the
 replies of a [Thread](thread.md). The application passes the name, the
 initials of the person's [Avatar](avatar.md) and the time as it words
-them; `edited` adds a note such as "(edited)"
-after the time. Actions on the message, such as a menu, go in
-`actions`.
+them; `edited` adds a note such as "(edited)" after the time. Actions on
+the message, such as a menu, go in `actions`.
 
 ## Props
 
@@ -19,9 +18,9 @@ after the time. Actions on the message, such as a menu, go in
 | `initial` | required | The initials in the person's Avatar |
 | `time` | | When it was written |
 | `edited` | | A note after the time |
-| `color` | | The person's colour on their Avatar, a CSS colour |
+| `color` | | The person's color on their Avatar, a CSS color |
 | `actions` | | The actions on the right of the name (a snippet) |
-| `children` | | The body |
+| `children` | required | The body |
 
 ## Contract
 

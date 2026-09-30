@@ -11,7 +11,7 @@ actions go here, not in a Footer or in the head of a section.
 
 | Prop | Default | Description |
 | --- | --- | --- |
-| `children` | | The input |
+| `children` | required | The input |
 | `action` | required | The actions (a snippet) |
 
 ## Contract

@@ -1,5 +1,16 @@
 <script lang="ts">
-  import { Button, Icon, Page, PageHeader, Row, Section, Stack, Text } from '@sakuzu/kata/svelte';
+  import {
+    Button,
+    Icon,
+    List,
+    ListItem,
+    Page,
+    PageHeader,
+    Row,
+    Section,
+    Stack,
+    Text,
+  } from '@sakuzu/kata/svelte';
 </script>
 
 <div data-audit>
@@ -26,6 +37,17 @@
           <Text>The text size and the theme.</Text>
         </Section>
       </Stack>
+    </Page>
+    <Page flush>
+      {#snippet head()}<PageHeader title="Recent" />{/snippet}
+      <List label="Recent documents">
+        <ListItem columns="auto minmax(0, 1fr)" onclick={() => {}}>
+          <Icon name="image" /><span>flush: the content starts with a list</span>
+        </ListItem>
+        <ListItem columns="auto minmax(0, 1fr)" onclick={() => {}}>
+          <Icon name="image" /><span>Site survey</span>
+        </ListItem>
+      </List>
     </Page>
   </Stack>
 </div>

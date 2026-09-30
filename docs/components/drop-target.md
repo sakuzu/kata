@@ -7,14 +7,15 @@ DropTarget is the place to drop files.
 Use it where files can be added by dragging them in, with a button that
 chooses files for those who do not drag. The application handles the
 drag events and the drop, and sets `over` while files are over the
-place.
+place. A button alone that opens the file chooser uses a
+[FileInput](file-input.md).
 
 ## Props
 
 | Prop | Default | Description |
 | --- | --- | --- |
 | `over` | `false` | Files are being dragged over it |
-| `children` | | An icon, a sentence and a button |
+| `children` | required | An icon, a sentence and a button |
 
 ## Contract
 

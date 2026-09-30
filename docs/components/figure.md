@@ -5,10 +5,10 @@ image or a live preview.
 
 ## When to use
 
-Use it to give a picture an edge. The picture keeps its own colours and
-lines. A picture that reaches the edges of the screen, such as the drawing
-surface of an editor, has no line and does not go in a Figure. Nothing
-else (text, list items) goes in a Figure.
+Use it to give a picture an edge. The picture keeps its own colors and
+lines. A picture that reaches the edges of the screen, such as the
+stage, has no line and does not go in a Figure. Nothing else (text, list
+items) goes in a Figure.
 
 ## Props
 
@@ -16,7 +16,7 @@ else (text, list items) goes in a Figure.
 | --- | --- | --- |
 | `height` | | The height of the frame as a length (`12rem`) |
 | `label` | | The picture's name, when the picture has none |
-| `children` | | The picture |
+| `children` | required | The picture |
 
 ## Contract
 

@@ -30,7 +30,7 @@
     group?: string;
     disabled?: boolean;
     id?: string;
-    /** Called when it is chosen, for a caller that keeps the choice itself */
+    /** Called when it is chosen, for an application that keeps the choice itself */
     onchange?: (value: string) => void;
   } = $props();
 </script>

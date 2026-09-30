@@ -6,7 +6,8 @@ Glyphs is a grid of symbols or emoji to pick one from.
 
 Use it in a picker, inside a panel or a popover. With `row` the symbols
 run in one line instead, for a toolbar. When the same symbol appears
-twice, pass `selected` to tell them apart by position.
+twice, pass `selected` to tell them apart by position. A choice of
+colors is a [ColorGrid](color-grid.md).
 
 ## Props
 
@@ -15,8 +16,8 @@ twice, pass `selected` to tell them apart by position.
 | `items` | required | The symbols, one per cell |
 | `value` | | The selected symbol |
 | `onselect` | required | Called with the symbol and its position |
-| `label` | | The accessible name of a cell |
-| `selected` | | Whether a cell is selected (default: equals value) |
+| `label` | | `(symbol, i)` to the name of a cell (default: the symbol) |
+| `selected` | | `(symbol, i)` to whether a cell is selected |
 | `row` | `false` | One line that scrolls sideways |
 
 ## Contract

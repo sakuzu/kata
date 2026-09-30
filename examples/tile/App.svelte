@@ -8,13 +8,13 @@
 
 <Example>
   <Case label="An initial, two initials and an icon">
-    <Row><Tile>W</Tile><Tile>DS</Tile><Tile><Icon name={Folder} /></Tile></Row>
+    <Row><Tile>T</Tile><Tile>DS</Tile><Tile><Icon name={Folder} /></Tile></Row>
   </Case>
   <Case label="At the start of a list item">
     <Surface width="22.5rem">
       <List>
         <ListItem columns="auto minmax(0, 1fr)" onclick={() => {}}>
-          <Tile>W</Tile><span>Workspace</span>
+          <Tile>T</Tile><span>Team</span>
         </ListItem>
         <ListItem columns="auto minmax(0, 1fr)" onclick={() => {}}>
           <Tile>DS</Tile><span>Design studio</span>
