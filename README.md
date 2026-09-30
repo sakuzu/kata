@@ -90,11 +90,13 @@ and lists the values.
 
 ## Documentation
 
-The chapters are in [docs](docs/README.md): the principles, the scale, the
-tokens, the [components](docs/components/README.md), the
-[workbench](docs/workbench/README.md) and the [checks](docs/checks.md).
+The documentation is published at <https://sakuzu.github.io/kata/>. Its
+chapters are in [docs](docs/README.md): the principles, the scale, the
+tokens, measuring, layout, the [components](docs/components/README.md),
+the [workbench](docs/workbench/README.md), the
+[patterns](docs/patterns/README.md) and the [checks](docs/checks.md).
 `npm run site:dev` serves them as a site, with a live example of each
-component.
+component and pattern.
 
 ## Contributing
 

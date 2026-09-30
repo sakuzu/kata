@@ -72,6 +72,7 @@
     "site:dev": "vitepress dev site",
     "site:build": "vitepress build site && vite build --config examples/vite.config.mjs",
     "site:preview": "vitepress preview site",
+    "site:deploy": "node scripts/deploy-pages.mjs",
     "prepack": "npm run package",
     "check": "npm run scale && git diff --quiet -- src/tokens/scale.css && npm run typecheck && npm test && npm run lint && npm run check:terms && npm run check:package && npm run audit && npm run site:build"
   },

@@ -91,6 +91,7 @@ export default defineConfig({
     'README.md': 'index.md',
     'components/README.md': 'components/index.md',
     'workbench/README.md': 'workbench/index.md',
+    'patterns/README.md': 'patterns/index.md',
   },
   cleanUrls: true,
   appearance: 'dark',
@@ -103,18 +104,26 @@ export default defineConfig({
   },
   themeConfig: {
     nav: [
-      { text: 'Chapters', link: '/' },
-      { text: 'Components', link: '/components/' },
-      { text: 'Workbench', link: '/workbench/' },
+      {
+        text: 'Guide',
+        link: '/principles',
+        activeMatch: '^/(principles|scale|tokens|measuring|layout)',
+      },
+      { text: 'Components', link: '/components/', activeMatch: '^/components/' },
+      { text: 'Workbench', link: '/workbench/', activeMatch: '^/workbench/' },
+      { text: 'Patterns', link: '/patterns/', activeMatch: '^/patterns/' },
+      { text: 'Checks', link: '/checks' },
     ],
     sidebar: [
       {
-        text: 'Chapters',
+        text: 'Guide',
         items: [
+          { text: 'Introduction', link: '/' },
           { text: 'Principles', link: '/principles' },
           { text: 'Scale', link: '/scale' },
           { text: 'Tokens', link: '/tokens' },
-          { text: 'Checks', link: '/checks' },
+          { text: 'Measuring', link: '/measuring' },
+          { text: 'Layout', link: '/layout' },
         ],
       },
       {
@@ -286,6 +295,24 @@ export default defineConfig({
             ['VersionsPanel', 'versions-panel'],
           ].map(([text, page]) => ({ text, link: `/workbench/${page}` })),
         ],
+      },
+      {
+        text: 'Patterns',
+        items: [
+          { text: 'Using the patterns', link: '/patterns/' },
+          ...[
+            ['A modal with a form', 'modal-form'],
+            ['A menu', 'menu'],
+            ['A list with actions', 'list'],
+            ['A panel', 'panel'],
+            ['A settings page', 'settings'],
+            ['A workbench', 'workbench'],
+          ].map(([text, page]) => ({ text, link: `/patterns/${page}` })),
+        ],
+      },
+      {
+        text: 'Checks',
+        items: [{ text: 'Checks', link: '/checks' }],
       },
     ],
     search: { provider: 'local' },
