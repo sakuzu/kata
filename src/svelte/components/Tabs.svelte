@@ -181,11 +181,11 @@
     border-bottom: bw() solid color(line);
     overflow: clip;
   }
-  // Inside a Toolbar: the toolbar draws the line, and the tabs take the rest of its width
+  // Inside a Toolbar: the toolbar draws the line, and the tabs take the rest of its width. They
+  // keep their own height (the toolbar's), centred, so the double line of the current tab is whole
   .tabs.bar {
     border-bottom: 0;
     flex: 1 1 auto;
-    align-self: stretch;
     .tab {
       height: h(toolbar);
     }
