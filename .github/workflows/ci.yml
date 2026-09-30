@@ -34,7 +34,7 @@ jobs:
         run: npm run scale:check
       - name: No geography vocabulary
         run: npm run check:terms
-      - name: The package (build and publint)
+      - name: The package (build, publint and attw)
         run: npm run check:package
       - name: The browser for the audit
         run: npx playwright install --with-deps --only-shell chromium

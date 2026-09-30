@@ -12,6 +12,11 @@ run-time dependencies, which are installed with it:
 - [SortableJS](https://github.com/SortableJS/Sortable) (`sortablejs`),
   the dragging of the `sortable` action, under the MIT License.
 
+[Svelte](https://svelte.dev) (`svelte`, MIT License) is a peer
+dependency: the application that uses the Svelte entry installs it. The
+drawing glyphs (point, polyline, polygon, arrow and sticky note) are
+kata's own.
+
 The font tokens name typefaces (IBM Plex Sans, IBM Plex Sans JP, IBM Plex
 Mono, Noto Sans SC and Noto Sans TC). The package does not bundle or load
 these fonts; an application that wants them installs and loads them under

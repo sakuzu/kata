@@ -17,7 +17,8 @@ green; `npm run check` runs them all.
   and the examples.
 - `npm run lint`. Biome for the code and markdownlint for the documents.
 - `npm run check:package`. The package builds (the CSS and the Svelte
-  entry) and publint accepts it.
+  entry), and publint and Are the Types Wrong accept it (the Svelte entry
+  is ESM only; the CSS entries have no types).
 - `npm run audit`. The components' styles are read and their examples are
   measured in a browser; [Checks](docs/checks.md) describes the rules. The
   first run needs a browser: `npx playwright install chromium`.
