@@ -269,6 +269,8 @@ export default defineConfig({
             ['SelectionSummary', 'selection-summary'],
             ['SettingsRow', 'settings-row'],
             ['SettingsSection', 'settings-section'],
+            ['Shell', 'shell'],
+            ['ShortcutsModal', 'shortcuts-modal'],
             ['SourcePicker', 'source-picker'],
             ['VersionsPanel', 'versions-panel'],
           ].map(([text, page]) => ({ text, link: `/workbench/${page}` })),

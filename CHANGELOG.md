@@ -32,3 +32,7 @@ follows semantic versioning.
   SelectionSummary, ProcessDialog and SourcePicker.
 - Drawbar takes switches (`toggles`) after the tools, and folds the
   buttons that do not fit into a More menu instead of scrolling.
+- Shell, the frame of a drawing application: the bar, the side regions
+  (beside the stage, floating over it or in sheets, by the width), the
+  stage, the toolbar and a resizable dock, with keyboard shortcuts,
+  `formatShortcut` and ShortcutsModal.

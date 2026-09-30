@@ -1,0 +1,39 @@
+# ShortcutsModal
+
+ShortcutsModal is the list of keyboard shortcuts, in a modal.
+
+## When to use
+
+A [Shell](shell.md) opens it with the help key and lists its
+`shortcuts`. Use it on its own to open the same list from a menu or a
+button, with the same shortcuts the application attaches.
+
+## Props
+
+| Prop | Default | Description |
+| --- | --- | --- |
+| `open` | `false` | Whether it is open (bindable) |
+| `shortcuts` | required | The shortcuts, `{ key, label, group? }[]` |
+| `title` | `keyboardShortcuts` message | The title of the modal |
+| `mac` | the platform | `true` writes the keys as a Mac does |
+| `onclose` | | Called when it closes |
+| `inline` | `false` | The same surface in the flow, for documentation |
+
+`key` is written as a Shell's shortcut is (`mod+z`), and `label` says
+what the shortcut does. A whole `Shortcut` can be passed; `run` and
+`when` are not read.
+
+## Contract
+
+A [Modal](../components/modal.md) of the md width. The shortcuts without
+a group come first, as one [List](../components/list.md) without a
+heading; then each group is a [Section](../components/section.md) with
+the group as its title, in the order the groups first appear. Each
+shortcut is a [ListItem](../components/list-item.md) that is only read,
+with a line under it: the label on the left, clipped to one line, and
+the key on the right as a bare [Kbd](../components/kbd.md), written as
+the platform writes it (⇧⌘Z on a Mac, Ctrl+Shift+Z elsewhere).
+
+## Example
+
+[ShortcutsModal](../../examples/shortcuts-modal/)

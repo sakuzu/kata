@@ -24,6 +24,14 @@ in English by default.
 Each page below describes one part: what it is, when to use it, its
 props, its contract and a live example.
 
+## Shell
+
+- [Shell](shell.md): the frame of the editor, with the bar, the side
+  regions, the stage, the toolbar and the dock, and the keyboard
+  shortcuts.
+- [ShortcutsModal](shortcuts-modal.md): the list of the keyboard
+  shortcuts.
+
 ## Settings
 
 - [SettingsSection](settings-section.md) and
