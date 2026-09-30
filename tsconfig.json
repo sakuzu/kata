@@ -17,7 +17,7 @@
     "src/**/*.mjs",
     "scripts/**/*.mjs",
     "tests/**/*.ts",
-    "examples/**/*.mjs",
+    "examples/vite.config.mjs",
     "site/.vitepress/**/*.mts"
   ],
   "exclude": ["node_modules", "dist", "site/.vitepress/cache", "site/.vitepress/dist"]

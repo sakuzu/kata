@@ -1,0 +1,84 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--kata-gap-xl);
+  padding: var(--kata-gap-lg);
+}
+
+.role-h2 {
+  margin-bottom: var(--kata-text-offset-h2);
+  font-size: var(--kata-text-size-h2);
+  line-height: var(--kata-text-leading-h2);
+  letter-spacing: var(--kata-text-tracking-h2);
+  font-weight: 600;
+}
+
+.sizes {
+  display: flex;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: var(--kata-gap-lg);
+}
+.sizes figure {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--kata-gap-xs);
+  margin: 0;
+}
+.square {
+  width: var(--size);
+  height: var(--size);
+  background: var(--kata-color-blue-fill);
+}
+figcaption,
+.name {
+  color: var(--kata-color-muted);
+  font-size: var(--kata-text-size-caption);
+}
+
+.roles {
+  display: flex;
+  flex-direction: column;
+  gap: var(--kata-gap-sm);
+}
+.roles li {
+  display: flex;
+  align-items: baseline;
+  gap: var(--kata-gap-md);
+}
+.roles .name {
+  flex: 0 0 6rem;
+}
+[data-role="display2"] {
+  font: 600 var(--kata-fs-display2) / var(--kata-lh-display2) var(--kata-font-sans);
+  letter-spacing: var(--kata-ls-display2);
+}
+[data-role="title1"] {
+  font: 600 var(--kata-fs-title1) / var(--kata-lh-title1) var(--kata-font-sans);
+  letter-spacing: var(--kata-ls-title1);
+}
+[data-role="title2"] {
+  font: 600 var(--kata-fs-title2) / var(--kata-lh-title2) var(--kata-font-sans);
+  letter-spacing: var(--kata-ls-title2);
+}
+[data-role="title3"] {
+  font: 600 var(--kata-fs-title3) / var(--kata-lh-title3) var(--kata-font-sans);
+  letter-spacing: var(--kata-ls-title3);
+}
+[data-role="heading"] {
+  font: 400 var(--kata-fs-heading) / var(--kata-lh-heading) var(--kata-font-sans);
+  letter-spacing: var(--kata-ls-heading);
+}
+[data-role="subheading"] {
+  font: 400 var(--kata-fs-subheading) / var(--kata-lh-subheading) var(--kata-font-sans);
+  letter-spacing: var(--kata-ls-subheading);
+}
+[data-role="body"] {
+  font: 400 var(--kata-fs-body) / var(--kata-lh-body) var(--kata-font-sans);
+  letter-spacing: var(--kata-ls-body);
+}
+[data-role="capline"] {
+  font: 400 var(--kata-fs-capline) / var(--kata-lh-capline) var(--kata-font-sans);
+  letter-spacing: var(--kata-ls-capline);
+}
