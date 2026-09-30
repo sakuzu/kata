@@ -115,6 +115,8 @@ export interface Messages {
   /** ProcessDialog: the action that starts the process, and what shows while it runs */
   run: string;
   running: string;
+  /** InspectorFrame: the action shown while the name is empty (rename names its input) */
+  addName: string;
 }
 
 const english: Messages = {
@@ -199,6 +201,7 @@ const english: Messages = {
   selected: ({ count }) => `${count} selected`,
   run: 'Run',
   running: 'Running',
+  addName: 'Add a name',
 };
 
 /** The English defaults */
