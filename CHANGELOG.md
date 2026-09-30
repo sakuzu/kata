@@ -27,3 +27,6 @@ follows semantic versioning.
 - Structure (16): panels, bars, tabs, trees, threads and `sortable`.
 - The audit rule read-row: a list item that is only read has a line or a
   surface.
+- Workbench, the parts of a drawing application: LayerTree, the menus
+  (`MenuModel`, MenuList, AppMenu and MenuSheet, and a model for Kebab and
+  Topbar) and the comments (CommentList and CommentComposer).

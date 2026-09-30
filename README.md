@@ -32,9 +32,12 @@ kata has three layers.
    - Structure: Panel, Toolbar, Topbar, Drawbar, Fab, Tabs, Crumbs, Tree,
      TreeRow, DropLine, DropTarget, Disclosure, FilterBar, SettingsPage,
      Comment and Thread, with the `sortable` action.
-3. Parts for drawing applications: the shell, the layer tree, the
-   inspector, settings and the toolbar. They know nothing about what is
-   drawn; the application passes the content in. Not published yet.
+3. Parts for drawing applications, the workbench: the shell, the layer
+   tree, the menus, the comments, the inspector, settings and the
+   toolbar. They know nothing about what is drawn; the application
+   passes the content in. Published so far in `@sakuzu/kata/svelte`:
+   LayerTree, MenuList, AppMenu, MenuSheet, CommentList and
+   CommentComposer.
 
 ## Install
 
@@ -81,9 +84,10 @@ and lists the values.
 ## Documentation
 
 The chapters are in [docs](docs/README.md): the principles, the scale, the
-tokens, the [components](docs/components/README.md) and the
-[checks](docs/checks.md). `npm run site:dev` serves them as a site, with a
-live example of each component.
+tokens, the [components](docs/components/README.md), the
+[workbench](docs/workbench/README.md) and the [checks](docs/checks.md).
+`npm run site:dev` serves them as a site, with a live example of each
+component.
 
 ## Contributing
 
