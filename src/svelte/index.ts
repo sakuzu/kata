@@ -21,6 +21,13 @@ export { default as ColHead } from './components/ColHead.svelte';
 export { default as ColorGrid } from './components/ColorGrid.svelte';
 export { default as ColorPicker } from './components/ColorPicker.svelte';
 export { default as Comment } from './components/Comment.svelte';
+export { default as CommentComposer } from './components/CommentComposer.svelte';
+export type {
+  CommentAuthor,
+  CommentReply,
+  CommentThread,
+} from './components/CommentList.svelte';
+export { default as CommentList } from './components/CommentList.svelte';
 export { default as Confirm } from './components/Confirm.svelte';
 export { default as Counter } from './components/Counter.svelte';
 export { default as Crumbs } from './components/Crumbs.svelte';
