@@ -1,0 +1,7 @@
+/*
+ * The foundation of kata in one file: the scale, the tokens and the base.
+ * The package entry @sakuzu/kata is this file with the imports inlined (npm run build).
+ */
+@import "./tokens/scale.css";
+@import "./tokens/tokens.css";
+@import "./base/base.css";

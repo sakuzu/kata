@@ -1,0 +1,123 @@
+/*
+ * The base of kata: the rules that apply to the whole page. It needs the tokens (tokens.css).
+ *
+ * It sets the box model, the root font size steps, the page's surface and text, the reset of the
+ * user agent's margins, lists and form controls, the link, the focus ring and text selection.
+ * Everything a component looks like is the component's own style.
+ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* A shell that fills the window takes its height as a percentage */
+html,
+body {
+  height: 100%;
+}
+
+/*
+ * The text size setting. Only the root font size changes; every length follows through rem and
+ * em. The page's ground is painted by the root, and page containers have no surface of their own.
+ */
+html {
+  font-size: 100%;
+  background: var(--kata-color-ground);
+}
+html[data-font-scale="large"] {
+  font-size: 125%;
+}
+html[data-font-scale="larger"] {
+  font-size: 150%;
+}
+html[data-font-scale="largest"] {
+  font-size: 175%;
+}
+html[data-font-scale="max"] {
+  font-size: 200%;
+}
+
+/*
+ * The body is the one size container that the three widths are measured against
+ * (narrow < 48rem, mid < 64rem, tiny < 24rem, with @container app (width < …)).
+ */
+body {
+  margin: 0;
+  container: app / inline-size;
+  background: var(--kata-color-ground);
+  color: var(--kata-color-text);
+  font-family: var(--kata-font-sans);
+  font-size: var(--kata-text-size-body);
+  line-height: var(--kata-text-leading-body);
+  letter-spacing: var(--kata-text-tracking-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+:lang(ja) {
+  line-break: strict;
+  overflow-wrap: anywhere;
+}
+
+h1,
+h2,
+h3,
+p,
+ul,
+ol,
+dl,
+dd,
+figure {
+  margin: 0;
+}
+ul,
+ol {
+  padding: 0;
+  list-style: none;
+}
+
+/*
+ * The user agent gives form controls a border and a font of their own. Remove both, so that the
+ * only border on a control is the one its component draws.
+ */
+button,
+input,
+select,
+textarea {
+  border: 0;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+}
+/* The padding of a table cell belongs to the table component */
+td,
+th {
+  padding: 0;
+}
+
+a {
+  color: var(--kata-color-blue-ink);
+  text-decoration: none;
+  text-underline-offset: 3px;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+/* The focus ring shows for the keyboard only: two lines wide, outside the element */
+:focus {
+  outline: none;
+}
+:focus-visible {
+  outline: 2px solid var(--kata-color-focus);
+  outline-offset: 2px;
+}
+::selection {
+  background: var(--kata-color-selection);
+}
+
+[hidden] {
+  /* biome-ignore lint/complexity/noImportantStyles: the attribute must win over component styles */
+  display: none !important;
+}
