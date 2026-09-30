@@ -1,7 +1,6 @@
 // Builds the CSS files of the package into dist/ by inlining the imports of the source files.
 //
 //   dist/kata.css    the scale, the tokens and the base (the entry @sakuzu/kata)
-//   dist/scale.css   the scale alone
 //   dist/tokens.css  the scale and the tokens (the tokens are written with the scale)
 //   dist/base.css    the base alone (it needs the tokens)
 //
@@ -31,7 +30,6 @@ const banner = `/*! @sakuzu/kata ${version} | Apache-2.0 | Copyright 2026 Kasika
 /** @type {Record<string, string>} */
 const outputs = {
   'kata.css': inline(join(ROOT, 'src/kata.css')),
-  'scale.css': inline(join(ROOT, 'src/tokens/scale.css')),
   'tokens.css': `${inline(join(ROOT, 'src/tokens/scale.css'))}\n${inline(join(ROOT, 'src/tokens/tokens.css'))}`,
   'base.css': inline(join(ROOT, 'src/base/base.css')),
 };

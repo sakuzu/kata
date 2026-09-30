@@ -25,7 +25,6 @@
   "style": "./dist/kata.css",
   "exports": {
     ".": "./dist/kata.css",
-    "./scale.css": "./dist/scale.css",
     "./tokens.css": "./dist/tokens.css",
     "./base.css": "./dist/base.css",
     "./package.json": "./package.json"
