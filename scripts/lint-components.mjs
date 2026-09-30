@@ -117,6 +117,7 @@ const TRIM_OK = new Set([
   'Pager',
   'Table',
   'Tcard',
+  'Avatar',
 ]);
 // The components whose root may have an outer margin: the layouts, the icon and Prose
 const MARGIN_OK = new Set(['Stack', 'Row', 'Grid', 'Icon', 'Prose']);

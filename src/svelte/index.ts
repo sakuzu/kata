@@ -3,6 +3,7 @@
 // the rules they share (styles/components.css) itself.
 
 export { default as Actions } from './components/Actions.svelte';
+export { default as Avatar } from './components/Avatar.svelte';
 export { default as Badge } from './components/Badge.svelte';
 export { default as Bars } from './components/Bars.svelte';
 export { default as Block } from './components/Block.svelte';
@@ -42,6 +43,8 @@ export { default as PageHeader } from './components/PageHeader.svelte';
 export { default as Pager } from './components/Pager.svelte';
 export { default as Pair } from './components/Pair.svelte';
 export { default as Palette } from './components/Palette.svelte';
+export { default as Pin } from './components/Pin.svelte';
+export { default as Presence } from './components/Presence.svelte';
 export { default as Progress } from './components/Progress.svelte';
 export { default as Prose } from './components/Prose.svelte';
 export { default as Radio } from './components/Radio.svelte';
@@ -54,9 +57,11 @@ export { default as SectionHeader } from './components/SectionHeader.svelte';
 export { default as Segmented } from './components/Segmented.svelte';
 export { default as Select } from './components/Select.svelte';
 export { default as Slider } from './components/Slider.svelte';
+export { default as Spinner } from './components/Spinner.svelte';
 export { default as Split } from './components/Split.svelte';
 export { default as Stack } from './components/Stack.svelte';
 export { default as Stat } from './components/Stat.svelte';
+export { default as State } from './components/State.svelte';
 export { default as Stats } from './components/Stats.svelte';
 export { default as StepBar } from './components/StepBar.svelte';
 export { default as Swatch } from './components/Swatch.svelte';
