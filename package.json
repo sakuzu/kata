@@ -1,7 +1,7 @@
 {
   "name": "@sakuzu/kata",
   "version": "1.0.0",
-  "description": "The design system of sakuzu: a numeric scale derived from the golden ratio, CSS tokens and base CSS for drawing applications.",
+  "description": "The design system of sakuzu: a numeric scale derived from the golden ratio, CSS tokens, base CSS and Svelte components for drawing applications.",
   "keywords": [
     "design-system",
     "css",
@@ -9,7 +9,9 @@
     "custom-properties",
     "golden-ratio",
     "typography",
-    "spacing"
+    "spacing",
+    "svelte",
+    "components"
   ],
   "license": "Apache-2.0",
   "author": "Kasika, Inc.",
@@ -27,16 +29,22 @@
     ".": "./dist/kata.css",
     "./tokens.css": "./dist/tokens.css",
     "./base.css": "./dist/base.css",
+    "./svelte": {
+      "types": "./dist/svelte/index.d.ts",
+      "svelte": "./dist/svelte/index.js",
+      "default": "./dist/svelte/index.js"
+    },
     "./package.json": "./package.json"
   },
   "sideEffects": [
-    "*.css"
+    "**/*.css"
   ],
   "engines": {
     "node": ">=22"
   },
   "files": [
     "dist",
+    "!dist/svelte/styles/*.scss",
     "LICENSE",
     "NOTICE",
     "THIRD_PARTY_NOTICES.md",
@@ -47,28 +55,49 @@
   },
   "scripts": {
     "build": "node scripts/build.mjs",
+    "package": "npm run build && svelte-package -i src/svelte -o dist/svelte --tsconfig tsconfig.svelte.json",
     "scale": "node scripts/scale.mjs",
     "scale:check": "node scripts/scale.mjs --check",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "tsc --noEmit && svelte-check --tsconfig tsconfig.svelte.json --fail-on-warnings",
     "lint": "biome check && npm run lint:md",
-    "lint:md": "markdownlint --ignore node_modules --ignore dist --ignore 'site/.vitepress/cache' --ignore 'site/.vitepress/dist' '**/*.md'",
+    "lint:md": "markdownlint --ignore node_modules --ignore dist --ignore 'site/.vitepress/cache' --ignore 'site/.vitepress/dist' --ignore test-results --ignore playwright-report '**/*.md'",
     "lint:fix": "biome check --write",
     "check:terms": "node scripts/check-terms.mjs",
-    "check:package": "npm run build && publint",
+    "check:package": "npm run package && publint",
     "test": "vitest run",
     "test:watch": "vitest",
+    "audit": "node scripts/lint-components.mjs && vite build --config examples/vite.config.mjs && playwright test",
     "examples:dev": "vite --config examples/vite.config.mjs",
     "site:dev": "vitepress dev site",
     "site:build": "vitepress build site && vite build --config examples/vite.config.mjs",
     "site:preview": "vitepress preview site",
-    "prepack": "npm run build",
-    "check": "npm run scale && git diff --quiet -- src/tokens/scale.css && npm test && npm run lint && npm run check:terms && npm run site:build"
+    "prepack": "npm run package",
+    "check": "npm run scale && git diff --quiet -- src/tokens/scale.css && npm run typecheck && npm test && npm run lint && npm run check:terms && npm run check:package && npm run audit && npm run site:build"
+  },
+  "peerDependencies": {
+    "svelte": "^5.57.0"
+  },
+  "peerDependenciesMeta": {
+    "svelte": {
+      "optional": true
+    }
+  },
+  "dependencies": {
+    "@lucide/svelte": "^1.49.0"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.5.14",
+    "@playwright/test": "^1.63.0",
+    "@sveltejs/package": "^2.5.8",
+    "@sveltejs/vite-plugin-svelte": "^7.3.1",
+    "@testing-library/svelte": "^5.4.2",
     "@types/node": "^26.6.3",
+    "jsdom": "^30.1.1",
     "markdownlint-cli": "^0.49.1",
     "publint": "^0.3.24",
+    "sass": "^1.105.1",
+    "svelte": "^5.57.1",
+    "svelte-check": "^4.7.6",
     "typescript": "^6.0.3",
     "vite": "^8.3.1",
     "vitepress": "^1.6.4",

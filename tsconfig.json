@@ -16,9 +16,13 @@
   "include": [
     "src/**/*.mjs",
     "scripts/**/*.mjs",
-    "tests/**/*.ts",
+    "tests/*.ts",
     "examples/vite.config.mjs",
-    "site/.vitepress/**/*.mts"
+    "site/.vitepress/**/*.mts",
+    "audit/**/*.ts",
+    "vitest.config.ts",
+    "playwright.config.ts",
+    "svelte.config.js"
   ],
   "exclude": ["node_modules", "dist", "site/.vitepress/cache", "site/.vitepress/dist"]
 }
