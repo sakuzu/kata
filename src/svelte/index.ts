@@ -55,6 +55,8 @@ export { default as Indent } from './components/Indent.svelte';
 export { default as InlineEdit } from './components/InlineEdit.svelte';
 export { default as InputGroup } from './components/InputGroup.svelte';
 export { default as InspectorFrame } from './components/InspectorFrame.svelte';
+export { default as InspectorRow } from './components/InspectorRow.svelte';
+export { default as InspectorSection } from './components/InspectorSection.svelte';
 export { default as Kbd } from './components/Kbd.svelte';
 export type { KebabAction } from './components/Kebab.svelte';
 export { default as Kebab } from './components/Kebab.svelte';

@@ -2,6 +2,8 @@ import { fireEvent, render } from '@testing-library/svelte';
 import { createRawSnippet, tick } from 'svelte';
 import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
 import InspectorFrame from '../../src/svelte/components/InspectorFrame.svelte';
+import InspectorRow from '../../src/svelte/components/InspectorRow.svelte';
+import InspectorSection from '../../src/svelte/components/InspectorSection.svelte';
 import { setMessages } from '../../src/svelte/messages.js';
 
 // jsdom has no ResizeObserver, which Panel and Tabs use
@@ -103,5 +105,60 @@ describe('InspectorFrame', () => {
     );
     await fireEvent.click(getByRole('button', { name: 'Schließen' }));
     expect(onclose).toHaveBeenCalled();
+  });
+});
+
+describe('InspectorSection', () => {
+  it('shows the title and the rows, and folds with the chevron', async () => {
+    const ontoggle = vi.fn();
+    const { getByRole, getByText, queryByText } = render(InspectorSection, {
+      title: 'Stroke',
+      collapsible: true,
+      ontoggle,
+      children: html('<p>Width</p>'),
+    });
+    expect(getByText('Stroke')).toBeTruthy();
+    expect(getByText('Width')).toBeTruthy();
+    const chevron = getByRole('button', { name: 'Collapse' });
+    expect(chevron.getAttribute('aria-expanded')).toBe('true');
+    await fireEvent.click(chevron);
+    expect(ontoggle).toHaveBeenCalledWith(false);
+    expect(queryByText('Width')).toBeNull();
+    await fireEvent.click(getByRole('button', { name: 'Expand' }));
+    expect(getByText('Width')).toBeTruthy();
+  });
+
+  it('has no chevron unless it is collapsible, and draws the actions of end', () => {
+    const { queryByRole, getByRole } = render(InspectorSection, {
+      title: 'Fill',
+      end: html('<button type="button">Reset</button>'),
+      children: html('<p>Colour</p>'),
+    });
+    expect(queryByRole('button', { name: 'Collapse' })).toBeNull();
+    expect(getByRole('button', { name: 'Reset' })).toBeTruthy();
+  });
+});
+
+describe('InspectorRow', () => {
+  it('names the control with for, and shows the hint under the value', () => {
+    const { getByRole, getByText } = render(InspectorRow, {
+      label: 'Width',
+      for: 'row-width',
+      hint: 'On the screen.',
+      children: html('<input id="row-width" />'),
+    });
+    expect(getByRole('textbox', { name: 'Width' }).id).toBe('row-width');
+    expect(getByText('On the screen.')).toBeTruthy();
+  });
+
+  it('keeps the value at the end with align="end"', () => {
+    const { container } = render(InspectorRow, {
+      label: 'Visible',
+      align: 'end',
+      small: true,
+      children: html('<input type="checkbox" role="switch" aria-label="Visible" />'),
+    });
+    expect(container.querySelector('.end [role="switch"]')).toBeTruthy();
+    expect(container.querySelector('.inspector-row.small')).toBeTruthy();
   });
 });
