@@ -34,7 +34,11 @@ kata has three layers.
      Comment and Thread, with the `sortable` action.
 3. Parts for drawing applications: the shell, the layer tree, the
    inspector, settings and the toolbar. They know nothing about what is
-   drawn; the application passes the content in. Not published yet.
+   drawn; the application passes the content in.
+   - Settings: SettingsSection and SettingsRow, on SettingsPage.
+   - Toolbar: Drawbar, with the switches of the aids and a More menu.
+   - Panels: SearchPanel, VersionsPanel and SelectionSummary.
+   - Dialogs: ProcessDialog and SourcePicker.
 
 ## Install
 
@@ -81,9 +85,10 @@ and lists the values.
 ## Documentation
 
 The chapters are in [docs](docs/README.md): the principles, the scale, the
-tokens, the [components](docs/components/README.md) and the
-[checks](docs/checks.md). `npm run site:dev` serves them as a site, with a
-live example of each component.
+tokens, the [components](docs/components/README.md), the
+[workbench](docs/workbench/README.md) and the [checks](docs/checks.md).
+`npm run site:dev` serves them as a site, with a live example of each
+component.
 
 ## Contributing
 

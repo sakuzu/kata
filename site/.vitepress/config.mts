@@ -87,7 +87,11 @@ export default defineConfig({
   lang: 'en-US',
   base: BASE,
   srcDir: '../docs',
-  rewrites: { 'README.md': 'index.md', 'components/README.md': 'components/index.md' },
+  rewrites: {
+    'README.md': 'index.md',
+    'components/README.md': 'components/index.md',
+    'workbench/README.md': 'workbench/index.md',
+  },
   cleanUrls: true,
   appearance: 'dark',
   lastUpdated: false,
@@ -101,6 +105,7 @@ export default defineConfig({
     nav: [
       { text: 'Chapters', link: '/' },
       { text: 'Components', link: '/components/' },
+      { text: 'Workbench', link: '/workbench/' },
     ],
     sidebar: [
       {
@@ -252,6 +257,21 @@ export default defineConfig({
               ['TreeRow', 'tree-row'],
             ].map(([text, page]) => ({ text, link: `/components/${page}` })),
           },
+        ],
+      },
+      {
+        text: 'Workbench',
+        items: [
+          { text: 'Using the workbench parts', link: '/workbench/' },
+          ...[
+            ['ProcessDialog', 'process-dialog'],
+            ['SearchPanel', 'search-panel'],
+            ['SelectionSummary', 'selection-summary'],
+            ['SettingsRow', 'settings-row'],
+            ['SettingsSection', 'settings-section'],
+            ['SourcePicker', 'source-picker'],
+            ['VersionsPanel', 'versions-panel'],
+          ].map(([text, page]) => ({ text, link: `/workbench/${page}` })),
         ],
       },
     ],

@@ -16,8 +16,8 @@ the ones before it.
 6. [Components](components/README.md). How to use the Svelte components,
    then one page per component: its props, its height, padding and states,
    and a live example.
-7. Workbench (coming). One page per part of a drawing application: its
-   boundary with the application, and a live example.
+7. [Workbench](workbench/README.md). One page per part of a drawing
+   application: its boundary with the application, and a live example.
 8. Patterns (coming). Common arrangements of components: modal, menu,
    list, panel and page.
 9. [Checks](checks.md). What the automated checks of the components
