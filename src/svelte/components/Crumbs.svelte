@@ -3,9 +3,9 @@
   import { clampTip } from '../lib/clampTip.js';
   import Icon from './Icon.svelte';
 
-  // Crumbs: a trail of places that shows where the user is. It is not an action, so it keeps the
-  // muted color; a place that can be pressed is underlined on hover. The places are separated by a
-  // chevron, and the last one is the current place, which cannot be pressed.
+  // Crumbs: a trail of places that shows where the user is. It is not an action, so a place that
+  // can be pressed keeps the color of the text around it and is underlined on hover. The places are
+  // separated by a faint chevron, and the last one is the current place, which cannot be pressed.
   //
   // The text is caption, the same in a PageHeader and in a Topbar; inside a component with a
   // height (a Toolbar, a list item) it is trimmed to its ink. Each place is at most 12rem wide and
@@ -51,9 +51,9 @@
     gap: gap(2xs);
     min-width: 0;
     @include text(caption);
-    color: color(muted);
   }
-  // A place. One that can be pressed keeps the color and is underlined on hover
+  // A place. One that can be pressed keeps the color of the text around it and is underlined on
+  // hover
   .t {
     display: block;
     max-width: 12rem;

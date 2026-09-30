@@ -18,8 +18,9 @@ an action: to go somewhere else, use a link or a button.
 
 ## Contract
 
-The text is caption and keeps the muted color; a place with `href` is a
-link and one with `onclick` a button, both underlined on hover. The last
+The text is caption in the color of the text around it, and the chevrons
+are faint; a place with `href` is a link and one with `onclick` a
+button, both in the same color and underlined on hover. The last
 place is the current one (`aria-current="page"`) and cannot be pressed.
 The places are gap-2xs from the chevrons that separate them. Each place
 is at most 12rem wide and ends with an ellipsis beyond it, with the full
