@@ -1,0 +1,43 @@
+# Topbar
+
+Topbar is the toolbar at the top of the screen: the brand, the current
+place, a title and the actions.
+
+## When to use
+
+Use it once per screen, above everything else. The application passes
+what it shows: its name in `brand`, the trail to the current place in
+`crumbs`, the name of the open document in `center` (an
+[InlineEdit](inline-edit.md) when it can be renamed), who else is here in
+`presence`, and its actions in `end`. `lead` holds a button before the
+brand, such as the one that opens a drawer on a narrow screen.
+
+## Props
+
+| Prop | Default | Description |
+| --- | --- | --- |
+| `brand` | | The application's name; without it, no brand |
+| `brandHref` | | Draws the brand as a link, with the same look |
+| `brandTarget` | | `_blank` opens the brand's link in another tab |
+| `crumbs` | | The trail to the current place, `{ label, href?, onclick? }[]` |
+| `crumbsLabel` | | The name of the trail |
+| `lead` | | Before the brand (a snippet) |
+| `start` | | After the brand and the crumbs (a snippet) |
+| `center` | | A title or an inline edit in the centre (a snippet) |
+| `presence` | | Who else is here, before the actions (a snippet) |
+| `end` | | The actions at the right end (a snippet) |
+
+## Contract
+
+The height is a [Toolbar](toolbar.md)'s, the surface the panel colour,
+with a strong line along the bottom; pad-md at the sides and small
+buttons inside. The brand is h2, trimmed to its ink. The start keeps its
+size except the crumbs, which shrink; the centre takes the rest of the
+width and shrinks first, and what is in it clips its own text. The end
+holds `presence` and `end` as two groups gap-md apart; inside a group,
+icon buttons sit side by side. Nothing wraps and the places never
+overlap. Below 24rem the brand is hidden and the buttons stay.
+
+## Example
+
+[Topbar](../../examples/topbar/)

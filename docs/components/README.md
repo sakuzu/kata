@@ -60,6 +60,22 @@ props, its contract (height, padding and states) and a live example.
   [Swatch](swatch.md) and [Palette](palette.md): colours and colour
   schemes.
 
+## Structure
+
+- [Panel](panel.md), [Toolbar](toolbar.md), [Topbar](topbar.md),
+  [Drawbar](drawbar.md) and [Fab](fab.md): the columns of the screen,
+  their heads, the bars of tools and the floating action.
+- [Tabs](tabs.md) and [Crumbs](crumbs.md): the views of a place, and the
+  trail to it.
+- [Tree](tree.md), [TreeRow](tree-row.md), [DropLine](drop-line.md),
+  [DropTarget](drop-target.md) and the [sortable](sortable.md) action: a
+  list with depth, reordered by dragging, and the place to drop files.
+- [Disclosure](disclosure.md) and [FilterBar](filter-bar.md): a group that
+  opens and closes, and the filters in effect.
+- [SettingsPage](settings-page.md): the frame of a settings page.
+- [Comment](comment.md) and [Thread](thread.md): the messages of a
+  conversation and their replies.
+
 ## Strings
 
 The strings a component shows on its own are English by default.
@@ -77,8 +93,9 @@ setMessages({}, { reset: true }); // back to English
 ## Icons
 
 `icons` lists the icons the components draw by name: `arrow-up-right`,
-`check`, `chevron-down`, `image`, `pencil`, `pipette`, `plus`, `search`
-and `x`, from [Lucide](https://lucide.dev), and kata's drawing glyphs
+`check`, `chevron-down`, `chevron-right`, `funnel`, `grip-vertical`,
+`image`, `pencil`, `pipette`, `plus`, `search` and `x`, from
+[Lucide](https://lucide.dev), and kata's drawing glyphs
 `point`, `polyline`, `polygon`, `arrow` and `sticky-note`. Wherever a component
 takes an icon, it also takes any icon component, such as another Lucide
 icon.

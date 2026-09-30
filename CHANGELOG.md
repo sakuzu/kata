@@ -21,3 +21,7 @@ follows semantic versioning.
 - A page and a live example for each component, and the Checks chapter.
 - The audit (`npm run audit`): the components' styles are read and their
   examples measured in a browser.
+- The structure components (Panel, Toolbar, Topbar, Drawbar, Fab, Tabs,
+  Crumbs, Tree, TreeRow, DropLine, DropTarget, Disclosure, FilterBar,
+  SettingsPage, Comment and Thread) and the `sortable` action, which
+  reorders items by dragging with SortableJS.
