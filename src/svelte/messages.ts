@@ -82,6 +82,26 @@ export interface Messages {
   removeFilter: (p: { label: string }) => string;
   /** The trigger of the menu that holds the tabs that do not fit */
   more: string;
+  /** LayerTree: the eye and the lock of a row, the name's input and the trigger of the add menu */
+  hide: string;
+  show: string;
+  lock: string;
+  unlock: string;
+  rename: string;
+  add: string;
+  /** AppMenu: the name of its trigger when no label is given */
+  menu: string;
+  /** CommentList: its name, its empty state and the actions and state of a thread */
+  comments: string;
+  noComments: string;
+  openThread: string;
+  resolve: string;
+  reopen: string;
+  resolved: string;
+  replies: (p: { count: number }) => string;
+  /** CommentComposer: the placeholder and the button that posts */
+  writeComment: string;
+  post: string;
 }
 
 const english: Messages = {
@@ -141,6 +161,22 @@ const english: Messages = {
   filters: 'Filters',
   removeFilter: ({ label }) => `Remove ${label}`,
   more: 'More',
+  hide: 'Hide',
+  show: 'Show',
+  lock: 'Lock',
+  unlock: 'Unlock',
+  rename: 'Name',
+  add: 'Add',
+  menu: 'Menu',
+  comments: 'Comments',
+  noComments: 'No comments yet.',
+  openThread: 'Open',
+  resolve: 'Resolve',
+  reopen: 'Reopen',
+  resolved: 'Resolved',
+  replies: ({ count }) => (count === 1 ? '1 reply' : `${count} replies`),
+  writeComment: 'Write a comment',
+  post: 'Post',
 };
 
 /** The English defaults */

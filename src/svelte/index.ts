@@ -3,6 +3,7 @@
 // the rules they share (styles/components.css) itself.
 
 export { default as Actions } from './components/Actions.svelte';
+export { default as AppMenu } from './components/AppMenu.svelte';
 export { default as Avatar } from './components/Avatar.svelte';
 export { default as Badge } from './components/Badge.svelte';
 export { default as Banner } from './components/Banner.svelte';
@@ -58,6 +59,8 @@ export { default as Menu } from './components/Menu.svelte';
 export { default as MenuDivider } from './components/MenuDivider.svelte';
 export { default as MenuHead } from './components/MenuHead.svelte';
 export { default as MenuItem } from './components/MenuItem.svelte';
+export { default as MenuList } from './components/MenuList.svelte';
+export { default as MenuSheet } from './components/MenuSheet.svelte';
 export { default as Meter } from './components/Meter.svelte';
 export { default as Modal } from './components/Modal.svelte';
 export { default as NativeSelect } from './components/NativeSelect.svelte';
@@ -131,6 +134,7 @@ export {
   readFontScale,
   setFontScale,
 } from './lib/fontScale.js';
+export { isMenuItem, type MenuModel, type MenuModelItem } from './lib/menuModel.js';
 export { createNarrow, isNarrowerThan, WIDTHS } from './lib/viewport.svelte.js';
 export { defaultMessages, getMessages, type Messages, setMessages } from './messages.js';
 export { type SortableParams, type SortMove, type SortOver, sortable } from './sortable.js';

@@ -22,6 +22,8 @@ drawer on a narrow screen.
 | `brandHref` | | Draws the brand as a link, with the same look |
 | `brandTarget` | | `_blank` opens the brand's link in another tab |
 | `brandMenu` | | The brand opens a menu: its MenuItems (a snippet) |
+| `menu` | | The brand opens a menu drawn from a model (`MenuModel[]`) |
+| `onmenu` | | Called with the id of the chosen item of `menu` |
 | `brandLabel` | | The name of the menu's trigger |
 | `crumbs` | | The trail to the current place, `{ label, href?, onclick? }[]` |
 | `crumbsLabel` | | The name of the trail |
@@ -38,6 +40,8 @@ with a strong line along the bottom; pad-md at the sides and small
 buttons inside. The brand is h2, trimmed to its ink; with `brandMenu` it
 is a button without a line, with a chevron, that opens a
 [Dropdown](dropdown.md) menu below it (the snippet receives `close`).
+`menu` opens the same Dropdown with a [MenuList](../workbench/menu-list.md)
+of the model, as an [AppMenu](../workbench/app-menu.md) does.
 The start keeps its size except the crumbs, which shrink; the centre
 takes the rest of the width and shrinks first, and what is in it clips
 its own text. The end

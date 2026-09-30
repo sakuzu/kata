@@ -16,7 +16,8 @@
 //   margin       the root element of a component has no outer margin (layouts and Prose aside)
 //   tokens       every custom property a component reads is defined by the foundation or by a
 //                component
-//   coverage     every component is exported, has an example and a page in docs/components
+//   coverage     every component is exported, has an example and a page in docs/components or
+//                docs/workbench
 //
 // Usage: node scripts/lint-components.mjs
 
@@ -265,9 +266,13 @@ for (const file of components) {
   if (!index.includes(`as ${name} }`)) report(file, 0, 'not exported from src/svelte/index.ts');
   if (!statSync(join(ROOT, 'examples', kebab(name), 'index.html'), { throwIfNoEntry: false }))
     report(file, 0, `no example (examples/${kebab(name)}/)`);
-  const page = join(ROOT, 'docs/components', `${kebab(name)}.md`);
-  if (!statSync(page, { throwIfNoEntry: false }))
-    report(file, 0, `no page (docs/components/${kebab(name)}.md)`);
+  // A component's page is in docs/components, or in docs/workbench for a part of a drawing
+  // application
+  const page =
+    ['docs/components', 'docs/workbench']
+      .map((dir) => join(ROOT, dir, `${kebab(name)}.md`))
+      .find((p) => statSync(p, { throwIfNoEntry: false })) ?? '';
+  if (!page) report(file, 0, `no page (docs/components/${kebab(name)}.md)`);
   else if (!readFileSync(page, 'utf8').includes(`examples/${kebab(name)}/`))
     report(page, 0, `does not embed its example (examples/${kebab(name)}/)`);
 }

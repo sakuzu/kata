@@ -1,9 +1,11 @@
 <script lang="ts">
   import '../styles/components.css';
   import type { Snippet } from 'svelte';
+  import type { MenuModel } from '../lib/menuModel.js';
   import Crumbs from './Crumbs.svelte';
   import Dropdown from './Dropdown.svelte';
   import Icon from './Icon.svelte';
+  import MenuList from './MenuList.svelte';
 
   // Topbar: the toolbar at the top of the screen. Its height is a Toolbar's, its surface the
   // panel's, with a strong line along the bottom; pad-md at the sides and small buttons inside.
@@ -16,6 +18,9 @@
   // The end holds presence (who else is here, a Presence) and then the actions, in groups gap-md
   // apart. Below 24rem the brand is hidden and the buttons stay.
   //
+  // menu gives the brand's menu as a model (MenuModel[], the same as AppMenu's) instead of the
+  // brandMenu snippet; onmenu receives the id of the item that was chosen.
+  //
   //   <Topbar brand="Sketchbook" brandHref="/" crumbs={[{ label: 'Team', href: '/t' }, { label: 'Drafts' }]}>
   //     {#snippet end()}<Button variant="ghost" icon aria-label="Share"><Icon name={Share} /></Button>{/snippet}
   //   </Topbar>
@@ -24,6 +29,8 @@
     brandHref,
     brandTarget,
     brandMenu,
+    menu,
+    onmenu,
     brandLabel,
     crumbs,
     crumbsLabel,
@@ -41,6 +48,10 @@
     brandTarget?: '_blank';
     /** Makes the brand the trigger of the application's menu: the MenuItems; close closes it */
     brandMenu?: Snippet<[() => void]>;
+    /** Makes the brand the trigger of a menu drawn from a model */
+    menu?: MenuModel[];
+    /** Called with the id of the item of the model that was chosen */
+    onmenu?: (id: string) => void;
     /** The name of the menu's trigger */
     brandLabel?: string;
     /** The trail to the current place, after the brand */
@@ -64,7 +75,7 @@
   <div class="side">
     {@render lead?.()}
     {#if brand}
-      {#if brandMenu}
+      {#if brandMenu || menu}
         <Dropdown menu align="start" role="box">
           {#snippet trigger(toggle, open)}
             <button
@@ -79,7 +90,13 @@
               <span class="t">{brand}</span><Icon name="chevron-down" />
             </button>
           {/snippet}
-          {#snippet panel(close)}{@render brandMenu(close)}{/snippet}
+          {#snippet panel(close)}
+            {#if brandMenu}
+              {@render brandMenu(close)}
+            {:else if menu}
+              <MenuList items={menu} onselect={onmenu} onclose={close} />
+            {/if}
+          {/snippet}
         </Dropdown>
       {:else if brandHref}
         <a
