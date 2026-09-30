@@ -8,6 +8,7 @@
 import ArrowUpRight from '@lucide/svelte/icons/arrow-up-right';
 import Check from '@lucide/svelte/icons/check';
 import ChevronDown from '@lucide/svelte/icons/chevron-down';
+import ChevronRight from '@lucide/svelte/icons/chevron-right';
 import Image from '@lucide/svelte/icons/image';
 import Pencil from '@lucide/svelte/icons/pencil';
 import Pipette from '@lucide/svelte/icons/pipette';
@@ -39,6 +40,7 @@ export const icons = {
   polygon: Polygon as IconComponent,
   arrow: Arrow as IconComponent,
   'sticky-note': StickyNote as IconComponent,
+  'chevron-right': ChevronRight as unknown as IconComponent,
 } satisfies Record<string, IconComponent>;
 
 export type IconName = keyof typeof icons;

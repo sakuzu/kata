@@ -9,6 +9,7 @@ export { default as Checkbox } from './components/Checkbox.svelte';
 export { default as ColorGrid } from './components/ColorGrid.svelte';
 export { default as ColorPicker } from './components/ColorPicker.svelte';
 export { default as Counter } from './components/Counter.svelte';
+export { default as Crumbs } from './components/Crumbs.svelte';
 export { default as Divider } from './components/Divider.svelte';
 export type { DrawbarTool } from './components/Drawbar.svelte';
 export { default as Drawbar } from './components/Drawbar.svelte';
@@ -44,12 +45,14 @@ export { default as Slider } from './components/Slider.svelte';
 export { default as Split } from './components/Split.svelte';
 export { default as Stack } from './components/Stack.svelte';
 export { default as Swatch } from './components/Swatch.svelte';
+export { default as Tabs } from './components/Tabs.svelte';
 export { default as Text } from './components/Text.svelte';
 export { default as Textarea } from './components/Textarea.svelte';
 export { default as TextInput } from './components/TextInput.svelte';
 export { default as Thumbnail } from './components/Thumbnail.svelte';
 export { default as Toggle } from './components/Toggle.svelte';
 export { default as Toolbar } from './components/Toolbar.svelte';
+export { default as Topbar } from './components/Topbar.svelte';
 export {
   type IconComponent,
   type IconName,
