@@ -2,10 +2,17 @@
 // base CSS, which the application imports once (`import '@sakuzu/kata'`). Each component imports
 // the rules they share (styles/components.css) itself.
 
+export { default as Figure } from './components/Figure.svelte';
+export { default as Glyphs } from './components/Glyphs.svelte';
 export { default as Grid } from './components/Grid.svelte';
+export { default as Icon } from './components/Icon.svelte';
+export { default as Kbd } from './components/Kbd.svelte';
+export { default as Prose } from './components/Prose.svelte';
 export { default as Row } from './components/Row.svelte';
 export { default as Split } from './components/Split.svelte';
 export { default as Stack } from './components/Stack.svelte';
+export { default as Text } from './components/Text.svelte';
+export { default as Thumbnail } from './components/Thumbnail.svelte';
 export {
   type IconComponent,
   type IconName,
