@@ -60,6 +60,22 @@ props, its contract (height, padding and states) and a live example.
   [Swatch](swatch.md) and [Palette](palette.md): colours and colour
   schemes.
 
+## Overlay and feedback
+
+- [Modal](modal.md), [Confirm](confirm.md), [Drawer](drawer.md),
+  [Sheet](sheet.md) and [Veil](veil.md): surfaces laid over the screen
+  or over a frame.
+- [Popover](popover.md), [Bubble](bubble.md), [Tooltip](tooltip.md) and
+  [Floating](floating.md): small surfaces next to a trigger, a word that
+  explains a control, and a container over a drawing.
+- [Menu](menu.md), [MenuItem](menu-item.md), [MenuHead](menu-head.md),
+  [MenuDivider](menu-divider.md), [Dropdown](dropdown.md) and
+  [Kebab](kebab.md): lists of actions and the place they open in.
+- [Banner](banner.md), [Note](note.md), [Notices](notices.md),
+  [Toast](toast.md), [ToastHost](toast-host.md) and [Bulk](bulk.md):
+  notices, messages that go by themselves, and the bar of actions on a
+  selection.
+
 ## Strings
 
 The strings a component shows on its own are English by default.
@@ -83,6 +99,11 @@ and `x`, from [Lucide](https://lucide.dev), and kata's drawing glyphs
 takes an icon, it also takes any icon component, such as another Lucide
 icon.
 
+The overlay and feedback components add `arrow-left`, `chevron-right`,
+`circle-alert`, `circle-check`, `copy`, `corner-up-right`, `ellipsis`,
+`globe`, `info`, `settings-2`, `share-2`, `trash-2`, `triangle-alert`
+and `ungroup`.
+
 ## Helpers
 
 - `setFontScale`, `readFontScale`, `fontScaleLabel` and `FONT_SCALES` set
@@ -93,3 +114,6 @@ icon.
   holds the three widths (24, 48 and 64rem).
 - `clampTip` is an action for an element that clips its text with an
   ellipsis: the full text shows on hover and on keyboard focus.
+- `toast` is the store of the messages that [ToastHost](toast-host.md)
+  shows: `toast.show()` and `toast.error()` add one, `toast.dismiss()`
+  removes one, and each goes by itself after `TOAST_DURATION`.

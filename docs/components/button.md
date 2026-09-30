@@ -26,6 +26,8 @@ of a text button are text only: icons go in `leading` and `trailing`.
 | `clamp` | `false` | The trigger of a value |
 | `mono` | `false` | The text in the monospace font |
 | `badge` | | A count over an icon button; 100 and more shows 99+ |
+| `tip` | | The text of the tooltip; `false` turns it off |
+| `shortcut` | | A key hint inside the tooltip |
 | `on` | `false` | Selected, as a tool in a toolbar |
 | `tone` | | `danger`: a ghost button whose text turns red on hover |
 | `block` | `false` | The full width, for the action of a one-column form |
@@ -50,7 +52,9 @@ of a small button, wherever it is. The text is one line, trimmed to its
 ink; a button wider than its container shrinks and ends its text with an
 ellipsis. Hover shows the raise surface, pressing the stronger one;
 disabled and busy are dimmed. The area that is pressed, the hover
-surface, the line and the focus ring all belong to the button.
+surface, the line and the focus ring all belong to the button. An icon
+button shows its `aria-label` in a [Tooltip](tooltip.md), with `shortcut`
+as the key hint; a text button shows one only when `tip` is given.
 
 ## Example
 

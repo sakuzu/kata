@@ -20,7 +20,11 @@ kata has three layers.
    Radio, RadioGroup, Segmented, Slider, TextInput, Textarea, NumberInput,
    SearchInput, InlineEdit, FileInput, Field, InputGroup, Select,
    NativeSelect, ColorPicker, ColorGrid, Swatch and Palette. Lists and
-   containers such as Panel and Tree are not published yet.
+   containers such as Panel and Tree are not published yet. The overlay
+   and feedback components are available: Modal, Confirm, Drawer, Sheet,
+   Veil, Popover, Bubble, Tooltip, Floating, Menu, MenuItem, MenuHead,
+   MenuDivider, Dropdown, Kebab, Banner, Note, Notices, Toast, ToastHost
+   and Bulk.
 3. Parts for drawing applications: the shell, the layer tree, the
    inspector, settings and the toolbar. They know nothing about what is
    drawn; the application passes the content in. Not published yet.
