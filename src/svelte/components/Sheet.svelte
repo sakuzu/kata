@@ -13,7 +13,7 @@
   // pane gives it the full height and the panel's head becomes the sheet's head.
   //
   // It is placed absolutely at the bottom of its frame, which must be a positioned element. inline
-  // draws it in the flow instead, at the bottom of its container, for documentation.
+  // draws it in the flow instead, for documentation.
   //
   //   <Sheet bind:stage label="Details">
   //     {#snippet head()}…{/snippet}
@@ -190,11 +190,10 @@
       flex: 1 1 auto;
     }
   }
-  // In the flow: at the bottom of its container, with the same heights
+  // In the flow, with the same heights; its container places it
   aside.sheet[data-inline] {
     position: static;
     flex: none;
-    margin-top: auto;
   }
   .sheet.dragging {
     transition: none;

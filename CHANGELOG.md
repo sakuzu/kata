@@ -21,3 +21,8 @@ follows semantic versioning.
 - A page and a live example for each component, and the Checks chapter.
 - The audit (`npm run audit`): the components' styles are read and their
   examples measured in a browser.
+- The overlay and feedback components: Modal, Confirm, Drawer, Sheet,
+  Veil, Popover, Bubble, Tooltip, Floating, Menu, MenuItem, MenuHead,
+  MenuDivider, Dropdown, Kebab, Banner, Note, Notices, Toast, ToastHost
+  and Bulk, with the toast store (`toast`), their strings and their
+  icons. Button shows a tooltip (`tip`, `shortcut`).
