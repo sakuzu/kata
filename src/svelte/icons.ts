@@ -9,6 +9,7 @@ import ArrowUpRight from '@lucide/svelte/icons/arrow-up-right';
 import Check from '@lucide/svelte/icons/check';
 import ChevronDown from '@lucide/svelte/icons/chevron-down';
 import ChevronRight from '@lucide/svelte/icons/chevron-right';
+import Funnel from '@lucide/svelte/icons/funnel';
 import GripVertical from '@lucide/svelte/icons/grip-vertical';
 import Image from '@lucide/svelte/icons/image';
 import Pencil from '@lucide/svelte/icons/pencil';
@@ -42,6 +43,7 @@ export const icons = {
   arrow: Arrow as IconComponent,
   'sticky-note': StickyNote as IconComponent,
   'chevron-right': ChevronRight as unknown as IconComponent,
+  funnel: Funnel as unknown as IconComponent,
   'grip-vertical': GripVertical as unknown as IconComponent,
 } satisfies Record<string, IconComponent>;
 

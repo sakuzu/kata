@@ -37,6 +37,10 @@ export interface Messages {
   /** The names of the button that opens or closes a row of a Tree */
   expand: string;
   collapse: string;
+  /** The name of FilterBar's group of filters */
+  filters: string;
+  /** The name of the button that removes one filter from a FilterBar */
+  removeFilter: (p: { label: string }) => string;
 }
 
 const english: Messages = {
@@ -65,6 +69,8 @@ const english: Messages = {
   fontScaleMax: 'Maximum',
   expand: 'Expand',
   collapse: 'Collapse',
+  filters: 'Filters',
+  removeFilter: ({ label }) => `Remove ${label}`,
 };
 
 /** The English defaults */

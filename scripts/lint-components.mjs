@@ -107,6 +107,7 @@ const TRIM_OK = new Set([
   'TextInput',
   'Toggle',
   'Crumbs',
+  'Disclosure',
   'Tabs',
   'Toolbar',
   'Topbar',
