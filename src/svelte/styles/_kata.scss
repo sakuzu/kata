@@ -1,0 +1,152 @@
+// The functions and mixins that the components' styles are written with. A component never names a
+// custom property directly; it goes through these, so that every value is one of the tokens of the
+// foundation (src/tokens/tokens.css, docs/tokens.md).
+//
+//   @use '../styles/kata' as *;
+//   font-size: fs(body);        the size, leading and tracking of a type role
+//   padding-inline: pad(md);    padding: follows the element's own text (em)
+//   gap: gap(sm);               distance between items: follows the root (rem); never mixed with pad
+//   height: h(button);          the height of a component, named after it
+//   margin-top: off(h1);        the distance below a heading (inside Prose only)
+//   color: color(muted);        a color token
+//   @include trim;              text inside a control only
+//   @include narrow { … }       below 48rem (mid: below 64rem, tiny: below 24rem)
+
+@function fs($role) {
+  @return var(--kata-text-size-#{$role});
+}
+@function lh($role) {
+  @return var(--kata-text-leading-#{$role});
+}
+@function ls($role) {
+  @return var(--kata-text-tracking-#{$role});
+}
+// Padding inside a component or container: the size of its text times a power of φ (em)
+@function pad($step) {
+  @return var(--kata-pad-#{$step});
+}
+// Distance between items of a layout, and the margin of a page: the root times a power of φ (rem)
+@function gap($step) {
+  @return var(--kata-gap-#{$step});
+}
+@function h($name) {
+  @return var(--kata-height-#{$name});
+}
+// The distance from a heading to the text it introduces
+@function off($role) {
+  @return var(--kata-text-offset-#{$role});
+}
+@function color($role) {
+  @return var(--kata-color-#{$role});
+}
+@function bw() {
+  @return var(--kata-border-width);
+}
+@function z($name) {
+  @return var(--kata-z-#{$name});
+}
+// Disabled or busy content
+@function dim() {
+  @return var(--kata-opacity-dim);
+}
+
+// The three widths are measured against the size container `app` (the body, base.css), so they
+// follow the root font size.
+@mixin narrow {
+  @container app (width < 48rem) {
+    @content;
+  }
+}
+@mixin mid {
+  @container app (width < 64rem) {
+    @content;
+  }
+}
+@mixin tiny {
+  @container app (width < 24rem) {
+    @content;
+  }
+}
+
+// Text inside a control. The line is trimmed to the cap height and the baseline, and the ink that
+// the main script puts outside them (CJK, from the root's language) is added back as padding, so
+// the edge of the element is the edge of the ink. Only text inside a control is trimmed this way.
+@mixin trim {
+  text-box: trim-both cap alphabetic;
+  padding-top: calc(var(--kata-ink-over) * 1em);
+  padding-bottom: calc(var(--kata-ink-under) * 1em);
+}
+// A line that touches a visible edge (the inner edge of a container, or a line): the same trim on
+// one side only
+@mixin trim-start {
+  text-box: trim-start cap alphabetic;
+  padding-top: var(--kata-edge-top);
+}
+@mixin trim-end {
+  text-box: trim-end cap alphabetic;
+  padding-bottom: var(--kata-edge-bottom);
+}
+// Undoes trim (text that wraps to two lines inside a control)
+@mixin untrim {
+  text-box: none;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+// A type role: size, leading, tracking, and the weight of the roles that name or head something
+@mixin text($role) {
+  font-size: fs($role);
+  line-height: lh($role);
+  letter-spacing: ls($role);
+  @if $role == num {
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  } @else if $role == title or $role == h1 or $role == h2 or $role == label or $role == glyph {
+    font-weight: 600;
+  }
+}
+
+// The edge flags. A container raises --kata-at-start and --kata-at-end on its content; the global
+// rules in components.css lower them on children that are not first or last, stop them at every
+// component with an outline of its own, and trim the text that sits at a raised edge.
+@mixin edge($start: 1, $end: 1) {
+  --kata-at-start: #{$start};
+  --kata-at-end: #{$end};
+}
+// A container with padding (md on all sides). Its content is text, fields and actions; the
+// first and the last line of text are trimmed at its edges.
+@mixin container {
+  padding: pad(md);
+  --kata-inset: 0px;
+  @include edge(1, 1);
+}
+// A container without padding, which stacks list items. The items read --kata-inset for their
+// padding at the sides; the text inside them sets its own edges, so no flag is raised.
+@mixin bundle {
+  padding: 0;
+  --kata-inset: #{pad(md)};
+  @include edge(0, 0);
+}
+// The height of the controls inside an element (a container declares it, a control reads it)
+@mixin scope-box($name) {
+  --kata-box: var(--kata-height-#{$name});
+}
+
+// One line with an ellipsis. Text trimmed to the cap height would lose the top of CJK ink and the
+// descenders under overflow: hidden, so the clip edge is moved outside the ink by size-xs. Chrome
+// does not accept calc() or var() in overflow-clip-margin, so the value of the step is written out.
+@mixin ellipsis {
+  white-space: nowrap;
+  overflow: clip;
+  overflow-clip-margin: 0.382em;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+// The focus ring drawn inside, for parts that sit edge to edge (cells, segments, items)
+@mixin focus-inside {
+  &:focus-visible {
+    outline: 2px solid color(focus);
+    outline-offset: -2px;
+  }
+}

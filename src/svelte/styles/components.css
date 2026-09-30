@@ -1,0 +1,88 @@
+/*
+ * The global rules that the components share. @sakuzu/kata/svelte imports this file once; it needs
+ * the tokens of the foundation (@sakuzu/kata).
+ *
+ * Text is trimmed to its ink in three places only: inside a control, at the inner edge of a
+ * container and next to a line. Each component decides nothing on its own; it reads flags that
+ * inherit through the tree:
+ *
+ *   --kata-at-start / --kata-at-end  raised by a container with padding on its content; lowered
+ *                                    on every child that is not first or last; stopped by every
+ *                                    component with an outline of its own (a [data-role] other
+ *                                    than a stack or a pass-through wrapper)
+ *   --kata-in-control                raised by a component that declares its height ([data-h]),
+ *                                    lowered by a container with padding ([data-inset])
+ *
+ * Edge text (Text, a paragraph, Prose) reads its parent's flags with a style query and trims the
+ * side that touches the edge. A line ([data-role="rule"]) is a visible edge too, so the child next
+ * to it raises the flag again. A horizontal row ([data-edge-pass]) trims all of its text, so that
+ * the items of one line stay level.
+ */
+
+:where(:not(:first-child)) {
+  --kata-at-start: 0;
+}
+:where(:not(:last-child)) {
+  --kata-at-end: 0;
+}
+:where([data-role]:not([data-role="stack"]):not([data-pass]):not([data-edge-pass])) {
+  --kata-at-start: 0;
+  --kata-at-end: 0;
+}
+[data-role="rule"] + :where([data-role="stack"], [data-pass], [data-edge-pass], :not([data-role])) {
+  --kata-at-start: 1;
+}
+:where([data-role="stack"], [data-pass], [data-edge-pass], :not([data-role])):has(+ [data-role="rule"]) {
+  --kata-at-end: 1;
+}
+
+:where([data-h]) {
+  --kata-in-control: 1;
+}
+:where([data-inset]) {
+  --kata-in-control: 0;
+}
+
+@container style(--kata-at-start: 1) {
+  :where(.kata-text, [data-role="caption"], [data-role="p"], [data-role="prose"], [data-role="value"], [data-role="stat"], [data-role="field"] > label):first-child,
+  [data-edge-pass] > :where(.kata-text, [data-role="caption"], [data-role="p"], [data-role="prose"], [data-role="value"], [data-role="stat"], [data-role="field"] > label) {
+    text-box: trim-start cap alphabetic;
+    padding-top: var(--kata-edge-top);
+  }
+}
+@container style(--kata-at-end: 1) {
+  :where(.kata-text, [data-role="caption"], [data-role="p"], [data-role="prose"], [data-role="value"], [data-role="stat"], [data-role="field"] > label):last-child,
+  [data-edge-pass] > :where(.kata-text, [data-role="caption"], [data-role="p"], [data-role="prose"], [data-role="value"], [data-role="stat"], [data-role="field"] > label) {
+    text-box: trim-end cap alphabetic;
+    padding-bottom: var(--kata-edge-bottom);
+  }
+}
+
+/* Text directly next to a line */
+[data-role="rule"] + :where(.kata-text, [data-role="caption"], [data-role="p"], [data-role="prose"], [data-role="value"], [data-role="stat"], [data-role="field"] > label) {
+  text-box: trim-start cap alphabetic;
+  padding-top: var(--kata-edge-top);
+}
+:where(.kata-text, [data-role="caption"], [data-role="p"], [data-role="prose"], [data-role="value"], [data-role="stat"], [data-role="field"] > label):has(+ [data-role="rule"]) {
+  text-box: trim-end cap alphabetic;
+  padding-bottom: var(--kata-edge-bottom);
+}
+
+/* Text next to a line that is also at the edge of its container, and text alone in a container:
+ * both sides. text-box-trim is one property, so trim-both comes last. */
+@container style(--kata-at-end: 1) {
+  [data-role="rule"] + :where(.kata-text, [data-role="caption"], [data-role="p"], [data-role="prose"], [data-role="value"], [data-role="stat"], [data-role="field"] > label):last-child {
+    text-box-trim: trim-both;
+  }
+}
+@container style(--kata-at-start: 1) {
+  :where(.kata-text, [data-role="caption"], [data-role="p"], [data-role="prose"], [data-role="value"], [data-role="stat"], [data-role="field"] > label):first-child:has(+ [data-role="rule"]) {
+    text-box-trim: trim-both;
+  }
+}
+@container style(--kata-at-start: 1) and style(--kata-at-end: 1) {
+  :where(.kata-text, [data-role="caption"], [data-role="p"], [data-role="prose"], [data-role="value"], [data-role="stat"], [data-role="field"] > label):first-child:last-child,
+  [data-edge-pass] > :where(.kata-text, [data-role="caption"], [data-role="p"], [data-role="prose"], [data-role="value"], [data-role="stat"], [data-role="field"] > label) {
+    text-box-trim: trim-both;
+  }
+}
