@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "target": "ES2023",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "lib": ["ES2023", "DOM"],
+    "types": ["node"],
+    "strict": true,
+    "allowJs": true,
+    "checkJs": true,
+    "noEmit": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true
+  },
+  "include": [
+    "src/**/*.mjs",
+    "scripts/**/*.mjs",
+    "tests/**/*.ts",
+    "examples/**/*.mjs",
+    "site/.vitepress/**/*.mts"
+  ],
+  "exclude": ["node_modules", "dist", "site/.vitepress/cache", "site/.vitepress/dist"]
+}

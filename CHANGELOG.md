@@ -1,0 +1,15 @@
+# Changelog
+
+All notable changes to `@sakuzu/kata` are recorded here. The format follows
+[Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project
+follows semantic versioning.
+
+## [Unreleased]
+
+### Added
+
+- The numeric scale: one root (φ), three steps, seven sizes and eight type
+  roles, generated as CSS custom properties by `npm run scale`.
+- Tokens for spacing, type, color, lines, widths, heights and layering.
+- Base CSS: the reset and the rules every page shares.
+- The documents Principles, Scale and Tokens, and the documentation site.

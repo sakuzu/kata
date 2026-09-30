@@ -1,0 +1,77 @@
+{
+  "name": "@sakuzu/kata",
+  "version": "1.0.0",
+  "description": "The design system of sakuzu: a numeric scale derived from the golden ratio, CSS tokens and base CSS for drawing applications.",
+  "keywords": [
+    "design-system",
+    "css",
+    "tokens",
+    "custom-properties",
+    "golden-ratio",
+    "typography",
+    "spacing"
+  ],
+  "license": "Apache-2.0",
+  "author": "Kasika, Inc.",
+  "homepage": "https://github.com/sakuzu/kata#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sakuzu/kata.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sakuzu/kata/issues"
+  },
+  "type": "module",
+  "style": "./dist/kata.css",
+  "exports": {
+    ".": "./dist/kata.css",
+    "./scale.css": "./dist/scale.css",
+    "./tokens.css": "./dist/tokens.css",
+    "./base.css": "./dist/base.css",
+    "./package.json": "./package.json"
+  },
+  "sideEffects": [
+    "*.css"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "files": [
+    "dist",
+    "LICENSE",
+    "NOTICE",
+    "THIRD_PARTY_NOTICES.md",
+    "CHANGELOG.md"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "scale": "node scripts/scale.mjs",
+    "scale:check": "node scripts/scale.mjs --check",
+    "typecheck": "tsc --noEmit",
+    "lint": "biome check && npm run lint:md",
+    "lint:md": "markdownlint --ignore node_modules --ignore dist --ignore 'site/.vitepress/cache' --ignore 'site/.vitepress/dist' '**/*.md'",
+    "lint:fix": "biome check --write",
+    "check:terms": "node scripts/check-terms.mjs",
+    "check:package": "npm run build && publint",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "examples:dev": "vite --config examples/vite.config.mjs",
+    "site:dev": "vitepress dev site",
+    "site:build": "vitepress build site && vite build --config examples/vite.config.mjs",
+    "site:preview": "vitepress preview site",
+    "prepack": "npm run build"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.5.14",
+    "@types/node": "^26.6.3",
+    "markdownlint-cli": "^0.49.1",
+    "publint": "^0.3.24",
+    "typescript": "^6.0.3",
+    "vite": "^8.3.1",
+    "vitepress": "^1.6.4",
+    "vitest": "^5.0.3"
+  }
+}
