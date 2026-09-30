@@ -18,17 +18,6 @@ kata has three layers.
    inspector, settings and the toolbar. They know nothing about what is
    drawn; the application passes the content in. Not published yet.
 
-Three rules hold in every layer.
-
-- No geography vocabulary. Coordinates, distances, map data formats and
-  the names of rendering libraries belong to the application, so the same
-  parts serve a whiteboard as well as a map.
-- Every string comes from outside, through props or a messages API. The
-  defaults are English; kata has no translation machinery of its own.
-- The vocabulary is four layers (scale, token, component, pattern), English
-  component names and three scales (spacing, type and color). No value
-  gets a name of its own.
-
 ## Install
 
 ```sh
@@ -74,6 +63,10 @@ and lists the values.
 The chapters are in [docs](docs/README.md): the principles, the scale and
 the tokens, with more to come as the components arrive. `npm run site:dev`
 serves them as a site.
+
+## Contributing
+
+See [CONTRIBUTING](CONTRIBUTING.md) for the checks that a change must pass.
 
 ## Development
 

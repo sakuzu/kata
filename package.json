@@ -61,7 +61,8 @@
     "site:dev": "vitepress dev site",
     "site:build": "vitepress build site && vite build --config examples/vite.config.mjs",
     "site:preview": "vitepress preview site",
-    "prepack": "npm run build"
+    "prepack": "npm run build",
+    "check": "npm run scale && git diff --quiet -- src/tokens/scale.css && npm test && npm run lint && npm run check:terms && npm run site:build"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.5.14",

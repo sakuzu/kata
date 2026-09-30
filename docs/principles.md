@@ -51,27 +51,3 @@ A page is written with components, their props and their placement. A
 component is written with the names of tokens. The formulas live in one
 place, the tokens, so a change to a formula reaches every component and
 every page at once.
-
-## Vocabulary
-
-The documents use a small, fixed vocabulary.
-
-- Four layers. The scale is the numbers derived from φ. A token is a named
-  value built from the scale. A component is a part with a shape and
-  behaviour, named with one English word (Button, ListItem, Badge). A
-  pattern is a common arrangement of components.
-- Three scales carry names: spacing (`pad-*` inside a component, `gap-*`
-  between components), type (the text roles such as `body` and `h1`) and
-  color. Their steps are 2xs, xs, sm, md, lg, xl and 2xl.
-- No other value gets a name of its own. The height of a button is said as
-  a formula of the scale and the component's name (the ink of its text,
-  plus `pad-md` above and below, plus two lines), and the token that holds
-  it is named after the component.
-
-## Scope
-
-kata holds only what every drawing application shares. It has no
-geography vocabulary, and nothing in it knows what is drawn: the content
-of a panel, a tree or an inspector is passed in by the application. Every
-string a component shows comes from outside, through props or a messages
-API, with English defaults.
