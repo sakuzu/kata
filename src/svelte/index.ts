@@ -85,6 +85,8 @@ export { default as SectionHeader } from './components/SectionHeader.svelte';
 export { default as Segmented } from './components/Segmented.svelte';
 export { default as Select } from './components/Select.svelte';
 export { default as SettingsPage } from './components/SettingsPage.svelte';
+export { default as SettingsRow } from './components/SettingsRow.svelte';
+export { default as SettingsSection } from './components/SettingsSection.svelte';
 export { default as Sheet } from './components/Sheet.svelte';
 export { default as Slider } from './components/Slider.svelte';
 export { default as Spinner } from './components/Spinner.svelte';
