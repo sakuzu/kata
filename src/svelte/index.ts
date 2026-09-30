@@ -3,8 +3,10 @@
 // the rules they share (styles/components.css) itself.
 
 export { default as Actions } from './components/Actions.svelte';
+export { default as Banner } from './components/Banner.svelte';
 export { default as Block } from './components/Block.svelte';
 export { default as Bubble } from './components/Bubble.svelte';
+export { default as Bulk } from './components/Bulk.svelte';
 export { default as Button } from './components/Button.svelte';
 export { default as Checkbox } from './components/Checkbox.svelte';
 export { default as ColorGrid } from './components/ColorGrid.svelte';
@@ -35,6 +37,8 @@ export { default as MenuHead } from './components/MenuHead.svelte';
 export { default as MenuItem } from './components/MenuItem.svelte';
 export { default as Modal } from './components/Modal.svelte';
 export { default as NativeSelect } from './components/NativeSelect.svelte';
+export { default as Note } from './components/Note.svelte';
+export { default as Notices } from './components/Notices.svelte';
 export { default as NumberInput } from './components/NumberInput.svelte';
 export { default as Page } from './components/Page.svelte';
 export { default as PageHeader } from './components/PageHeader.svelte';
@@ -58,6 +62,8 @@ export { default as Text } from './components/Text.svelte';
 export { default as Textarea } from './components/Textarea.svelte';
 export { default as TextInput } from './components/TextInput.svelte';
 export { default as Thumbnail } from './components/Thumbnail.svelte';
+export { default as Toast } from './components/Toast.svelte';
+export { default as ToastHost } from './components/ToastHost.svelte';
 export { default as Toggle } from './components/Toggle.svelte';
 export { default as Tooltip } from './components/Tooltip.svelte';
 export { default as Veil } from './components/Veil.svelte';
@@ -79,3 +85,9 @@ export {
 } from './lib/fontScale.js';
 export { createNarrow, isNarrowerThan, WIDTHS } from './lib/viewport.svelte.js';
 export { defaultMessages, getMessages, type Messages, setMessages } from './messages.js';
+export {
+  TOAST_DURATION,
+  type ToastItem,
+  type ToastKind,
+  toast,
+} from './toasts.svelte.js';
