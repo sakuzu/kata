@@ -44,14 +44,14 @@ a default in its place.
 A [Panel](../components/panel.md) whose head is a
 [Toolbar](../components/toolbar.md): the icon, the name, the controls of
 `head` and the close button, in that order. The name is an
-[InlineEdit](../components/inline-edit.md) at the size of h2 (Enter
-commits, Escape restores) or, not editable, a title on one line with an
-ellipsis. With a `subtitle`, the head grows to hold it as a muted
-caption under the name. With `tabs`, a second Toolbar under the head
-holds the [Tabs](../components/tabs.md), and its line is the one line
-of the head; without, the head draws the line. The content is stacked
-with gap 0 and scrolls; the foot keeps its height. The panel is a region
-named by the name.
+[InlineEdit](../components/inline-edit.md) at the size of h2, named by
+the `rename` message (Enter commits, Escape restores), or, not editable,
+a title on one line with an ellipsis. With a `subtitle`, the head grows
+to hold it as a muted caption under the name. With `tabs`, a second
+Toolbar under the head holds the [Tabs](../components/tabs.md), and its
+line is the one line of the head; without, the head draws the line. The
+content is stacked with gap 0 and scrolls; the foot keeps its height.
+The panel is a region named by the name.
 
 ## Example
 

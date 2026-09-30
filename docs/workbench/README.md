@@ -40,6 +40,18 @@ props, its contract and a live example.
 - [SourcePicker](source-picker.md): the places something can come from,
   and the detail of the current one.
 
+## Inspector
+
+- [InspectorFrame](inspector-frame.md): the panel of the thing selected,
+  with its name changed in place, its tabs and its sections.
+- [InspectorSection](inspector-section.md) and
+  [InspectorRow](inspector-row.md): the groups that fold and the rows of
+  an inspector.
+- [FieldList](field-list.md): the rows of settings drawn from field
+  specs, with the values a selection does not share.
+- [AttributeList](attribute-list.md): the attributes of a thing, read or
+  changed where they stand.
+
 ## Layers
 
 - [LayerTree](layer-tree.md): the layers, groups and items of a drawing,

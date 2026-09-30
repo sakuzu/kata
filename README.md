@@ -37,6 +37,8 @@ kata has three layers.
    drawn; the application passes the content in.
    - Comments: CommentList and CommentComposer.
    - Dialogs: ProcessDialog and SourcePicker.
+   - Inspector: InspectorFrame, InspectorSection, InspectorRow, FieldList
+     (on the specs `FieldSpec`) and AttributeList.
    - Layers: LayerTree.
    - Menus: MenuList, AppMenu and MenuSheet, on the model `MenuModel`.
    - Panels: SearchPanel, VersionsPanel and SelectionSummary.
