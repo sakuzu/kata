@@ -28,9 +28,9 @@ as "and" or "or", or a bracket around a group.
 A container with pad-md on the raise surface with a line along the
 bottom, holding two lines gap-sm apart: a funnel and the sentence
 (caption), then the filters and the words, gap-sm apart, wrapping when
-they do not fit. Each filter is a small button with its label on one
-line, with a ✕ icon button beside it when `onremove` is given; a long
-label ends with an ellipsis. The bar is a group named by the `filters`
+they do not fit. Each filter is a [Chip](chip.md): its label can be
+pressed, and its ✕ shows when `onremove` is given; a long label ends
+with an ellipsis. The bar is a group named by the `filters`
 message, and the ✕ is named by `removeFilter`.
 
 ## Example

@@ -1,5 +1,9 @@
 <script lang="ts">
   import '../styles/components.css';
+  import { getMessages } from '../messages.js';
+  import Dropdown from './Dropdown.svelte';
+  import Icon from './Icon.svelte';
+  import MenuItem from './MenuItem.svelte';
 
   // Tabs: switches between views. A tab has the height of a list item with pad-md at the sides; the
   // current tab is underlined with a double line drawn inside it, so its height does not change.
@@ -9,20 +13,22 @@
   // A tab with href is a link (it moves to another page, as the tabs of a settings page do); a tab
   // without is a button (it switches a view on the same page). Either way the current tab has
   // aria-current="page". Only the current tab is in the tab order; the left and right arrow keys,
-  // Home and End move the focus between the tabs, and Enter or Space opens the focused one. When the
-  // tabs do not fit, they scroll sideways and the current tab is kept in view.
+  // Home and End move the focus between the tabs, and Enter or Space opens the focused one.
+  //
+  // When the tabs do not fit, as many as fit show and the rest fold into a "More" menu at the right
+  // end; nothing scrolls. The current tab always shows: its width is taken first, then the others
+  // from the start as long as they fit. The widths are measured on a hidden copy of the tabs and
+  // followed with a ResizeObserver.
   //
   //   <Tabs {tabs} current="general" onselect={(id) => (view = id)} label="Views" />
-  //
-  // TODO(kata): fold the tabs that do not fit into a "More" Menu at the right end instead of
-  // scrolling, once Menu is in kata.
+  type Tab = { id: string; label: string; href?: string };
   let {
     tabs,
     current,
     label,
     onselect,
   }: {
-    tabs: { id: string; label: string; href?: string }[];
+    tabs: Tab[];
     /** The id of the current tab */
     current: string;
     /** The name of the set of tabs */
@@ -32,17 +38,59 @@
   } = $props();
 
   let root = $state<HTMLElement>();
+  let measure = $state<HTMLElement>();
   // Inside a Toolbar the tabs follow its height and its line
   const bar = $derived(!!root?.parentElement?.closest('[data-role="toolbar"]'));
   // The tab that is in the tab order: the current one, or the first when none is current
   const focusable = $derived(tabs.some((t) => t.id === current) ? current : tabs[0]?.id);
 
-  function items(): HTMLElement[] {
-    return root ? [...root.querySelectorAll<HTMLElement>('.tab')] : [];
-  }
+  // The indexes of the tabs that show, or null when all fit
+  let shownIdx = $state<number[] | null>(null);
+  $effect(() => {
+    const r = root;
+    const m = measure;
+    if (!r || !m) return;
+    void tabs;
+    void current;
+    const read = () => {
+      const avail = r.clientWidth + 0.5;
+      const widths = [...m.querySelectorAll<HTMLElement>('.tab:not(.more)')].map(
+        (el) => el.getBoundingClientRect().width,
+      );
+      if (widths.reduce((a, b) => a + b, 0) <= avail) {
+        shownIdx = null;
+        return;
+      }
+      const ci = tabs.findIndex((t) => t.id === current);
+      const chosen = new Set<number>();
+      let sum = m.querySelector<HTMLElement>('.more')?.getBoundingClientRect().width ?? 0;
+      if (ci >= 0) {
+        chosen.add(ci);
+        sum += widths[ci];
+      }
+      for (let i = 0; i < widths.length; i += 1) {
+        if (chosen.has(i)) continue;
+        if (sum + widths[i] > avail) break;
+        chosen.add(i);
+        sum += widths[i];
+      }
+      shownIdx = [...chosen].sort((a, b) => a - b);
+    };
+    read();
+    if (typeof ResizeObserver === 'undefined') return;
+    const ro = new ResizeObserver(read);
+    ro.observe(r);
+    return () => ro.disconnect();
+  });
+  const split = $derived.by(() => {
+    if (!shownIdx) return { shown: tabs, hidden: [] as Tab[] };
+    const set = new Set(shownIdx);
+    return { shown: tabs.filter((_, i) => set.has(i)), hidden: tabs.filter((_, i) => !set.has(i)) };
+  });
+
   function onkeydown(e: KeyboardEvent) {
-    const all = items();
-    const at = all.indexOf(document.activeElement as HTMLElement);
+    const all = root ? [...root.querySelectorAll<HTMLElement>('a.tab, button.tab')] : [];
+    const at = all.indexOf(e.currentTarget as HTMLElement);
     if (at < 0) return;
     let next = -1;
     if (e.key === 'ArrowRight') next = (at + 1) % all.length;
@@ -53,59 +101,85 @@
     e.preventDefault();
     all[next]?.focus();
   }
-  // Keep the current tab in view when the tabs scroll
-  $effect(() => {
-    void current;
-    const r = root;
-    const el = r?.querySelector<HTMLElement>('.tab.on');
-    if (!r || !el) return;
-    const left = el.offsetLeft - r.offsetLeft;
-    if (left < r.scrollLeft) r.scrollLeft = left;
-    else if (left + el.offsetWidth > r.scrollLeft + r.clientWidth)
-      r.scrollLeft = left + el.offsetWidth - r.clientWidth;
-  });
 </script>
 
+{#snippet tab(t: Tab)}
+  {#if t.href}
+    <a
+      class="tab"
+      class:on={t.id === current}
+      data-h={bar ? 'toolbar' : 'list-item'}
+      href={t.href}
+      tabindex={t.id === focusable ? 0 : -1}
+      aria-current={t.id === current ? 'page' : undefined}
+      {onkeydown}
+      onclick={() => onselect?.(t.id)}><span class="t">{t.label}</span></a
+    >
+  {:else}
+    <button
+      type="button"
+      class="tab"
+      class:on={t.id === current}
+      data-h={bar ? 'toolbar' : 'list-item'}
+      tabindex={t.id === focusable ? 0 : -1}
+      aria-current={t.id === current ? 'page' : undefined}
+      {onkeydown}
+      onclick={() => onselect?.(t.id)}><span class="t">{t.label}</span></button
+    >
+  {/if}
+{/snippet}
+
 <nav class="tabs" class:bar aria-label={label} data-role="tabs" bind:this={root}>
-  {#each tabs as t (t.id)}
-    {#if t.href}
-      <a
-        class="tab"
-        class:on={t.id === current}
-        data-h={bar ? 'toolbar' : 'list-item'}
-        href={t.href}
-        tabindex={t.id === focusable ? 0 : -1}
-        {onkeydown}
-        aria-current={t.id === current ? 'page' : undefined}
-        onclick={() => onselect?.(t.id)}><span class="t">{t.label}</span></a
-      >
-    {:else}
-      <button
-        type="button"
-        class="tab"
-        class:on={t.id === current}
-        data-h={bar ? 'toolbar' : 'list-item'}
-        tabindex={t.id === focusable ? 0 : -1}
-        {onkeydown}
-        aria-current={t.id === current ? 'page' : undefined}
-        onclick={() => onselect?.(t.id)}><span class="t">{t.label}</span></button
-      >
-    {/if}
+  {#each split.shown as t (t.id)}
+    {@render tab(t)}
   {/each}
+  {#if split.hidden.length}
+    <Dropdown align="end" menu>
+      {#snippet trigger(toggle, open)}
+        <button
+          type="button"
+          class="tab more"
+          data-h={bar ? 'toolbar' : 'list-item'}
+          tabindex="-1"
+          aria-haspopup="menu"
+          aria-expanded={open}
+          {onkeydown}
+          onclick={toggle}><span class="t">{getMessages().more}</span><Icon name="chevron-down" /></button
+        >
+      {/snippet}
+      {#snippet panel(close)}
+        {#each split.hidden as t (t.id)}
+          <MenuItem
+            href={t.href}
+            onclick={() => {
+              onselect?.(t.id);
+              close();
+            }}>{t.label}</MenuItem
+          >
+        {/each}
+      {/snippet}
+    </Dropdown>
+  {/if}
+  <!-- A hidden copy of every tab and of "More", to measure their widths -->
+  <span class="measure" aria-hidden="true" data-kata-skip bind:this={measure}>
+    {#each tabs as t (t.id)}
+      <span class="tab"><span class="t">{t.label}</span></span>
+    {/each}
+    <span class="tab more"><span class="t">{getMessages().more}</span><Icon name="chevron-down" /></span>
+  </span>
 </nav>
 
 <style lang="scss">
   @use '../styles/kata' as *;
 
-  // One line; what does not fit scrolls sideways without a scroll bar
+  // One line; what does not fit folds into the "More" menu
   .tabs {
+    position: relative;
     display: flex;
     min-width: 0;
     flex: none;
     border-bottom: bw() solid color(line);
-    overflow-x: auto;
-    overflow-y: hidden;
-    scrollbar-width: none;
+    overflow: clip;
   }
   // Inside a Toolbar: the toolbar draws the line, and the tabs take the rest of its width
   .tabs.bar {
@@ -120,11 +194,13 @@
     flex: none;
     display: inline-flex;
     align-items: center;
+    gap: gap(2xs);
     height: h(list-item);
     padding-inline: pad(md);
     border: 0;
     background: none;
     color: color(muted);
+    font: inherit;
     @include text(body);
     white-space: nowrap;
     text-decoration: none;
@@ -147,5 +223,15 @@
   .on {
     color: color(text);
     box-shadow: inset 0 calc(#{bw()} * -2) 0 color(blue-ink);
+  }
+  // The copy that is measured: hidden and without a place of its own
+  .measure {
+    position: absolute;
+    inset-inline-start: 0;
+    top: 0;
+    display: flex;
+    visibility: hidden;
+    pointer-events: none;
+    white-space: nowrap;
   }
 </style>

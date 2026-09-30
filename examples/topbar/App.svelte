@@ -1,11 +1,24 @@
 <script lang="ts">
   import Bell from '@lucide/svelte/icons/bell';
   import Menu from '@lucide/svelte/icons/menu';
-  import { Button, Icon, InlineEdit, Text, Topbar } from '@sakuzu/kata/svelte';
+  import {
+    Button,
+    Icon,
+    InlineEdit,
+    MenuDivider,
+    MenuItem,
+    Presence,
+    Topbar,
+  } from '@sakuzu/kata/svelte';
   import Case from '../_shared/Case.svelte';
   import Example from '../_shared/Example.svelte';
 
   let name = $state('Spring layout');
+  const people = [
+    { name: 'Sam Taylor', you: true },
+    { name: 'Kai Morgan', color: '#6f86e6' },
+    { name: 'Ana Ruiz', color: '#d9a441' },
+  ];
 </script>
 
 <Example>
@@ -38,8 +51,19 @@
           onCommit={(v) => (name = v)}
         />
       {/snippet}
-      {#snippet presence()}<Text role="caption">Sam and Kai are here</Text>{/snippet}
+      {#snippet presence()}<Presence users={people} />{/snippet}
       {#snippet end()}<Button variant="primary">Share</Button>{/snippet}
+    </Topbar>
+  </Case>
+  <Case label="The brand opens the application's menu (brandMenu)">
+    <Topbar brand="Sketchbook" brandLabel="Menu of Sketchbook">
+      {#snippet brandMenu(close)}
+        <MenuItem onclick={close}>New drawing</MenuItem>
+        <MenuItem kbd="⌘O" onclick={close}>Open…</MenuItem>
+        <MenuDivider />
+        <MenuItem onclick={close}>Settings</MenuItem>
+      {/snippet}
+      {#snippet end()}<Button>Share</Button>{/snippet}
     </Topbar>
   </Case>
   <Case label="No brand: the crumbs start the bar">

@@ -110,13 +110,13 @@
   <Case label="rows two: every row has the height of two lines">
     <Surface width="22.5rem">
       <Tree label="Files" flat rows="two">
-        <TreeRow grip={false}>
+        <TreeRow grip={false} onclick={() => {}}>
           <Stack gap={0}>
             <Text clamp>Poster draft</Text>
             <Text role="caption" clamp>Edited today</Text>
           </Stack>
         </TreeRow>
-        <TreeRow grip={false}>Floor plan</TreeRow>
+        <TreeRow grip={false} onclick={() => {}}>Floor plan</TreeRow>
       </Tree>
     </Surface>
   </Case>

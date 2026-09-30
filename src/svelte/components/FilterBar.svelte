@@ -8,7 +8,7 @@
 <script lang="ts">
   import '../styles/components.css';
   import { getMessages } from '../messages.js';
-  import Button from './Button.svelte';
+  import Chip from './Chip.svelte';
   import Icon from './Icon.svelte';
   import Text from './Text.svelte';
 
@@ -17,12 +17,10 @@
   // calls onremove. The application writes the pieces: a sentence on how to read the filters, then
   // one line of filters and the words between them ("and", "or", brackets around a group), which
   // wraps when it does not fit. It is a container with pad-md, the two lines gap-sm apart, on the
-  // raise surface with a line along the bottom, and small buttons inside. With no filter in effect
-  // the application does not show it.
+  // raise surface with a line along the bottom, and small buttons inside; each filter is a Chip.
+  // With no filter in effect the application does not show it.
   //
   //   <FilterBar sentence="Rows that match all of these" {items} onedit={open} onremove={drop} />
-  //
-  // TODO(kata): draw each filter as a Chip once Chip is in kata.
   let {
     sentence,
     items,
@@ -48,17 +46,11 @@
   <div class="line">
     {#each items as it, i (i)}
       {#if it.kind === 'filter'}
-        <span class="filter">
-          <Button clamp onclick={() => onedit?.(it.id)}>{it.label}</Button>
-          {#if onremove}
-            <Button
-              variant="ghost"
-              icon
-              aria-label={getMessages().removeFilter({ label: it.label })}
-              onclick={() => onremove?.(it.id)}><Icon name="x" /></Button
-            >
-          {/if}
-        </span>
+        <Chip
+          onclick={() => onedit?.(it.id)}
+          onremove={onremove ? () => onremove?.(it.id) : undefined}
+          removeLabel={getMessages().removeFilter({ label: it.label })}>{it.label}</Chip
+        >
       {:else}
         <Text role="caption" as="span">{it.text}</Text>
       {/if}
@@ -93,19 +85,5 @@
     flex-wrap: wrap;
     gap: gap(sm);
     min-width: 0;
-  }
-  .filter {
-    display: inline-flex;
-    align-items: center;
-    gap: 0;
-    min-width: 0;
-    max-width: 100%;
-    // The filter's text shrinks and ends with an ellipsis; its ✕ keeps its size
-    > :global(*) {
-      min-width: 0;
-    }
-    > :global(:not(:first-child)) {
-      flex: none;
-    }
   }
 </style>

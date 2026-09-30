@@ -80,6 +80,8 @@ export interface Messages {
   filters: string;
   /** The name of the button that removes one filter from a FilterBar */
   removeFilter: (p: { label: string }) => string;
+  /** The trigger of the menu that holds the tabs that do not fit */
+  more: string;
 }
 
 const english: Messages = {
@@ -138,6 +140,7 @@ const english: Messages = {
   collapse: 'Collapse',
   filters: 'Filters',
   removeFilter: ({ label }) => `Remove ${label}`,
+  more: 'More',
 };
 
 /** The English defaults */

@@ -1,5 +1,5 @@
 import { fireEvent, render } from '@testing-library/svelte';
-import { describe, expect, it, vi } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import Tabs from '../../src/svelte/components/Tabs.svelte';
 
 const tabs = [
@@ -53,5 +53,28 @@ describe('Tabs', () => {
     const link = getByRole('link', { name: 'Members' });
     expect(link.getAttribute('href')).toBe('/members');
     expect(link.getAttribute('aria-current')).toBe('page');
+  });
+
+  describe('when the tabs do not fit', () => {
+    afterEach(() => vi.restoreAllMocks());
+
+    it('shows the current tab and those that fit, and folds the rest into "More"', () => {
+      // Every tab and "More" is 100px wide; the tabs have 320px
+      vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockReturnValue({
+        width: 100,
+      } as DOMRect);
+      vi.spyOn(HTMLElement.prototype, 'clientWidth', 'get').mockReturnValue(320);
+      const four = [...tabs, { id: 'history', label: 'History' }];
+      const { getByRole, queryByRole } = render(Tabs, {
+        tabs: four,
+        current: 'assets',
+        label: 'Views',
+      });
+      expect(getByRole('button', { name: 'Assets' }).getAttribute('aria-current')).toBe('page');
+      expect(getByRole('button', { name: 'Shapes' })).toBeTruthy();
+      expect(queryByRole('button', { name: 'Pages' })).toBeNull();
+      expect(queryByRole('button', { name: 'History' })).toBeNull();
+      expect(getByRole('button', { name: 'More' }).getAttribute('aria-haspopup')).toBe('menu');
+    });
   });
 });

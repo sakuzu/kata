@@ -1,7 +1,7 @@
 # TreeRow
 
-TreeRow is one row of a [Tree](tree.md): a list item indented by its
-depth, with a chevron, a name and actions.
+TreeRow is one row of a [Tree](tree.md): a [ListItem](list-item.md)
+indented by its depth, with a chevron, a name and actions.
 
 ## When to use
 
@@ -34,7 +34,7 @@ Other attributes (`data-*`, `aria-*`) go to the row.
 
 ## Contract
 
-The row is a list item: its height comes from its content, at least the
+The row is a ListItem: its height comes from its content, at least the
 tree's least height, and pad-md plus depth × pad-md on the left. Its
 columns are fixed: the chevron, the name, the actions. The chevron's
 place, the square of an icon button, is kept on a row that does not
@@ -50,7 +50,8 @@ keeps them while a menu of the row is open. A selected row has the raise
 surface and a double blue line along its left edge; `hidden`, `dimmed`
 and `dragging` dim the row. A row with `onclick` is pressed with a
 click, Enter or Space; the right and left arrow keys open and close it,
-and the chevron never presses the row.
+and the chevron never presses the row. A tree whose rows are only read
+fails the audit's read-row rule unless one of its rows is pressed.
 
 ## Example
 

@@ -36,7 +36,7 @@
       </Toolbar>
     </Surface>
   </Case>
-  <Case label="More tabs than fit scroll sideways; the current one stays in view">
+  <Case label="The tabs that do not fit fold into More; the current one always shows">
     <Surface width="16rem">
       <Tabs
         tabs={[

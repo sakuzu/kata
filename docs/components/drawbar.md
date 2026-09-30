@@ -23,12 +23,13 @@ application leaves the current tool as it was.
 
 A `DrawbarTool` is `{ id, label, icon, kbd?, group?, tone?, disabled? }`:
 `icon` is an icon name or component, `kbd` the key that picks the tool,
-added to its name, and `group` puts consecutive tools together.
+shown in its tooltip, and `group` puts consecutive tools together.
 
 ## Contract
 
 Each tool is a ghost icon button, pressed (`aria-pressed`) and on when it
-is current; a tool with `tone: 'danger'` turns red on hover. The tools of
+is current, and shows its name and its key in a [Tooltip](tooltip.md);
+a tool with `tone: 'danger'` turns red on hover. The tools of
 a group sit gap-2xs apart and the groups gap-md apart, with pad-sm inside
 and one strong line around the whole bar on the panel surface; no line
 runs between tools. The bar is placed absolutely in its positioned

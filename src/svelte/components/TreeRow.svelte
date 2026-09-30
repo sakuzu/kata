@@ -5,8 +5,9 @@
   import type { HTMLAttributes } from 'svelte/elements';
   import { getMessages } from '../messages.js';
   import Icon from './Icon.svelte';
+  import ListItem from './ListItem.svelte';
 
-  // TreeRow: one row of a Tree, a list item indented by its depth: pad-md plus depth × pad-md on
+  // TreeRow: one row of a Tree, a ListItem indented by its depth: pad-md plus depth × pad-md on
   // the left. Its columns are fixed: the chevron, the name, the actions. The chevron's place (the
   // square of an icon button) is kept even when the row does not open, so nothing moves when a row
   // gains children; a flat Tree removes it. The chevron is a button of that square.
@@ -26,9 +27,6 @@
   //     Background
   //     {#snippet end()}<Button variant="ghost" icon aria-label="Hide"><Icon name={Eye} /></Button>{/snippet}
   //   </TreeRow>
-  //
-  // TODO(kata): compose ListItem for the row (its surface, padding and height) once ListItem is in
-  // kata; the row draws the same box itself until then.
   let {
     depth = 0,
     expandable = false,
@@ -79,20 +77,19 @@
     expanded = !expanded;
     ontoggle?.(expanded);
   }
+  // The arrow keys open and close the row (Enter and Space press it, as ListItem does)
   function onkeydown(e: KeyboardEvent) {
     const t = e.target as HTMLElement;
     if (t !== e.currentTarget && !t.classList.contains('chev')) return;
-    if (
-      expandable &&
-      ((e.key === 'ArrowRight' && !expanded) || (e.key === 'ArrowLeft' && expanded))
-    ) {
+    if (!expandable) return;
+    if ((e.key === 'ArrowRight' && !expanded) || (e.key === 'ArrowLeft' && expanded)) {
       e.preventDefault();
       toggle();
-    } else if (onclick && t === e.currentTarget && (e.key === 'Enter' || e.key === ' ')) {
-      e.preventDefault();
-      (e.currentTarget as HTMLElement).click();
     }
   }
+  const columns = $derived(
+    [noSeat ? '' : 'auto', 'minmax(0, 1fr)', end ? 'auto' : ''].filter(Boolean).join(' '),
+  );
 </script>
 
 <div
@@ -108,20 +105,9 @@
   aria-level={depth + 1}
   {...rest}
 >
-  <div
-    class="row"
-    class:sel
-    class:tail={!!end}
-    class:press={!!onclick}
-    class:seatless={noSeat}
-    data-role="list-item"
-    data-h="list-item"
-    {...onclick ? { role: 'button', tabindex: 0 } : {}}
-    {onclick}
-    {onkeydown}
-  >
+  <ListItem {columns} {sel} tail={!!end} {onclick} {onkeydown}>
     {#if grip}
-      <span class="grip" class:beside={expandable} class:show={gripShow} data-grip aria-hidden="true"
+      <span class="grip" class:beside={expandable || noSeat} class:show={gripShow} data-grip aria-hidden="true"
         ><Icon name="grip-vertical" /></span
       >
     {/if}
@@ -146,7 +132,7 @@
     {#if end}
       <span class="end">{@render end()}</span>
     {/if}
-  </div>
+  </ListItem>
 </div>
 
 <style lang="scss">
@@ -156,59 +142,9 @@
     min-width: 0;
     flex: none;
   }
-  // The box of a list item: the height from the content, at least the tree's least height; the
-  // left padding grows with the depth
-  .row {
-    display: grid;
-    grid-template-columns: auto minmax(0, 1fr) auto;
-    align-items: center;
-    gap: gap(sm);
-    position: relative;
-    min-height: var(--kata-row-h, #{h(list-item)});
-    padding-inline: calc(#{pad(md)} + var(--kata-tree-depth, 0) * #{pad(md)}) var(--kata-inset, #{pad(md)});
-    min-width: 0;
-    width: 100%;
-    color: inherit;
-    cursor: default;
-    @include text(body);
-    @include scope-box(button-sm);
-    @include focus-inside;
-    > :global(*) {
-      min-width: 0;
-    }
-    // A visible thing in the row (a mark, a control, a field) has pad-md above and below
-    :global([data-role='mark'][data-h]:not([data-h='icon'])),
-    :global([data-role='mark'][data-kata-tall]),
-    :global([data-role='box'][data-h]:not(.ghost)),
-    :global(input:not([type='checkbox']):not([type='radio'])),
-    :global(select),
-    :global(textarea) {
-      margin-block: fs(body);
-    }
-  }
-  .seatless {
-    grid-template-columns: minmax(0, 1fr) auto;
-  }
-  // Without actions the row has no third column
-  .row:not(.tail) {
-    grid-template-columns: auto minmax(0, 1fr);
-  }
-  .row.seatless:not(.tail) {
-    grid-template-columns: minmax(0, 1fr);
-  }
-  .tail {
-    padding-inline-end: pad(sm);
-  }
-  .press {
-    cursor: pointer;
-    &:hover {
-      background: color(raise);
-    }
-  }
-  // Selected: the raise surface and a double blue line along the left, inside the box
-  .sel {
-    background: color(raise);
-    box-shadow: inset calc(#{bw()} * 2) 0 0 color(blue-ink);
+  // The list item, indented by the depth; it holds the grip
+  .tree-row > :global([data-role='list-item']) {
+    padding-left: calc(#{pad(md)} + var(--kata-tree-depth, 0) * #{pad(md)});
   }
   // The chevron's place, the square of an icon button, kept when the row does not open
   .seat {
@@ -233,8 +169,7 @@
     opacity: 0;
     transition: opacity 0.12s ease;
   }
-  .grip.beside,
-  .seatless > .grip {
+  .grip.beside {
     left: calc(#{pad(md)} + var(--kata-tree-depth, 0) * #{pad(md)});
   }
   .tree-row:hover .grip,
@@ -261,15 +196,12 @@
     }
     @include focus-inside;
   }
-  // The name, text in a control: one line, trimmed to its ink and clipped (a Text with clamp inside
-  // ends with an ellipsis)
+  // The name: text in a control, one line, trimmed to its ink and clipped by the list item (a Text
+  // with clamp inside ends with an ellipsis)
   .main {
     display: flex;
     align-items: center;
     gap: gap(sm);
-    min-width: 0;
-    @include trim;
-    @include ellipsis;
   }
   // Stacked content (a name and a second line) takes the width and may wrap its own text
   .main > :global([data-role='stack']) {
@@ -312,13 +244,13 @@
   }
   // While a drag is going on (sortable), the place where the row would drop is outlined in blue
   // and the row that was picked up keeps the stronger surface
-  :global(.sortghost) > .tree-row > .row,
-  .tree-row:global(.sortghost) > .row {
+  :global(.sortghost) > .tree-row > :global([data-role='list-item']),
+  .tree-row:global(.sortghost) > :global([data-role='list-item']) {
     background: color(raise-2);
     box-shadow: inset 0 0 0 calc(#{bw()} * 2) color(blue-ink);
   }
-  :global(.sortchosen) > .tree-row > .row,
-  .tree-row:global(.sortchosen) > .row {
+  :global(.sortchosen) > .tree-row > :global([data-role='list-item']),
+  .tree-row:global(.sortchosen) > :global([data-role='list-item']) {
     background: color(raise-2);
   }
 </style>

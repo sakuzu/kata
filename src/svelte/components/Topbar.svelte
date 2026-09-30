@@ -2,6 +2,8 @@
   import '../styles/components.css';
   import type { Snippet } from 'svelte';
   import Crumbs from './Crumbs.svelte';
+  import Dropdown from './Dropdown.svelte';
+  import Icon from './Icon.svelte';
 
   // Topbar: the toolbar at the top of the screen. Its height is a Toolbar's, its surface the
   // panel's, with a strong line along the bottom; pad-md at the sides and small buttons inside.
@@ -9,20 +11,20 @@
   //
   // It has three places. The start holds lead (a button before the brand, such as the one that
   // opens a drawer), the brand (the application's name, at the size of h2, as a link with
-  // brandHref), the crumbs of the current place and start (anything after them). The centre holds
+  // brandHref, or the trigger of the application's menu with brandMenu), the crumbs of the current place and start (anything after them). The centre holds
   // a title or an inline edit and takes the rest of the width; what is inside clips its own text.
-  // The end holds presence (who else is here) and then the actions, in groups gap-md apart. Below
-  // 24rem the brand is hidden and the buttons stay.
+  // The end holds presence (who else is here, a Presence) and then the actions, in groups gap-md
+  // apart. Below 24rem the brand is hidden and the buttons stay.
   //
   //   <Topbar brand="Sketchbook" brandHref="/" crumbs={[{ label: 'Team', href: '/t' }, { label: 'Drafts' }]}>
   //     {#snippet end()}<Button variant="ghost" icon aria-label="Share"><Icon name={Share} /></Button>{/snippet}
   //   </Topbar>
-  //
-  // TODO(kata): brandMenu, the brand as the trigger of the application's Menu, once Menu is in kata.
   let {
     brand,
     brandHref,
     brandTarget,
+    brandMenu,
+    brandLabel,
     crumbs,
     crumbsLabel,
     lead,
@@ -37,6 +39,10 @@
     brandHref?: string;
     /** Opens the brand's link in another tab */
     brandTarget?: '_blank';
+    /** Makes the brand the trigger of the application's menu: the MenuItems; close closes it */
+    brandMenu?: Snippet<[() => void]>;
+    /** The name of the menu's trigger */
+    brandLabel?: string;
     /** The trail to the current place, after the brand */
     crumbs?: { label: string; href?: string; onclick?: () => void }[];
     /** The name of the trail */
@@ -58,7 +64,24 @@
   <div class="side">
     {@render lead?.()}
     {#if brand}
-      {#if brandHref}
+      {#if brandMenu}
+        <Dropdown menu align="start" role="box">
+          {#snippet trigger(toggle, open)}
+            <button
+              class="brand menu"
+              type="button"
+              data-h="button-sm"
+              aria-label={brandLabel}
+              aria-haspopup="menu"
+              aria-expanded={open}
+              onclick={toggle}
+            >
+              <span class="t">{brand}</span><Icon name="chevron-down" />
+            </button>
+          {/snippet}
+          {#snippet panel(close)}{@render brandMenu(close)}{/snippet}
+        </Dropdown>
+      {:else if brandHref}
         <a
           class="brand"
           href={brandHref}
@@ -147,6 +170,20 @@
     &:hover {
       text-decoration: none;
     }
+  }
+  // The trigger of the application's menu: a control without a line or padding, so the name
+  // stays where the brand is; the chevron is gap-2xs after it
+  .brand.menu {
+    gap: gap(2xs);
+    border: 0;
+    padding: 0;
+    background: none;
+    font-family: inherit;
+    cursor: pointer;
+    &:hover {
+      color: color(muted);
+    }
+    @include focus-inside;
   }
   @include tiny {
     .brand {

@@ -7,7 +7,7 @@
     /** The name of the tool, read by assistive technology */
     label: string;
     icon: IconSource;
-    /** The key that picks the tool, added to its name */
+    /** The key that picks the tool, shown in its tooltip */
     kbd?: string;
     /** Tools with the same group sit together; groups are gap-md apart */
     group?: string;
@@ -30,11 +30,9 @@
   // It is placed absolutely in its positioned container, centred; bottom is its distance from the
   // container's bottom edge, a step of the gap scale. When it does not fit, it scrolls sideways; the
   // tools never shrink. Pressing a tool calls onselect with its id; the application decides what
-  // is current.
+  // is current. Each tool shows its name and its key in a Tooltip.
   //
   //   <Drawbar label="Tools" {tools} current={tool} onselect={(id) => (tool = id)} />
-  //
-  // TODO(kata): a Tooltip with the name and the key of each tool, once Tooltip is in kata.
   type Step = '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   let {
     tools,
@@ -84,7 +82,9 @@
           on={t.id === current}
           tone={t.tone}
           disabled={t.disabled}
-          aria-label={t.kbd ? `${t.label} (${t.kbd})` : t.label}
+          aria-label={t.label}
+          aria-keyshortcuts={t.kbd}
+          shortcut={t.kbd}
           aria-pressed={t.id === current}
           onclick={() => onselect?.(t.id)}><Icon name={t.icon} /></Button
         >
