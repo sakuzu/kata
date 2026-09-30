@@ -24,7 +24,8 @@ Read the chapters in order; each one builds on the ones before it.
    and a live example.
 7. [Workbench](workbench/README.md). One page per part of a drawing
    application: its boundary with the application, and a live example.
-8. Patterns (coming). Common arrangements of components: modal, menu,
-   list, panel and page.
+8. [Patterns](patterns/README.md). The shapes of screen that come back:
+   a modal with a form, a menu, a list, a panel, a settings page and the
+   workbench.
 9. [Checks](checks.md). What the automated checks of the components
    measure and what they reject.

@@ -139,4 +139,5 @@ below it.
   the actions in a fixed order, the primary one last.
 
 A settings page has its own frame, [SettingsPage](components/settings-page.md),
-which adds the trail, the title and the tabs.
+which adds the trail, the title and the tabs. The
+[patterns](patterns/README.md) show these pieces put together.
