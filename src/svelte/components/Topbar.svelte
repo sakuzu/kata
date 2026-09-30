@@ -171,12 +171,14 @@
     flex: 1 1 0;
     min-width: 0;
   }
-  // The brand: the application's name at the size of h2, text in a control
+  // The brand: the application's name at the size of h2, text in a control, a little tighter
+  // (--kata-topbar-brand-tracking, -0.01em unless the page sets it)
   .brand {
     display: inline-flex;
     align-items: center;
     height: h(button-sm);
     @include text(h2);
+    letter-spacing: var(--kata-topbar-brand-tracking, -0.01em);
     color: color(text);
     text-decoration: none;
     flex: none;

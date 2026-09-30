@@ -38,7 +38,9 @@ drawer on a narrow screen. The head of a panel or a modal is a
 
 The height is a [Toolbar](toolbar.md)'s, the surface the panel color,
 with a strong line along the bottom; pad-md at the sides and small
-buttons inside. The brand is h2, trimmed to its ink; with `brandMenu` it
+buttons inside. The brand is h2, trimmed to its ink, with its letters
+drawn a little closer (`--kata-topbar-brand-tracking`, `-0.01em` unless
+the page sets it); with `brandMenu` it
 is a button without a line, with a chevron, that opens a
 [Dropdown](dropdown.md) menu below it (the snippet receives `close`).
 `menu` opens the same Dropdown with a [MenuList](../workbench/menu-list.md)

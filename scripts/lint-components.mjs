@@ -229,7 +229,7 @@ for (const file of [
   for (const m of source.matchAll(/style:(--kata-[\w-]+)/g)) defined.add(m[1]);
 }
 // Properties that a page or a container sets for the components to read, with a fallback
-const HOOKS = new Set(['--kata-box', '--kata-glyph-font']);
+const HOOKS = new Set(['--kata-box', '--kata-glyph-font', '--kata-topbar-brand-tracking']);
 /** @type {[RegExp, string][]} */
 const FUNCTIONS = [
   [/\bpad\(([\w-]+)\)/g, '--kata-pad-'],
