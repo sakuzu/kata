@@ -23,8 +23,11 @@ kata has three layers.
    components of data display: Badge, Tag, Chip, ChipValue, Pair, Kv,
    ReadValue, Stat, Stats, Meter, Progress, StepBar, Bars, List,
    ListItem, Table, ColHead, Pager, Tcard, Tcards, Card, Board, Gtile,
-   Tile, Markbox, Avatar, Presence, Pin, State and Spinner. Containers
-   such as Panel and Tree are not published yet.
+   Tile, Markbox, Avatar, Presence, Pin, State and Spinner, and the
+   overlay and feedback components: Modal, Confirm, Drawer, Sheet, Veil,
+   Popover, Bubble, Tooltip, Floating, Menu, MenuItem, MenuHead,
+   MenuDivider, Dropdown, Kebab, Banner, Note, Notices, Toast, ToastHost
+   and Bulk. Containers such as Panel and Tree are not published yet.
 3. Parts for drawing applications: the shell, the layer tree, the
    inspector, settings and the toolbar. They know nothing about what is
    drawn; the application passes the content in. Not published yet.

@@ -5,16 +5,29 @@
 // Icon and the components that take an icon accept a name from this list or any icon component
 // (a Lucide icon, or a component that accepts `class`).
 
+import ArrowLeft from '@lucide/svelte/icons/arrow-left';
 import ArrowUpRight from '@lucide/svelte/icons/arrow-up-right';
 import Check from '@lucide/svelte/icons/check';
 import ChevronDown from '@lucide/svelte/icons/chevron-down';
 import ChevronLeft from '@lucide/svelte/icons/chevron-left';
 import ChevronRight from '@lucide/svelte/icons/chevron-right';
+import CircleAlert from '@lucide/svelte/icons/circle-alert';
+import CircleCheck from '@lucide/svelte/icons/circle-check';
+import Copy from '@lucide/svelte/icons/copy';
+import CornerUpRight from '@lucide/svelte/icons/corner-up-right';
+import Ellipsis from '@lucide/svelte/icons/ellipsis';
+import Globe from '@lucide/svelte/icons/globe';
 import Image from '@lucide/svelte/icons/image';
+import Info from '@lucide/svelte/icons/info';
 import Pencil from '@lucide/svelte/icons/pencil';
 import Pipette from '@lucide/svelte/icons/pipette';
 import Plus from '@lucide/svelte/icons/plus';
 import Search from '@lucide/svelte/icons/search';
+import Settings2 from '@lucide/svelte/icons/settings-2';
+import Share2 from '@lucide/svelte/icons/share-2';
+import Trash2 from '@lucide/svelte/icons/trash-2';
+import TriangleAlert from '@lucide/svelte/icons/triangle-alert';
+import Ungroup from '@lucide/svelte/icons/ungroup';
 import X from '@lucide/svelte/icons/x';
 import type { Component } from 'svelte';
 import Arrow from './glyphs/Arrow.svelte';
@@ -27,16 +40,29 @@ import StickyNote from './glyphs/StickyNote.svelte';
 export type IconComponent = Component<{ class?: string }>;
 
 export const icons = {
+  'arrow-left': ArrowLeft as unknown as IconComponent,
   'arrow-up-right': ArrowUpRight as unknown as IconComponent,
   check: Check as unknown as IconComponent,
   'chevron-down': ChevronDown as unknown as IconComponent,
   'chevron-left': ChevronLeft as unknown as IconComponent,
   'chevron-right': ChevronRight as unknown as IconComponent,
+  'circle-alert': CircleAlert as unknown as IconComponent,
+  'circle-check': CircleCheck as unknown as IconComponent,
+  copy: Copy as unknown as IconComponent,
+  'corner-up-right': CornerUpRight as unknown as IconComponent,
+  ellipsis: Ellipsis as unknown as IconComponent,
+  globe: Globe as unknown as IconComponent,
   image: Image as unknown as IconComponent,
+  info: Info as unknown as IconComponent,
   pencil: Pencil as unknown as IconComponent,
   pipette: Pipette as unknown as IconComponent,
   plus: Plus as unknown as IconComponent,
   search: Search as unknown as IconComponent,
+  'settings-2': Settings2 as unknown as IconComponent,
+  'share-2': Share2 as unknown as IconComponent,
+  'trash-2': Trash2 as unknown as IconComponent,
+  'triangle-alert': TriangleAlert as unknown as IconComponent,
+  ungroup: Ungroup as unknown as IconComponent,
   x: X as unknown as IconComponent,
   point: Point as IconComponent,
   polyline: Polyline as IconComponent,

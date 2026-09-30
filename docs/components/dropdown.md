@@ -1,0 +1,44 @@
+# Dropdown
+
+Dropdown is the place that opens below a trigger, for a menu or a small
+picker.
+
+## When to use
+
+With `menu`, it is the menu of a trigger: its content is a list of
+[MenuItem](menu-item.md). With `bare`, its content brings its own
+container, such as a [ColorPicker](color-picker.md). A few settings are
+a [Popover](popover.md), which is built on it; the actions of an item
+are a [Kebab](kebab.md).
+
+## Props
+
+| Prop | Default | Description |
+| --- | --- | --- |
+| `trigger` | required | The trigger: a snippet of `(toggle, open)` |
+| `panel` | required | The content: a snippet of `(close)` |
+| `menu` | `false` | The content is a list of MenuItem |
+| `bare` | `false` | The content has its own container |
+| `align` | `end` | The edge of the trigger it lines up with |
+| `openInitially` | `false` | Open from the start |
+| `menuMaxWidth` | | The greatest width, a CSS length |
+| `block` | `false` | The trigger is as wide as its container |
+| `role` | `anchor` | `box` for a control, `icon-button` for an icon button |
+| `onOpenChange` | | Called whenever it opens or closes |
+
+## Contract
+
+The place is a popover in the top layer, so a modal or a panel around
+the trigger does not hide it. It opens 4px below the trigger, lined up
+with its `align` edge, or above it when there is less room below than
+its height (or 120px); it stays 8px inside the window. With `menu`, it
+has the surface of a [Menu](menu.md) and `role="menu"`, the first item
+takes the focus, the arrow keys move the focus between the items and
+wrap at the ends, and Home and End go to the first and the last. A
+press outside, Escape or Tab closes it; Escape and Tab return the focus
+to the trigger of a menu. Escape goes no further, so a modal around it
+stays open.
+
+## Example
+
+[Dropdown](../../examples/dropdown/)

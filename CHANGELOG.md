@@ -24,7 +24,12 @@ follows semantic versioning.
 - The data display components (Badge, Tag, Chip, ChipValue, Pair, Kv,
   ReadValue, Stat, Stats, Meter, Progress, StepBar, Bars, List, ListItem,
   Table, ColHead, Pager, Tcard, Tcards, Card, Board, Gtile, Tile, Markbox,
-  Avatar, Presence, Pin, State and Spinner), their strings and the icons
-  `chevron-left` and `chevron-right`.
+  Avatar, Presence, Pin, State and Spinner), their strings and the icon
+  `chevron-left`.
 - The audit rule read-row: a list item that is only read has a line or a
   surface.
+- The overlay and feedback components: Modal, Confirm, Drawer, Sheet,
+  Veil, Popover, Bubble, Tooltip, Floating, Menu, MenuItem, MenuHead,
+  MenuDivider, Dropdown, Kebab, Banner, Note, Notices, Toast, ToastHost
+  and Bulk, with the toast store (`toast`), their strings and their
+  icons. Button shows a tooltip (`tip`, `shortcut`).

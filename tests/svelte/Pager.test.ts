@@ -5,7 +5,7 @@ import { setMessages } from '../../src/svelte/messages.js';
 
 /** The numbers and gaps the pager shows, in order */
 function shown(container: HTMLElement): string[] {
-  return [...container.querySelectorAll('nav > button .t, nav > .gap .t')].map(
+  return [...container.querySelectorAll('nav button .t, nav .gap .t')].map(
     (e) => e.textContent ?? '',
   );
 }

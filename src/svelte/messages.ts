@@ -51,6 +51,24 @@ export interface Messages {
   you: string;
   roleEditor: string;
   roleViewer: string;
+  /** The name of the button that goes back a step (Modal on a full screen) */
+  back: string;
+  /** The cancel button of Confirm */
+  cancel: string;
+  /** The confirm button of Confirm, when no label is given */
+  confirm: string;
+  /** The name of the handle of a Sheet */
+  sheetHeight: string;
+  /** The name of the button that opens a Kebab */
+  actions: string;
+  /** The actions of a Kebab */
+  settings: string;
+  share: string;
+  linkShare: string;
+  duplicate: string;
+  move: string;
+  ungroup: string;
+  delete: string;
 }
 
 const english: Messages = {
@@ -90,6 +108,18 @@ const english: Messages = {
   you: '(you)',
   roleEditor: 'Can edit',
   roleViewer: 'Can view',
+  back: 'Back',
+  cancel: 'Cancel',
+  confirm: 'Confirm',
+  sheetHeight: 'Sheet height',
+  actions: 'Actions',
+  settings: 'Settings',
+  share: 'Share',
+  linkShare: 'Link sharing',
+  duplicate: 'Duplicate',
+  move: 'Move',
+  ungroup: 'Ungroup',
+  delete: 'Delete',
 };
 
 /** The English defaults */
