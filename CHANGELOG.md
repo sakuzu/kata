@@ -6,7 +6,9 @@ follows semantic versioning.
 
 ## [Unreleased]
 
-These changes will be released as 1.4.1.
+## [1.4.1] - 2026-10-02
+
+One fix to the FieldList.
 
 - Fixed: the color button of a FieldList fills the value column, as the
   other controls of a field do, instead of taking the width of its text.
@@ -225,6 +227,7 @@ them to the rules.
   of drawing out of kata; `npm run check:package` runs publint and Are
   the Types Wrong on the package.
 
+[1.4.1]: https://github.com/sakuzu/kata/compare/v1.4.0...v1.4.1
 [1.4.0]: https://github.com/sakuzu/kata/compare/v1.3.0...v1.4.0
 [1.3.0]: https://github.com/sakuzu/kata/compare/v1.2.0...v1.3.0
 [1.2.0]: https://github.com/sakuzu/kata/compare/v1.1.0...v1.2.0
