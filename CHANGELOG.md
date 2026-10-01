@@ -6,6 +6,33 @@ follows semantic versioning.
 
 ## [Unreleased]
 
+The headings of the release (Added, Changed) are written when it is
+released; until then each entry says which it is.
+
+- Added: embedding kata in a page it does not own. A root element marked
+  `data-kata-root` is the host of what kata appends outside a component:
+  Tooltip and `clampTip` put their tips into the nearest such root
+  instead of the body, and the tokens they read are measured there.
+  `hostOf(el)` returns that root, or the body. The Layout chapter has a
+  section on embedding.
+- Added: `Shell overlay`. The shell's root lets the pointer through to a
+  drawing surface of the page, and only its regions (the bar, the side
+  regions, the toolbar, the dock, the scrim, the floating panes, the
+  sheets, the veil and the list of shortcuts) take it.
+- Added: `createNarrow().start(el)` and `isNarrowerThan(rem, el)` measure
+  a given element instead of the window.
+- Added: the audit's `fixed-frame` rule. A Shell or an embedded root is
+  never the containing block of fixed elements.
+- Changed: the Shell measures its own element with a `ResizeObserver`
+  (the window where there is none) instead of the window, and declares
+  the size container `app` on its root, so it follows its own width when
+  it is narrower than the window, and the container queries of the
+  components inside it work without `base.css`. Inside a Shell,
+  `createNarrow` (and so Modal, Pair, MenuList and SourcePicker) measures
+  the shell. A Shell that fills the window behaves as before.
+- Changed: the list of shortcuts of a Shell is rendered inside the
+  shell's root.
+
 ## [1.0.0] - 2026-10-01
 
 The first release of kata: the foundation, 110 components, 20 parts for

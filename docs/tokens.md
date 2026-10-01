@@ -198,7 +198,9 @@ nothing a component looks like.
   `larger`, `largest` and `max` set the root to 125%, 150%, 175% and 200%.
   Every length follows, through rem and em.
 - `body` is the size container named `app`. Layouts query its width at
-  three breakpoints: below 24rem, 48rem and 64rem.
+  three breakpoints: below 24rem, 48rem and 64rem. A
+  [Shell](workbench/shell.md)'s root is the `app` container of what is
+  inside it, with or without the base CSS.
 - The margins of headings, paragraphs, lists and figures are removed, and
   lists lose their markers. Form controls lose the border, padding and
   font the browser gives them, so the only border on a control is the one
