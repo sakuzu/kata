@@ -28,6 +28,20 @@
     },
   ]);
   let opened = $state('');
+  let openedFolded = $state('');
+  // The application words the line under each body: the author, the time and the replies
+  const folded = $derived(
+    threads.map((t) => ({
+      ...t,
+      body:
+        t.id === 't1'
+          ? `${t.body} The captions are under some pictures and beside others, which makes the page hard to read.`
+          : t.body,
+      byline: t.replies?.length
+        ? `${t.author.name} · ${t.when} · ${t.replies.length} reply`
+        : undefined,
+    })),
+  );
 </script>
 
 <Example>
@@ -53,5 +67,11 @@
     <Surface width="22.5rem">
       <CommentList threads={[]} />
     </Surface>
+  </Case>
+  <Case label="folded: one row for each thread, which opens it; the body cut at two lines">
+    <Surface width="22.5rem">
+      <CommentList threads={folded} folded onopen={(id) => (openedFolded = id)} />
+    </Surface>
+    <Text role="caption" muted>Opened: {openedFolded || 'nothing yet'}</Text>
   </Case>
 </Example>

@@ -1,5 +1,5 @@
 import { fireEvent, render } from '@testing-library/svelte';
-import { tick } from 'svelte';
+import { createRawSnippet, tick } from 'svelte';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import CommentComposer from '../../src/svelte/components/CommentComposer.svelte';
 import CommentList, { type CommentThread } from '../../src/svelte/components/CommentList.svelte';
@@ -54,6 +54,51 @@ describe('CommentList', () => {
     setMessages({ noComments: 'Keine Kommentare.' });
     const empty = render(CommentList, { threads: [] });
     expect(empty.container.textContent).toContain('Keine Kommentare.');
+  });
+});
+
+describe('CommentList folded', () => {
+  it('draws one row for each thread, which calls onopen when pressed', async () => {
+    const onopen = vi.fn();
+    const { getAllByRole, container } = render(CommentList, { threads, folded: true, onopen });
+    const rows = getAllByRole('button');
+    expect(rows).toHaveLength(2);
+    expect(container.querySelectorAll('[data-role="comment"]')).toHaveLength(0);
+    expect(container.textContent).not.toContain('Yes.');
+    expect(container.textContent).toContain('Resolved');
+    await fireEvent.click(rows[1]);
+    expect(onopen).toHaveBeenCalledWith('t2');
+    // Without onopen the rows are not pressed
+    const read = render(CommentList, { threads, folded: true });
+    expect(read.container.querySelector('[role="button"]')).toBeNull();
+  });
+
+  it('writes the byline as the name and the time unless the thread has its own', () => {
+    const { container } = render(CommentList, {
+      threads: [threads[0], { ...threads[1], byline: 'Ana · 3 replies' }],
+      folded: true,
+    });
+    const lines = [...container.querySelectorAll('[data-role="caption"]')].map(
+      (el) => el.textContent,
+    );
+    expect(lines).toEqual(['Sam Taylor · 5 minutes ago', 'Ana · 3 replies']);
+  });
+});
+
+describe('CommentList actions', () => {
+  it('draws the actions of a thread before resolve and open', () => {
+    const more = createRawSnippet((t: () => CommentThread) => ({
+      render: () => `<button type="button" aria-label="More of ${t().id}">⋯</button>`,
+    }));
+    const { container } = render(CommentList, {
+      threads,
+      onopen: () => {},
+      onresolve: () => {},
+      actions: more as never,
+    });
+    const first = container.querySelector('[data-role="comment"]') as HTMLElement;
+    const names = [...first.querySelectorAll('button')].map((b) => b.getAttribute('aria-label'));
+    expect(names).toEqual(['More of t1', 'Resolve', 'Open']);
   });
 });
 

@@ -37,6 +37,13 @@ These changes will be released as 1.4.0.
   indented one level deeper, without a grip or a selection.
 - Added: the second argument of `LayerTree onselect` has `pressed`, the
   id of the row that was pressed.
+- Added: `CommentList folded`, one row for each thread: the author's
+  Avatar, the body cut at two lines with a byline under it, and a
+  Resolved badge on a resolved thread. Pressing the row calls `onopen`.
+  `CommentThread byline` is that line as the application words it; it is
+  the author's name and `when` without it.
+- Added: `CommentList actions`, a snippet of the thread for the
+  application's own actions, before resolve and open.
 - Fixed: a `LayerTree` no longer reads the children of a closed group,
   which took time when a closed group held many nodes. The keys, the
   selection and the drops reach only the rows that show, as before.
