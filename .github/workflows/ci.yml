@@ -27,6 +27,9 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      # The examples and the site import @sakuzu/kata/svelte through the package's own
+      # exports, which point at dist, so the package is built before anything typechecks
+      - run: npm run package
       - run: npm run typecheck
       - run: npm run lint
       - run: npm test
