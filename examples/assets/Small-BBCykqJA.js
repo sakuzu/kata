@@ -1,0 +1,1 @@
+import{E as e,M as t,P as n,X as r,mt as i,y as a}from"./Stack-BaKiDLzv.js";var o=n(`<div><!></div>`);function s(n,s){var c=o();a(c,``,{},{"--kata-box":`var(--kata-height-button-sm)`});var l=r(c);e(l,()=>s.children),i(c),t(n,c)}export{s as t};

@@ -1,0 +1,1 @@
+.split.svelte-1ev0g4m{grid-template-columns:var(--kata-split-width) minmax(0, 1fr);align-items:start;min-width:0;min-height:0;display:grid}.side.svelte-1ev0g4m,.main.svelte-1ev0g4m{min-width:0;min-height:0}.main.svelte-1ev0g4m{width:100%}@container app (width<48rem){.split.svelte-1ev0g4m{grid-template-columns:minmax(0,1fr)}}

@@ -1,0 +1,1 @@
+import{_ as a,o as t,c as n,a2 as s}from"./chunks/framework.BGlkWkwp.js";const f=JSON.parse('{"title":"kata","description":"","frontmatter":{},"headers":[],"relativePath":"index.md","filePath":"README.md"}'),o={name:"index.md"};function i(r,e,h,l,p,c){return t(),n("div",null,[...e[0]||(e[0]=[s("",4)])])}const m=a(o,[["render",i]]);export{f as __pageData,m as default};

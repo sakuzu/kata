@@ -1,0 +1,1 @@
+import{E as e,K as t,M as n,P as r,X as i,b as a,mt as o}from"./Stack-BaKiDLzv.js";var s=r(`<span data-role="mark" data-h="badge"><span class="t svelte-1k4hygu"><!></span></span>`);function c(r,c){var l=s(),u=i(l),d=i(u);e(d,()=>c.children),o(u),o(l),t(()=>a(l,1,`tag ${c.tone??``??``}`,`svelte-1k4hygu`)),n(r,l)}export{c as t};

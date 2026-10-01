@@ -1,0 +1,1 @@
+import{_ as e,o as a,c as d,a2 as s}from"./chunks/framework.BGlkWkwp.js";const f=JSON.parse('{"title":"Scale","description":"","frontmatter":{},"headers":[],"relativePath":"scale.md","filePath":"scale.md"}'),o={name:"scale.md"};function r(i,t,h,n,l,c){return a(),d("div",null,[...t[0]||(t[0]=[s("",19)])])}const m=e(o,[["render",r]]);export{f as __pageData,m as default};
