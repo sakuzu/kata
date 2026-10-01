@@ -4,11 +4,10 @@ All notable changes to `@sakuzu/kata` are recorded here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project
 follows semantic versioning.
 
-## [Unreleased]
+## [1.2.0] - 2026-10-01
 
 The side regions of the Shell float over the stage by default, as in the
-editor of the reference application. This changes the default layout
-and will be released as 1.2.0.
+editor of the reference application. This changes the default layout.
 
 - Changed: from 48rem the Shell's side regions float over the stage at
   every width (`leftMode` and `rightMode` are `floating` for `wide` too).
@@ -121,5 +120,6 @@ them to the rules.
   of drawing out of kata; `npm run check:package` runs publint and Are
   the Types Wrong on the package.
 
+[1.2.0]: https://github.com/sakuzu/kata/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/sakuzu/kata/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/sakuzu/kata/releases/tag/v1.0.0
