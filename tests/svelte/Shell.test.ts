@@ -248,6 +248,35 @@ describe('Shell', () => {
     expect(narrow.queryByRole('button', { name: 'Show the contents' })).toBeNull();
   });
 
+  it('folds the toolbar into a Fab with bottomFab, and shows it in one column while pressed', async () => {
+    const bottom = createRawSnippet((args: () => { column: boolean }) => ({
+      render: () => `<div>${args().column ? 'Column' : 'Row'}</div>`,
+    }));
+    const bottomFab = { label: 'Tools', closeLabel: 'Hide the tools' };
+    const { container, getByRole } = render(Shell, {
+      stage: regions.stage,
+      bottom,
+      bottomFab,
+      narrow: true,
+    });
+    await tick();
+    expect(region(container, 'bottom')).toBeNull();
+    const fab = getByRole('button', { name: 'Tools' });
+    expect(fab.getAttribute('data-role')).toBe('fab');
+    fab.click();
+    await tick();
+    expect(region(container, 'bottom')?.textContent).toBe('Column');
+    getByRole('button', { name: 'Hide the tools' }).click();
+    await tick();
+    expect(region(container, 'bottom')).toBeNull();
+
+    // From 48rem the toolbar stays over the stage, without a Fab
+    const wide = render(Shell, { stage: regions.stage, bottom, bottomFab });
+    await tick();
+    expect(region(wide.container, 'bottom')?.textContent).toBe('Row');
+    expect(wide.container.querySelector('[data-role="fab"]')).toBeNull();
+  });
+
   it('opens and closes each floating pane on its own', async () => {
     const { container, rerender } = render(Shell, { ...regions, leftOpen: false });
     await tick();

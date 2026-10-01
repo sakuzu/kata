@@ -167,6 +167,10 @@
   <Drawbar label="Tools" {tools} current={tool} onselect={(id) => (tool = id)} />
 {/snippet}
 
+{#snippet columnToolbar({ column }: { column: boolean })}
+  <Drawbar label="Tools" {tools} current={tool} onselect={(id) => (tool = id)} {column} />
+{/snippet}
+
 {#snippet output()}
   <Panel side="fill" label="Output">
     {#snippet head()}<Toolbar title="Output" rule />{/snippet}
@@ -249,6 +253,21 @@
         right={selection}
         stage={surface}
         bottom={toolbar}
+      />
+    </div>
+  </Case>
+  <Case label="bottomFab: on a narrow screen the toolbar shows in one column (a column Drawbar) while the Fab is pressed">
+    <div class="frame">
+      <Shell
+        narrow
+        leftOpen={false}
+        leftSheet={{ closable: false }}
+        bottomFab={{ label: 'Tools', closeLabel: 'Hide the tools' }}
+        leftLabel="Contents"
+        top={plainBar}
+        left={contents}
+        stage={surface}
+        bottom={columnToolbar}
       />
     </div>
   </Case>

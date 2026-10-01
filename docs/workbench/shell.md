@@ -47,6 +47,7 @@ pointer through to it everywhere but its regions.
 | `rightStage` | `'half'` | The right sheet's height while open (bindable) |
 | `leftReopen` | | A control that opens the closed left region, `ShellReopen` |
 | `rightReopen` | | A control that opens the closed right region |
+| `bottomFab` | | Folds the toolbar into a Fab when narrow, `ShellFab` |
 | `onlayout` | | Called with `{ width, leftMode, rightMode }` when they change |
 | `onescape` | | Called with Escape when no sheet is left to close |
 
@@ -62,7 +63,10 @@ height (it closes by default). A stage is `peek`, `half` or `full`
 (`SheetStage`).
 
 A `ShellReopen` is `{ icon, label }`: an icon name or component, and the
-name of the control.
+name of the control. A `ShellFab` is `{ label, closeLabel, icon? }`: the
+name of the Fab while the toolbar is hidden and while it shows, and its
+icon while the toolbar is hidden (`plus` by default; `x` while it
+shows).
 
 A `Shortcut` is
 `{ key, label, run, when?, group?, aliases?, hidden?, display? }`. `key`
@@ -194,6 +198,16 @@ and from the side, which sets `leftOpen` or `rightOpen` when pressed. It
 shows only when the region is given. The narrow form has none: a sheet
 that does not close keeps its head, and the application has its own way
 in otherwise.
+
+With `bottomFab`, the narrow form folds the toolbar into a
+[Fab](../components/fab.md), gap-md from the right of the stage and from
+the top of the sheets. A press on the Fab shows the toolbar above it,
+gap-md apart and gap-md from the right, and another press hides it; while
+it shows, the Fab's name is `closeLabel` and its icon `x`. The `bottom`
+snippet receives `{ column }`, true while the toolbar stands in one
+column above the Fab and false elsewhere: pass it to the Drawbar's
+`column`. A snippet that takes no argument works as before. From 48rem
+the toolbar stays over the bottom of the stage.
 
 ## Example
 

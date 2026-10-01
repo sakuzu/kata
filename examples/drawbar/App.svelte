@@ -88,6 +88,11 @@
       />
     </div>
   </Case>
+  <Case label="column: the tools in one column, in the flow of their container">
+    <div class="seat">
+      <Drawbar label="Tools" {tools} {toggles} current={tool} onselect={(id) => (tool = id)} column />
+    </div>
+  </Case>
 </Example>
 
 {#snippet snapSettings()}
@@ -102,5 +107,10 @@
     height: 10rem;
     background: var(--kata-color-ground);
     border: var(--kata-border-width) solid var(--kata-color-line);
+  }
+  /* A container that keeps the column to its own width */
+  .seat {
+    display: flex;
+    align-items: flex-start;
   }
 </style>

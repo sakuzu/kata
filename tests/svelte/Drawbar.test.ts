@@ -85,6 +85,30 @@ describe('Drawbar', () => {
     expect(onselect).toHaveBeenCalledWith('arrow');
   });
 
+  it('stands the tools in one column in the flow with column, folding nothing', async () => {
+    // As narrow as the bar that folds above: in a column, every tool shows all the same
+    vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockReturnValue({
+      width: 40,
+    } as DOMRect);
+    vi.spyOn(HTMLElement.prototype, 'clientWidth', 'get').mockReturnValue(200);
+    const { getByRole, queryByRole } = render(Drawbar, {
+      label: 'Tools',
+      tools,
+      toggles: [toggle('snap', true), toggle('grid', false)],
+      current: 'note',
+      column: true,
+    });
+    await tick();
+    const bar = getByRole('toolbar', { name: 'Tools' });
+    expect(bar.querySelectorAll('button')).toHaveLength(8);
+    expect(queryByRole('button', { name: 'More' })).toBeNull();
+    expect(bar.getAttribute('aria-orientation')).toBe('vertical');
+    const cs = getComputedStyle(bar);
+    expect(cs.position).toBe('static');
+    expect(cs.flexDirection).toBe('column');
+    expect(bar.style.bottom).toBe('');
+  });
+
   describe('when the bar does not fit', () => {
     it('folds what does not fit into "More", keeping the current tool', async () => {
       // Every button is 40px wide and the container 200px: four buttons and "More" fit

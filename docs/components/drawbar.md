@@ -24,6 +24,7 @@ actions of a panel go in its [Toolbar](toolbar.md).
 | `onselect` | | Called with the id of the tool that is pressed |
 | `label` | | The name of the bar |
 | `bottom` | `md` | The distance from the bottom edge: `0` or a gap step |
+| `column` | `false` | One column in the flow of its container |
 
 A `DrawbarTool` is `{ id, label, icon, kbd?, group?, tone?, disabled? }`:
 `icon` is an icon name or component, `kbd` the key that picks the tool,
@@ -59,6 +60,13 @@ current tool always shows, then the others from the start as long as
 they fit. In the menu a tool shows its icon and a switch a check mark
 when it is on, each with its key. The widths are measured again when the
 container or the text size changes; the buttons never shrink.
+
+With `column`, the tools and the switches stand in one column, the tools
+of a group gap-2xs apart and the groups gap-md apart, and the bar has
+`aria-orientation="vertical"`. It is in the flow of its container
+(`position: static`), so `bottom` does not apply and the container places
+it, as the place above the Fab of a [Shell](../workbench/shell.md) does;
+nothing folds into More.
 
 ## Example
 

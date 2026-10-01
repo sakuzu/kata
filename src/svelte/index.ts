@@ -113,6 +113,7 @@ export { default as SettingsSection } from './components/SettingsSection.svelte'
 export type { SheetStage } from './components/Sheet.svelte';
 export { default as Sheet } from './components/Sheet.svelte';
 export type {
+  ShellFab,
   ShellLayout,
   ShellMode,
   ShellReopen,

@@ -63,6 +63,10 @@
   // onchange with the state it asks for; a switch with a popover opens it above the bar instead,
   // and on is only what it shows. Each button shows its name and its key in a Tooltip.
   //
+  //
+  // column stands the tools in one column instead, the groups gap-md apart, in the flow of its
+  // container (bottom does not apply), and folds nothing into "More".
+  //
   //   <Drawbar label="Tools" {tools} {toggles} current={tool} onselect={(id) => (tool = id)} />
   type Step = '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   let {
@@ -72,6 +76,7 @@
     onselect,
     label,
     bottom = 'md',
+    column = false,
   }: {
     /** The tools, in order */
     tools: DrawbarTool[];
@@ -85,6 +90,8 @@
     label?: string;
     /** The distance from the bottom edge of the container: 0 or a gap step */
     bottom?: 0 | Step;
+    /** One column of tools, in the flow of its container, with nothing folded into "More" */
+    column?: boolean;
   } = $props();
 
   type Item = { kind: 'tool'; tool: DrawbarTool } | { kind: 'toggle'; toggle: DrawbarToggle };
@@ -115,6 +122,11 @@
     const el = bar;
     const container = el?.parentElement;
     if (!el || !container) return;
+    // A column shows every tool
+    if (column) {
+      if (untrack(() => shownIdx) !== null) shownIdx = null;
+      return;
+    }
     const groups = groupOf;
     const k = keep;
     const px = (v: string) => Number.parseFloat(v) || 0;
@@ -165,10 +177,12 @@
 
 <div
   class="drawbar"
+  class:column
   data-role="drawbar"
   role="toolbar"
   aria-label={label}
-  style:bottom={bottom === 0 ? '0' : `var(--kata-gap-${bottom})`}
+  aria-orientation={column ? 'vertical' : undefined}
+  style:bottom={column ? undefined : bottom === 0 ? '0' : `var(--kata-gap-${bottom})`}
   bind:this={bar}
 >
   {#each shown as group, g (g)}
@@ -298,5 +312,16 @@
     display: flex;
     align-items: center;
     gap: gap(2xs);
+  }
+  // One column in the flow of its container: the groups and the tools of each stand on top of each
+  // other
+  .drawbar.column {
+    position: static;
+    transform: none;
+    flex-direction: column;
+    max-width: none;
+    > .group {
+      flex-direction: column;
+    }
   }
 </style>

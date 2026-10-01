@@ -21,6 +21,13 @@ These changes will be released as 1.5.0.
 - Added: `Shell leftReopen` and `rightReopen` (`ShellReopen`), a ghost
   icon button in the corner of the stage that opens a closed side region
   again, from 48rem.
+- Added: `Shell bottomFab` (`ShellFab`): on a narrow screen the toolbar
+  folds into a Fab gap-md above the sheets, and shows in one column above
+  it while the Fab is pressed. The `bottom` snippet receives
+  `{ column }`, which says to stand the toolbar in one column; a snippet
+  without the argument keeps working.
+- Added: `Drawbar column`, the tools in one column in the flow of their
+  container, the groups gap-md apart, with nothing folded into More.
 
 ## [1.4.1] - 2026-10-02
 

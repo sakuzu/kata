@@ -20,6 +20,15 @@
     icon: IconSource;
     label: string;
   }
+  /** The Fab that holds the toolbar on a narrow screen: its names and its icon */
+  export interface ShellFab {
+    /** The name of the Fab while the toolbar is hidden */
+    label: string;
+    /** The name of the Fab while the toolbar shows */
+    closeLabel: string;
+    /** The icon while the toolbar is hidden; plus by default, and x while it shows */
+    icon?: IconSource;
+  }
   /** What onlayout reports */
   export interface ShellLayout {
     width: ShellWidth;
@@ -43,6 +52,7 @@
   import { createNarrow, setAppContainer, WIDTHS } from '../lib/viewport.svelte.js';
   import { getMessages } from '../messages.js';
   import Button from './Button.svelte';
+  import Fab from './Fab.svelte';
   import Floating from './Floating.svelte';
   import Icon from './Icon.svelte';
   import Sheet from './Sheet.svelte';
@@ -97,6 +107,7 @@
     rightStage = $bindable('half'),
     leftReopen,
     rightReopen,
+    bottomFab,
     onlayout,
     onescape,
     top,
@@ -139,6 +150,8 @@
      * closed, from 48rem */
     leftReopen?: ShellReopen;
     rightReopen?: ShellReopen;
+    /** On a narrow screen, the toolbar shows only while this Fab is pressed, in one column above it */
+    bottomFab?: ShellFab;
     /** Called with the width and the place of each side region, and again when they change */
     onlayout?: (layout: ShellLayout) => void;
     /** Escape when no sheet is left to close; returning false leaves the key to the browser */
@@ -149,8 +162,8 @@
     left?: Snippet;
     /** The right region: a Panel */
     right?: Snippet;
-    /** The toolbar over the bottom of the stage: a Drawbar */
-    bottom?: Snippet;
+    /** The toolbar over the bottom of the stage: a Drawbar; column says to stand it in one column */
+    bottom?: Snippet<[{ column: boolean }]>;
     /** The dock under the stage: a Panel with side fill */
     dock?: Snippet;
     /** The drawing surface; it fills the rest */
@@ -252,6 +265,10 @@
           return control && region(side) && !open ? [{ side, control }] : [];
         }),
   );
+  // On a narrow screen with bottomFab, the toolbar folds into a Fab and shows while it is pressed
+  const folded = $derived(!!bottomFab && mode === 'sheet');
+  let fabOpen = $state(false);
+
   function reopen(side: Side) {
     if (side === 'left') leftOpen = true;
     else rightOpen = true;
@@ -386,7 +403,21 @@
     <div class="main" bind:clientHeight={mainH}>
       <div class="stage" data-region="stage">
         {#if stage}<div class="surface">{@render stage()}</div>{/if}
-        {#if bottom}<div class="bottom" data-region="bottom">{@render bottom()}</div>{/if}
+        {#if bottom && !folded}
+          <div class="bottom" data-region="bottom">{@render bottom({ column: false })}</div>
+        {/if}
+        {#if bottom && bottomFab && folded}
+          <div class="fab-seat">
+            {#if fabOpen}
+              <div class="fab-column" data-region="bottom">{@render bottom({ column: true })}</div>
+            {/if}
+            <Fab
+              label={fabOpen ? bottomFab.closeLabel : bottomFab.label}
+              icon={fabOpen ? 'x' : (bottomFab.icon ?? 'plus')}
+              onclick={() => (fabOpen = !fabOpen)}
+            />
+          </div>
+        {/if}
         {#each reopens as { side, control } (side)}
           <div class="reopen">
             <Floating
@@ -542,6 +573,21 @@
     max-width: calc(100% - #{gap(md)} * 2);
     max-height: calc(100% - #{gap(md)} * 2);
   }
+  // The Fab's place on a narrow screen: gap-md from the right and from the top of the sheets, with
+  // the toolbar in one column gap-md above it
+  .fab-seat {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: var(--kata-shell-lift, 0px);
+    height: 0;
+  }
+  .fab-column {
+    position: absolute;
+    z-index: z(floating);
+    right: gap(md);
+    bottom: calc(#{gap(md)} * 2 + #{h(button)});
+  }
   // The seat of a control that opens a closed side again: no box of its own, so that its Floating
   // keeps its own size and places itself against the stage
   .reopen {
@@ -581,15 +627,16 @@
     }
   }
   // Over a surface of the page, the root and the stage let the pointer through to it; every region
-  // the shell draws takes it again: the bar, the side regions, the toolbar, the dock, the floating
-  // panes and the controls that reopen them, the sheets (their seat already lets it through around
-  // them), the veil and the dialog of the shortcuts
+  // the shell draws takes it again: the bar, the side regions, the toolbar and its Fab, the dock,
+  // the floating panes and the controls that reopen them, the sheets (their seat already lets it
+  // through around them), the veil and the dialog of the shortcuts
   .shell.overlay {
     pointer-events: none;
     > .top,
     > .body > .side,
     > .body > .main > .dock,
     > .body > .main > .stage > .bottom,
+    > .body > .main > .stage > .fab-seat,
     > .body > .main > .stage > .reopen,
     > .body > .main > .stage > :global([data-role='floating']),
     > .body > .main > .stage > :global([data-role='veil']),
