@@ -20,6 +20,9 @@ These changes will be released as 1.4.0.
   value of several lines, such as a custom field with an input, a slider
   and actions under one another: the row is aligned at the top, as a
   Pair with `top`, and its height follows the content.
+- Added: `DrawbarToggle onchange` may be left out, as for a switch with
+  a `popover`, which does not call it. A switch without it does nothing
+  when it is pressed, in the bar or in the More menu.
 - Fixed: a shortcut whose key is a symbol (`[`, `]`, `?`, `/`, `.`, `,`,
   `;`, `'`, `` ` ``, `\`, `-` or `=`), `plus` or `minus` also matches by
   the physical key, as letters and digits already did, so that it still

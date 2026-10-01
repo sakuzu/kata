@@ -30,10 +30,12 @@ A `DrawbarTool` is `{ id, label, icon, kbd?, group?, tone?, disabled? }`:
 shown in its tooltip, and `group` puts consecutive tools together.
 
 A `DrawbarToggle` is
-`{ id, label, icon, on, onchange, kbd?, disabled?, popover? }`: `on` is
+`{ id, label, icon, on, onchange?, kbd?, disabled?, popover? }`: `on` is
 its state, `onchange` is called with the state it asks for, and
 `popover`, a snippet of `(close)`, holds the settings of the aid, shown
-in a [Popover](popover.md) when the switch is pressed.
+in a [Popover](popover.md) when the switch is pressed. `onchange` may be
+left out, typically for a switch with a `popover`; pressing a switch
+without it, or its item in the More menu, does nothing.
 
 ## Contract
 

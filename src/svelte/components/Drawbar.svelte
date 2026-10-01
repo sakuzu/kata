@@ -24,8 +24,8 @@
     label: string;
     icon: IconSource;
     on: boolean;
-    /** Called with the state the switch asks for */
-    onchange: (on: boolean) => void;
+    /** Called with the state the switch asks for; without it, pressing the switch does nothing */
+    onchange?: (on: boolean) => void;
     /** The key that switches it, shown in its tooltip */
     kbd?: string;
     disabled?: boolean;
@@ -220,7 +220,7 @@
             aria-keyshortcuts={s.kbd}
             shortcut={s.kbd}
             aria-pressed={s.on}
-            onclick={() => s.onchange(!s.on)}><Icon name={s.icon} /></Button
+            onclick={() => s.onchange?.(!s.on)}><Icon name={s.icon} /></Button
           >
         {/if}
       {/each}
@@ -259,7 +259,7 @@
               kbd={s.kbd}
               disabled={s.disabled}
               onclick={() => {
-                s.onchange(!s.on);
+                s.onchange?.(!s.on);
                 close();
               }}>{s.label}</MenuItem
             >
