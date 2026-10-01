@@ -117,6 +117,7 @@
     bottomFab,
     dockSheet,
     ondockclose,
+    topFloating = false,
     onlayout,
     onescape,
     top,
@@ -165,6 +166,8 @@
     dockSheet?: ShellDockSheet;
     /** Called when the dock's sheet closes; the application removes the dock */
     ondockclose?: () => void;
+    /** On a narrow screen, the bar at the top floats over the stage, which fills the shell */
+    topFloating?: boolean;
     /** Called with the width and the place of each side region, and again when they change */
     onlayout?: (layout: ShellLayout) => void;
     /** Escape when no sheet is left to close; returning false leaves the key to the browser */
@@ -278,6 +281,8 @@
           return control && region(side) && !open ? [{ side, control }] : [];
         }),
   );
+  // On a narrow screen with topFloating, the bar floats over the stage and takes no height
+  const topFloats = $derived(topFloating && mode === 'sheet');
   // On a narrow screen with bottomFab, the toolbar folds into a Fab and shows while it is pressed
   const folded = $derived(!!bottomFab && mode === 'sheet');
   let fabOpen = $state(false);
@@ -416,7 +421,7 @@
   style:--kata-shell-lift="{lift}px"
   style:--kata-shell-dock={dockHeight === undefined ? undefined : `${dockHeight}px`}
 >
-  {#if top}<div class="top">{@render top()}</div>{/if}
+  {#if top && !topFloats}<div class="top" data-region="top">{@render top()}</div>{/if}
   <div class="body">
     {#if mode === 'beside' && shown('left')}
       <div class="side left" data-region="left">{@render seat('left')}</div>
@@ -437,6 +442,13 @@
               icon={fabOpen ? 'x' : (bottomFab.icon ?? 'plus')}
               onclick={() => (fabOpen = !fabOpen)}
             />
+          </div>
+        {/if}
+        {#if top && topFloats}
+          <div class="top-seat">
+            <Floating top="md" left="md" right="md">
+              <div class="top-float" data-region="top">{@render top()}</div>
+            </Floating>
           </div>
         {/if}
         {#each reopens as { side, control } (side)}
@@ -624,6 +636,14 @@
     right: gap(md);
     bottom: calc(#{gap(md)} * 2 + #{h(button)});
   }
+  // The seat of the bar floating over the stage: no box of its own, so that its Floating spans the
+  // stage less gap-md on each side
+  .top-seat {
+    display: contents;
+  }
+  .top-float {
+    min-width: 0;
+  }
   // The seat of a control that opens a closed side again: no box of its own, so that its Floating
   // keeps its own size and places itself against the stage
   .reopen {
@@ -663,9 +683,9 @@
     }
   }
   // Over a surface of the page, the root and the stage let the pointer through to it; every region
-  // the shell draws takes it again: the bar, the side regions, the toolbar and its Fab, the dock,
-  // the floating panes and the controls that reopen them, the sheets (their seat already lets it
-  // through around them), the veil and the dialog of the shortcuts
+  // the shell draws takes it again: the bar, in its place or floating, the side regions, the toolbar
+  // and its Fab, the dock, the floating panes and the controls that reopen them, the sheets (their
+  // seat already lets it through around them), the veil and the dialog of the shortcuts
   .shell.overlay {
     pointer-events: none;
     > .top,
@@ -674,6 +694,7 @@
     > .body > .main > .stage > .bottom,
     > .body > .main > .stage > .fab-seat,
     > .body > .main > .stage > .reopen,
+    > .body > .main > .stage > .top-seat,
     > .body > .main > .stage > :global([data-role='floating']),
     > .body > .main > .stage > :global([data-role='veil']),
     > :global(dialog) {

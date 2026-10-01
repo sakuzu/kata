@@ -296,6 +296,21 @@
       <Button disabled={showDock} onclick={() => (showDock = true)}>Show the output</Button>
     </Row>
   </Case>
+  <Case label="topFloating: on a narrow screen the bar floats over the stage, which fills the shell">
+    <div class="frame">
+      <Shell
+        narrow
+        topFloating
+        leftOpen={false}
+        leftSheet={{ closable: false }}
+        leftLabel="Contents"
+        top={plainBar}
+        left={contents}
+        stage={surface}
+        bottom={toolbar}
+      />
+    </div>
+  </Case>
 </Example>
 
 <style>

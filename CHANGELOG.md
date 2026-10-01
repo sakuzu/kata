@@ -32,6 +32,9 @@ These changes will be released as 1.5.0.
   dock is a closable Sheet instead of the area under the stage, and
   `Shell ondockclose` is called when it closes. The toolbar rises above
   it as above the other sheets.
+- Added: `Shell topFloating`: on a narrow screen the bar at the top
+  floats over the stage in a Floating, gap-md from the top and the sides,
+  and the stage fills the shell.
 
 ## [1.4.1] - 2026-10-02
 

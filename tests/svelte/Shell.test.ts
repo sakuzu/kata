@@ -309,6 +309,25 @@ describe('Shell', () => {
     expect(wide.container.querySelector('.dock')?.textContent?.trim()).toBe('Output');
   });
 
+  it('floats the bar over the stage with topFloating on a narrow screen', async () => {
+    const { container } = render(Shell, { ...regions, narrow: true, topFloating: true });
+    await tick();
+    const top = region(container, 'top');
+    expect(top?.textContent).toBe('Bar');
+    // In a Floating gap-md from the top and the sides of the stage, which fills the shell
+    const floating = top?.closest<HTMLElement>('[data-role="floating"]');
+    expect(floating?.parentElement?.parentElement).toBe(region(container, 'stage'));
+    expect(floating?.style.top).toBe('var(--kata-gap-md)');
+    expect(floating?.style.left).toBe('var(--kata-gap-md)');
+    expect(floating?.style.right).toBe('var(--kata-gap-md)');
+    expect(container.querySelector('.shell > .top')).toBeNull();
+
+    // From 48rem the bar keeps its place above the stage
+    const wide = render(Shell, { ...regions, topFloating: true });
+    await tick();
+    expect(region(wide.container, 'top')?.closest('[data-region="stage"]')).toBeNull();
+  });
+
   it('opens and closes each floating pane on its own', async () => {
     const { container, rerender } = render(Shell, { ...regions, leftOpen: false });
     await tick();

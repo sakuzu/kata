@@ -50,6 +50,7 @@ pointer through to it everywhere but its regions.
 | `bottomFab` | | Folds the toolbar into a Fab when narrow, `ShellFab` |
 | `dockSheet` | | Puts the dock in a sheet when narrow, `ShellDockSheet` |
 | `ondockclose` | | Called when the dock's sheet closes |
+| `topFloating` | `false` | The bar floats over the stage when narrow |
 | `onlayout` | | Called with `{ width, leftMode, rightMode }` when they change |
 | `onescape` | | Called with Escape when no sheet is left to close |
 
@@ -219,6 +220,12 @@ its heights and closes below it; it then calls `ondockclose`, and the
 application removes the dock. It lies under the sheets of the side
 regions, and the toolbar rises above it as above them. `dockHeight` and
 the grip belong to the dock under the stage only.
+
+With `topFloating`, the narrow form floats the bar over the stage in a
+[Floating](../components/floating.md) gap-md from the top of the stage
+and from each side, instead of keeping its height above it. The stage
+then fills the shell, and the drawing shows under the bar. From 48rem
+the bar keeps its place.
 
 ## Example
 
