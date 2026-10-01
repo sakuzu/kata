@@ -17,6 +17,8 @@
   // when it cannot be changed), an optional second line, the application's controls (head) and a
   // close button. The tabs, when there are several views, are a second Toolbar under it; the
   // content is the sections of the current tab, stacked with gap 0; end is the foot (a Footer).
+  // underHead is a band of the application (a palette, a row of choices) between the head and the
+  // tabs; it keeps its place while the content scrolls.
   //
   // The frame shows the name it is given. When the name is committed, ontitle receives it trimmed;
   // the application updates title (at once), or the name goes back to title, so a name the
@@ -36,6 +38,7 @@
     current = $bindable(tabs[0]?.id ?? ''),
     onselect,
     head,
+    underHead,
     end,
     onclose,
     side = 'panel',
@@ -61,6 +64,8 @@
     onselect?: (id: string) => void;
     /** More controls in the head, icon buttons before the close button (a snippet) */
     head?: Snippet;
+    /** A band under the head, above the tabs (a snippet) */
+    underHead?: Snippet;
     /** The foot of the panel, a Footer with the actions (a snippet) */
     end?: Snippet;
     /** Shows a close button in the head and is called when it is pressed */
@@ -136,6 +141,7 @@
         {@render nameOf()}
       {/if}
     </Toolbar>
+    {@render underHead?.()}
     {#if tabs.length > 0}
       <Toolbar rule><Tabs {tabs} {current} onselect={select} /></Toolbar>
     {/if}

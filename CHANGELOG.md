@@ -4,6 +4,14 @@ All notable changes to `@sakuzu/kata` are recorded here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project
 follows semantic versioning.
 
+## [Unreleased]
+
+These changes will be released as 1.3.0.
+
+- Added: `InspectorFrame underHead`, a snippet placed under the head and
+  above the tabs, for a band of the application such as a palette. It
+  keeps its place while the content scrolls.
+
 ## [1.2.0] - 2026-10-01
 
 The side regions of the Shell float over the stage by default, as in the

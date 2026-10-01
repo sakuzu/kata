@@ -2,7 +2,9 @@
   import {
     type AttributeItem,
     AttributeList,
+    Block,
     Button,
+    ColorGrid,
     FieldList,
     type FieldSpec,
     Footer,
@@ -83,6 +85,18 @@
     { id: 'm2', name: 'Side entrance', color: '#1F9D55' },
     { id: 'm3', name: 'Loading bay', color: '#D9822B' },
   ];
+  // A band under the head: the colors of a note, picked at once
+  const colors = [
+    { name: 'Yellow', hex: '#F5D90A' },
+    { name: 'Orange', hex: '#F76808' },
+    { name: 'Pink', hex: '#E93D82' },
+    { name: 'Blue', hex: '#0091FF' },
+    { name: 'Green', hex: '#30A46C' },
+  ];
+  let note = $state('Check the door');
+  let noteColor = $state('#F5D90A');
+  let noteTab = $state('style');
+
   const display = $derived<FieldSpec[]>([
     { key: 'visible', kind: 'toggle', label: 'Visible', value: visible },
     { key: 'locked', kind: 'toggle', label: 'Locked', value: locked },
@@ -172,6 +186,38 @@
             {#snippet primary()}<Button>Ungroup</Button>{/snippet}
           </Footer>
         {/snippet}
+      </InspectorFrame>
+    </div>
+  </Case>
+  <Case label="underHead: a band of the application between the head and the tabs">
+    <div class="frame short">
+      <InspectorFrame
+        title={note}
+        ontitle={(next) => (note = next || note)}
+        subtitle="Note"
+        tabs={[
+          { id: 'style', label: 'Style' },
+          { id: 'attributes', label: 'Attributes' },
+        ]}
+        bind:current={noteTab}
+        onclose={() => {}}
+      >
+        {#snippet underHead()}
+          <Block>
+            <ColorGrid {colors} value={noteColor} columns={5} label="Color" onselect={(hex) => (noteColor = hex)} />
+          </Block>
+        {/snippet}
+        {#if noteTab === 'style'}
+          <InspectorSection title="Text">
+            <FieldList
+              fields={[{ key: 'size', kind: 'number', label: 'Size', value: 14, unit: 'px', min: 1 }]}
+            />
+          </InspectorSection>
+        {:else}
+          <InspectorSection title="Attributes" flush>
+            <AttributeList items={[{ key: 'Author', value: 'Kim' }]} />
+          </InspectorSection>
+        {/if}
       </InspectorFrame>
     </div>
   </Case>
