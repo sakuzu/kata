@@ -139,6 +139,27 @@ describe('InspectorSection', () => {
     expect(queryByRole('button', { name: 'Collapse' })).toBeNull();
     expect(getByRole('button', { name: 'Reset' })).toBeTruthy();
   });
+
+  it('shows the value in the head, also when it does not fold and while it is closed', async () => {
+    const plain = render(InspectorSection, {
+      title: 'Opacity',
+      value: '80%',
+      children: html('<p>Fill</p>'),
+    });
+    expect(plain.container.querySelector('[data-role="section-head"]')?.textContent).toContain(
+      '80%',
+    );
+    plain.unmount();
+    const { container, getByRole } = render(InspectorSection, {
+      title: 'Shadow',
+      value: '2 px',
+      collapsible: true,
+      children: html('<p>Blur</p>'),
+    });
+    await fireEvent.click(getByRole('button', { name: 'Collapse' }));
+    expect(container.textContent).not.toContain('Blur');
+    expect(container.querySelector('[data-role="section-head"]')?.textContent).toContain('2 px');
+  });
 });
 
 describe('InspectorRow', () => {

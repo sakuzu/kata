@@ -20,6 +20,7 @@ reset, in `end`.
 | `collapsible` | `false` | The group can be closed and opened |
 | `open` | `true` | Whether the content shows (bindable) |
 | `ontoggle` | | Called with the new state when the chevron is pressed |
+| `value` | | The current value, on the right of the head |
 | `end` | | Small buttons on the right of the head (a snippet) |
 | `rule` | `false` | Draws a line above the group |
 | `flush` | `false` | The content reaches the edges (a list, a tree) |
@@ -29,7 +30,10 @@ reset, in `end`.
 
 A [SectionHeader](../components/section-header.md): the head is the
 title as a label, with the actions of `end` and then the chevron on the
-right, which overlap it without adding height. The chevron is a small
+right, which overlap it without adding height. A `value` is shown before
+them, muted and trimmed to its ink as the value of a
+[Disclosure](../components/disclosure.md), whether the group folds or
+not, and also while it is closed. The chevron is a small
 ghost button named by the `expand` or `collapse` message, with
 `aria-expanded`; it points down while the group is open and right while
 it is closed. Closed, only the head remains, and the next group follows

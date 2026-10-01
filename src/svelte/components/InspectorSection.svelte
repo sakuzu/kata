@@ -9,6 +9,8 @@
   // InspectorSection: a titled group of an inspector, a SectionHeader that can fold. The head is
   // the title and, on the right, the application's actions (end) and, with collapsible, a small
   // ghost button with a chevron that opens and closes the group. Closed, only the head remains.
+  // value is the current value, muted on the right of the head before the actions, as a
+  // Disclosure shows it, so that it reads while the group is closed.
   // The rows (InspectorRow, a FieldList) go straight in; sections are stacked with gap 0.
   //
   //   <InspectorSection title="Stroke" collapsible bind:open>
@@ -19,6 +21,7 @@
     collapsible = false,
     open = $bindable(true),
     ontoggle,
+    value,
     end,
     rule = false,
     flush = false,
@@ -32,6 +35,8 @@
     open?: boolean;
     /** Called with the new state when the chevron is pressed */
     ontoggle?: (open: boolean) => void;
+    /** The current value, on the right of the head */
+    value?: string;
     /** Actions on the right of the head, small buttons (a snippet) */
     end?: Snippet;
     /** Draws a line above the group */
@@ -51,6 +56,7 @@
 </script>
 
 {#snippet actions()}
+  {#if value}<span class="v">{value}</span>{/if}
   {@render end?.()}
   {#if collapsible}
     <Button
@@ -69,7 +75,22 @@
   label={title}
   {rule}
   flush={flush || !shown}
-  actions={end || collapsible ? actions : undefined}
+  actions={value || end || collapsible ? actions : undefined}
 >
   {#if shown}{@render children()}{/if}
 </SectionHeader>
+
+<style lang="scss">
+  @use '../styles/kata' as *;
+
+  // The value, as a Disclosure shows it: muted, with figures of one width, trimmed to its ink so
+  // that it is level with the name
+  .v {
+    display: block;
+    min-width: 0;
+    color: color(muted);
+    font-variant-numeric: tabular-nums;
+    @include trim;
+    @include ellipsis;
+  }
+</style>

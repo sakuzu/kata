@@ -11,6 +11,9 @@ These changes will be released as 1.3.0.
 - Added: `InspectorFrame underHead`, a snippet placed under the head and
   above the tabs, for a band of the application such as a palette. It
   keeps its place while the content scrolls.
+- Added: `InspectorSection value`, the current value shown muted on the
+  right of the head, before the actions, as a Disclosure shows it. It
+  shows whether the section folds or not, and while it is closed.
 
 ## [1.2.0] - 2026-10-01
 

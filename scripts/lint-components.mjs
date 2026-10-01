@@ -94,6 +94,7 @@ const TRIM_OK = new Set([
   'Text',
   'Kbd',
   'SectionHeader',
+  'InspectorSection',
   'Section',
   'Button',
   'Checkbox',

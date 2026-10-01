@@ -15,6 +15,7 @@
   let width = $state<number | null>(2);
   let label = $state('North gate');
   let open = $state(false);
+  let shadow = $state(false);
 </script>
 
 <Example>
@@ -37,6 +38,22 @@
         <InspectorSection title="Position" collapsible rule>
           <InspectorRow label="Order">
             <NumberInput value={3} ariaLabel="Order" />
+          </InspectorRow>
+        </InspectorSection>
+      </Stack>
+    </Surface>
+  </Case>
+  <Case label="value: the current value on the right of the head, read while the section is closed">
+    <Surface width="22.5rem">
+      <Stack gap={0}>
+        <InspectorSection title="Shadow" value="2 px" collapsible bind:open={shadow}>
+          <InspectorRow label="Blur">
+            <NumberInput value={2} unit="px" ariaLabel="Blur" />
+          </InspectorRow>
+        </InspectorSection>
+        <InspectorSection title="Opacity" value="80%" rule>
+          <InspectorRow label="Fill">
+            <NumberInput value={80} unit="%" ariaLabel="Fill" />
           </InspectorRow>
         </InspectorSection>
       </Stack>
