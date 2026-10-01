@@ -6,7 +6,14 @@ follows semantic versioning.
 
 ## [Unreleased]
 
-These changes will be released as 1.5.0.
+## [1.5.0] - 2026-10-02
+
+What the frame of an editor needs from the Shell on a narrow screen and
+around it: the narrow form forced at any width, the stages of each
+side's sheet and whether it closes, a control that opens a closed side
+again, the toolbar folded into a Fab as a column, the dock as a sheet,
+the bar floating over the stage; and a Crumbs whose last item is not the
+current place. Nothing changes incompatibly.
 
 - Added: `Shell narrow`, which gives the shell the narrow form at any
   width (`true`) or never (`false`), for a short window or a small frame.
@@ -261,6 +268,7 @@ them to the rules.
   of drawing out of kata; `npm run check:package` runs publint and Are
   the Types Wrong on the package.
 
+[1.5.0]: https://github.com/sakuzu/kata/compare/v1.4.1...v1.5.0
 [1.4.1]: https://github.com/sakuzu/kata/compare/v1.4.0...v1.4.1
 [1.4.0]: https://github.com/sakuzu/kata/compare/v1.3.0...v1.4.0
 [1.3.0]: https://github.com/sakuzu/kata/compare/v1.2.0...v1.3.0
