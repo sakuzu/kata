@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Tabs, Text, Toolbar } from '@sakuzu/kata/svelte';
+  import { SectionHeader, Stack, Tabs, Text, Toolbar } from '@sakuzu/kata/svelte';
   import Case from '../_shared/Case.svelte';
   import Example from '../_shared/Example.svelte';
   import Surface from '../_shared/Surface.svelte';
@@ -11,6 +11,7 @@
   ];
   let view = $state('shapes');
   let many = $state('fonts');
+  let part = $state('style');
 </script>
 
 <Example>
@@ -50,6 +51,24 @@
         onselect={(id) => (many = id)}
         label="Preferences"
       />
+    </Surface>
+  </Case>
+  <Case label="Above sections: the line of the tabs is a line, and the section after it starts as after one">
+    <Surface width="22.5rem">
+      <Stack gap={0}>
+        <Tabs
+          tabs={[
+            { id: 'style', label: 'Style' },
+            { id: 'attributes', label: 'Attributes' },
+          ]}
+          current={part}
+          onselect={(id) => (part = id)}
+          label="Views"
+        />
+        <SectionHeader label="Fill">
+          <Text>Blue, at 80% opacity.</Text>
+        </SectionHeader>
+      </Stack>
     </Surface>
   </Case>
 </Example>

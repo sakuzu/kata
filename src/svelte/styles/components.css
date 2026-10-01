@@ -15,7 +15,8 @@
  *
  * Edge text (Text, a paragraph, Prose) reads its parent's flags with a style query and trims the
  * side that touches the edge. A line ([data-role="rule"]) is a visible edge too, so the child next
- * to it raises the flag again. A horizontal row ([data-edge-pass]) trims all of its text, so that
+ * to it raises the flag again; so is the line along the bottom of Tabs that draw their own
+ * ([data-role="tabs"] with data-rule), for the child after it. A horizontal row ([data-edge-pass]) trims all of its text, so that
  * the items of one line stay level.
  */
 
@@ -29,7 +30,8 @@
   --kata-at-start: 0;
   --kata-at-end: 0;
 }
-[data-role="rule"] + :where([data-role="stack"], [data-pass], [data-edge-pass], :not([data-role])) {
+[data-role="rule"] + :where([data-role="stack"], [data-pass], [data-edge-pass], :not([data-role])),
+[data-role="tabs"]:where([data-rule]) + :where([data-role="stack"], [data-pass], [data-edge-pass], :not([data-role])) {
   --kata-at-start: 1;
 }
 :where([data-role="stack"], [data-pass], [data-edge-pass], :not([data-role])):has(+ [data-role="rule"]) {
@@ -59,7 +61,8 @@
 }
 
 /* Text directly next to a line */
-[data-role="rule"] + :where(.kata-text, [data-role="caption"], [data-role="p"], [data-role="prose"], [data-role="value"], [data-role="stat"], [data-role="field"] > label) {
+[data-role="rule"] + :where(.kata-text, [data-role="caption"], [data-role="p"], [data-role="prose"], [data-role="value"], [data-role="stat"], [data-role="field"] > label),
+[data-role="tabs"]:where([data-rule]) + :where(.kata-text, [data-role="caption"], [data-role="p"], [data-role="prose"], [data-role="value"], [data-role="stat"], [data-role="field"] > label) {
   text-box: trim-start cap alphabetic;
   padding-top: var(--kata-edge-top);
 }
@@ -71,7 +74,8 @@
 /* Text next to a line that is also at the edge of its container, and text alone in a container:
  * both sides. text-box-trim is one property, so trim-both comes last. */
 @container style(--kata-at-end: 1) {
-  [data-role="rule"] + :where(.kata-text, [data-role="caption"], [data-role="p"], [data-role="prose"], [data-role="value"], [data-role="stat"], [data-role="field"] > label):last-child {
+  [data-role="rule"] + :where(.kata-text, [data-role="caption"], [data-role="p"], [data-role="prose"], [data-role="value"], [data-role="stat"], [data-role="field"] > label):last-child,
+  [data-role="tabs"]:where([data-rule]) + :where(.kata-text, [data-role="caption"], [data-role="p"], [data-role="prose"], [data-role="value"], [data-role="stat"], [data-role="field"] > label):last-child {
     text-box-trim: trim-both;
   }
 }

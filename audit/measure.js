@@ -143,11 +143,19 @@
     }
     return false;
   }
-  /** Next to a line: the element itself or one of its four nearest ancestors */
+  /**
+   * Next to a line: the element itself or one of its four nearest ancestors. The line along the
+   * bottom of tabs that draw their own counts for what follows them.
+   */
   function nearRule(el) {
     let n = el;
     for (let i = 0; i < 5 && n instanceof HTMLElement; i++) {
-      if (n.matches(':has(+ [data-role="rule"]), [data-role="rule"] + *')) return true;
+      if (
+        n.matches(
+          ':has(+ [data-role="rule"]), [data-role="rule"] + *, [data-role="tabs"][data-rule] + *',
+        )
+      )
+        return true;
       n = n.parentElement;
     }
     return false;

@@ -65,9 +65,11 @@
     padding-block-start: pad(sm);
     @include scope-box(button);
   }
-  // First in its container (right after a toolbar's line), or right after a Divider
+  // First in its container (right after a toolbar's line), or right after a Divider or the line of
+  // Tabs
   .kata-section-header:first-child,
-  :global([data-role='rule']) + .kata-section-header {
+  :global([data-role='rule']) + .kata-section-header,
+  :global([data-role='tabs']:where([data-rule])) + .kata-section-header {
     padding-block-start: pad(lg);
   }
   .rule {

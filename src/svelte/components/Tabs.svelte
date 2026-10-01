@@ -8,7 +8,8 @@
   // Tabs: switches between views. A tab has the height of a list item with pad-md at the sides; the
   // current tab is underlined with a double line drawn inside it, so its height does not change.
   // Inside a Toolbar the tabs find the toolbar on their own: they take its height, and the
-  // underline meets the toolbar's line (the tabs have no line of their own there).
+  // underline meets the toolbar's line (the tabs have no line of their own there). Elsewhere their
+  // line is a line as a Divider is (data-rule): what follows starts as it does after a line.
   //
   // A tab with href is a link (it moves to another page, as the tabs of a settings page do); a tab
   // without is a button (it switches a view on the same page). Either way the current tab has
@@ -129,7 +130,14 @@
   {/if}
 {/snippet}
 
-<nav class="tabs" class:bar aria-label={label} data-role="tabs" bind:this={root}>
+<nav
+  class="tabs"
+  class:bar
+  aria-label={label}
+  data-role="tabs"
+  data-rule={bar ? undefined : ''}
+  bind:this={root}
+>
   {#each split.shown as t (t.id)}
     {@render tab(t)}
   {/each}

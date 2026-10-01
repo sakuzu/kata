@@ -26,14 +26,17 @@ A tab is as tall as a list item, with pad-md at the sides and its label
 trimmed to its ink, muted until it is current. The current tab has
 `aria-current="page"` and a double blue line along its bottom, drawn
 inside it, so its height does not change. The tabs have a line along
-their bottom; inside a Toolbar they take the toolbar's height and its
-line instead. A tab with `href` is a link, a tab without is a button.
-Only the current tab is in the tab order: the left and right arrow keys,
-Home and End move the focus between the tabs, and Enter or Space opens
-the focused one. When the tabs do not fit, as many as fit show and the
-rest fold into a "More" [Menu](menu.md) at the right end (the `more`
-message); nothing scrolls. The current tab always shows: its width is
-taken first, then the others from the start as long as they fit.
+their bottom, which counts as a line as a [Divider](divider.md) does:
+what follows them is placed as after a Divider, so a section after them
+starts as after a line and text right after them is trimmed to its ink.
+Inside a Toolbar they take the toolbar's height and its line instead. A
+tab with `href` is a link, a tab without is a button. Only the current
+tab is in the tab order: the left and right arrow keys, Home and End
+move the focus between the tabs, and Enter or Space opens the focused
+one. When the tabs do not fit, as many as fit show and the rest fold
+into a "More" [Menu](menu.md) at the right end (the `more` message);
+nothing scrolls. The current tab always shows: its width is taken first,
+then the others from the start as long as they fit.
 
 ## Example
 

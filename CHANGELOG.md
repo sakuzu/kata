@@ -36,6 +36,10 @@ These changes will be released as 1.3.0.
 - Fixed: the text of a Toggle wraps onto more lines instead of being cut
   with an ellipsis; the switch stays level with the first line. One line
   looks as before.
+- Fixed: the line along the bottom of Tabs outside a Toolbar counts as a
+  line. A section right after them starts pad-lg below it, as after a
+  Divider, instead of pad-sm, and text right after them is trimmed to
+  its ink.
 
 ## [1.2.0] - 2026-10-01
 
