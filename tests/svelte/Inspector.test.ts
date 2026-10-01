@@ -261,6 +261,43 @@ describe('FieldList', () => {
     expect(onchange).toHaveBeenLastCalledWith('fill', '#2D7FF9');
   });
 
+  it('follows a dragged slider with oninput, and reports it with onchange when let go', async () => {
+    const onchange = vi.fn();
+    const oninput = vi.fn();
+    const { getByRole } = render(FieldList, { fields, onchange, oninput, field });
+    const slider = getByRole('slider', { name: 'Opacity' });
+    await fireEvent.input(slider, { target: { value: '55' } });
+    await fireEvent.input(slider, { target: { value: '60' } });
+    expect(oninput.mock.calls).toEqual([
+      ['opacity', 55],
+      ['opacity', 60],
+    ]);
+    expect(onchange).not.toHaveBeenCalled();
+    await fireEvent.change(slider, { target: { value: '60' } });
+    expect(onchange).toHaveBeenCalledWith('opacity', 60);
+  });
+
+  it('leaves the picker of a color to the application with oncolor', async () => {
+    const oncolor = vi.fn();
+    const { getByRole, queryByRole } = render(FieldList, { fields, oncolor, field });
+    const fill = getByRole('button', { name: 'Fill' });
+    expect(fill.textContent).toContain('#E5484D');
+    expect(fill.hasAttribute('aria-expanded')).toBe(false);
+    await fireEvent.click(fill);
+    await tick();
+    expect(oncolor).toHaveBeenCalledWith('fill');
+    expect(queryByRole('radio', { name: 'Blue' })).toBeNull();
+  });
+
+  it('draws end as one row after the fields', () => {
+    const { container, getByRole } = render(FieldList, {
+      fields: fields.slice(0, 1),
+      end: html('<button type="button">Reset</button>'),
+    });
+    const stack = container.querySelector('[data-role="stack"]');
+    expect(stack?.lastElementChild?.contains(getByRole('button', { name: 'Reset' }))).toBe(true);
+  });
+
   it('shows no value for a mixed field, and says Mixed', () => {
     const { getByRole, getAllByText, container } = render(FieldList, {
       fields: [

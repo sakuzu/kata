@@ -20,6 +20,12 @@ These changes will be released as 1.3.0.
   `aria-haspopup="true"` and `aria-expanded`, and `on` stays what it
   shows. `Dropdown up` and `Popover up` open above the trigger first,
   and below only when there is no room above.
+- Added: `FieldList oninput`, called with the key and the value of a
+  slider at each value while it is dragged (`onchange` is still called
+  once, when it is let go); `FieldList oncolor`, which makes the button
+  of a color field call it with the key instead of opening a ColorPicker,
+  so that the application opens its own; and `FieldList end`, one row
+  after the fields for an action on all of them, such as a reset.
 
 ## [1.2.0] - 2026-10-01
 

@@ -49,6 +49,7 @@
   import NativeSelect from './NativeSelect.svelte';
   import NumberInput from './NumberInput.svelte';
   import ReadValue from './ReadValue.svelte';
+  import Row from './Row.svelte';
   import Segmented from './Segmented.svelte';
   import Slider from './Slider.svelte';
   import Stack from './Stack.svelte';
@@ -64,29 +65,41 @@
   //   text       TextInput; a string, on change (Enter or leaving the input)
   //   number     NumberInput; a number, or null when emptied, on change
   //   select     NativeSelect of the options; the option's value
-  //   color      a button with a Swatch and the value, which opens a ColorPicker; #RRGGBB, per pick
+  //   color      a button with a Swatch and the value, which opens a ColorPicker; #RRGGBB, per
+  //              pick. With oncolor, the button opens nothing and calls oncolor(key), so that the
+  //              application opens its own picker
   //   toggle     Toggle at the end of the row; a boolean
-  //   slider     Slider with the value and its unit; a number, when it is let go
+  //   slider     Slider with the value and its unit; a number, when it is let go. oninput(key,
+  //              value) follows it while it is dragged
   //   segmented  Segmented of the options; the option's value
   //   custom     the field snippet, which receives the spec
   //
   // A field with mixed (a selection whose things differ) shows no value: an empty input, no chosen
   // option, a button without a swatch, the thumb at the start; the hint says Mixed. Any change sets
-  // the one value.
+  // the one value. end is one row after the fields, for an action on the whole list (a reset).
   //
   //   <FieldList fields={[{ key: 'width', kind: 'number', label: 'Width', value: 2, unit: 'px' }]}
   //     onchange={(key, value) => apply(key, value)} />
   let {
     fields,
     onchange,
+    oninput,
+    oncolor,
     field,
+    end,
   }: {
     /** The fields, in order */
     fields: FieldSpec[];
     /** Called with the key and the value of a committed change */
     onchange?: (key: string, value: unknown) => void;
+    /** Called with the key and the value of a slider at each value while it is dragged */
+    oninput?: (key: string, value: number) => void;
+    /** Called with the key of a color field when its button is pressed; it then opens no picker */
+    oncolor?: (key: string) => void;
     /** Draws the control of a custom field (a snippet that receives the spec) */
     field?: Snippet<[FieldSpec]>;
+    /** One row after the fields, for an action on the whole list (a snippet) */
+    end?: Snippet;
   } = $props();
 
   const uid = $props.id();
@@ -166,9 +179,9 @@
               mono={!f.mixed}
               disabled={f.disabled}
               aria-label={f.label}
-              aria-haspopup="dialog"
-              aria-expanded={open}
-              onclick={toggle}
+              aria-haspopup={oncolor ? undefined : 'dialog'}
+              aria-expanded={oncolor ? undefined : open}
+              onclick={oncolor ? () => oncolor(f.key) : toggle}
               mark={f.mixed ? undefined : swatch}
             >
               {f.mixed ? getMessages().mixed : text(f)}
@@ -203,7 +216,10 @@
           max={f.max}
           step={f.step}
           disabled={f.disabled}
-          oninput={(v) => dragging.set(f.key, v)}
+          oninput={(v) => {
+            dragging.set(f.key, v);
+            oninput?.(f.key, v);
+          }}
           onchange={(v) => {
             dragging.delete(f.key);
             report(f.key, v);
@@ -223,4 +239,5 @@
       {/if}
     </InspectorRow>
   {/each}
+  {#if end}<Row>{@render end()}</Row>{/if}
 </Stack>

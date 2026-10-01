@@ -1,5 +1,14 @@
 <script lang="ts">
-  import { FieldList, type FieldSpec, InspectorSection, Stack, Swatch } from '@sakuzu/kata/svelte';
+  import {
+    Block,
+    ColorGrid,
+    FieldList,
+    type FieldSpec,
+    InspectorSection,
+    LinkAction,
+    Stack,
+    Swatch,
+  } from '@sakuzu/kata/svelte';
   import Case from '../_shared/Case.svelte';
   import Example from '../_shared/Example.svelte';
   import Surface from '../_shared/Surface.svelte';
@@ -55,6 +64,23 @@
     { key: 'layer', kind: 'custom', label: 'Marker', value: values.fill },
   ]);
 
+  // The application's own picker, and a preview while the slider is dragged
+  const own = { fill: '#1F9D55', opacity: 60 };
+  let ownFill = $state(own.fill);
+  let ownOpacity = $state(own.opacity);
+  let preview = $state<number | null>(null);
+  let picking = $state(false);
+  const ownFields: FieldSpec[] = $derived([
+    { key: 'fill', kind: 'color', label: 'Fill', value: ownFill },
+    { key: 'opacity', kind: 'slider', label: 'Opacity', value: ownOpacity, unit: '%' },
+  ]);
+  const presets = [
+    { name: 'Green', hex: '#1F9D55' },
+    { name: 'Blue', hex: '#2F6FDE' },
+    { name: 'Orange', hex: '#D9822B' },
+    { name: 'Red', hex: '#E5484D' },
+  ];
+
   // Three things selected: the fill and the line style differ, the rest is shared
   const mixed: FieldSpec[] = [
     { key: 'fill', kind: 'color', label: 'Fill', mixed: true },
@@ -94,6 +120,47 @@
         <InspectorSection title="Style">
           <FieldList fields={mixed} />
         </InspectorSection>
+      </Stack>
+    </Surface>
+  </Case>
+  <Case label="oninput while a slider is dragged, oncolor for the application's own picker, end for a reset">
+    <Surface width="22.5rem">
+      <Stack gap={0}>
+        <InspectorSection title="Fill" value={`${preview ?? ownOpacity}%`}>
+          <FieldList
+            fields={ownFields}
+            oninput={(_, value) => (preview = value)}
+            onchange={(key, value) => {
+              if (key === 'opacity') ownOpacity = Number(value);
+              preview = null;
+            }}
+            oncolor={() => (picking = !picking)}
+          >
+            {#snippet end()}
+              <LinkAction
+                icon="undo-2"
+                onclick={() => {
+                  ownFill = own.fill;
+                  ownOpacity = own.opacity;
+                }}>Reset</LinkAction
+              >
+            {/snippet}
+          </FieldList>
+        </InspectorSection>
+        {#if picking}
+          <Block>
+            <ColorGrid
+              colors={presets}
+              value={ownFill}
+              columns={4}
+              label="Fill"
+              onselect={(hex) => {
+                ownFill = hex;
+                picking = false;
+              }}
+            />
+          </Block>
+        {/if}
       </Stack>
     </Surface>
   </Case>

@@ -34,7 +34,10 @@ applies to all of them.
 | --- | --- | --- |
 | `fields` | required | The fields, `FieldSpec[]` (below) |
 | `onchange` | | Called with the key and the value of a committed change |
+| `oninput` | | Called with the key and the value of a dragged slider |
+| `oncolor` | | Called with the key of a color field pressed; no picker opens |
 | `field` | | Draws a `custom` field (a snippet that receives the spec) |
+| `end` | | One row after the fields, for an action on all of them (a snippet) |
 
 A `FieldSpec` has these keys.
 
@@ -72,7 +75,14 @@ The list does not convert the values: a unit is text after the value,
 and the application keeps the meaning of each number. A text or a
 number is reported when it is committed (Enter or leaving the input),
 not at each key; a number that cannot be read is not reported. A slider
-shows its value while it is dragged and reports it once, when let go.
+shows its value while it is dragged and reports it with `onchange` once,
+when let go; `oninput` receives each value while it is dragged, for a
+preview. With `oncolor`, the button of a color field shows its swatch
+and its value as before but opens no picker: it calls `oncolor` with the
+key, and the application opens its own picker where it wants and
+applies the color itself. `end` is one [Row](../components/row.md)
+after the fields, gap-sm below the last one, for an action on the whole
+list, such as a reset as a [LinkAction](../components/link-action.md).
 A field with `mixed` shows no value (an empty input, no chosen option,
 a button without a swatch, the thumb at the start) and the `mixed`
 message as its hint. Without a `field` snippet, a `custom` field shows
