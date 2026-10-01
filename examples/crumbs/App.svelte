@@ -36,4 +36,14 @@
       </Toolbar>
     </Surface>
   </Case>
+  <Case label="current={false}: the last place is a link like the others, for a trail that a title follows">
+    <Crumbs
+      items={[
+        { label: 'Team', href: '#top' },
+        { label: 'Drafts', href: '#top' },
+      ]}
+      label="Location"
+      current={false}
+    />
+  </Case>
 </Example>

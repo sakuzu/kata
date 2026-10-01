@@ -15,13 +15,17 @@ an action: to go somewhere else, use a link or a button.
 | --- | --- | --- |
 | `items` | required | The places, `{ label, href?, onclick? }[]` |
 | `label` | | The name of the trail |
+| `current` | `true` | The last place is the current one |
 
 ## Contract
 
 The text is caption in the color of the text around it, and the chevrons
 are faint; a place with `href` is a link and one with `onclick` a
 button, both in the same color and underlined on hover. The last
-place is the current one (`aria-current="page"`) and cannot be pressed.
+place is the current one (`aria-current="page"`) and cannot be pressed;
+with `current={false}` it is a place like the others, a link or a button
+when it has `href` or `onclick` and without `aria-current`, for a trail
+followed by a title outside it that is the current place.
 The places are gap-2xs from the chevrons that separate them. Each place
 is at most 12rem wide and ends with an ellipsis beyond it, with the full
 text on hover and on keyboard focus; when the width runs out the places

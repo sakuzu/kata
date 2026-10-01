@@ -35,6 +35,10 @@ These changes will be released as 1.5.0.
 - Added: `Shell topFloating`: on a narrow screen the bar at the top
   floats over the stage in a Floating, gap-md from the top and the sides,
   and the stage fills the shell.
+- Added: `Crumbs current`. With `false` the last place is a place like
+  the others, a link or a button when it has `href` or `onclick` and
+  without `aria-current`, for a trail followed by a title that is the
+  current place.
 
 ## [1.4.1] - 2026-10-02
 

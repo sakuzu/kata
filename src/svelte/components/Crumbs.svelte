@@ -6,6 +6,8 @@
   // Crumbs: a trail of places that shows where the user is. It is not an action, so a place that
   // can be pressed keeps the color of the text around it and is underlined on hover. The places are
   // separated by a faint chevron, and the last one is the current place, which cannot be pressed.
+  // With current={false} the last one is a place like the others: the current place follows the
+  // trail outside it (a title next to it).
   //
   // The text is caption, the same in a PageHeader and in a Topbar; inside a component with a
   // height (a Toolbar, a list item) it is trimmed to its ink. Each place is at most 12rem wide and
@@ -17,23 +19,29 @@
   let {
     items,
     label,
+    current = true,
   }: {
     /** The places from the first; the last is the current place */
     items: { label: string; href?: string; onclick?: () => void }[];
     /** The name of the trail */
     label?: string;
+    /** Whether the last place is the current one; false when the current place follows the trail */
+    current?: boolean;
   } = $props();
+
+  /** Whether the place at i is the current one */
+  const isCurrent = (i: number) => current && i === items.length - 1;
 </script>
 
 <nav class="crumbs" data-role="crumbs" aria-label={label}>
   {#each items as c, i (i)}
     {#if i > 0}<span class="sep" aria-hidden="true"><Icon name="chevron-right" /></span>{/if}
-    {#if c.href && i < items.length - 1}
+    {#if c.href && !isCurrent(i)}
       <a class="t" href={c.href} onclick={c.onclick} use:clampTip>{c.label}</a>
-    {:else if c.onclick && i < items.length - 1}
+    {:else if c.onclick && !isCurrent(i)}
       <button class="t" type="button" onclick={c.onclick} use:clampTip>{c.label}</button>
     {:else}
-      <span class="t" aria-current={i === items.length - 1 ? 'page' : undefined} use:clampTip
+      <span class="t" aria-current={isCurrent(i) ? 'page' : undefined} use:clampTip
         >{c.label}</span
       >
     {/if}
