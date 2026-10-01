@@ -64,6 +64,7 @@
   type Side = 'left' | 'right';
   let {
     side: sides = 'floating',
+    narrow: forceNarrow,
     leftOpen = $bindable(true),
     rightOpen = $bindable(false),
     dockHeight = $bindable(),
@@ -85,6 +86,8 @@
   }: {
     /** Where the side regions are from 64rem: floating over the stage, or beside it */
     side?: ShellSide;
+    /** true: the narrow form (sheets) at any width; false: never; without it, by the width */
+    narrow?: boolean;
     /** Whether the left region shows */
     leftOpen?: boolean;
     /** Whether the right region shows */
@@ -129,12 +132,14 @@
       return root;
     },
   });
-  const narrow = createNarrow(WIDTHS.narrow);
+  const below = createNarrow(WIDTHS.narrow);
   const mid = createNarrow(WIDTHS.mid);
-  $effect(() => narrow.start(root));
+  $effect(() => below.start(root));
   $effect(() => mid.start(root));
 
-  const width: ShellWidth = $derived(narrow.current ? 'narrow' : mid.current ? 'mid' : 'wide');
+  // narrow, when given, decides the narrow form instead of the width
+  const isNarrow = $derived(forceNarrow ?? below.current);
+  const width: ShellWidth = $derived(isNarrow ? 'narrow' : mid.current ? 'mid' : 'wide');
   const mode: ShellMode = $derived(
     width === 'narrow' ? 'sheet' : width === 'wide' && sides === 'beside' ? 'beside' : 'floating',
   );

@@ -72,6 +72,7 @@
   let besideLeft = $state(true);
   let besideRight = $state(true);
   let besideLayout = $state<ShellLayout>();
+  let narrowLeft = $state(true);
 </script>
 
 {#snippet bar()}
@@ -106,6 +107,8 @@
     {/snippet}
   </Topbar>
 {/snippet}
+
+{#snippet plainBar()}<Topbar brand="Sketchbook" />{/snippet}
 
 {#snippet contents()}
   <Panel label="Contents">
@@ -205,6 +208,19 @@
     <Row>
       <Button onclick={() => (loading = !loading)}>{loading ? 'Finish loading' : 'Load again'}</Button>
     </Row>
+  </Case>
+  <Case label="narrow: a shell in the narrow form at any width">
+    <div class="frame">
+      <Shell
+        narrow
+        bind:leftOpen={narrowLeft}
+        leftLabel="Contents"
+        top={plainBar}
+        left={contents}
+        stage={surface}
+        bottom={toolbar}
+      />
+    </div>
   </Case>
 </Example>
 

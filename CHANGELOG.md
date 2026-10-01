@@ -6,6 +6,13 @@ follows semantic versioning.
 
 ## [Unreleased]
 
+These changes will be released as 1.5.0.
+
+- Added: `Shell narrow`, which gives the shell the narrow form at any
+  width (`true`) or never (`false`), for a short window or a small frame.
+  `onlayout` reports the width it decides. Without it, the width decides
+  as before.
+
 ## [1.4.1] - 2026-10-02
 
 One fix to the FieldList.

@@ -149,6 +149,31 @@ describe('Shell', () => {
     });
   });
 
+  it('takes the narrow form at any width with narrow, and never with narrow false', async () => {
+    const onlayout = vi.fn<(l: ShellLayout) => void>();
+    const { container, unmount } = render(Shell, { ...regions, narrow: true, onlayout });
+    await tick();
+    expect(onlayout).toHaveBeenLastCalledWith({
+      width: 'narrow',
+      leftMode: 'sheet',
+      rightMode: 'sheet',
+    });
+    expect(container.querySelector('[data-sheet="left"]')).not.toBeNull();
+    expect(container.querySelector('[data-role="floating"]')).toBeNull();
+    unmount();
+
+    await resize(480);
+    const second = render(Shell, { ...regions, narrow: false, onlayout });
+    await tick();
+    expect(onlayout).toHaveBeenLastCalledWith({
+      width: 'mid',
+      leftMode: 'floating',
+      rightMode: 'floating',
+    });
+    expect(second.container.querySelector('[data-sheet]')).toBeNull();
+    expect(region(second.container, 'left')?.closest('[data-role="floating"]')).not.toBeNull();
+  });
+
   it('opens and closes each floating pane on its own', async () => {
     const { container, rerender } = render(Shell, { ...regions, leftOpen: false });
     await tick();

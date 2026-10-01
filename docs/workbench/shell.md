@@ -31,6 +31,7 @@ pointer through to it everywhere but its regions.
 | Prop | Default | Description |
 | --- | --- | --- |
 | `side` | `'floating'` | From 64rem, `'floating'` or `'beside'` |
+| `narrow` | | `true`: the narrow form at any width; `false`: never |
 | `leftOpen` | `true` | Whether the left region shows (bindable) |
 | `rightOpen` | `false` | Whether the right region shows (bindable) |
 | `dockHeight` | | The dock's height in px (bindable); 38.2% without it |
@@ -153,6 +154,12 @@ the bar, the side regions, the toolbar, the dock, the floating panes,
 the sheets, the veil and the list of shortcuts have
 `pointer-events: auto`. What the application passes in `stage` lets the
 pointer through too.
+
+With `narrow`, the shell takes the narrow form at any width: the side
+regions are sheets and `onlayout` reports the width as `narrow`, as for
+a short window or a shell embedded in a small frame. With
+`narrow={false}` it never does: below 48rem the width is `mid` and the
+side regions float. Without it, the width decides.
 
 ## Example
 
