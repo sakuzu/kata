@@ -105,6 +105,56 @@ describe('Shortcut', () => {
     expect((run.mock.calls[0][0] as KeyboardEvent).key).toBe('3');
   });
 
+  it('matches a symbol by its physical key when the character is another one', () => {
+    // Alt on a Mac turns the key into another character
+    expect(
+      matchesShortcut('alt+[', key({ key: '“', code: 'BracketLeft', altKey: true }), true),
+    ).toBe(true);
+    expect(
+      matchesShortcut('alt+]', key({ key: '‘', code: 'BracketRight', altKey: true }), true),
+    ).toBe(true);
+    expect(matchesShortcut('alt+?', key({ key: '÷', code: 'Slash', altKey: true }), true)).toBe(
+      true,
+    );
+    expect(matchesShortcut('alt+/', key({ key: '÷', code: 'Slash', altKey: true }), true)).toBe(
+      true,
+    );
+    expect(matchesShortcut('alt+.', key({ key: '≥', code: 'Period', altKey: true }), true)).toBe(
+      true,
+    );
+    expect(matchesShortcut('alt+,', key({ key: '≤', code: 'Comma', altKey: true }), true)).toBe(
+      true,
+    );
+    expect(matchesShortcut('alt+;', key({ key: '…', code: 'Semicolon', altKey: true }), true)).toBe(
+      true,
+    );
+    expect(matchesShortcut("alt+'", key({ key: 'æ', code: 'Quote', altKey: true }), true)).toBe(
+      true,
+    );
+    expect(
+      matchesShortcut('alt+`', key({ key: 'Dead', code: 'Backquote', altKey: true }), true),
+    ).toBe(true);
+    expect(
+      matchesShortcut('alt+\\', key({ key: '«', code: 'Backslash', altKey: true }), true),
+    ).toBe(true);
+    expect(matchesShortcut('alt+-', key({ key: '–', code: 'Minus', altKey: true }), true)).toBe(
+      true,
+    );
+    expect(matchesShortcut('alt+=', key({ key: '≠', code: 'Equal', altKey: true }), true)).toBe(
+      true,
+    );
+    expect(matchesShortcut('alt+plus', key({ key: '≠', code: 'Equal', altKey: true }), true)).toBe(
+      true,
+    );
+    expect(matchesShortcut('alt+minus', key({ key: '–', code: 'Minus', altKey: true }), true)).toBe(
+      true,
+    );
+    // Not another physical key
+    expect(
+      matchesShortcut('alt+[', key({ key: '‘', code: 'BracketRight', altKey: true }), true),
+    ).toBe(false);
+  });
+
   it('matches a modifier pressed alone, and writes it without a +', () => {
     expect(formatShortcut('alt', true)).toBe('⌥');
     expect(formatShortcut('shift', true)).toBe('⇧');

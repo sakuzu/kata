@@ -125,20 +125,39 @@ export function formatShortcut(key: string, mac: boolean = isMacPlatform()): str
   return (c.key ? [...mods, k] : mods).join('+');
 }
 
+// The physical keys of the symbols and of the named keys plus and minus, for e.code
+const CODE_OF: Record<string, string> = {
+  '[': 'BracketLeft',
+  ']': 'BracketRight',
+  '?': 'Slash',
+  '/': 'Slash',
+  '.': 'Period',
+  ',': 'Comma',
+  ';': 'Semicolon',
+  "'": 'Quote',
+  '`': 'Backquote',
+  '\\': 'Backslash',
+  '-': 'Minus',
+  '=': 'Equal',
+  plus: 'Equal',
+  minus: 'Minus',
+};
+
 /** A character that needs Shift on some keyboards and not on others: Shift is not compared */
 const symbol = (key: string) => key.length === 1 && !/[a-z0-9]/.test(key);
 
 function sameKey(key: string, e: KeyboardEvent): boolean {
   if (key === 'digit') return /^[0-9]$/.test(e.key) || /^Digit[0-9]$/.test(e.code);
   const named = KEY_OF[key];
-  if (named) return named.includes(e.key);
+  if (named) return named.includes(e.key) || (!!CODE_OF[key] && e.code === CODE_OF[key]);
   if (/^f\d{1,2}$/.test(key)) return e.key.toLowerCase() === key;
   if (key.length !== 1) return false;
   if (e.key.toLowerCase() === key) return true;
-  // Alt on a Mac turns a letter into another character: the physical key still counts
+  // Alt on a Mac turns a letter, a digit or a symbol into another character: the physical key
+  // still counts
   if (key >= 'a' && key <= 'z') return e.code === `Key${key.toUpperCase()}`;
   if (key >= '0' && key <= '9') return e.code === `Digit${key}`;
-  return false;
+  return !!CODE_OF[key] && e.code === CODE_OF[key];
 }
 
 /** Whether a key event is the given shortcut */

@@ -56,10 +56,13 @@ on a Mac and Ctrl elsewhere, and named keys are `escape`, `enter`,
 `down`, `left` and `right`, `home`, `end`, `pageup`, `pagedown` and `f1`
 to `f12`. `digit` is any of the keys 0 to 9, and `run` reads which one
 from the key event. A modifier alone (`alt`, `shift` or `mod`) is the
-press of that key with no other key. `run` is called with the key event;
-when it returns `false` the key goes on to the next shortcut with the
-same key, and to the browser. `when` says whether the shortcut acts now,
-and `group` is the heading it is listed under.
+press of that key with no other key. A letter, a digit, a symbol such as
+`[` or `/`, `plus` and `minus` also match by the physical key, so that
+they still count when ⌥ on a Mac turns them into another character.
+`run` is called with the key event; when it returns `false` the key goes
+on to the next shortcut with the same key, and to the browser. `when`
+says whether the shortcut acts now, and `group` is the heading it is
+listed under.
 
 | Key | Description |
 | --- | --- |

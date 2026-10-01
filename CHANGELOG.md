@@ -6,6 +6,13 @@ follows semantic versioning.
 
 ## [Unreleased]
 
+These changes will be released as 1.4.0.
+
+- Fixed: a shortcut whose key is a symbol (`[`, `]`, `?`, `/`, `.`, `,`,
+  `;`, `'`, `` ` ``, `\`, `-` or `=`), `plus` or `minus` also matches by
+  the physical key, as letters and digits already did, so that it still
+  runs when ⌥ on a Mac turns the key into another character.
+
 ## [1.3.0] - 2026-10-01
 
 Openings that the editor of the reference application needs to put its own
