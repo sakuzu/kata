@@ -54,6 +54,7 @@ A `FieldSpec` has these keys.
 | `placeholder` | A word shown while a text or a number is empty |
 | `disabled` | The control cannot be changed |
 | `hint` | A caption under the control |
+| `top` | The control has several lines; the name stays at the top |
 
 ## Contract
 

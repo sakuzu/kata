@@ -8,7 +8,9 @@
   // (the default) the control fills the value column; with align="end" it keeps its own width at
   // the right end (a switch, a count). small is for a control of a small button's height (a Slider,
   // a Toggle): the row takes that height, so that the name and the control stay level and the row
-  // is as tall as what it shows. hint is a caption under the value.
+  // is as tall as what it shows. top is for a value of several lines (a control with a dial, an
+  // input and actions): the name stays level with the first line, as in a Pair. hint is a caption
+  // under the value.
   //
   //   <InspectorRow label="Width"><NumberInput value={2} unit="px" ariaLabel="Width" /></InspectorRow>
   //   <InspectorRow label="Visible" align="end" small><Toggle ariaLabel="Visible" /></InspectorRow>
@@ -18,6 +20,7 @@
     hint,
     align = 'start',
     small = false,
+    top = false,
     children,
   }: {
     /** The name */
@@ -30,13 +33,15 @@
     align?: 'start' | 'end';
     /** The value is a control of a small button's height */
     small?: boolean;
+    /** A value of several lines: aligned at the top, the height follows the content */
+    top?: boolean;
     /** The control or the value */
     children: Snippet;
   } = $props();
 </script>
 
 <div class="inspector-row" class:small>
-  <Pair {label} for={htmlFor} note={hint}>
+  <Pair {label} for={htmlFor} note={hint} {top}>
     {#if align === 'end'}
       <span class="end">{@render children()}</span>
     {:else}

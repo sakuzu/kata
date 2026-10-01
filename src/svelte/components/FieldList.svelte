@@ -34,6 +34,8 @@
     disabled?: boolean;
     /** A caption under the control */
     hint?: string;
+    /** The control has several lines (a custom field): the name stays at the top */
+    top?: boolean;
   }
 </script>
 
@@ -136,6 +138,7 @@
       {hint}
       align={f.kind === 'toggle' ? 'end' : 'start'}
       small={f.kind === 'toggle' || f.kind === 'slider'}
+      top={f.top}
     >
       {#if f.kind === 'text'}
         <TextInput

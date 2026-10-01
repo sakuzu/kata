@@ -16,6 +16,10 @@ These changes will be released as 1.4.0.
   opens with the help key. The groups not in it follow in the order they
   first appear, as all of them do without it. The order of `shortcuts`
   stays the order in which they are matched.
+- Added: `InspectorRow top` and the `top` key of a `FieldSpec`, for a
+  value of several lines, such as a custom field with an input, a slider
+  and actions under one another: the row is aligned at the top, as a
+  Pair with `top`, and its height follows the content.
 - Fixed: a shortcut whose key is a symbol (`[`, `]`, `?`, `/`, `.`, `,`,
   `;`, `'`, `` ` ``, `\`, `-` or `=`), `plus` or `minus` also matches by
   the physical key, as letters and digits already did, so that it still

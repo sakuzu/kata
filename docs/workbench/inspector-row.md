@@ -29,6 +29,7 @@ A switch or a count sits at the end of the row (`align="end"`). A
 | `hint` | | A caption under the value |
 | `align` | `start` | `start` fills the value column; `end` keeps its width |
 | `small` | `false` | The value is a control of a small button's height |
+| `top` | `false` | A value of several lines, aligned at the top |
 | `children` | required | The control or the value |
 
 ## Contract
@@ -37,7 +38,9 @@ A [Pair](../components/pair.md): the name column is 7.5rem wide, muted
 and trimmed to its ink, gap-sm from the value, and the name is level
 with the text of the control. The row has the height of a button, or of
 a small button with `small`; with a hint it grows, and the hint is a
-muted caption gap-xs under the value. With `start` the control fills
+muted caption gap-xs under the value. With `top` it is aligned at the
+top and as tall as its value, and the name is level with the first line
+of the value. With `start` the control fills
 the value column; with `end` it keeps its own width at the right end.
 The row owns the padding at its sides, as a Pair does. Below 24rem the
 name sits above the value.

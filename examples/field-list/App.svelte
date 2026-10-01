@@ -1,11 +1,15 @@
 <script lang="ts">
   import {
     Block,
+    Button,
     ColorGrid,
     FieldList,
     type FieldSpec,
     InspectorSection,
     LinkAction,
+    NumberInput,
+    Row,
+    Slider,
     Stack,
     Swatch,
   } from '@sakuzu/kata/svelte';
@@ -80,6 +84,13 @@
     { name: 'Orange', hex: '#D9822B' },
     { name: 'Red', hex: '#E5484D' },
   ];
+
+  // A custom field of several lines: the number, a slider and two actions
+  let angle = $state(30);
+  const turnFields: FieldSpec[] = $derived([
+    { key: 'name', kind: 'text', label: 'Name', value: 'Front entrance' },
+    { key: 'angle', kind: 'custom', label: 'Rotation', value: angle, top: true },
+  ]);
 
   // Three things selected: the fill and the line style differ, the rest is shared
   const mixed: FieldSpec[] = [
@@ -161,6 +172,42 @@
             />
           </Block>
         {/if}
+      </Stack>
+    </Surface>
+  </Case>
+  <Case label="top: a custom field of several lines, with the name at the top">
+    <Surface width="22.5rem">
+      <Stack gap={0}>
+        <InspectorSection title="Position">
+          <FieldList fields={turnFields}>
+            {#snippet field()}
+              <Stack gap="md">
+                <NumberInput
+                  value={angle}
+                  unit="°"
+                  min={0}
+                  max={359}
+                  ariaLabel="Rotation in degrees"
+                  onchange={(e) => {
+                    const n = Number(e.currentTarget.value);
+                    if (e.currentTarget.value.trim() !== '' && !Number.isNaN(n)) angle = n;
+                  }}
+                />
+                <Slider
+                  value={angle}
+                  min={0}
+                  max={359}
+                  ariaLabel="Rotation"
+                  oninput={(v) => (angle = v)}
+                />
+                <Row wrap>
+                  <Button onclick={() => (angle = 0)}>Reset</Button>
+                  <Button onclick={() => (angle = (angle + 90) % 360)}>+90°</Button>
+                </Row>
+              </Stack>
+            {/snippet}
+          </FieldList>
+        </InspectorSection>
       </Stack>
     </Surface>
   </Case>

@@ -5,6 +5,7 @@
     ReadValue,
     SectionHeader,
     Slider,
+    Textarea,
     TextInput,
     Toggle,
   } from '@sakuzu/kata/svelte';
@@ -16,6 +17,7 @@
   let size = $state<number | null>(12);
   let opacity = $state(70);
   let visible = $state(true);
+  let note = $state('A note that runs over two lines, written by the person who drew it.');
 </script>
 
 <Example>
@@ -45,6 +47,15 @@
         </InspectorRow>
         <InspectorRow label="Visible" align="end" small>
           <Toggle bind:checked={visible} ariaLabel="Visible" />
+        </InspectorRow>
+      </SectionHeader>
+    </Surface>
+  </Case>
+  <Case label="top: a value of several lines, with the name level with its first line">
+    <Surface width="22.5rem">
+      <SectionHeader label="Notes">
+        <InspectorRow label="Note" top>
+          <Textarea bind:value={note} ariaLabel="Note" />
         </InspectorRow>
       </SectionHeader>
     </Surface>
