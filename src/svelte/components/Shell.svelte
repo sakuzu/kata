@@ -23,7 +23,7 @@
     matchesShortcut,
     type Shortcut,
   } from '../lib/shortcuts.js';
-  import { createNarrow, WIDTHS } from '../lib/viewport.svelte.js';
+  import { createNarrow, setAppContainer, WIDTHS } from '../lib/viewport.svelte.js';
   import { getMessages } from '../messages.js';
   import Floating from './Floating.svelte';
   import Sheet from './Sheet.svelte';
@@ -35,7 +35,9 @@
   // stage, and a dock under it. Every region is a snippet and any may be absent; the shell knows
   // nothing of what they hold.
   //
-  // The side regions follow the three widths. From 64rem they stand beside the stage, with a strong
+  // The side regions follow the three widths of the shell's own element, which is the size container
+  // `app` of everything inside it (so the container queries of the components in it, and the
+  // components that measure in script, read the shell, not the window). From 64rem they stand beside the stage, with a strong
   // line between. From 48 to 64rem they float over the stage (Floating, gap-md from its edges) over
   // a scrim that closes them when pressed. Below 48rem they are Sheets from the bottom of the stage
   // and the toolbar rises to stay above them. leftOpen and rightOpen open and close them; onlayout
@@ -45,6 +47,9 @@
   // F1) opens a ShortcutsModal that lists them. Escape closes the pane opened last that floats or is
   // a sheet; when none is open it goes to onescape. Keys typed into a field, and keys pressed while
   // a modal dialog or a popover is open, belong to them.
+  //
+  // overlay lays the shell over a drawing surface that belongs to the page: the shell's root lets
+  // the pointer through, and only the regions it draws take it.
   //
   //   <Shell bind:leftOpen shortcuts={keys} onescape={clearSelection}>
   //     {#snippet top()}<Topbar …/>{/snippet}
@@ -59,6 +64,7 @@
     dockHeight = $bindable(),
     shortcutsOpen = $bindable(false),
     shortcuts = [],
+    overlay = false,
     leftLabel,
     rightLabel,
     onlayout,
@@ -81,6 +87,8 @@
     shortcutsOpen?: boolean;
     /** The keyboard shortcuts, attached while the shell is mounted */
     shortcuts?: Shortcut[];
+    /** Over a surface of the page: the root lets the pointer through, the regions take it */
+    overlay?: boolean;
     /** The names of the sheets that hold the side regions on a narrow screen */
     leftLabel?: string;
     rightLabel?: string;
@@ -104,10 +112,17 @@
     veil?: Snippet;
   } = $props();
 
+  // The shell measures its own element, and the components inside measure it too
+  let root = $state<HTMLElement>();
+  setAppContainer({
+    get el() {
+      return root;
+    },
+  });
   const narrow = createNarrow(WIDTHS.narrow);
   const mid = createNarrow(WIDTHS.mid);
-  $effect(narrow.start);
-  $effect(mid.start);
+  $effect(() => narrow.start(root));
+  $effect(() => mid.start(root));
 
   const width: ShellWidth = $derived(narrow.current ? 'narrow' : mid.current ? 'mid' : 'wide');
   const mode: ShellMode = $derived(
@@ -261,7 +276,9 @@
 {/snippet}
 
 <div
+  bind:this={root}
   class="shell"
+  class:overlay
   data-role="shell"
   data-width={width}
   style:--kata-shell-lift="{lift}px"
@@ -333,15 +350,19 @@
       <div class="side right" data-region="right">{@render seat('right')}</div>
     {/if}
   </div>
+  <!-- Inside the root, so that it measures the shell as the components in the regions do -->
+  <ShortcutsModal bind:open={shortcutsOpen} {shortcuts} />
 </div>
-
-<ShortcutsModal bind:open={shortcutsOpen} {shortcuts} />
 
 <style lang="scss">
   @use '../styles/kata' as *;
 
-  // The shell fills its place; the application gives it the height (the window, usually)
+  // The shell fills its place; the application gives it the height (the window, usually). It is the
+  // size container of the three widths for everything inside it. A size container is not the
+  // containing block of fixed elements, so tooltips, menus and popovers inside still place
+  // themselves against the window.
   .shell {
+    container: app / inline-size;
     position: relative;
     display: flex;
     flex-direction: column;
@@ -449,6 +470,23 @@
     > :global(*) {
       flex: 1 1 auto;
       min-height: 0;
+    }
+  }
+  // Over a surface of the page, the root and the stage let the pointer through to it; every region
+  // the shell draws takes it again: the bar, the side regions, the toolbar, the dock, the scrim,
+  // the floating panes, the sheets (their seat already lets it through around them), the veil and
+  // the dialog of the shortcuts
+  .shell.overlay {
+    pointer-events: none;
+    > .top,
+    > .body > .side,
+    > .body > .main > .dock,
+    > .body > .main > .stage > .bottom,
+    > .body > .main > .stage > .scrim,
+    > .body > .main > .stage > :global([data-role='floating']),
+    > .body > .main > .stage > :global([data-role='veil']),
+    > :global(dialog) {
+      pointer-events: auto;
     }
   }
   // The grip along the dock's top edge has no look, only the resize cursor

@@ -18,6 +18,10 @@ nothing of what they hold. A special mode of the application, such as a
 print preview or an older version, is a change of what the application
 passes in `stage` and the side regions, not a mode of the shell.
 
+Use `overlay` when the shell lies over a drawing surface that the page
+owns, such as a map that is not passed in `stage`: the shell lets the
+pointer through to it everywhere but its regions.
+
 ## Props
 
 | Prop | Default | Description |
@@ -27,6 +31,7 @@ passes in `stage` and the side regions, not a mode of the shell.
 | `dockHeight` | | The dock's height in px (bindable); 38.2% without it |
 | `shortcuts` | `[]` | The keyboard shortcuts, `Shortcut[]` |
 | `shortcutsOpen` | `false` | Whether the list of shortcuts is open (bindable) |
+| `overlay` | `false` | Lets the pointer through, except on its regions |
 | `leftLabel` | | The name of the left region's sheet |
 | `rightLabel` | | The name of the right region's sheet |
 | `onlayout` | | Called with `{ width, leftMode, rightMode }` when they change |
@@ -63,7 +68,11 @@ listed under. `formatShortcut(key)` writes a key as the platform does
 ## Layout
 
 The side regions follow the three widths of the layout, measured in rem
-so that a larger text size counts as a narrower window.
+so that a larger text size counts as a narrower window. The shell
+measures its own element, not the window, and it is the size container
+`app` of everything inside it, so the components in its regions follow
+the shell's width too, with or without the base CSS. When the browser
+has no `ResizeObserver`, it measures the window.
 
 - From 64rem, the side regions stand beside the stage, as tall as the
   space under the bar, with a strong line towards the stage.
@@ -96,6 +105,12 @@ panels stay open on Escape. Keys typed into a field, keys an input
 method is composing, keys already handled (`defaultPrevented`) and keys
 pressed while a modal dialog or a popover is open belong to them, not to
 the shell.
+
+With `overlay`, the root and the stage have `pointer-events: none`, and
+the bar, the side regions, the toolbar, the dock, the scrim, the
+floating panes, the sheets, the veil and the list of shortcuts have
+`pointer-events: auto`. What the application passes in `stage` lets the
+pointer through too.
 
 ## Example
 

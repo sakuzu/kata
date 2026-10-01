@@ -13,8 +13,9 @@
   // It shows on hover after a short wait, so a pointer that only passes by does not show it, and
   // at once on keyboard focus. It hides at once: on leaving, on a press, on a scroll and on a
   // resize. It goes above its control, or below, right or left, whichever fits first, and never
-  // covers the control. It is moved to the body (or to the open modal dialog it is in), so that no
-  // container clips it or moves its reference.
+  // covers the control. It is moved to the body (or to the open modal dialog it is in, or to the
+  // nearest data-kata-root when kata is embedded in a page it does not own), so that no container
+  // clips it or moves its reference.
   //
   // The wrapper only holds its content, so it shows the layout the content's role: box for a
   // control with a line, icon-button for a borderless icon button (whose area of the pointer is
@@ -107,7 +108,7 @@
 
   // Moves the tooltip to its host and places it; a scroll or a resize hides it
   const tip: Action<HTMLElement, DOMRect> = (node, rect) => {
-    (wrap ? tipHost(wrap) : document.body).appendChild(node);
+    tipHost(wrap).appendChild(node);
     placeTip(node, rect, wrap ? tipBounds(wrap) : undefined);
     const close = () => hide();
     document.addEventListener('scroll', close, true);

@@ -7,15 +7,19 @@
 //
 // "Fits" means inside the nearest ancestor with data-tip-bounds, or inside the window. The distances
 // are read from the tokens at run time, so they follow the text size setting.
+import { hostOf } from './host.js';
 
 export type TipSide = 'top' | 'bottom' | 'left' | 'right';
 
 /**
- * Where to insert the tooltip. Inside an open modal dialog it goes into the dialog: a dialog opened
+ * Where to insert the tooltip: the host of its anchor (hostOf: the nearest data-kata-root, else the
+ * body). Inside an open modal dialog that is in the host it goes into the dialog: a dialog opened
  * with showModal() is drawn in the top layer, above everything in the body whatever its z-index.
  */
-export function tipHost(anchorEl: Element): HTMLElement {
-  return (anchorEl.closest('dialog[open]') as HTMLElement | null) ?? document.body;
+export function tipHost(anchorEl?: Element | null): HTMLElement {
+  const host = hostOf(anchorEl);
+  const dialog = anchorEl?.closest<HTMLElement>('dialog[open]');
+  return dialog && host.contains(dialog) ? dialog : host;
 }
 
 /**
@@ -25,7 +29,7 @@ export function tipHost(anchorEl: Element): HTMLElement {
 export function hitRect(el: Element, role: 'box' | 'icon-button' | 'block'): DOMRect {
   const r = el.getBoundingClientRect();
   if (role !== 'icon-button') return r;
-  const h = tokenPx('--kata-height-button-sm');
+  const h = tokenPx('--kata-height-button-sm', el);
   const top = Math.min(r.top, r.top + r.height / 2 - h / 2);
   const left = Math.min(r.left, r.left + r.width / 2 - h / 2);
   return new DOMRect(left, top, Math.max(r.width, h), Math.max(r.height, h));
@@ -36,11 +40,14 @@ export function tipBounds(anchorEl: Element): DOMRect | undefined {
   return anchorEl.closest('[data-tip-bounds]')?.getBoundingClientRect();
 }
 
-/** The length of a token in px, measured with a hidden element, so that calc and rem resolve */
-function tokenPx(name: string): number {
+/**
+ * The length of a token in px, measured with a hidden element, so that calc and rem resolve. The
+ * probe goes into the host of the element it measures for, where the tokens are defined.
+ */
+export function tokenPx(name: string, context?: Element | null): number {
   const probe = document.createElement('div');
   probe.style.cssText = `position:fixed;left:-9999px;top:0;width:0;visibility:hidden;height:var(${name})`;
-  document.body.appendChild(probe);
+  hostOf(context).appendChild(probe);
   const h = probe.getBoundingClientRect().height;
   probe.remove();
   return h;
@@ -53,8 +60,8 @@ const clamp = (v: number, min: number, max: number) => Math.max(min, Math.min(v,
  * chose.
  */
 export function placeTip(node: HTMLElement, anchor: DOMRect, bounds?: DOMRect): TipSide {
-  const gap = tokenPx('--kata-gap-sm');
-  const gapDown = tokenPx('--kata-gap-lg');
+  const gap = tokenPx('--kata-gap-sm', node);
+  const gapDown = tokenPx('--kata-gap-lg', node);
   // Fix the position before measuring; the width is bounded by max-width, so the height does not
   // depend on where it is measured
   node.style.position = 'fixed';

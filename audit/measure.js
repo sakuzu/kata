@@ -36,6 +36,9 @@
 //                  item of a list)
 //   overlap        the children of a layout do not overlap
 //   crush          text is never squeezed into a column narrower than two characters
+//   fixed-frame    a size container (a Shell's root) and an embedded root ([data-kata-root]) are not
+//                  the containing block of fixed elements, so that the tooltips, menus and popovers
+//                  inside them still place themselves against the window
 //
 // data-kata-skip marks what a browser or another library draws; it is not measured.
 
@@ -944,6 +947,27 @@
     }
   }
 
+  function fixedFrame(root, bad) {
+    const frames = [
+      ...(root.matches('[data-kata-root]') ? [root] : []),
+      ...root.querySelectorAll('[data-role="shell"], [data-kata-root]'),
+    ];
+    for (const frame of frames) {
+      if (!visible(frame)) continue;
+      const probe = document.createElement('div');
+      probe.style.cssText = 'position:fixed;left:0;top:0;width:1px;height:1px;visibility:hidden';
+      frame.appendChild(probe);
+      const r = probe.getBoundingClientRect();
+      probe.remove();
+      if (Math.abs(r.left) > 0.06 || Math.abs(r.top) > 0.06)
+        bad.push({
+          kind: 'fixed-frame',
+          el: label(frame),
+          v: `${r.left.toFixed(1)},${r.top.toFixed(1)}`,
+        });
+    }
+  }
+
   window.kataAudit = (rootSelector = '[data-audit]') => {
     readInk();
     const bad = [];
@@ -966,6 +990,7 @@
       readRow(root, bad);
       overlap(root, bad);
       crush(root, bad);
+      fixedFrame(root, bad);
     }
     return { roots: roots.length, findings: bad };
   };

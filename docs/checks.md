@@ -57,6 +57,7 @@ element inside the example is measured; a finding fails the audit.
 | read-row | A list item that is only read has a line or a surface |
 | overlap | The children of a layout do not overlap |
 | crush | Text is never squeezed narrower than two characters |
+| fixed-frame | A Shell or an embedded root is not the frame of fixed elements |
 
 Distances are measured from the edge of what is visible: the outline of a
 component with a line or a surface, a line, the inner edge of a

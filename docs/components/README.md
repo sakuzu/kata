@@ -142,7 +142,14 @@ any icon component, such as another Lucide icon.
   and remember it under `FONT_SCALE_STORAGE_KEY` in local storage.
 - `createNarrow` and `isNarrowerThan` tell whether the window is narrower
   than a width in rem, as the layouts' container queries do; `WIDTHS`
-  holds the three widths (24, 48 and 64rem).
+  holds the three widths (24, 48 and 64rem). Inside a
+  [Shell](../workbench/shell.md), `createNarrow` measures the shell
+  instead of the window; `start(el)` and `isNarrowerThan(rem, el)`
+  measure a given element.
+- `hostOf(el)` is the element that kata appends tooltips and hidden
+  probes to on behalf of `el`: the nearest ancestor marked
+  `data-kata-root`, else the body
+  ([Embedding kata](../layout.md#embedding-kata-in-a-page-you-do-not-own)).
 - `clampTip` is an action for an element that clips its text with an
   ellipsis: the full text shows on hover and on keyboard focus.
 - `toast` is the store of the messages that [ToastHost](toast-host.md)

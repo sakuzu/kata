@@ -63,7 +63,9 @@ do not read as one.
 ## The three widths
 
 Layouts change at three widths, measured against the body in rem, so a
-larger text size counts as a narrower window. Nothing scrolls sideways
+larger text size counts as a narrower window. Inside a
+[Shell](workbench/shell.md) they are measured against the shell, which
+is the size container `app` of everything in it. Nothing scrolls sideways
 and nothing is squeezed; things fold instead.
 
 Below 64rem (mid):
@@ -98,8 +100,43 @@ Some bars fold by their own width instead of the window's: when the
 rest move into a More menu at the end. The current tab and the current
 tool always show.
 
-In script, `createNarrow` and `WIDTHS` measure the window in the same way
+In script, `createNarrow` and `WIDTHS` measure the window in the same way,
+and the shell inside a Shell
 ([Helpers](components/README.md#helpers)).
+
+## Embedding kata in a page you do not own
+
+kata usually owns the page: the tokens are defined on `:root`, the base
+CSS styles `html` and `body`, and tooltips are appended to the body. When
+kata is a part of someone else's page instead, such as a panel over a
+map, it lives under one root element of its own.
+
+- Mark the root element with `data-kata-root`, and give it a `lang`.
+  Tooltips, the full text of clipped lines and the probes that measure
+  tokens are appended to the nearest such root instead of the body, so
+  the tokens, the language and the theme still apply to them
+  (`hostOf(el)` finds it).
+- Scope the tokens to the root: rewrite `:root` in `tokens.css` to the
+  root's selector (`.app-root`, say).
+- Skip `base.css`: it styles the whole page. Set the font and the text
+  color on the root yourself.
+- Put a [Shell](workbench/shell.md) inside the root. The shell is the
+  size container of the three widths and measures its own element, so it
+  follows the width of the root, not of the window. Over a drawing
+  surface that belongs to the page, use `Shell overlay`: the shell lets
+  the pointer through everywhere but its regions.
+- Components outside a Shell still measure the window. To give them the
+  root's width, declare `container: app / inline-size` on the root,
+  which then needs a width that does not depend on its content.
+- Do not set `contain: layout`, a `transform` or a `filter` on the root:
+  each makes it the frame of fixed elements, and the tooltips, menus and
+  popovers inside would no longer place themselves against the window.
+
+```html
+<div class="app-root" data-kata-root lang="en">
+  <!-- a Shell with overlay, mounted here -->
+</div>
+```
 
 ## A page
 
