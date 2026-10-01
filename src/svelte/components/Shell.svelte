@@ -69,6 +69,7 @@
     dockHeight = $bindable(),
     shortcutsOpen = $bindable(false),
     shortcuts = [],
+    groups,
     overlay = false,
     leftLabel,
     rightLabel,
@@ -94,6 +95,8 @@
     shortcutsOpen?: boolean;
     /** The keyboard shortcuts, attached while the shell is mounted */
     shortcuts?: Shortcut[];
+    /** The order of the groups in the list of shortcuts; by default, as they first appear */
+    groups?: string[];
     /** Over a surface of the page: the root lets the pointer through, the regions take it */
     overlay?: boolean;
     /** The names of the sheets that hold the side regions on a narrow screen */
@@ -354,7 +357,7 @@
     {/if}
   </div>
   <!-- Inside the root, so that it measures the shell as the components in the regions do -->
-  <ShortcutsModal bind:open={shortcutsOpen} {shortcuts} />
+  <ShortcutsModal bind:open={shortcutsOpen} {shortcuts} {groups} />
 </div>
 
 <style lang="scss">

@@ -36,6 +36,7 @@ pointer through to it everywhere but its regions.
 | `dockHeight` | | The dock's height in px (bindable); 38.2% without it |
 | `shortcuts` | `[]` | The keyboard shortcuts, `Shortcut[]` |
 | `shortcutsOpen` | `false` | Whether the list of shortcuts is open (bindable) |
+| `groups` | | The order of the groups in the list of shortcuts |
 | `overlay` | `false` | Lets the pointer through, except on its regions |
 | `leftLabel` | | The name of the left region's sheet |
 | `rightLabel` | | The name of the right region's sheet |

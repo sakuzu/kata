@@ -14,7 +14,8 @@
   // does on the left, the key on the right, written as the platform writes it (formatShortcut), or
   // the keys of display joined with " / ". A hidden shortcut is not listed, and aliases are not
   // shown. Shortcuts without a group come first, without a heading; then one Section for each
-  // group, in the order the groups first appear. run, when and aliases are not read.
+  // group, in the order of groups, then in the order the groups first appear. run, when and
+  // aliases are not read.
   // A Shell opens it with the help key; an application can also open it from a menu.
   //
   //   <ShortcutsModal bind:open {shortcuts} />
@@ -23,6 +24,7 @@
     shortcuts,
     title,
     mac,
+    groups: order,
     inline = false,
     onclose,
   }: {
@@ -33,6 +35,8 @@
     title?: string;
     /** Writes the keys as a Mac does; by default, as the platform does */
     mac?: boolean;
+    /** The order of the groups; the groups not in it follow, in the order they first appear */
+    groups?: string[];
     /** The same surface in the flow of a page, for documentation */
     inline?: boolean;
     onclose?: () => void;
@@ -47,7 +51,12 @@
       if (!s.group) continue;
       out.set(s.group, [...(out.get(s.group) ?? []), s]);
     }
-    return [...out];
+    if (!order) return [...out];
+    const rank = (g: string) => {
+      const i = order.indexOf(g);
+      return i === -1 ? order.length : i;
+    };
+    return [...out].sort(([a], [b]) => rank(a) - rank(b));
   });
 </script>
 

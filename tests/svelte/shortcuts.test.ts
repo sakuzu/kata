@@ -5,12 +5,22 @@ import Shell from '../../src/svelte/components/Shell.svelte';
 import ShortcutsModal from '../../src/svelte/components/ShortcutsModal.svelte';
 import { formatShortcut, matchesShortcut, type Shortcut } from '../../src/svelte/lib/shortcuts.js';
 
-// jsdom has no ResizeObserver, which the shell's measured heights need
+// jsdom has no ResizeObserver, which the shell's measured heights need, and no showModal() or
+// close(), which the list of shortcuts opened by the help key needs
 beforeAll(() => {
   globalThis.ResizeObserver ??= class {
     observe() {}
     unobserve() {}
     disconnect() {}
+  };
+  const proto = HTMLDialogElement.prototype as HTMLDialogElement & Record<string, unknown>;
+  proto.showModal ??= function (this: HTMLDialogElement) {
+    this.setAttribute('open', '');
+  };
+  proto.close ??= function (this: HTMLDialogElement) {
+    if (!this.hasAttribute('open')) return;
+    this.removeAttribute('open');
+    this.dispatchEvent(new Event('close'));
   };
 });
 
@@ -83,6 +93,39 @@ describe('Shortcut', () => {
       ],
     });
     expect(keysOf(container)).toEqual(['⌦ / ⌫', '+ / -']);
+  });
+
+  it('lists the groups in the order of groups, and the others after them', async () => {
+    const shortcuts = [
+      { key: 'v', label: 'Select', group: 'Tools' },
+      { key: 'mod+z', label: 'Undo', group: 'Edit' },
+      { key: 'h', label: 'Hide', group: 'View' },
+      { key: 'escape', label: 'Clear' },
+    ];
+    const headings = (el: HTMLElement) =>
+      [...el.querySelectorAll('[data-role="section"] h2')].map((h) => h.textContent);
+    const plain = render(ShortcutsModal, { inline: true, mac: true, shortcuts });
+    expect(headings(plain.container)).toEqual(['Tools', 'Edit', 'View']);
+    plain.unmount();
+    const ordered = render(ShortcutsModal, {
+      inline: true,
+      mac: true,
+      shortcuts,
+      groups: ['View', 'Edit'],
+    });
+    expect(headings(ordered.container)).toEqual(['View', 'Edit', 'Tools']);
+    ordered.unmount();
+
+    // The Shell passes them to the list it opens with the help key
+    render(Shell, {
+      stage,
+      shortcuts: shortcuts.map((s) => ({ ...s, run: () => {} })),
+      groups: ['View', 'Edit'],
+    });
+    await tick();
+    press({ key: '?' });
+    await tick();
+    expect(headings(document.body)).toEqual(['View', 'Edit', 'Tools']);
   });
 
   it('matches any of 0 to 9 with digit, and writes it as 0–9', async () => {

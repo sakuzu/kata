@@ -11,6 +11,11 @@ These changes will be released as 1.4.0.
 - Added: `matchesShortcut`, `matchesAnyShortcut` and `shortcutText` are
   exported, the matching and the writing of keys that a Shell uses, for
   the application's tests and its own listeners.
+- Added: `ShortcutsModal groups` and `Shell groups`, the order of the
+  groups in the list of shortcuts, which the Shell passes to the list it
+  opens with the help key. The groups not in it follow in the order they
+  first appear, as all of them do without it. The order of `shortcuts`
+  stays the order in which they are matched.
 - Fixed: a shortcut whose key is a symbol (`[`, `]`, `?`, `/`, `.`, `,`,
   `;`, `'`, `` ` ``, `\`, `-` or `=`), `plus` or `minus` also matches by
   the physical key, as letters and digits already did, so that it still
