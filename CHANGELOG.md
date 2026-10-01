@@ -23,6 +23,23 @@ These changes will be released as 1.4.0.
 - Added: `DrawbarToggle onchange` may be left out, as for a switch with
   a `popover`, which does not call it. A switch without it does nothing
   when it is pressed, in the bar or in the More menu.
+- Added: the nodes of a `LayerTree` can change their own row. `eye:
+  false` and `lock: false` leave out the eye and the lock of that row;
+  `draggable: false` keeps it in its place, without a grip even with
+  `gripOnly`; `selectable: false` makes a press select nothing and
+  leaves out its `aria-selected`, while the arrows still reach it;
+  `eyeDisabled` disables the eye and shows its text in the eye's
+  tooltip; `current` gives the row `aria-current="true"` and a strong
+  name.
+- Added: `LayerTree actionsAfter`, which puts `actions` after the eye and
+  the lock, and `LayerTree subrows`, a snippet of the node drawn right
+  under its row and before its children, the width of the tree and
+  indented one level deeper, without a grip or a selection.
+- Added: the second argument of `LayerTree onselect` has `pressed`, the
+  id of the row that was pressed.
+- Fixed: a `LayerTree` no longer reads the children of a closed group,
+  which took time when a closed group held many nodes. The keys, the
+  selection and the drops reach only the rows that show, as before.
 - Fixed: a shortcut whose key is a symbol (`[`, `]`, `?`, `/`, `.`, `,`,
   `;`, `'`, `` ` ``, `\`, `-` or `=`), `plus` or `minus` also matches by
   the physical key, as letters and digits already did, so that it still

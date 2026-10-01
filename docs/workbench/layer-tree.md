@@ -45,6 +45,12 @@ way. For a list with depth that is not a stack of layers, use a
 | `visible` | Shown; a hidden node dims its row and the rows below it |
 | `locked` | Locked |
 | `children` | The nodes inside; with it, even empty, the node is a group |
+| `eye` | `false` shows no eye on this row |
+| `lock` | `false` shows no lock on this row |
+| `draggable` | `false`: the row is not dragged and shows no grip |
+| `selectable` | `false`: a press does not select the row |
+| `eyeDisabled` | The eye cannot be pressed; the text says why, in its tooltip |
+| `current` | The row is the current one: `aria-current` and a strong name |
 | `data` | The application's own fields, passed through |
 
 ## Props
@@ -55,7 +61,7 @@ way. For a list with depth that is not a stack of layers, use a
 | `label` | required | The name of the tree and the title of its head |
 | `head` | `true` | Shows the head: the title and the add menu |
 | `selected` | `[]` | The ids of the selected nodes (bindable) |
-| `onselect` | | Called with `(ids, { range, toggle })` |
+| `onselect` | | Called with `(ids, { range, toggle, pressed })` |
 | `expanded` | `[]` | The ids of the open groups (bindable) |
 | `onexpand` | | Called with `(id, open)` |
 | `onvisible` | | Shows the eye; called with `(id, visible)` |
@@ -70,6 +76,8 @@ way. For a list with depth that is not a stack of layers, use a
 | `addLabel` | "Add" | The text of the add button |
 | `row` | | Draws the part before the actions: `(node, name)` |
 | `actions` | | Actions of a row before the eye and the lock: `(node)` |
+| `actionsAfter` | `false` | Puts `actions` after the eye and the lock |
+| `subrows` | | Draws what goes under a row, before its children: `(node)` |
 
 ## Contract
 
@@ -83,19 +91,41 @@ mark (the icon in a [Markbox](../components/markbox.md), drawn as a
 [Swatch](../components/swatch.md) of `iconColor` when it has one) and the
 name on one line with an ellipsis; `row` replaces them and renders
 `name(node)` where the name goes, so that renaming still works. On the
-right come `actions`, the eye and the lock, which show on hover and
-focus, and always when they are not in their default state (hidden,
-locked). A hidden node dims its row and its children's rows.
+right come `actions`, the eye and the lock (`actions` last with
+`actionsAfter`), which show on hover and focus, and always when they
+are not in their default state (hidden, locked). A hidden node dims its
+row and its children's rows.
+
+Each node can change its own row. `eye: false` and `lock: false` leave
+out its eye and its lock. `eyeDisabled` disables the eye and shows its
+text in the eye's [Tooltip](../components/tooltip.md), to say why the
+node cannot be shown or hidden. `draggable: false` keeps the row in its
+place: it shows no grip, even with `gripOnly`, and is never picked up,
+while the rows around it still move. `selectable: false` makes a press
+select nothing, takes the row out of a range made with Shift, and leaves
+out its `aria-selected`; the arrows still move the focus to it.
+`current` marks the row where new things go: it has
+`aria-current="true"` and its name is in the label role, at the same
+size and with more weight.
+
+`subrows(node)` draws what the application puts right under a row and
+before its children, such as a line of settings of that node. It is not
+a row: it spans the width of the tree, starts where the rows one level
+deeper are indented, and has no grip and no selection; a press in it
+neither selects nor starts a drag. Its distances are the application's.
 
 A press selects the row alone; Shift adds the rows from the last one
 pressed, and ⌘ or Ctrl adds or removes one row. `onselect` receives the
-new selection and the keys held; the application may apply its own
-rule instead. The chevron opens and closes a group. The up and down
-arrows, Home and End move between the rows; the right arrow opens a
-group and then goes into it, the left one closes it and then goes to the
-parent; Enter and Space press the row; F2 or a double click renames it
-in place with an [InlineEdit](../components/inline-edit.md): Enter keeps
-the name and Escape restores it.
+new selection, the keys held (`range` for Shift, `toggle` for ⌘ or
+Ctrl) and the id of the row pressed (`pressed`); the application may
+apply its own rule instead. Only the rows that show take part: the
+children of a closed group are not read. The chevron opens and closes
+a group. The up and down arrows, Home and End move between the rows;
+the right arrow opens a group and then goes into it, the left one
+closes it and then goes to the parent; Enter and Space press the row;
+F2 or a double click renames it in place with an
+[InlineEdit](../components/inline-edit.md): Enter keeps the name and
+Escape restores it.
 
 With `onmove`, the rows are reordered by dragging through
 [sortable](../components/sortable.md): a group moves with its children,

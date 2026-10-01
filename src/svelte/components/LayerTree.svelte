@@ -14,14 +14,28 @@
     visible: boolean;
     locked: boolean;
     children?: TreeNode[];
+    /** false shows no eye on this row; by default the eye shows when onvisible is given */
+    eye?: boolean;
+    /** false shows no lock on this row; by default the lock shows when onlock is given */
+    lock?: boolean;
+    /** false: the row is not picked up by dragging and shows no grip, even with gripOnly */
+    draggable?: boolean;
+    /** false: a press does not select the row and it has no aria-selected; the arrows still move */
+    selectable?: boolean;
+    /** The eye of this row cannot be pressed, and this text shows in its tooltip */
+    eyeDisabled?: string;
+    /** The row is the current one (where new things go): aria-current, and its name strong */
+    current?: boolean;
     /** The application's own fields */
     data?: unknown;
   }
 
-  /** The keys held when a row was pressed: Shift (range) and ⌘ or Ctrl (toggle) */
+  /** The keys held when a row was pressed: Shift (range) and ⌘ or Ctrl (toggle), and its id */
   export interface TreeSelectModifiers {
     range: boolean;
     toggle: boolean;
+    /** The id of the row that was pressed */
+    pressed: string;
   }
 
   /** A node dropped in a new place: its new parent (null for the root) and its index there */
@@ -62,9 +76,13 @@
   // A row shows the node's mark and name, and on the right its actions, the eye and the lock (each
   // when its callback is given). row(node, name) draws the part before the actions for a kind of
   // its own, and renders name(node) where the name goes; actions(node) adds actions before the
-  // eye. A press selects (Shift adds the range, ⌘ or Ctrl toggles), F2 or a double click renames in
-  // place, and with onmove the rows are reordered by dragging: a node goes into any open group, but
-  // a group keeps its depth unless allowNesting, so a group never enters another group.
+  // eye, or after the lock with actionsAfter. subrows(node) draws what the application puts under
+  // a row, before its children: not a row, without a grip or a selection. A press selects (Shift
+  // adds the range, ⌘ or Ctrl toggles), F2 or a double click renames in place, and with onmove the
+  // rows are reordered by dragging: a node goes into any open group, but a group keeps its depth
+  // unless allowNesting, so a group never enters another group. A node may turn off its own eye,
+  // lock, dragging or selection (eye, lock, draggable, selectable), disable its eye with a reason
+  // (eyeDisabled) and mark itself current.
   //
   //   <LayerTree label="Layers" {nodes} bind:selected bind:expanded
   //     onvisible={show} onlock={lock} onrename={rename} onmove={move}
@@ -89,6 +107,8 @@
     addLabel,
     row,
     actions,
+    actionsAfter = false,
+    subrows,
   }: {
     /** The nodes at the root, in the order they show */
     nodes: TreeNode[];
@@ -128,25 +148,30 @@
     row?: Snippet<[TreeNode, Snippet<[TreeNode]>]>;
     /** Actions of a row before the eye and the lock */
     actions?: Snippet<[TreeNode]>;
+    /** Puts the actions after the eye and the lock */
+    actionsAfter?: boolean;
+    /** Draws what goes under a row and before its children: not a row (a snippet of the node) */
+    subrows?: Snippet<[TreeNode]>;
   } = $props();
 
   const group = `kata-layer-tree-${++trees}`;
   const ROOT = 'root';
   const zoneId = (parent: TreeNode | null) => (parent ? `node:${parent.id}` : ROOT);
 
-  // Where each node is: the node, its parent and its depth
+  const openSet = $derived(new Set(expanded));
+  // Where each node that shows is: the node, its parent and its depth. The children of a closed
+  // group are not walked: the keys, the selection and a drop only reach the rows that show
   const index = $derived.by(() => {
     const map = new Map<string, { node: TreeNode; parent: TreeNode | null; depth: number }>();
     const walk = (list: TreeNode[], parent: TreeNode | null, depth: number) => {
       for (const node of list) {
         map.set(node.id, { node, parent, depth });
-        if (node.children) walk(node.children, node, depth + 1);
+        if (node.children && openSet.has(node.id)) walk(node.children, node, depth + 1);
       }
     };
     walk(nodes, null, 0);
     return map;
   });
-  const openSet = $derived(new Set(expanded));
   const selSet = $derived(new Set(selected));
   // The ids of the rows that show, in order
   const shown = $derived.by(() => {
@@ -175,12 +200,20 @@
   let anchor: string | null = null;
 
   function pick(node: TreeNode, e?: MouseEvent) {
-    const modifiers = { range: !!e?.shiftKey, toggle: !!(e?.metaKey || e?.ctrlKey) };
+    // A row that is not selectable is not selected by a press
+    if (node.selectable === false) return;
+    const modifiers = {
+      range: !!e?.shiftKey,
+      toggle: !!(e?.metaKey || e?.ctrlKey),
+      pressed: node.id,
+    };
     let ids: string[];
     const from = anchor ? shown.indexOf(anchor) : -1;
     const to = shown.indexOf(node.id);
     if (modifiers.range && from !== -1 && to !== -1) {
-      ids = shown.slice(Math.min(from, to), Math.max(from, to) + 1);
+      ids = shown
+        .slice(Math.min(from, to), Math.max(from, to) + 1)
+        .filter((id) => index.get(id)?.node.selectable !== false);
     } else if (modifiers.toggle) {
       ids = selSet.has(node.id) ? selected.filter((x) => x !== node.id) : [...selected, node.id];
       anchor = node.id;
@@ -301,7 +334,8 @@
       group,
       containerId: zoneId(parent),
       handle: gripOnly ? '[data-grip]' : null,
-      filter: 'button, input, textarea',
+      // Not from the actions, a row that is not dragged (data-fixed) or what is under a row
+      filter: 'button, input, textarea, [data-fixed], [data-subrows]',
       accept: (_kind, id) => allowed(id, parent),
       enabled: !!onmove,
       onDrop: drop,
@@ -310,21 +344,27 @@
   }
 
   function rowProps(node: TreeNode, depth: number, parentHidden: boolean) {
+    const drags = !!onmove && node.draggable !== false;
+    const selectable = node.selectable !== false;
     return {
       depth,
       expandable: !!node.children,
       expanded: openSet.has(node.id),
       ontoggle: (open: boolean) => setOpen(node.id, open),
-      grip: !!onmove,
-      gripShow: gripOnly && !!onmove,
+      grip: drags,
+      gripShow: gripOnly && drags,
       hidden: !node.visible,
       dimmed: parentHidden,
-      sel: selSet.has(node.id),
+      sel: selectable && selSet.has(node.id),
       onclick: (e: MouseEvent) => pick(node, e),
       ondblclick: (e: MouseEvent) => {
         if (!(e.target as HTMLElement).closest('button')) startRename(node.id);
       },
       'data-node': node.id,
+      // A row that is not selectable has no aria-selected (this comes after the row's own)
+      ...(selectable ? {} : { 'aria-selected': undefined }),
+      'aria-current': node.current ? ('true' as const) : undefined,
+      'data-fixed': !!onmove && node.draggable === false ? '' : undefined,
     };
   }
 </script>
@@ -340,7 +380,7 @@
       />
     </span>
   {:else}
-    <Text clamp>{node.name}</Text>
+    <Text clamp role={node.current ? 'label' : undefined}>{node.name}</Text>
   {/if}
 {/snippet}
 
@@ -366,20 +406,22 @@
 {/snippet}
 
 {#snippet tools(node: TreeNode)}
-  {@render actions?.(node)}
-  {#if onvisible}
+  {#if !actionsAfter}{@render actions?.(node)}{/if}
+  {#if onvisible && node.eye !== false}
     <Button
       variant="ghost"
       icon
       aria-label={node.visible ? getMessages().hide : getMessages().show}
       data-keep={node.visible ? undefined : ''}
+      disabled={!!node.eyeDisabled}
+      tip={node.eyeDisabled || undefined}
       onclick={(e: MouseEvent) => {
         e.stopPropagation();
         onvisible?.(node.id, !node.visible);
       }}><Icon name={node.visible ? 'eye' : 'eye-off'} /></Button
     >
   {/if}
-  {#if onlock}
+  {#if onlock && node.lock !== false}
     <Button
       variant="ghost"
       icon
@@ -391,6 +433,7 @@
       }}><Icon name={node.locked ? 'lock' : 'lock-open'} /></Button
     >
   {/if}
+  {#if actionsAfter}{@render actions?.(node)}{/if}
 {/snippet}
 
 {#snippet item(node: TreeNode, depth: number, parentHidden: boolean)}
@@ -402,6 +445,11 @@
       </TreeRow>
     {:else}
       <TreeRow {...rowProps(node, depth, parentHidden)}>{@render body(node)}</TreeRow>
+    {/if}
+    {#if subrows}
+      <div class="subrows" data-subrows style:--kata-tree-depth={depth + 1}>
+        {@render subrows(node)}
+      </div>
     {/if}
     {#if node.children && openSet.has(node.id)}
       <div class="zone" role="group" aria-label={node.name} use:sortable={zone(node)}>
@@ -455,6 +503,15 @@
     flex-direction: column;
     min-width: 0;
     flex: none;
+  }
+  // What the application puts under a row: the width of the tree, indented as a row one deeper
+  .subrows {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    flex: none;
+    padding-left: calc(#{pad(md)} + var(--kata-tree-depth, 0) * #{pad(md)});
+    padding-right: var(--kata-inset, #{pad(md)});
   }
   // The input of a rename takes the width of the name
   .rename {

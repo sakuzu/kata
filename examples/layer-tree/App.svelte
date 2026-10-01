@@ -69,6 +69,43 @@
     shape('frame', 'Frame', 'polygon', '#8a5cf6'),
   ]);
   let flatSelected = $state<string[]>([]);
+
+  // Rows that change their own parts
+  let own = $state<TreeNode[]>([
+    {
+      id: 'ink',
+      kind: 'layer',
+      name: 'Ink',
+      icon: Layers,
+      visible: true,
+      locked: false,
+      current: true,
+      children: [shape('outline', 'Outline', 'polyline', '#3b82f6')],
+    },
+    { ...shape('guides', 'Guides', 'polyline', '#8a5cf6'), eye: false },
+    { ...shape('paper', 'Paper', 'image'), lock: false },
+    { ...shape('frame', 'Frame', 'polygon', '#d9a441'), draggable: false },
+    { ...shape('title', 'Title block', 'sticky-note', '#d9a441'), selectable: false },
+    {
+      id: 'archive',
+      kind: 'layer',
+      name: 'Archive',
+      icon: Layers,
+      visible: false,
+      locked: false,
+      children: [{ ...shape('old', 'Old sketch', 'polyline'), eyeDisabled: 'The layer is hidden' }],
+    },
+  ]);
+  let ownSelected = $state<string[]>([]);
+  let ownExpanded = $state<string[]>(['ink', 'archive']);
+  const findOwn = (id: string, list = own): TreeNode | undefined => {
+    for (const n of list) {
+      if (n.id === id) return n;
+      const inner = n.children && findOwn(id, n.children);
+      if (inner) return inner;
+    }
+    return undefined;
+  };
   let selected = $state<string[]>(['river']);
   let expanded = $state<string[]>(['sketch', 'trees', 'notes']);
   let last = $state('');
@@ -188,6 +225,41 @@
       >
         {#snippet actions()}
           <Button variant="ghost" icon aria-label="Duplicate"><Icon name="copy" /></Button>
+        {/snippet}
+      </LayerTree>
+    </Surface>
+  </Case>
+  <Case
+    label="Each row's own parts: no eye, no lock, not dragged, not selectable, an eye that cannot be pressed, the current row, subrows, and the actions after the eye and the lock"
+  >
+    <Surface width="22.5rem">
+      <LayerTree
+        label="Layers"
+        head={false}
+        nodes={own}
+        bind:selected={ownSelected}
+        bind:expanded={ownExpanded}
+        actionsAfter
+        onvisible={(id, v) => {
+          const n = findOwn(id);
+          if (n) n.visible = v;
+        }}
+        onlock={(id, v) => {
+          const n = findOwn(id);
+          if (n) n.locked = v;
+        }}
+        onmove={(m) => {
+          if (m.parentId) return;
+          const i = own.findIndex((x) => x.id === m.id);
+          const [n] = own.splice(i, 1);
+          own.splice(m.index, 0, n);
+        }}
+      >
+        {#snippet actions()}
+          <Button variant="ghost" icon aria-label="More"><Icon name="ellipsis" /></Button>
+        {/snippet}
+        {#snippet subrows(node)}
+          {#if node.current}<Text role="caption" muted>New shapes go into this layer.</Text>{/if}
         {/snippet}
       </LayerTree>
     </Surface>

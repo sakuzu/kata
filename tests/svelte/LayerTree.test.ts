@@ -98,16 +98,25 @@ describe('LayerTree', () => {
       onselect,
     });
     await fireEvent.click(row(container, 'b'));
-    expect(onselect).toHaveBeenLastCalledWith(['b'], { range: false, toggle: false });
+    expect(onselect).toHaveBeenLastCalledWith(['b'], {
+      range: false,
+      toggle: false,
+      pressed: 'b',
+    });
     await fireEvent.click(row(container, 'l2'), { metaKey: true });
-    expect(onselect).toHaveBeenLastCalledWith(['b', 'l2'], { range: false, toggle: true });
+    expect(onselect).toHaveBeenLastCalledWith(['b', 'l2'], {
+      range: false,
+      toggle: true,
+      pressed: 'l2',
+    });
     await fireEvent.click(row(container, 'b'), { ctrlKey: true });
-    expect(onselect).toHaveBeenLastCalledWith(['l2'], { range: false, toggle: true });
+    expect(onselect).toHaveBeenLastCalledWith(['l2'], { range: false, toggle: true, pressed: 'b' });
     await fireEvent.click(row(container, 'g1'));
     await fireEvent.click(row(container, 'c'), { shiftKey: true });
     expect(onselect).toHaveBeenLastCalledWith(['g1', 'a', 'b', 'c'], {
       range: true,
       toggle: false,
+      pressed: 'c',
     });
     await tick();
     expect(row(container, 'a').parentElement?.getAttribute('aria-selected')).toBe('true');
@@ -285,5 +294,165 @@ describe('LayerTree', () => {
     await settle();
     await fireEvent.click(getByRole('menuitem', { name: 'Group' }));
     expect(onadd).toHaveBeenCalledWith('group');
+  });
+
+  it('shows no eye or lock on a row with eye or lock false', () => {
+    const nodes = [
+      { ...leaf('a'), eye: false },
+      { ...leaf('b'), lock: false },
+    ];
+    const { container } = render(LayerTree, {
+      nodes,
+      label: 'Layers',
+      onvisible: () => {},
+      onlock: () => {},
+    });
+    const names = (id: string) =>
+      [...row(container, id).querySelectorAll('button')].map((b) => b.getAttribute('aria-label'));
+    expect(names('a')).toEqual(['Lock']);
+    expect(names('b')).toEqual(['Hide']);
+  });
+
+  it('does not pick up a row with draggable false, and shows no grip on it', () => {
+    const { container } = render(LayerTree, {
+      nodes: [{ ...leaf('a'), draggable: false }, leaf('b')],
+      label: 'Layers',
+      gripOnly: true,
+      onmove: () => {},
+    });
+    expect(row(container, 'a').querySelector('[data-grip]')).toBeNull();
+    expect(row(container, 'b').querySelector('[data-grip]')).not.toBeNull();
+    // The row is filtered out of the drag: a press on it never starts one
+    const filter = (optionsOf(zoneOf(container, null)) as unknown as { filter: string }).filter;
+    expect(row(container, 'a').closest(filter)).not.toBeNull();
+    expect(row(container, 'b').closest(filter)).toBeNull();
+  });
+
+  it('does not select a row with selectable false, but moves the focus through it', async () => {
+    const onselect = vi.fn();
+    const { container } = render(LayerTree, {
+      nodes: [leaf('a'), { ...leaf('b'), selectable: false }, leaf('c')],
+      label: 'Layers',
+      onselect,
+    });
+    await fireEvent.click(row(container, 'b'));
+    expect(onselect).not.toHaveBeenCalled();
+    expect(row(container, 'b').parentElement?.hasAttribute('aria-selected')).toBe(false);
+    expect(row(container, 'a').parentElement?.getAttribute('aria-selected')).toBe('false');
+    // A range does not take it either
+    await fireEvent.click(row(container, 'a'));
+    await fireEvent.click(row(container, 'c'), { shiftKey: true });
+    expect(onselect).toHaveBeenLastCalledWith(['a', 'c'], {
+      range: true,
+      toggle: false,
+      pressed: 'c',
+    });
+    row(container, 'a').focus();
+    await fireEvent.keyDown(row(container, 'a'), { key: 'ArrowDown' });
+    expect(document.activeElement).toBe(row(container, 'b'));
+  });
+
+  it('disables the eye of a row with eyeDisabled and shows the reason in its tooltip', async () => {
+    const { container } = render(LayerTree, {
+      nodes: [{ ...leaf('a'), eyeDisabled: 'The layer is hidden' }],
+      label: 'Layers',
+      onvisible: () => {},
+    });
+    const eye = row(container, 'a').querySelector<HTMLButtonElement>('button[aria-label="Hide"]');
+    expect(eye?.disabled).toBe(true);
+    vi.useFakeTimers();
+    try {
+      await fireEvent.pointerEnter(eye?.parentElement as HTMLElement);
+      vi.advanceTimersByTime(2000);
+      await tick();
+    } finally {
+      vi.useRealTimers();
+    }
+    expect(document.body.textContent).toContain('The layer is hidden');
+  });
+
+  it('marks the current row with aria-current and a strong name', () => {
+    const { container } = render(LayerTree, {
+      nodes: [{ ...leaf('a', 'Sketch'), current: true }, leaf('b', 'Notes')],
+      label: 'Layers',
+    });
+    expect(row(container, 'a').parentElement?.getAttribute('aria-current')).toBe('true');
+    expect(row(container, 'b').parentElement?.hasAttribute('aria-current')).toBe(false);
+    expect(row(container, 'a').querySelector('[data-role="label"]')?.textContent).toBe('Sketch');
+    expect(row(container, 'b').querySelector('[data-role="label"]')).toBeNull();
+  });
+
+  it('puts the actions after the eye and the lock with actionsAfter', () => {
+    const more = createRawSnippet(() => ({
+      render: () => '<button type="button" aria-label="More">⋯</button>',
+    }));
+    const names = (after: boolean) => {
+      const { container, unmount } = render(LayerTree, {
+        nodes: [leaf('a')],
+        label: 'Layers',
+        onvisible: () => {},
+        onlock: () => {},
+        actions: more as never,
+        actionsAfter: after,
+      });
+      const out = [...row(container, 'a').querySelectorAll('button')].map((b) =>
+        b.getAttribute('aria-label'),
+      );
+      unmount();
+      return out;
+    };
+    expect(names(false)).toEqual(['More', 'Hide', 'Lock']);
+    expect(names(true)).toEqual(['Hide', 'Lock', 'More']);
+  });
+
+  it('draws subrows after a row and before its children, outside the rows', async () => {
+    const onselect = vi.fn();
+    const subrows = createRawSnippet((node: () => TreeNode) => ({
+      render: () => `<p class="sub">Under ${node().name}</p>`,
+    }));
+    const { container } = render(LayerTree, {
+      nodes: sample(),
+      label: 'Layers',
+      expanded: ['l1'],
+      onselect,
+      onmove: () => {},
+      subrows: subrows as never,
+    });
+    const item = container.querySelector('[data-sortable-item][data-id="l1"]') as HTMLElement;
+    const parts = [...item.children];
+    expect(parts[0].getAttribute('role')).toBe('treeitem');
+    expect(parts[1].textContent?.trim()).toBe('Under First');
+    expect(parts[2].getAttribute('role')).toBe('group');
+    // Not a row: no treeitem, no grip, and a press selects nothing
+    expect(parts[1].querySelector('[role="treeitem"], [data-grip]')).toBeNull();
+    await fireEvent.click(parts[1].querySelector('.sub') as HTMLElement);
+    expect(onselect).not.toHaveBeenCalled();
+  });
+
+  it('does not read the children of a closed group', () => {
+    let reads = 0;
+    // A child that counts the reads of its fields
+    const watched = (id: string) =>
+      new Proxy(leaf(id), {
+        get(target, key, receiver) {
+          reads++;
+          return Reflect.get(target, key, receiver);
+        },
+      });
+    const nodes: TreeNode[] = [
+      {
+        id: 'g',
+        kind: 'group',
+        name: 'Closed',
+        visible: true,
+        locked: false,
+        children: [watched('x'), watched('y')],
+      },
+    ];
+    const { container } = render(LayerTree, { nodes, label: 'Layers', onmove: () => {} });
+    row(container, 'g').focus();
+    fireEvent.keyDown(row(container, 'g'), { key: 'ArrowDown' });
+    fireEvent.click(row(container, 'g'));
+    expect(reads).toBe(0);
   });
 });
