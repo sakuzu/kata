@@ -77,6 +77,7 @@
   let restLeft = $state(false);
   let restRight = $state(false);
   let restStage = $state<SheetStage>('half');
+  let showDock = $state(true);
 </script>
 
 {#snippet bar()}
@@ -169,6 +170,13 @@
 
 {#snippet columnToolbar({ column }: { column: boolean })}
   <Drawbar label="Tools" {tools} current={tool} onselect={(id) => (tool = id)} {column} />
+{/snippet}
+
+{#snippet outputSheet()}
+  <Panel side="fill" label="Output">
+    {#snippet head()}<Toolbar title="Output" rule />{/snippet}
+    <Block><Text>Drag the handle, or below its lowest height to close the sheet.</Text></Block>
+  </Panel>
 {/snippet}
 
 {#snippet output()}
@@ -270,6 +278,23 @@
         bottom={columnToolbar}
       />
     </div>
+  </Case>
+  <Case label="dockSheet: on a narrow screen the dock is a sheet, which the application removes when it closes">
+    <div class="frame">
+      <Shell
+        narrow
+        leftOpen={false}
+        dockSheet={{ label: 'Output' }}
+        ondockclose={() => (showDock = false)}
+        top={plainBar}
+        stage={surface}
+        bottom={toolbar}
+        dock={showDock ? outputSheet : undefined}
+      />
+    </div>
+    <Row>
+      <Button disabled={showDock} onclick={() => (showDock = true)}>Show the output</Button>
+    </Row>
   </Case>
 </Example>
 

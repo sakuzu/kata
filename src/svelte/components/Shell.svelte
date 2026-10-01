@@ -29,6 +29,13 @@
     /** The icon while the toolbar is hidden; plus by default, and x while it shows */
     icon?: IconSource;
   }
+  /** The sheet that holds the dock on a narrow screen: its name and the heights it offers */
+  export interface ShellDockSheet {
+    /** The accessible name of the sheet */
+    label: string;
+    /** The heights offered, lowest first; half and full by default */
+    stages?: SheetStage[];
+  }
   /** What onlayout reports */
   export interface ShellLayout {
     width: ShellWidth;
@@ -108,6 +115,8 @@
     leftReopen,
     rightReopen,
     bottomFab,
+    dockSheet,
+    ondockclose,
     onlayout,
     onescape,
     top,
@@ -152,6 +161,10 @@
     rightReopen?: ShellReopen;
     /** On a narrow screen, the toolbar shows only while this Fab is pressed, in one column above it */
     bottomFab?: ShellFab;
+    /** On a narrow screen, the dock is a Sheet instead of the area under the stage */
+    dockSheet?: ShellDockSheet;
+    /** Called when the dock's sheet closes; the application removes the dock */
+    ondockclose?: () => void;
     /** Called with the width and the place of each side region, and again when they change */
     onlayout?: (layout: ShellLayout) => void;
     /** Escape when no sheet is left to close; returning false leaves the key to the browser */
@@ -283,12 +296,20 @@
     if (back instanceof HTMLElement && back.isConnected) tick().then(() => back.focus());
   }
 
+  // On a narrow screen with dockSheet, the dock is a sheet, at the lowest of its heights at first
+  const dockSheeted = $derived(!!dock && !!dockSheet && mode === 'sheet');
+  const DOCK_STAGES: SheetStage[] = ['half', 'full'];
+  const dockStages = $derived(dockSheet?.stages ?? DOCK_STAGES);
+  let dockStage = $state<SheetStage>();
+
   // The height of the sheets, which the toolbar rises above
-  const sheetH = $state<Record<Side, number>>({ left: 0, right: 0 });
+  const sheetH = $state<Record<Side | 'dock', number>>({ left: 0, right: 0, dock: 0 });
   const lift = $derived(
-    mode === 'sheet' ? Math.max(0, ...sheets.map((side) => sheetH[side])) : 0,
+    mode === 'sheet'
+      ? Math.max(0, ...sheets.map((side) => sheetH[side]), dockSheeted ? sheetH.dock : 0)
+      : 0,
   );
-  function measure(side: Side): Attachment<HTMLElement> {
+  function measure(side: Side | 'dock'): Attachment<HTMLElement> {
     return (seat) => {
       const sheet = seat.firstElementChild;
       if (!sheet || typeof ResizeObserver === 'undefined') return;
@@ -442,6 +463,21 @@
             </Floating>
           {/each}
         {:else if mode === 'sheet'}
+          {#if dock && dockSheet && dockSheeted}
+            <div class="sheet-seat" data-region="dock" {@attach measure('dock')}>
+              <Sheet
+                pane
+                closable
+                name="dock"
+                label={dockSheet.label}
+                stages={dockStages}
+                bind:stage={() => dockStage ?? dockStages[0], (next) => (dockStage = next)}
+                onclose={() => ondockclose?.()}
+              >
+                {@render dock()}
+              </Sheet>
+            </div>
+          {/if}
           {#each sheets as side (side)}
             <div class="sheet-seat" data-region={side} {@attach measure(side)}>
               <Sheet
@@ -460,7 +496,7 @@
         {/if}
         {#if veil}<Veil busy>{@render veil()}</Veil>{/if}
       </div>
-      {#if dock}
+      {#if dock && !dockSheeted}
         <div class="dock" data-region="dock" bind:this={dockEl} bind:clientHeight={dockNow}>
           <div
             class="grip"

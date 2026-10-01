@@ -277,6 +277,38 @@ describe('Shell', () => {
     expect(wide.container.querySelector('[data-role="fab"]')).toBeNull();
   });
 
+  it('puts the dock in a sheet with dockSheet on a narrow screen, and reports its closing', async () => {
+    const ondockclose = vi.fn();
+    const dock = html('<div>Output</div>');
+    const { container, queryByRole } = render(Shell, {
+      stage: regions.stage,
+      dock,
+      dockSheet: { label: 'Output' },
+      ondockclose,
+      narrow: true,
+    });
+    await tick();
+    const sheet = container.querySelector('[data-sheet="dock"]');
+    expect(sheet?.textContent?.trim()).toBe('Output');
+    expect(sheet?.getAttribute('aria-label')).toBe('Output');
+    expect(sheet?.getAttribute('data-stage')).toBe('half');
+    expect(container.querySelector('.dock')).toBeNull();
+    expect(queryByRole('slider', { name: 'Dock height' })).toBeNull();
+    // Below its lowest height it closes, and the application hears of it
+    sheet
+      ?.querySelector('button')
+      ?.dispatchEvent(
+        new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true, cancelable: true }),
+      );
+    expect(ondockclose).toHaveBeenCalledOnce();
+
+    // From 48rem the dock is under the stage
+    const wide = render(Shell, { stage: regions.stage, dock, dockSheet: { label: 'Output' } });
+    await tick();
+    expect(wide.container.querySelector('[data-sheet="dock"]')).toBeNull();
+    expect(wide.container.querySelector('.dock')?.textContent?.trim()).toBe('Output');
+  });
+
   it('opens and closes each floating pane on its own', async () => {
     const { container, rerender } = render(Shell, { ...regions, leftOpen: false });
     await tick();

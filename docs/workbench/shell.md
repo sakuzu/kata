@@ -48,6 +48,8 @@ pointer through to it everywhere but its regions.
 | `leftReopen` | | A control that opens the closed left region, `ShellReopen` |
 | `rightReopen` | | A control that opens the closed right region |
 | `bottomFab` | | Folds the toolbar into a Fab when narrow, `ShellFab` |
+| `dockSheet` | | Puts the dock in a sheet when narrow, `ShellDockSheet` |
+| `ondockclose` | | Called when the dock's sheet closes |
 | `onlayout` | | Called with `{ width, leftMode, rightMode }` when they change |
 | `onescape` | | Called with Escape when no sheet is left to close |
 
@@ -66,7 +68,8 @@ A `ShellReopen` is `{ icon, label }`: an icon name or component, and the
 name of the control. A `ShellFab` is `{ label, closeLabel, icon? }`: the
 name of the Fab while the toolbar is hidden and while it shows, and its
 icon while the toolbar is hidden (`plus` by default; `x` while it
-shows).
+shows). A `ShellDockSheet` is `{ label, stages? }`: the name of the sheet
+and the heights it offers, lowest first (`half` and `full` by default).
 
 A `Shortcut` is
 `{ key, label, run, when?, group?, aliases?, hidden?, display? }`. `key`
@@ -208,6 +211,14 @@ snippet receives `{ column }`, true while the toolbar stands in one
 column above the Fab and false elsewhere: pass it to the Drawbar's
 `column`. A snippet that takes no argument works as before. From 48rem
 the toolbar stays over the bottom of the stage.
+
+With `dockSheet`, the narrow form puts the dock in a
+[Sheet](../components/sheet.md) named `dock` instead of the area under
+the stage. The sheet holds the dock as a panel, opens at the lowest of
+its heights and closes below it; it then calls `ondockclose`, and the
+application removes the dock. It lies under the sheets of the side
+regions, and the toolbar rises above it as above them. `dockHeight` and
+the grip belong to the dock under the stage only.
 
 ## Example
 

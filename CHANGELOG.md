@@ -28,6 +28,10 @@ These changes will be released as 1.5.0.
   without the argument keeps working.
 - Added: `Drawbar column`, the tools in one column in the flow of their
   container, the groups gap-md apart, with nothing folded into More.
+- Added: `Shell dockSheet` (`ShellDockSheet`): on a narrow screen the
+  dock is a closable Sheet instead of the area under the stage, and
+  `Shell ondockclose` is called when it closes. The toolbar rises above
+  it as above the other sheets.
 
 ## [1.4.1] - 2026-10-02
 
