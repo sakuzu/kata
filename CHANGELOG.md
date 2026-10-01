@@ -8,6 +8,9 @@ follows semantic versioning.
 
 These changes will be released as 1.4.0.
 
+- Added: `matchesShortcut`, `matchesAnyShortcut` and `shortcutText` are
+  exported, the matching and the writing of keys that a Shell uses, for
+  the application's tests and its own listeners.
 - Fixed: a shortcut whose key is a symbol (`[`, `]`, `?`, `/`, `.`, `,`,
   `;`, `'`, `` ` ``, `\`, `-` or `=`), `plus` or `minus` also matches by
   the physical key, as letters and digits already did, so that it still

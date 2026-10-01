@@ -73,7 +73,12 @@ listed under.
 `formatShortcut(key)` writes a key as the platform does (⇧⌘Z on a Mac,
 Ctrl+Shift+Z elsewhere; `digit` as 0–9, and a modifier alone as ⌥ or
 Alt), for a tooltip or a menu, and `isMacPlatform()` says whether the
-platform is a Mac, where `mod` is ⌘.
+platform is a Mac, where `mod` is ⌘. The shell's own matching is
+exported for the application's tests and its own listeners:
+`matchesShortcut(key, event)` says whether a key event is that key,
+`matchesAnyShortcut(shortcut, event)` whether it is the key or one of
+the aliases of a shortcut, and `shortcutText(shortcut)` writes its keys
+as the list does.
 
 ## Snippets
 

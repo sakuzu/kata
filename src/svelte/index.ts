@@ -165,7 +165,14 @@ export {
 } from './lib/fontScale.js';
 export { hostOf } from './lib/host.js';
 export { isMenuItem, type MenuModel, type MenuModelItem } from './lib/menuModel.js';
-export { formatShortcut, isMacPlatform, type Shortcut } from './lib/shortcuts.js';
+export {
+  formatShortcut,
+  isMacPlatform,
+  matchesAnyShortcut,
+  matchesShortcut,
+  type Shortcut,
+  shortcutText,
+} from './lib/shortcuts.js';
 export { createNarrow, isNarrowerThan, WIDTHS } from './lib/viewport.svelte.js';
 export { defaultMessages, getMessages, type Messages, setMessages } from './messages.js';
 export { type SortableParams, type SortMove, type SortOver, sortable } from './sortable.js';
