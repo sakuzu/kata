@@ -45,6 +45,8 @@ pointer through to it everywhere but its regions.
 | `rightSheet` | | The right sheet's heights and closing, `ShellSheet` |
 | `leftStage` | `'half'` | The left sheet's height while open (bindable) |
 | `rightStage` | `'half'` | The right sheet's height while open (bindable) |
+| `leftReopen` | | A control that opens the closed left region, `ShellReopen` |
+| `rightReopen` | | A control that opens the closed right region |
 | `onlayout` | | Called with `{ width, leftMode, rightMode }` when they change |
 | `onescape` | | Called with Escape when no sheet is left to close |
 
@@ -58,6 +60,9 @@ sheet offers, lowest first (`SheetStage[]`, all three by default), and
 `closable: false` keeps the sheet when it is dragged below the lowest
 height (it closes by default). A stage is `peek`, `half` or `full`
 (`SheetStage`).
+
+A `ShellReopen` is `{ icon, label }`: an icon name or component, and the
+name of the control.
 
 A `Shortcut` is
 `{ key, label, run, when?, group?, aliases?, hidden?, display? }`. `key`
@@ -181,6 +186,14 @@ toolbar rises above it too. `leftStage` and `rightStage` are the height
 of each sheet while its region is open: the application reads them and
 can set them, to lower a sheet to its lowest height instead of closing
 it, say.
+
+From 48rem, `leftReopen` and `rightReopen` put a control in the corner
+of the stage on their side while that region is closed: a ghost icon
+button in a [Floating](../components/floating.md) gap-md from the top
+and from the side, which sets `leftOpen` or `rightOpen` when pressed. It
+shows only when the region is given. The narrow form has none: a sheet
+that does not close keeps its head, and the application has its own way
+in otherwise.
 
 ## Example
 

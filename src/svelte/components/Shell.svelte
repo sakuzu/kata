@@ -1,4 +1,5 @@
 <script lang="ts" module>
+  import type { IconSource } from '../icons.js';
   import type { SheetStage } from './Sheet.svelte';
 
   /** The band of the window's width: wide (64rem and more), mid (48 to 64rem) or narrow */
@@ -13,6 +14,11 @@
     stages?: SheetStage[];
     /** Below the lowest height it closes (the default); with false it stays there */
     closable?: boolean;
+  }
+  /** A control that opens a closed side region again: its icon and its name */
+  export interface ShellReopen {
+    icon: IconSource;
+    label: string;
   }
   /** What onlayout reports */
   export interface ShellLayout {
@@ -36,7 +42,9 @@
   } from '../lib/shortcuts.js';
   import { createNarrow, setAppContainer, WIDTHS } from '../lib/viewport.svelte.js';
   import { getMessages } from '../messages.js';
+  import Button from './Button.svelte';
   import Floating from './Floating.svelte';
+  import Icon from './Icon.svelte';
   import Sheet from './Sheet.svelte';
   import ShortcutsModal from './ShortcutsModal.svelte';
   import Veil from './Veil.svelte';
@@ -87,6 +95,8 @@
     rightSheet,
     leftStage = $bindable('half'),
     rightStage = $bindable('half'),
+    leftReopen,
+    rightReopen,
     onlayout,
     onescape,
     top,
@@ -125,6 +135,10 @@
     /** The height of each side's sheet while its region is open */
     leftStage?: SheetStage;
     rightStage?: SheetStage;
+    /** A control in the stage's corner on each side that opens the region again while it is
+     * closed, from 48rem */
+    leftReopen?: ShellReopen;
+    rightReopen?: ShellReopen;
     /** Called with the width and the place of each side region, and again when they change */
     onlayout?: (layout: ShellLayout) => void;
     /** Escape when no sheet is left to close; returning false leaves the key to the browser */
@@ -227,6 +241,21 @@
   }
   // The floating panes, the left one first whatever the order they were opened in
   const floating = $derived((['left', 'right'] as const).filter(shown));
+  // The controls that open a closed side region again, from 48rem
+  const reopenOf = (side: Side) => (side === 'left' ? leftReopen : rightReopen);
+  const reopens = $derived(
+    mode === 'sheet'
+      ? []
+      : (['left', 'right'] as const).flatMap((side) => {
+          const control = reopenOf(side);
+          const open = side === 'left' ? leftOpen : rightOpen;
+          return control && region(side) && !open ? [{ side, control }] : [];
+        }),
+  );
+  function reopen(side: Side) {
+    if (side === 'left') leftOpen = true;
+    else rightOpen = true;
+  }
 
   /** Closes a side region, and returns the focus to where it was when the region opened */
   function close(side: Side) {
@@ -358,6 +387,19 @@
       <div class="stage" data-region="stage">
         {#if stage}<div class="surface">{@render stage()}</div>{/if}
         {#if bottom}<div class="bottom" data-region="bottom">{@render bottom()}</div>{/if}
+        {#each reopens as { side, control } (side)}
+          <div class="reopen">
+            <Floating
+              top="md"
+              left={side === 'left' ? 'md' : undefined}
+              right={side === 'right' ? 'md' : undefined}
+            >
+              <Button variant="ghost" icon aria-label={control.label} onclick={() => reopen(side)}>
+                <Icon name={control.icon} />
+              </Button>
+            </Floating>
+          </div>
+        {/each}
         {#if mode === 'floating'}
           {#each floating as side (side)}
             <Floating
@@ -500,6 +542,11 @@
     max-width: calc(100% - #{gap(md)} * 2);
     max-height: calc(100% - #{gap(md)} * 2);
   }
+  // The seat of a control that opens a closed side again: no box of its own, so that its Floating
+  // keeps its own size and places itself against the stage
+  .reopen {
+    display: contents;
+  }
   // The region shrinks with the pane, and what it holds (a Panel) scrolls its own content
   .stage .pane {
     display: flex;
@@ -535,14 +582,15 @@
   }
   // Over a surface of the page, the root and the stage let the pointer through to it; every region
   // the shell draws takes it again: the bar, the side regions, the toolbar, the dock, the floating
-  // panes, the sheets (their seat already lets it through around them), the veil and the dialog of
-  // the shortcuts
+  // panes and the controls that reopen them, the sheets (their seat already lets it through around
+  // them), the veil and the dialog of the shortcuts
   .shell.overlay {
     pointer-events: none;
     > .top,
     > .body > .side,
     > .body > .main > .dock,
     > .body > .main > .stage > .bottom,
+    > .body > .main > .stage > .reopen,
     > .body > .main > .stage > :global([data-role='floating']),
     > .body > .main > .stage > :global([data-role='veil']),
     > :global(dialog) {

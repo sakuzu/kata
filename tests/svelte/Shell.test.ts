@@ -227,6 +227,27 @@ describe('Shell', () => {
     expect(sheet()?.getAttribute('data-stage')).toBe('full');
   });
 
+  it('opens a closed side again with its reopen control, from 48rem only', async () => {
+    const leftReopen = { icon: 'plus' as const, label: 'Show the contents' };
+    const { container, getByRole, queryByRole } = render(Shell, {
+      ...regions,
+      leftOpen: false,
+      leftReopen,
+    });
+    await tick();
+    const control = getByRole('button', { name: 'Show the contents' });
+    expect(control.closest('[data-role="floating"]')).not.toBeNull();
+    control.click();
+    await tick();
+    expect(region(container, 'left')).not.toBeNull();
+    expect(queryByRole('button', { name: 'Show the contents' })).toBeNull();
+
+    // The narrow form has none
+    const narrow = render(Shell, { ...regions, narrow: true, leftOpen: false, leftReopen });
+    await tick();
+    expect(narrow.queryByRole('button', { name: 'Show the contents' })).toBeNull();
+  });
+
   it('opens and closes each floating pane on its own', async () => {
     const { container, rerender } = render(Shell, { ...regions, leftOpen: false });
     await tick();

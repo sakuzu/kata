@@ -115,6 +115,7 @@ export { default as Sheet } from './components/Sheet.svelte';
 export type {
   ShellLayout,
   ShellMode,
+  ShellReopen,
   ShellSheet,
   ShellSide,
   ShellWidth,

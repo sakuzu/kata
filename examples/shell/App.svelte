@@ -14,8 +14,8 @@
     Panel,
     Row,
     SectionHeader,
-    Shell,
     type SheetStage,
+    Shell,
     type ShellLayout,
     type Shortcut,
     Stack,
@@ -233,13 +233,15 @@
       />
     </div>
   </Case>
-  <Case label="A left sheet that does not close and controls that open the closed sides again">
+  <Case label="A left sheet that does not close (leftSheet) and the controls that open a closed side again (leftReopen, rightReopen)">
     <div class="frame">
       <Shell
         bind:leftOpen={restLeft}
         bind:rightOpen={restRight}
         bind:leftStage={restStage}
         leftSheet={{ stages: ['peek', 'half', 'full'], closable: false }}
+        leftReopen={{ icon: PanelLeft, label: 'Show the contents' }}
+        rightReopen={{ icon: PanelRight, label: 'Show the selection' }}
         leftLabel="Contents"
         rightLabel="Selection"
         top={plainBar}

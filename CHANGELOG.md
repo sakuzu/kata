@@ -18,6 +18,9 @@ These changes will be released as 1.5.0.
   region is not open, and raising it opens the region. `Shell leftStage`
   and `rightStage` (bindable) are the height of each sheet while open.
   The type `SheetStage` is exported.
+- Added: `Shell leftReopen` and `rightReopen` (`ShellReopen`), a ghost
+  icon button in the corner of the stage that opens a closed side region
+  again, from 48rem.
 
 ## [1.4.1] - 2026-10-02
 
