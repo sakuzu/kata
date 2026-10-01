@@ -18,6 +18,10 @@ nothing of what they hold. A special mode of the application, such as a
 print preview or an older version, is a change of what the application
 passes in `stage` and the side regions, not a mode of the shell.
 
+By default the side regions float over the stage, as they do in the
+editor of the reference application; `side="beside"` stands them beside
+the stage on a wide screen instead.
+
 Use `overlay` when the shell lies over a drawing surface that the page
 owns, such as a map that is not passed in `stage`: the shell lets the
 pointer through to it everywhere but its regions.
@@ -26,6 +30,7 @@ pointer through to it everywhere but its regions.
 
 | Prop | Default | Description |
 | --- | --- | --- |
+| `side` | `'floating'` | From 64rem, `'floating'` or `'beside'` |
 | `leftOpen` | `true` | Whether the left region shows (bindable) |
 | `rightOpen` | `false` | Whether the right region shows (bindable) |
 | `dockHeight` | | The dock's height in px (bindable); 38.2% without it |
@@ -35,10 +40,11 @@ pointer through to it everywhere but its regions.
 | `leftLabel` | | The name of the left region's sheet |
 | `rightLabel` | | The name of the right region's sheet |
 | `onlayout` | | Called with `{ width, leftMode, rightMode }` when they change |
-| `onescape` | | Called with Escape when no pane is left to close |
+| `onescape` | | Called with Escape when no sheet is left to close |
 
 `width` is `wide`, `mid` or `narrow`, and each mode is `beside`,
-`floating` or `sheet`. `onescape` returns `false` to leave the key to the
+`floating` or `sheet` (`ShellLayout`, `ShellWidth` and `ShellMode`; the
+type of `side` is `ShellSide`). `onescape` returns `false` to leave the key to the
 browser.
 
 A `Shortcut` is `{ key, label, run, when?, group? }`. `key` is written
@@ -74,13 +80,26 @@ measures its own element, not the window, and it is the size container
 the shell's width too, with or without the base CSS. When the browser
 has no `ResizeObserver`, it measures the window.
 
-- From 64rem, the side regions stand beside the stage, as tall as the
-  space under the bar, with a strong line towards the stage.
-- From 48 to 64rem, they float over the stage in a
-  [Floating](../components/floating.md), gap-md from its edges and no
-  wider than half the stage, over a scrim that closes them when pressed.
+- From 48rem, the side regions float over the stage, each in a
+  [Floating](../components/floating.md) gap-md from the top of the stage
+  and from its own side. A pane is a panel wide (`--kata-width-panel`)
+  and no wider than the stage less gap-md on each side. It is as tall as
+  what it holds, up to the height of the stage less gap-md above and
+  below; beyond that the content of the Panel in it scrolls. Both may be
+  open at once, there is no scrim, and the stage takes the pointer
+  wherever a pane is not. At 48rem two panes and the three gaps around
+  them fill the stage exactly.
+- With `side="beside"`, from 64rem the side regions stand beside the
+  stage instead, as tall as the space under the bar, with a strong line
+  towards the stage; from 48 to 64rem they float as above.
 - Below 48rem, each is a [Sheet](../components/sheet.md) from the bottom
   of the stage, and the toolbar rises to stay above the sheets.
+
+| Width | `side="floating"` | `side="beside"` |
+| --- | --- | --- |
+| From 64rem (`wide`) | `floating` | `beside` |
+| 48 to 64rem (`mid`) | `floating` | `floating` |
+| Below 48rem (`narrow`) | `sheet` | `sheet` |
 
 ## Contract
 
@@ -92,23 +111,24 @@ strong line along its top, at least a toolbar high, and it leaves the
 stage a toolbar's height at least. Its top edge is a grip without a
 look: a drag changes `dockHeight`, the arrow keys move it by 32px, and
 the value that is kept is the height after those limits. The grip's name
-is the `dockHeight` message and the scrim's the `closePanes` message.
+is the `dockHeight` message. The floating panes lie over the stage, which
+is above the dock, so their limit leaves the dock out.
 
 The shortcuts are attached to the document while the shell is mounted.
 The first shortcut whose key matches and whose `when` holds runs. The
 help key (?, the Help key or F1) opens a
 [ShortcutsModal](shortcuts-modal.md) that lists them, unless a shortcut
-takes the key first. Escape closes the floating pane or the sheet that
-was opened last and returns the focus to where it was when that pane
-opened; when none is open, it goes to `onescape`. Beside the stage, the
-panels stay open on Escape. Keys typed into a field, keys an input
-method is composing, keys already handled (`defaultPrevented`) and keys
-pressed while a modal dialog or a popover is open belong to them, not to
-the shell.
+takes the key first. Escape closes the sheet that was opened last and
+returns the focus to where it was when that sheet opened; when none is
+open, it goes to `onescape`. The floating panes and the panels beside
+the stage stay open on Escape, which goes straight to `onescape`. Keys
+typed into a field, keys an input method is composing, keys already
+handled (`defaultPrevented`) and keys pressed while a modal dialog or a
+popover is open belong to them, not to the shell.
 
 With `overlay`, the root and the stage have `pointer-events: none`, and
-the bar, the side regions, the toolbar, the dock, the scrim, the
-floating panes, the sheets, the veil and the list of shortcuts have
+the bar, the side regions, the toolbar, the dock, the floating panes,
+the sheets, the veil and the list of shortcuts have
 `pointer-events: auto`. What the application passes in `stage` lets the
 pointer through too.
 

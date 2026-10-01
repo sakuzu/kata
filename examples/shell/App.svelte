@@ -69,6 +69,9 @@
   ];
 
   let loading = $state(true);
+  let besideLeft = $state(true);
+  let besideRight = $state(true);
+  let besideLayout = $state<ShellLayout>();
 </script>
 
 {#snippet bar()}
@@ -127,9 +130,18 @@
         </Field>
       </SectionHeader>
       <Block>
-        <Text muted>The width is {layout?.width ?? 'wide'}; the panels are {layout?.leftMode ?? 'beside'}.</Text>
+        <Text muted>The width is {layout?.width ?? 'wide'}; the panels are {layout?.leftMode ?? 'floating'}.</Text>
       </Block>
     </Stack>
+  </Panel>
+{/snippet}
+
+{#snippet properties()}
+  <Panel label="Properties">
+    {#snippet head()}<Toolbar title="Properties" rule />{/snippet}
+    <Block>
+      <Text muted>The panels are {besideLayout?.leftMode ?? 'beside'}.</Text>
+    </Block>
   </Panel>
 {/snippet}
 
@@ -149,7 +161,7 @@
 {/snippet}
 
 <Example>
-  <Case label="Every region: the bar, both panels, the stage, the toolbar and the dock">
+  <Case label="Every region: the bar, both panels floating over the stage, the toolbar and the dock">
     <div class="frame">
       <Shell
         bind:leftOpen
@@ -167,6 +179,22 @@
         stage={surface}
         bottom={toolbar}
         dock={output}
+      />
+    </div>
+  </Case>
+  <Case label="With side set to beside: the panels stand beside the stage from 64rem">
+    <div class="frame">
+      <Shell
+        side="beside"
+        bind:leftOpen={besideLeft}
+        bind:rightOpen={besideRight}
+        leftLabel="Contents"
+        rightLabel="Properties"
+        onlayout={(l) => (besideLayout = l)}
+        left={contents}
+        right={properties}
+        stage={surface}
+        bottom={toolbar}
       />
     </div>
   </Case>

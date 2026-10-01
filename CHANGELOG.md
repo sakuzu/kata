@@ -4,6 +4,30 @@ All notable changes to `@sakuzu/kata` are recorded here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project
 follows semantic versioning.
 
+## [Unreleased]
+
+The side regions of the Shell float over the stage by default, as in the
+editor of the reference application. This changes the default layout
+and will be released as 1.2.0.
+
+- Changed: from 48rem the Shell's side regions float over the stage at
+  every width (`leftMode` and `rightMode` are `floating` for `wide` too).
+  Each pane is a panel wide, gap-md from the top of the stage and from
+  its own side, and as tall as its content up to the stage's height less
+  gap-md above and below; beyond that the Panel's content scrolls. Both
+  may be open at once and the stage takes the pointer around them.
+- Changed: the floating panes have no scrim, and Escape no longer closes
+  them: it goes to `onescape`. Escape still closes the sheet opened last
+  below 48rem. The `closePanes` message is no longer shown and is
+  deprecated.
+- Changed: with `overlay`, the floating panes and the sheets take the
+  pointer and the area of the stage around them lets it through to the
+  page.
+- Added: `Shell side`, `'floating'` (the default) or `'beside'`.
+  `side="beside"` keeps the earlier layout from 64rem: the side regions
+  stand beside the stage with a strong line between. From 48 to 64rem
+  they float, without a scrim. The type is exported as `ShellSide`.
+
 ## [1.1.0] - 2026-10-01
 
 kata can be embedded in a page it does not own, and the Shell can lie

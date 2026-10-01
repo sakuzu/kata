@@ -3,6 +3,8 @@
   export type ShellWidth = 'wide' | 'mid' | 'narrow';
   /** Where a side region is: beside the stage, floating over it, or a sheet from the bottom */
   export type ShellMode = 'beside' | 'floating' | 'sheet';
+  /** Where the side regions are above the narrow width: floating over the stage, or beside it */
+  export type ShellSide = 'floating' | 'beside';
   /** What onlayout reports */
   export interface ShellLayout {
     width: ShellWidth;
@@ -37,16 +39,18 @@
   //
   // The side regions follow the three widths of the shell's own element, which is the size container
   // `app` of everything inside it (so the container queries of the components in it, and the
-  // components that measure in script, read the shell, not the window). From 64rem they stand beside the stage, with a strong
-  // line between. From 48 to 64rem they float over the stage (Floating, gap-md from its edges) over
-  // a scrim that closes them when pressed. Below 48rem they are Sheets from the bottom of the stage
-  // and the toolbar rises to stay above them. leftOpen and rightOpen open and close them; onlayout
-  // reports the width and where each region is.
+  // components that measure in script, read the shell, not the window). From 48rem they float over
+  // the stage (Floating, gap-md from its top and its side, a panel wide), both may be open at once,
+  // each as tall as its content up to the stage's height less gap-md above and below, and the
+  // stage takes the pointer wherever a pane is not. With side="beside" they stand beside the stage
+  // from 64rem instead, with a strong line between, and float from 48 to 64rem. Below 48rem they
+  // are Sheets from the bottom of the stage and the toolbar rises to stay above them. leftOpen and
+  // rightOpen open and close them; onlayout reports the width and where each region is.
   //
   // shortcuts are attached to the document while the shell is mounted, and the help key (?, Help or
-  // F1) opens a ShortcutsModal that lists them. Escape closes the pane opened last that floats or is
-  // a sheet; when none is open it goes to onescape. Keys typed into a field, and keys pressed while
-  // a modal dialog or a popover is open, belong to them.
+  // F1) opens a ShortcutsModal that lists them. Escape closes the sheet opened last; when none is
+  // open (and always while the regions float or stand beside the stage) it goes to onescape. Keys
+  // typed into a field, and keys pressed while a modal dialog or a popover is open, belong to them.
   //
   // overlay lays the shell over a drawing surface that belongs to the page: the shell's root lets
   // the pointer through, and only the regions it draws take it.
@@ -59,6 +63,7 @@
   //   </Shell>
   type Side = 'left' | 'right';
   let {
+    side: sides = 'floating',
     leftOpen = $bindable(true),
     rightOpen = $bindable(false),
     dockHeight = $bindable(),
@@ -77,6 +82,8 @@
     stage,
     veil,
   }: {
+    /** Where the side regions are from 64rem: floating over the stage, or beside it */
+    side?: ShellSide;
     /** Whether the left region shows */
     leftOpen?: boolean;
     /** Whether the right region shows */
@@ -94,7 +101,7 @@
     rightLabel?: string;
     /** Called with the width and the place of each side region, and again when they change */
     onlayout?: (layout: ShellLayout) => void;
-    /** Escape when no pane is left to close; returning false leaves the key to the browser */
+    /** Escape when no sheet is left to close; returning false leaves the key to the browser */
     onescape?: (e: KeyboardEvent) => unknown;
     /** The bar at the top: a Topbar */
     top?: Snippet;
@@ -126,7 +133,7 @@
 
   const width: ShellWidth = $derived(narrow.current ? 'narrow' : mid.current ? 'mid' : 'wide');
   const mode: ShellMode = $derived(
-    width === 'narrow' ? 'sheet' : width === 'mid' ? 'floating' : 'beside',
+    width === 'narrow' ? 'sheet' : width === 'wide' && sides === 'beside' ? 'beside' : 'floating',
   );
 
   $effect(() => {
@@ -134,10 +141,10 @@
     untrack(() => onlayout?.(layout));
   });
 
-  // The side regions that are open, in the order they were opened: the last is on top, and
+  // The side regions that are open, in the order they were opened: the last sheet is on top, and
   // Escape closes it first
   let order = $state<Side[]>([]);
-  // What had the focus when a pane opened over the stage, to return to when it closes
+  // What had the focus when a sheet opened, to return to when it closes
   const before: Partial<Record<Side, Element | null>> = {};
   function track(side: Side, open: boolean) {
     const rest = order.filter((s) => s !== side);
@@ -159,6 +166,8 @@
 
   const region = (side: Side) => (side === 'left' ? left : right);
   const shown = (side: Side) => order.includes(side);
+  // The floating panes, the left one first whatever the order they were opened in
+  const floating = $derived((['left', 'right'] as const).filter(shown));
 
   /** Closes a side region, and returns the focus to where it was when the region opened */
   function close(side: Side) {
@@ -167,9 +176,6 @@
     const back = before[side];
     before[side] = null;
     if (back instanceof HTMLElement && back.isConnected) tick().then(() => back.focus());
-  }
-  function closeAll() {
-    for (const side of [...order].reverse()) close(side);
   }
 
   // The height of the sheets, which the toolbar rises above
@@ -245,7 +251,8 @@
     if (e.defaultPrevented || e.isComposing || shortcutsOpen || modalOpen()) return;
     if (isEditable(e.target) || isEditable(document.activeElement)) return;
     if (e.key === 'Escape' && !e.metaKey && !e.ctrlKey && !e.altKey) {
-      const topmost = mode === 'beside' ? undefined : order.at(-1);
+      // Only a sheet closes on Escape; the floating panes stay open, as the panels beside the stage
+      const topmost = mode === 'sheet' ? order.at(-1) : undefined;
       if (topmost) {
         e.preventDefault();
         close(topmost);
@@ -293,14 +300,10 @@
       <div class="stage" data-region="stage">
         {#if stage}<div class="surface">{@render stage()}</div>{/if}
         {#if bottom}<div class="bottom" data-region="bottom">{@render bottom()}</div>{/if}
-        {#if mode === 'floating' && order.length > 0}
-          <!-- The scrim is a button that closes the floating panes -->
-          <button class="scrim" type="button" aria-label={getMessages().closePanes} onclick={closeAll}
-          ></button>
-          {#each order as side (side)}
+        {#if mode === 'floating'}
+          {#each floating as side (side)}
             <Floating
               top="md"
-              bottom="md"
               left={side === 'left' ? 'md' : undefined}
               right={side === 'right' ? 'md' : undefined}
             >
@@ -426,27 +429,26 @@
     bottom: var(--kata-shell-lift, 0px);
     height: 0;
   }
-  // The scrim is on the floating layer; the order of the elements puts the panes on top
-  .scrim {
-    position: absolute;
-    inset: 0;
-    border: 0;
-    padding: 0;
-    background: color(scrim);
-    cursor: pointer;
-    z-index: z(floating);
-  }
-  // A pane floating over the stage: as tall as the Floating around it, and no wider than half the
-  // stage, so that two panes keep gap-md between them
+  // A pane floating over the stage: a panel wide, and as tall as its content up to the stage's
+  // height less gap-md above and below (the dock is under the stage, so it is already left out).
+  // It covers nothing more than itself, so the stage takes the pointer around it. At 48rem two
+  // panes and the three gaps around them fill the stage exactly.
   .stage > :global([data-role='floating']) {
-    max-width: calc(50% - #{gap(md)} * 1.5);
-  }
-  .pane {
+    box-sizing: border-box;
     display: flex;
-    height: 100%;
+    flex-direction: column;
+    width: var(--kata-width-panel);
+    max-width: calc(100% - #{gap(md)} * 2);
+    max-height: calc(100% - #{gap(md)} * 2);
+  }
+  // The region shrinks with the pane, and what it holds (a Panel) scrolls its own content
+  .stage .pane {
+    display: flex;
+    flex-direction: column;
+    flex: 0 1 auto;
     min-height: 0;
     > :global(*) {
-      flex: 1 1 auto;
+      flex: 0 1 auto;
       min-height: 0;
     }
   }
@@ -473,16 +475,15 @@
     }
   }
   // Over a surface of the page, the root and the stage let the pointer through to it; every region
-  // the shell draws takes it again: the bar, the side regions, the toolbar, the dock, the scrim,
-  // the floating panes, the sheets (their seat already lets it through around them), the veil and
-  // the dialog of the shortcuts
+  // the shell draws takes it again: the bar, the side regions, the toolbar, the dock, the floating
+  // panes, the sheets (their seat already lets it through around them), the veil and the dialog of
+  // the shortcuts
   .shell.overlay {
     pointer-events: none;
     > .top,
     > .body > .side,
     > .body > .main > .dock,
     > .body > .main > .stage > .bottom,
-    > .body > .main > .stage > .scrim,
     > .body > .main > .stage > :global([data-role='floating']),
     > .body > .main > .stage > :global([data-role='veil']),
     > :global(dialog) {

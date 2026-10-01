@@ -71,8 +71,9 @@ and nothing is squeezed; things fold instead.
 Below 64rem (mid):
 
 - A Grid of 3 or 4 columns has 2.
-- The side regions of the [Shell](workbench/shell.md) float over the
-  stage instead of standing beside it.
+- The side regions of a [Shell](workbench/shell.md) with
+  `side="beside"` float over the stage instead of standing beside it. By
+  default they float over the stage at every width from 48rem.
 
 Below 48rem (narrow):
 
@@ -124,7 +125,10 @@ map, it lives under one root element of its own.
   size container of the three widths and measures its own element, so it
   follows the width of the root, not of the window. Over a drawing
   surface that belongs to the page, use `Shell overlay`: the shell lets
-  the pointer through everywhere but its regions.
+  the pointer through everywhere but its regions. From 48rem its side
+  regions float over the surface (or stand beside it from 64rem with
+  `side="beside"`), and below 48rem they are sheets; in each mode only
+  the panes and the sheets take the pointer, not the area around them.
 - Components outside a Shell still measure the window. To give them the
   root's width, declare `container: app / inline-size` on the root,
   which then needs a width that does not depend on its content.
