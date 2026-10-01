@@ -1,0 +1,1 @@
+import{_ as t,o as a,c as r,a2 as d}from"./chunks/framework.BGlkWkwp.js";const m=JSON.parse('{"title":"Checks","description":"","frontmatter":{},"headers":[],"relativePath":"checks.md","filePath":"checks.md"}'),o={name:"checks.md"};function n(s,e,i,h,c,l){return a(),r("div",null,[...e[0]||(e[0]=[d("",9)])])}const u=t(o,[["render",n]]);export{m as __pageData,u as default};
