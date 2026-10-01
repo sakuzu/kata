@@ -66,7 +66,7 @@ apart, with the control of its kind.
 | `text` | [TextInput](../components/text-input.md) | The text, on change |
 | `number` | [NumberInput](../components/number-input.md) | A number, or null when emptied |
 | `select` | [NativeSelect](../components/native-select.md) | The option's value |
-| `color` | A button with a [Swatch](../components/swatch.md) that opens a [ColorPicker](../components/color-picker.md) | `#RRGGBB`, at each pick |
+| `color` | A button with a [Swatch](../components/swatch.md), as wide as the value column, that opens a [ColorPicker](../components/color-picker.md) | `#RRGGBB`, at each pick |
 | `toggle` | [Toggle](../components/toggle.md), at the end of the row | `true` or `false` |
 | `slider` | [Slider](../components/slider.md), with the value and the unit | A number, when let go |
 | `segmented` | [Segmented](../components/segmented.md) | The option's value |

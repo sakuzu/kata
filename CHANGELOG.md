@@ -6,6 +6,11 @@ follows semantic versioning.
 
 ## [Unreleased]
 
+These changes will be released as 1.4.1.
+
+- Fixed: the color button of a FieldList fills the value column, as the
+  other controls of a field do, instead of taking the width of its text.
+
 ## [1.4.0] - 2026-10-02
 
 What the layer panel, the comments and the shortcuts of an editor need

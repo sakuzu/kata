@@ -174,7 +174,7 @@
           onchange={(v) => report(f.key, v)}
         />
       {:else if f.kind === 'color'}
-        <Dropdown bare align="start" role="box">
+        <Dropdown bare block align="start" role="box">
           {#snippet trigger(toggle, open)}
             <Button
               trailing="chevron-down"
