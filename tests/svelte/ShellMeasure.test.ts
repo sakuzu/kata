@@ -74,7 +74,7 @@ describe('Shell measures its element', () => {
   it('places the side regions by the width of the shell, not of the window', async () => {
     shellWidth = 1200;
     const onlayout = vi.fn<(l: ShellLayout) => void>();
-    const { container } = render(ShellHarness, { onlayout });
+    const { container } = render(ShellHarness, { side: 'beside', onlayout });
     await tick();
     expect(onlayout).toHaveBeenLastCalledWith({
       width: 'wide',
@@ -129,7 +129,7 @@ describe('Shell measures its element', () => {
       shellWidth = 480;
       setWindow(1440);
       const onlayout = vi.fn<(l: ShellLayout) => void>();
-      render(Shell, { onlayout });
+      render(Shell, { side: 'beside', onlayout });
       await tick();
       expect(onlayout).toHaveBeenLastCalledWith({
         width: 'wide',
@@ -182,5 +182,46 @@ describe('Shell overlay', () => {
     // The regions are still drawn
     expect(shell?.querySelector('[data-region="left"]')?.textContent).toContain('Hill');
     expect(shell?.querySelector('.surface')?.textContent).toBe('Drawing');
+  });
+
+  it('lets the pointer through to the page around the floating panes', async () => {
+    shellWidth = 1200;
+    const { container } = render(ShellHarness, { overlay: true });
+    await tick();
+    const shell = container.querySelector('[data-role="shell"]') as HTMLElement;
+    const pane = shell.querySelector('[data-role="floating"]') as HTMLElement;
+    expect(pane.querySelector('[data-region="left"]')).not.toBeNull();
+    // The pane takes the pointer; the root, the stage and the surface do not, and nothing else
+    // lies over the stage
+    expect(getComputedStyle(pane).pointerEvents).toBe('auto');
+    for (const el of [shell, shell.querySelector('.stage'), shell.querySelector('.surface')])
+      expect(getComputedStyle(el as HTMLElement).pointerEvents).toBe('none');
+    const over = [...(shell.querySelector('.stage')?.children ?? [])].filter(
+      (el) => !el.matches('.surface, [data-role="floating"]'),
+    );
+    expect(over).toEqual([]);
+  });
+
+  it('takes the pointer on the stage around the floating panes without overlay', async () => {
+    shellWidth = 1200;
+    const { container } = render(ShellHarness, {});
+    await tick();
+    const stage = container.querySelector('.stage') as HTMLElement;
+    expect(getComputedStyle(stage).pointerEvents).not.toBe('none');
+    expect(stage.querySelector('[data-role="floating"]')).not.toBeNull();
+  });
+});
+
+describe('Shell floating panes', () => {
+  it('are a panel wide, as tall as their content up to the stage less gap-md', async () => {
+    shellWidth = 1200;
+    const { container } = render(ShellHarness, {});
+    await tick();
+    const pane = getComputedStyle(container.querySelector('[data-role="floating"]') as Element);
+    expect(pane.width).toBe('var(--kata-width-panel)');
+    expect(pane.maxHeight).toMatch(/^calc\(100% - .+\* 2\)$/);
+    expect(pane.bottom).toBe('auto');
+    expect(pane.display).toBe('flex');
+    expect(pane.flexDirection).toBe('column');
   });
 });

@@ -1,4 +1,4 @@
-import { fireEvent, render } from '@testing-library/svelte';
+import { render } from '@testing-library/svelte';
 import { createRawSnippet, tick } from 'svelte';
 import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
 import Shell, { type ShellLayout } from '../../src/svelte/components/Shell.svelte';
@@ -80,16 +80,20 @@ describe('Shell', () => {
     expect(region(container, 'right')).not.toBeNull();
   });
 
-  it('puts the side regions beside, floating or in sheets by the width', async () => {
+  it('floats the side regions over the stage from 48rem and puts them in sheets below', async () => {
     const onlayout = vi.fn<(l: ShellLayout) => void>();
     const { container } = render(Shell, { ...regions, rightOpen: true, onlayout });
     await tick();
     expect(onlayout).toHaveBeenLastCalledWith({
       width: 'wide',
-      leftMode: 'beside',
-      rightMode: 'beside',
+      leftMode: 'floating',
+      rightMode: 'floating',
     });
-    expect(container.querySelector('.side.left')).not.toBeNull();
+    // Both panes float at once, left first, and nothing covers the rest of the stage
+    const panes = [...container.querySelectorAll('[data-role="floating"] > [data-region]')];
+    expect(panes.map((p) => p.getAttribute('data-region'))).toEqual(['left', 'right']);
+    expect(container.querySelector('.side')).toBeNull();
+    expect(container.querySelector('.scrim, button[aria-label="Close the panels"]')).toBeNull();
 
     // 60rem: between the narrow and the medium width
     await resize(960);
@@ -99,8 +103,7 @@ describe('Shell', () => {
       rightMode: 'floating',
     });
     expect(container.querySelectorAll('[data-role="floating"]')).toHaveLength(2);
-    expect(container.querySelector('.scrim')).not.toBeNull();
-    expect(container.querySelector('.side')).toBeNull();
+    expect(container.querySelector('.scrim')).toBeNull();
 
     // 30rem: below the narrow width
     await resize(480);
@@ -114,13 +117,52 @@ describe('Shell', () => {
     expect(container.querySelector('[data-role="floating"]')).toBeNull();
   });
 
-  it('closes the floating panes when the scrim is pressed', async () => {
-    await resize(960);
-    const { container, getByRole } = render(Shell, { ...regions, rightOpen: true });
+  it('stands the side regions beside the stage from 64rem with side="beside"', async () => {
+    const onlayout = vi.fn<(l: ShellLayout) => void>();
+    const { container } = render(Shell, { ...regions, side: 'beside', rightOpen: true, onlayout });
     await tick();
-    await fireEvent.click(getByRole('button', { name: 'Close the panels' }));
-    await tick();
+    expect(onlayout).toHaveBeenLastCalledWith({
+      width: 'wide',
+      leftMode: 'beside',
+      rightMode: 'beside',
+    });
+    expect(container.querySelector('.side.left')).not.toBeNull();
+    expect(container.querySelector('.side.right')).not.toBeNull();
     expect(container.querySelector('[data-role="floating"]')).toBeNull();
+
+    // From 48 to 64rem they float, without a scrim
+    await resize(960);
+    expect(onlayout).toHaveBeenLastCalledWith({
+      width: 'mid',
+      leftMode: 'floating',
+      rightMode: 'floating',
+    });
+    expect(container.querySelectorAll('[data-role="floating"]')).toHaveLength(2);
+    expect(container.querySelector('.side')).toBeNull();
+    expect(container.querySelector('.scrim')).toBeNull();
+
+    await resize(480);
+    expect(onlayout).toHaveBeenLastCalledWith({
+      width: 'narrow',
+      leftMode: 'sheet',
+      rightMode: 'sheet',
+    });
+  });
+
+  it('opens and closes each floating pane on its own', async () => {
+    const { container, rerender } = render(Shell, { ...regions, leftOpen: false });
+    await tick();
+    await rerender({ rightOpen: true });
+    await tick();
+    expect(region(container, 'right')).not.toBeNull();
+    expect(region(container, 'left')).toBeNull();
+    await rerender({ leftOpen: true });
+    await tick();
+    expect(container.querySelectorAll('[data-role="floating"]')).toHaveLength(2);
+    await rerender({ rightOpen: false });
+    await tick();
+    expect(region(container, 'right')).toBeNull();
+    expect(region(container, 'left')).not.toBeNull();
   });
 
   it('runs the shortcut that matches, skipping those that decline or do not apply', async () => {
@@ -156,8 +198,8 @@ describe('Shell', () => {
     expect(dialog.textContent).toContain('Ctrl+Z');
   });
 
-  it('closes the pane opened last with Escape, then passes Escape to the application', async () => {
-    await resize(960);
+  it('closes the sheet opened last with Escape, then passes Escape to the application', async () => {
+    await resize(480);
     const onescape = vi.fn();
     const { container, rerender } = render(Shell, { ...regions, leftOpen: true, onescape });
     await tick();
@@ -175,9 +217,24 @@ describe('Shell', () => {
     expect(onescape).toHaveBeenCalledOnce();
   });
 
+  it('leaves the floating panes open on Escape and passes it to the application', async () => {
+    for (const width of [1024, 960]) {
+      await resize(width);
+      const onescape = vi.fn();
+      const { container, unmount } = render(Shell, { ...regions, rightOpen: true, onescape });
+      await tick();
+      expect(press('Escape')).toBe(false);
+      await tick();
+      expect(region(container, 'left')).not.toBeNull();
+      expect(region(container, 'right')).not.toBeNull();
+      expect(onescape).toHaveBeenCalledOnce();
+      unmount();
+    }
+  });
+
   it('leaves the panels beside the stage open on Escape', async () => {
     const onescape = vi.fn();
-    const { container } = render(Shell, { ...regions, onescape });
+    const { container } = render(Shell, { ...regions, side: 'beside', onescape });
     await tick();
     press('Escape');
     await tick();

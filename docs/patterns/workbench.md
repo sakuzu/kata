@@ -30,9 +30,9 @@ as a list of documents or the settings, are [pages](../layout.md#a-page).
 - The application owns the data: the parts report what the person does
   (a selection, a rename, a new value) and the application applies it
   and passes the new state back.
-- The side regions stand beside the stage from 64rem, float over it
-  down to 48rem and become sheets below; the application only says
-  whether each is open.
+- The side regions float over the stage from 48rem (or stand beside it
+  from 64rem with `side="beside"`) and become sheets below; the
+  application only says whether each is open.
 - Every tool and panel has a shortcut, listed by the help key.
 
 ## Example

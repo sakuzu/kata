@@ -119,7 +119,11 @@ export interface Messages {
   keyboardShortcuts: string;
   /** Shell: the name of the dock's grip */
   dockHeight: string;
-  /** Shell: the name of the scrim that closes the panels floating over the stage */
+  /**
+   * Shell: the name of the scrim that closed the panels floating over the stage.
+   * @deprecated The Shell no longer draws a scrim; the message is kept so that the messages an
+   * application already sets still type-check, and is not shown.
+   */
   closePanes: string;
   /** InspectorFrame: the action shown while the name is empty (rename names its input) */
   addName: string;
