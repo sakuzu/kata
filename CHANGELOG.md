@@ -4,10 +4,11 @@ All notable changes to `@sakuzu/kata` are recorded here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project
 follows semantic versioning.
 
-## [Unreleased]
+## [1.1.0] - 2026-10-01
 
-The headings of the release (Added, Changed) are written when it is
-released; until then each entry says which it is.
+kata can be embedded in a page it does not own, and the Shell can lie
+over a drawing surface. Each entry says whether it is an addition or a
+change.
 
 - Added: embedding kata in a page it does not own. A root element marked
   `data-kata-root` is the host of what kata appends outside a component:
@@ -96,5 +97,5 @@ them to the rules.
   of drawing out of kata; `npm run check:package` runs publint and Are
   the Types Wrong on the package.
 
-[Unreleased]: https://github.com/sakuzu/kata/compare/v1.0.0...HEAD
+[1.1.0]: https://github.com/sakuzu/kata/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/sakuzu/kata/releases/tag/v1.0.0
