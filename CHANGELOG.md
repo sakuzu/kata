@@ -33,6 +33,9 @@ These changes will be released as 1.3.0.
   `shift`, `mod`) matches the press of that key by itself and is written
   ⌥, ⇧ and ⌘ on a Mac and Alt, Shift and Ctrl elsewhere. `isMacPlatform`
   is exported.
+- Fixed: the text of a Toggle wraps onto more lines instead of being cut
+  with an ellipsis; the switch stays level with the first line. One line
+  looks as before.
 
 ## [1.2.0] - 2026-10-01
 

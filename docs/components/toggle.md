@@ -28,9 +28,11 @@ The control is as high as a small button (`--kata-height-button-sm`), and
 the whole of it is pressed, text included. The switch is a native
 checkbox with `role="switch"`, as wide as a button's height and as high as
 a badge; its knob sits on the left when off and on the right, on the
-solid surface, when on. The text is gap-sm from the switch, one line,
-trimmed to its ink. In a container without padding it takes the inset of
-the list items at its sides. Disabled is dimmed.
+solid surface, when on. The text is gap-sm from the switch and trimmed to
+its ink. A long text wraps instead of being cut: the control grows
+downwards, and the switch stays level with the first line, centred in the
+height of a small button as one line is. In a container without padding
+it takes the inset of the list items at its sides. Disabled is dimmed.
 
 ## Example
 

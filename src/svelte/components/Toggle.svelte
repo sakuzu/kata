@@ -3,7 +3,8 @@
 
   // Toggle: a switch for a setting that takes effect at once. It is a control of the height of a
   // small button, and the whole control is pressed. The switch is centred; its text on the right
-  // (on the left with between) is trimmed to its ink and centred. It is a native checkbox with
+  // (on the left with between) is trimmed to its ink and centred. A long text wraps: the control
+  // grows, and the switch stays level with the first line. It is a native checkbox with
   // role="switch", so :checked holds the state, and the control is a <label>, so pressing the text
   // switches it too.
   //
@@ -35,28 +36,32 @@
 </script>
 
 <label class="ctl" class:disabled={disabled} class:between class:indent data-role="switch" data-control>
-  {#if between && label}<span class="t grow">{label}</span>{/if}
-  <input
-    type="checkbox"
-    role="switch"
-    class="toggle"
-    bind:checked
-    {id}
-    {disabled}
-    aria-label={ariaLabel}
-    onchange={() => onchange?.(checked)}
-  />
-  {#if label && !between}<span class="t">{label}</span>{/if}
+  {#if between && label}<span class="line grow"><span class="t">{label}</span></span>{/if}
+  <span class="seat">
+    <input
+      type="checkbox"
+      role="switch"
+      class="toggle"
+      bind:checked
+      {id}
+      {disabled}
+      aria-label={ariaLabel}
+      onchange={() => onchange?.(checked)}
+    />
+  </span>
+  {#if label && !between}<span class="line"><span class="t">{label}</span></span>{/if}
 </label>
 
 <style lang="scss">
   @use '../styles/kata' as *;
 
+  // The text stands on the baseline of the switch's seat, so that its first line is centred in the
+  // height of a small button and a longer text grows downwards
   .ctl {
     display: flex;
-    align-items: center;
+    align-items: baseline;
     gap: gap(sm);
-    height: h(button-sm);
+    min-height: h(button-sm);
     padding-inline: inset();
     min-width: 0;
     cursor: pointer;
@@ -68,12 +73,30 @@
   .indent {
     padding-left: pad(md);
   }
-  // The control has a fixed height, so the text is one line
+  // The switch, centred in the height of a small button. An empty line of text, trimmed and centred
+  // as the text would be, gives the seat the baseline of a centred line
+  .seat {
+    display: flex;
+    align-items: center;
+    flex: none;
+    height: h(button-sm);
+    &::before {
+      content: '\200b' / '';
+      @include trim;
+    }
+  }
+  // The text, with about the room of the seat below its last line when it wraps (one line leaves
+  // it inside the seat's height)
+  .line {
+    display: block;
+    min-width: 0;
+    padding-bottom: pad(sm);
+  }
   .t {
     display: block;
     min-width: 0;
+    overflow-wrap: anywhere;
     @include trim;
-    @include ellipsis;
   }
   .grow {
     flex: 1 1 auto;

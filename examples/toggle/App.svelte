@@ -26,4 +26,14 @@
       </Block>
     </Surface>
   </Case>
+  <Case label="A long text wraps; the switch stays level with its first line">
+    <Surface width="16rem">
+      <Block>
+        <Stack gap={0}>
+          <Toggle label="Snap to the vertices and the edges of the shapes nearby" />
+          <Toggle label="Keep the handles of the selected shapes visible while drawing" between />
+        </Stack>
+      </Block>
+    </Surface>
+  </Case>
 </Example>
