@@ -643,6 +643,10 @@
   }
   .top-float {
     min-width: 0;
+    // The Floating draws the frame, so the bar's own line along its bottom would double it
+    > :global([data-role='toolbar']) {
+      border-bottom: 0;
+    }
   }
   // The seat of a control that opens a closed side again: no box of its own, so that its Floating
   // keeps its own size and places itself against the stage

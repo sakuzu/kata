@@ -223,9 +223,9 @@ the grip belong to the dock under the stage only.
 
 With `topFloating`, the narrow form floats the bar over the stage in a
 [Floating](../components/floating.md) gap-md from the top of the stage
-and from each side, instead of keeping its height above it. The stage
-then fills the shell, and the drawing shows under the bar. From 48rem
-the bar keeps its place.
+and from each side, instead of keeping its height above it; the frame
+of the Floating is the bar's only line. The stage then fills the shell,
+and the drawing shows under the bar. From 48rem the bar keeps its place.
 
 ## Example
 
