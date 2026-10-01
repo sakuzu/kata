@@ -26,6 +26,13 @@ These changes will be released as 1.3.0.
   of a color field call it with the key instead of opening a ColorPicker,
   so that the application opens its own; and `FieldList end`, one row
   after the fields for an action on all of them, such as a reset.
+- Added: `Shortcut aliases` (more keys that run it, not listed),
+  `Shortcut hidden` (it runs but is not listed) and `Shortcut display`
+  (the keys listed instead of `key`, joined with " / "). The key `digit`
+  matches any of 0 to 9 and is written 0–9; a modifier alone (`alt`,
+  `shift`, `mod`) matches the press of that key by itself and is written
+  ⌥, ⇧ and ⌘ on a Mac and Alt, Shift and Ctrl elsewhere. `isMacPlatform`
+  is exported.
 
 ## [1.2.0] - 2026-10-01
 

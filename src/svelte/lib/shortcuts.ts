@@ -2,7 +2,8 @@
 // the platform: modifiers joined with +, then one key, for example "mod+z", "shift+mod+z", "alt+l"
 // or "?". mod is ⌘ on a Mac and Ctrl elsewhere. The key is one character or a name: escape, enter,
 // tab, space, backspace, delete, plus, minus, the arrows (up, down, left, right), home, end,
-// pageup, pagedown and f1 to f12.
+// pageup, pagedown and f1 to f12. digit is any of 0 to 9. A modifier alone ("alt", "shift", "mod")
+// is the press of that key by itself.
 
 /** One shortcut of a Shell: the key, its name in the list, and what it does */
 export interface Shortcut {
@@ -19,6 +20,12 @@ export interface Shortcut {
   when?: () => boolean;
   /** The group it is listed under; shortcuts without a group come first */
   group?: string;
+  /** More keys that run it, written as key is; they are not listed (backspace for delete) */
+  aliases?: string[];
+  /** Runs, but is not listed */
+  hidden?: boolean;
+  /** The keys the list shows instead of key, each written as key is, joined with " / " */
+  display?: string[];
 }
 
 interface Combo {
@@ -46,6 +53,7 @@ const NAMES: Record<string, string> = {
   end: 'End',
   pageup: 'PgUp',
   pagedown: 'PgDn',
+  digit: '0–9',
 };
 const MAC_NAMES: Record<string, string> = { backspace: '⌫', delete: '⌦', enter: '↩' };
 
@@ -100,7 +108,7 @@ function keyText(key: string, mac: boolean): string {
 
 /**
  * The key as the platform writes it: symbols on a Mac (⌃⌥⇧⌘ in that order, then the key), words
- * elsewhere (Ctrl+Alt+Shift+Z).
+ * elsewhere (Ctrl+Alt+Shift+Z). A modifier alone is its symbol or its word ("⌥", "Alt").
  *
  *   formatShortcut('shift+mod+z')   // "⇧⌘Z" on a Mac, "Ctrl+Shift+Z" elsewhere
  */
@@ -114,13 +122,14 @@ export function formatShortcut(key: string, mac: boolean = isMacPlatform()): str
   if (c.mod || c.ctrl) mods.push('Ctrl');
   if (c.alt) mods.push('Alt');
   if (c.shift) mods.push('Shift');
-  return [...mods, k].join('+');
+  return (c.key ? [...mods, k] : mods).join('+');
 }
 
 /** A character that needs Shift on some keyboards and not on others: Shift is not compared */
 const symbol = (key: string) => key.length === 1 && !/[a-z0-9]/.test(key);
 
 function sameKey(key: string, e: KeyboardEvent): boolean {
+  if (key === 'digit') return /^[0-9]$/.test(e.key) || /^Digit[0-9]$/.test(e.code);
   const named = KEY_OF[key];
   if (named) return named.includes(e.key);
   if (/^f\d{1,2}$/.test(key)) return e.key.toLowerCase() === key;
@@ -139,13 +148,44 @@ export function matchesShortcut(
   mac: boolean = isMacPlatform(),
 ): boolean {
   const c = parse(key);
-  if (!c.key) return false;
+  if (!c.key) return modifierAlone(c, e, mac);
   if (e.metaKey !== (mac ? c.mod : false)) return false;
   if (e.ctrlKey !== (mac ? c.ctrl : c.mod || c.ctrl)) return false;
   if (e.altKey !== c.alt) return false;
   const named = c.key === 'plus' || c.key === 'minus';
   if (!symbol(c.key) && !named && e.shiftKey !== c.shift) return false;
   return sameKey(c.key, e);
+}
+
+/** The key of a modifier pressed by itself: the event of that key, with no other modifier held */
+function modifierAlone(c: Combo, e: KeyboardEvent, mac: boolean): boolean {
+  const meta = mac && c.mod;
+  const ctrl = mac ? c.ctrl : c.mod || c.ctrl;
+  const wanted = [meta, ctrl, c.alt, c.shift].filter(Boolean).length;
+  if (wanted !== 1) return false;
+  if (e.metaKey !== meta || e.ctrlKey !== ctrl || e.altKey !== c.alt || e.shiftKey !== c.shift)
+    return false;
+  if (meta) return e.key === 'Meta';
+  if (ctrl) return e.key === 'Control';
+  if (c.alt) return e.key === 'Alt';
+  return e.key === 'Shift';
+}
+
+/** Whether a key event is one of the keys of a shortcut: its key or one of its aliases */
+export function matchesAnyShortcut(
+  s: Pick<Shortcut, 'key' | 'aliases'>,
+  e: KeyboardEvent,
+  mac: boolean = isMacPlatform(),
+): boolean {
+  return [s.key, ...(s.aliases ?? [])].some((key) => matchesShortcut(key, e, mac));
+}
+
+/** The keys of a shortcut as the list shows them: display, or key, joined with " / " */
+export function shortcutText(
+  s: Pick<Shortcut, 'key' | 'display'>,
+  mac: boolean = isMacPlatform(),
+): string {
+  return (s.display ?? [s.key]).map((key) => formatShortcut(key, mac)).join(' / ');
 }
 
 /** Whether the element takes typed text, so that keys belong to it */

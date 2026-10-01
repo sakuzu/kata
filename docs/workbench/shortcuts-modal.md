@@ -13,15 +13,17 @@ already opens it with the help key and lists its `shortcuts`.
 | Prop | Default | Description |
 | --- | --- | --- |
 | `open` | `false` | Whether it is open (bindable) |
-| `shortcuts` | required | The shortcuts, `{ key, label, group? }[]` |
+| `shortcuts` | required | The shortcuts, `{ key, label, group? }[]` (below) |
 | `title` | `keyboardShortcuts` message | The title of the modal |
 | `mac` | the platform | `true` writes the keys as a Mac does |
 | `onclose` | | Called when it closes |
 | `inline` | `false` | The same surface in the flow, for documentation |
 
 `key` is written as a Shell's shortcut is (`mod+z`), and `label` says
-what the shortcut does. A whole `Shortcut` can be passed; `run` and
-`when` are not read.
+what the shortcut does. `display` lists other keys in its place, each
+written as `key` is and joined with " / "; a `hidden` shortcut is not
+listed. A whole `Shortcut` can be passed; `run`, `when` and `aliases`
+are not read.
 
 ## Contract
 
@@ -32,7 +34,8 @@ the group as its title, in the order the groups first appear. Each
 shortcut is a [ListItem](../components/list-item.md) that is only read,
 with a line under it: the label on the left, clipped to one line, and
 the key on the right as a bare [Kbd](../components/kbd.md), written as
-the platform writes it (⇧⌘Z on a Mac, Ctrl+Shift+Z elsewhere).
+the platform writes it (⇧⌘Z on a Mac, Ctrl+Shift+Z elsewhere; `digit`
+as 0–9).
 
 ## Example
 

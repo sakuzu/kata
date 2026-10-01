@@ -47,17 +47,30 @@ pointer through to it everywhere but its regions.
 type of `side` is `ShellSide`). `onescape` returns `false` to leave the key to the
 browser.
 
-A `Shortcut` is `{ key, label, run, when?, group? }`. `key` is written
-without regard to the platform: modifiers joined with `+`, then one key,
-such as `mod+z`, `shift+mod+z`, `alt+l` or `?`; `mod` is ⌘ on a Mac and
-Ctrl elsewhere, and named keys are `escape`, `enter`, `tab`, `space`,
-`backspace`, `delete`, `plus`, `minus`, the arrows `up`, `down`, `left`
-and `right`, `home`, `end`, `pageup`, `pagedown` and `f1` to `f12`.
-`run` is called with the key event; when it returns `false` the key goes
-on to the next shortcut with the same key, and to the browser. `when`
-says whether the shortcut acts now, and `group` is the heading it is
-listed under. `formatShortcut(key)` writes a key as the platform does
-(⇧⌘Z on a Mac, Ctrl+Shift+Z elsewhere), for a tooltip or a menu.
+A `Shortcut` is
+`{ key, label, run, when?, group?, aliases?, hidden?, display? }`. `key`
+is written without regard to the platform: modifiers joined with `+`,
+then one key, such as `mod+z`, `shift+mod+z`, `alt+l` or `?`; `mod` is ⌘
+on a Mac and Ctrl elsewhere, and named keys are `escape`, `enter`,
+`tab`, `space`, `backspace`, `delete`, `plus`, `minus`, the arrows `up`,
+`down`, `left` and `right`, `home`, `end`, `pageup`, `pagedown` and `f1`
+to `f12`. `digit` is any of the keys 0 to 9, and `run` reads which one
+from the key event. A modifier alone (`alt`, `shift` or `mod`) is the
+press of that key with no other key. `run` is called with the key event;
+when it returns `false` the key goes on to the next shortcut with the
+same key, and to the browser. `when` says whether the shortcut acts now,
+and `group` is the heading it is listed under.
+
+| Key | Description |
+| --- | --- |
+| `aliases` | More keys that run it, not listed (`backspace` for `delete`) |
+| `hidden` | It runs but is not listed |
+| `display` | The keys listed instead of `key`, joined with " / " |
+
+`formatShortcut(key)` writes a key as the platform does (⇧⌘Z on a Mac,
+Ctrl+Shift+Z elsewhere; `digit` as 0–9, and a modifier alone as ⌥ or
+Alt), for a tooltip or a menu, and `isMacPlatform()` says whether the
+platform is a Mac, where `mod` is ⌘.
 
 ## Snippets
 

@@ -22,7 +22,7 @@
     isEditable,
     isHelpKey,
     isMacPlatform,
-    matchesShortcut,
+    matchesAnyShortcut,
     type Shortcut,
   } from '../lib/shortcuts.js';
   import { createNarrow, setAppContainer, WIDTHS } from '../lib/viewport.svelte.js';
@@ -264,7 +264,7 @@
     const mac = isMacPlatform();
     for (const s of shortcuts) {
       if (s.when && !s.when()) continue;
-      if (!matchesShortcut(s.key, e, mac)) continue;
+      if (!matchesAnyShortcut(s, e, mac)) continue;
       if (s.run(e) === false) continue;
       e.preventDefault();
       return;

@@ -1,6 +1,6 @@
 <script lang="ts">
   import '../styles/components.css';
-  import { formatShortcut, isMacPlatform, type Shortcut } from '../lib/shortcuts.js';
+  import { isMacPlatform, type Shortcut, shortcutText } from '../lib/shortcuts.js';
   import { getMessages } from '../messages.js';
   import Kbd from './Kbd.svelte';
   import List from './List.svelte';
@@ -11,9 +11,10 @@
   import Text from './Text.svelte';
 
   // ShortcutsModal: the list of keyboard shortcuts, in a Modal. One row for each shortcut: what it
-  // does on the left, the key on the right, written as the platform writes it (formatShortcut).
-  // Shortcuts without a group come first, without a heading; then one Section for each group, in
-  // the order the groups first appear. Only the label and the key are read; run and when are not.
+  // does on the left, the key on the right, written as the platform writes it (formatShortcut), or
+  // the keys of display joined with " / ". A hidden shortcut is not listed, and aliases are not
+  // shown. Shortcuts without a group come first, without a heading; then one Section for each
+  // group, in the order the groups first appear. run, when and aliases are not read.
   // A Shell opens it with the help key; an application can also open it from a menu.
   //
   //   <ShortcutsModal bind:open {shortcuts} />
@@ -26,8 +27,8 @@
     onclose,
   }: {
     open?: boolean;
-    /** The shortcuts to list; only key, label and group are read */
-    shortcuts: Pick<Shortcut, 'key' | 'label' | 'group'>[];
+    /** The shortcuts to list; only key, label, group, display and hidden are read */
+    shortcuts: Pick<Shortcut, 'key' | 'label' | 'group' | 'display' | 'hidden'>[];
     /** The title; the keyboardShortcuts string by default */
     title?: string;
     /** Writes the keys as a Mac does; by default, as the platform does */
@@ -38,10 +39,11 @@
   } = $props();
 
   const onMac = $derived(mac ?? isMacPlatform());
-  const loose = $derived(shortcuts.filter((s) => !s.group));
+  const listed = $derived(shortcuts.filter((s) => !s.hidden));
+  const loose = $derived(listed.filter((s) => !s.group));
   const groups = $derived.by(() => {
     const out = new Map<string, typeof shortcuts>();
-    for (const s of shortcuts) {
+    for (const s of listed) {
       if (!s.group) continue;
       out.set(s.group, [...(out.get(s.group) ?? []), s]);
     }
@@ -54,7 +56,7 @@
     {#each list as s, i (`${i}:${s.key}`)}
       <ListItem columns="minmax(0, 1fr) auto" plain rule>
         <Text clamp>{s.label}</Text>
-        <Kbd bare>{formatShortcut(s.key, onMac)}</Kbd>
+        <Kbd bare>{shortcutText(s, onMac)}</Kbd>
       </ListItem>
     {/each}
   </List>
