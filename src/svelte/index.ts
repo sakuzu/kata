@@ -110,8 +110,15 @@ export { default as SelectionSummary } from './components/SelectionSummary.svelt
 export { default as SettingsPage } from './components/SettingsPage.svelte';
 export { default as SettingsRow } from './components/SettingsRow.svelte';
 export { default as SettingsSection } from './components/SettingsSection.svelte';
+export type { SheetStage } from './components/Sheet.svelte';
 export { default as Sheet } from './components/Sheet.svelte';
-export type { ShellLayout, ShellMode, ShellSide, ShellWidth } from './components/Shell.svelte';
+export type {
+  ShellLayout,
+  ShellMode,
+  ShellSheet,
+  ShellSide,
+  ShellWidth,
+} from './components/Shell.svelte';
 export { default as Shell } from './components/Shell.svelte';
 export { default as ShortcutsModal } from './components/ShortcutsModal.svelte';
 export { default as Slider } from './components/Slider.svelte';

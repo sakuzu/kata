@@ -4,6 +4,7 @@ import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
 import Shell, { type ShellLayout } from '../../src/svelte/components/Shell.svelte';
 import ShortcutsModal from '../../src/svelte/components/ShortcutsModal.svelte';
 import { formatShortcut, matchesShortcut } from '../../src/svelte/lib/shortcuts.js';
+import ShellStageHarness from './ShellStageHarness.svelte';
 
 const html = (markup: string) => createRawSnippet(() => ({ render: () => markup }));
 const regions = {
@@ -172,6 +173,58 @@ describe('Shell', () => {
     });
     expect(second.container.querySelector('[data-sheet]')).toBeNull();
     expect(region(second.container, 'left')?.closest('[data-role="floating"]')).not.toBeNull();
+  });
+
+  it('keeps a left sheet that does not close at its lowest height while leftOpen is false', async () => {
+    const { container, rerender } = render(Shell, {
+      ...regions,
+      narrow: true,
+      leftOpen: false,
+      leftSheet: { stages: ['peek', 'full'], closable: false },
+    });
+    await tick();
+    const sheet = container.querySelector('[data-sheet="left"]');
+    expect(sheet?.getAttribute('data-stage')).toBe('peek');
+    // Below the lowest height it does not close
+    sheet
+      ?.querySelector('button')
+      ?.dispatchEvent(
+        new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true, cancelable: true }),
+      );
+    await tick();
+    expect(container.querySelector('[data-sheet="left"]')?.getAttribute('data-stage')).toBe('peek');
+    // Opened, it shows its stage; closed again, it rests at the lowest height
+    await rerender({ leftOpen: true, leftStage: 'full' });
+    await tick();
+    expect(container.querySelector('[data-sheet="left"]')?.getAttribute('data-stage')).toBe('full');
+    await rerender({ leftOpen: false });
+    await tick();
+    expect(container.querySelector('[data-sheet="left"]')?.getAttribute('data-stage')).toBe('peek');
+    // Raised from its lowest height, it opens again
+    container.querySelector<HTMLElement>('[data-sheet="left"] button')?.click();
+    await tick();
+    expect(container.querySelector('[data-sheet="left"]')?.getAttribute('data-stage')).toBe('full');
+  });
+
+  it('reads and writes the height of the left sheet with leftStage', async () => {
+    const onstage = vi.fn();
+    const { container, rerender } = render(ShellStageHarness, {
+      ...regions,
+      narrow: true,
+      height: 'peek',
+      onstage,
+    });
+    await tick();
+    const sheet = () => container.querySelector('[data-sheet="left"]');
+    expect(sheet()?.getAttribute('data-stage')).toBe('peek');
+    // A press on the handle steps up, and the binding reads the new height
+    sheet()?.querySelector('button')?.click();
+    await tick();
+    expect(sheet()?.getAttribute('data-stage')).toBe('half');
+    expect(onstage).toHaveBeenLastCalledWith('half');
+    await rerender({ height: 'full' });
+    await tick();
+    expect(sheet()?.getAttribute('data-stage')).toBe('full');
   });
 
   it('opens and closes each floating pane on its own', async () => {

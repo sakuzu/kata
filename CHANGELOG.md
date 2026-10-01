@@ -12,6 +12,12 @@ These changes will be released as 1.5.0.
   width (`true`) or never (`false`), for a short window or a small frame.
   `onlayout` reports the width it decides. Without it, the width decides
   as before.
+- Added: `Shell leftSheet` and `rightSheet` (`ShellSheet`), the heights
+  each side's sheet offers and whether it closes on a narrow screen. A
+  sheet with `closable: false` stays at its lowest height while its
+  region is not open, and raising it opens the region. `Shell leftStage`
+  and `rightStage` (bindable) are the height of each sheet while open.
+  The type `SheetStage` is exported.
 
 ## [1.4.1] - 2026-10-02
 

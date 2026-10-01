@@ -15,6 +15,7 @@
     Row,
     SectionHeader,
     Shell,
+    type SheetStage,
     type ShellLayout,
     type Shortcut,
     Stack,
@@ -73,6 +74,9 @@
   let besideRight = $state(true);
   let besideLayout = $state<ShellLayout>();
   let narrowLeft = $state(true);
+  let restLeft = $state(false);
+  let restRight = $state(false);
+  let restStage = $state<SheetStage>('half');
 </script>
 
 {#snippet bar()}
@@ -148,6 +152,13 @@
   </Panel>
 {/snippet}
 
+{#snippet selection()}
+  <Panel label="Selection">
+    {#snippet head()}<Toolbar title="Selection" rule />{/snippet}
+    <Block><Text muted>Nothing is selected.</Text></Block>
+  </Panel>
+{/snippet}
+
 {#snippet surface()}<div class="grid" aria-label="Drawing" role="img"></div>{/snippet}
 
 {#snippet loadingNote()}<Text muted>Loading the drawing</Text>{/snippet}
@@ -217,6 +228,23 @@
         leftLabel="Contents"
         top={plainBar}
         left={contents}
+        stage={surface}
+        bottom={toolbar}
+      />
+    </div>
+  </Case>
+  <Case label="A left sheet that does not close and controls that open the closed sides again">
+    <div class="frame">
+      <Shell
+        bind:leftOpen={restLeft}
+        bind:rightOpen={restRight}
+        bind:leftStage={restStage}
+        leftSheet={{ stages: ['peek', 'half', 'full'], closable: false }}
+        leftLabel="Contents"
+        rightLabel="Selection"
+        top={plainBar}
+        left={contents}
+        right={selection}
         stage={surface}
         bottom={toolbar}
       />

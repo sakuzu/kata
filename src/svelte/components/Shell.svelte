@@ -1,10 +1,19 @@
 <script lang="ts" module>
+  import type { SheetStage } from './Sheet.svelte';
+
   /** The band of the window's width: wide (64rem and more), mid (48 to 64rem) or narrow */
   export type ShellWidth = 'wide' | 'mid' | 'narrow';
   /** Where a side region is: beside the stage, floating over it, or a sheet from the bottom */
   export type ShellMode = 'beside' | 'floating' | 'sheet';
   /** Where the side regions are above the narrow width: floating over the stage, or beside it */
   export type ShellSide = 'floating' | 'beside';
+  /** The sheet of a side region on a narrow screen: the heights it offers and whether it closes */
+  export interface ShellSheet {
+    /** The heights offered, lowest first; all three by default */
+    stages?: SheetStage[];
+    /** Below the lowest height it closes (the default); with false it stays there */
+    closable?: boolean;
+  }
   /** What onlayout reports */
   export interface ShellLayout {
     width: ShellWidth;
@@ -74,6 +83,10 @@
     overlay = false,
     leftLabel,
     rightLabel,
+    leftSheet,
+    rightSheet,
+    leftStage = $bindable('half'),
+    rightStage = $bindable('half'),
     onlayout,
     onescape,
     top,
@@ -105,6 +118,13 @@
     /** The names of the sheets that hold the side regions on a narrow screen */
     leftLabel?: string;
     rightLabel?: string;
+    /** The heights each side's sheet offers, and whether it closes; a sheet that does not close
+     * stays at its lowest height while its region is not open */
+    leftSheet?: ShellSheet;
+    rightSheet?: ShellSheet;
+    /** The height of each side's sheet while its region is open */
+    leftStage?: SheetStage;
+    rightStage?: SheetStage;
     /** Called with the width and the place of each side region, and again when they change */
     onlayout?: (layout: ShellLayout) => void;
     /** Escape when no sheet is left to close; returning false leaves the key to the browser */
@@ -174,6 +194,37 @@
 
   const region = (side: Side) => (side === 'left' ? left : right);
   const shown = (side: Side) => order.includes(side);
+  const ALL_STAGES: SheetStage[] = ['peek', 'half', 'full'];
+  const sheetOf = (side: Side) => (side === 'left' ? leftSheet : rightSheet);
+  const stagesOf = (side: Side) => sheetOf(side)?.stages ?? ALL_STAGES;
+  const closableOf = (side: Side) => sheetOf(side)?.closable ?? true;
+  // The sheets on a narrow screen: those that do not close rest at their lowest height while their
+  // region is not open, under the open ones, which are on top in the order they were opened
+  const sheets = $derived(
+    mode === 'sheet'
+      ? [
+          ...(['left', 'right'] as const).filter(
+            (side) => !closableOf(side) && !!region(side) && !shown(side),
+          ),
+          ...order,
+        ]
+      : [],
+  );
+  /** The height a sheet shows: its stage while open, its lowest height while it rests */
+  function sheetStage(side: Side): SheetStage {
+    if (!shown(side)) return stagesOf(side)[0];
+    return side === 'left' ? leftStage : rightStage;
+  }
+  /** A change of height from the sheet; raising a resting sheet opens its region */
+  function setSheetStage(side: Side, next: SheetStage) {
+    if (side === 'left') {
+      leftStage = next;
+      leftOpen = true;
+    } else {
+      rightStage = next;
+      rightOpen = true;
+    }
+  }
   // The floating panes, the left one first whatever the order they were opened in
   const floating = $derived((['left', 'right'] as const).filter(shown));
 
@@ -189,7 +240,7 @@
   // The height of the sheets, which the toolbar rises above
   const sheetH = $state<Record<Side, number>>({ left: 0, right: 0 });
   const lift = $derived(
-    mode === 'sheet' ? Math.max(0, ...order.map((side) => sheetH[side])) : 0,
+    mode === 'sheet' ? Math.max(0, ...sheets.map((side) => sheetH[side])) : 0,
   );
   function measure(side: Side): Attachment<HTMLElement> {
     return (seat) => {
@@ -205,7 +256,6 @@
       };
     };
   }
-  let sheetStage = $state<Record<Side, 'peek' | 'half' | 'full'>>({ left: 'half', right: 'half' });
 
   // ---- The dock's grip ----
   let dockEl = $state<HTMLElement>();
@@ -319,14 +369,15 @@
             </Floating>
           {/each}
         {:else if mode === 'sheet'}
-          {#each order as side (side)}
+          {#each sheets as side (side)}
             <div class="sheet-seat" data-region={side} {@attach measure(side)}>
               <Sheet
                 pane
-                closable
+                closable={closableOf(side)}
+                stages={stagesOf(side)}
                 name={side}
                 label={side === 'left' ? leftLabel : rightLabel}
-                bind:stage={sheetStage[side]}
+                bind:stage={() => sheetStage(side), (next) => setSheetStage(side, next)}
                 onclose={() => close(side)}
               >
                 {@render seat(side)}

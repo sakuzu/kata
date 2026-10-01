@@ -41,6 +41,10 @@ pointer through to it everywhere but its regions.
 | `overlay` | `false` | Lets the pointer through, except on its regions |
 | `leftLabel` | | The name of the left region's sheet |
 | `rightLabel` | | The name of the right region's sheet |
+| `leftSheet` | | The left sheet's heights and closing, `ShellSheet` |
+| `rightSheet` | | The right sheet's heights and closing, `ShellSheet` |
+| `leftStage` | `'half'` | The left sheet's height while open (bindable) |
+| `rightStage` | `'half'` | The right sheet's height while open (bindable) |
 | `onlayout` | | Called with `{ width, leftMode, rightMode }` when they change |
 | `onescape` | | Called with Escape when no sheet is left to close |
 
@@ -48,6 +52,12 @@ pointer through to it everywhere but its regions.
 `floating` or `sheet` (`ShellLayout`, `ShellWidth` and `ShellMode`; the
 type of `side` is `ShellSide`). `onescape` returns `false` to leave the key to the
 browser.
+
+A `ShellSheet` is `{ stages?, closable? }`: `stages` are the heights the
+sheet offers, lowest first (`SheetStage[]`, all three by default), and
+`closable: false` keeps the sheet when it is dragged below the lowest
+height (it closes by default). A stage is `peek`, `half` or `full`
+(`SheetStage`).
 
 A `Shortcut` is
 `{ key, label, run, when?, group?, aliases?, hidden?, display? }`. `key`
@@ -160,6 +170,17 @@ regions are sheets and `onlayout` reports the width as `narrow`, as for
 a short window or a shell embedded in a small frame. With
 `narrow={false}` it never does: below 48rem the width is `mid` and the
 side regions float. Without it, the width decides.
+
+On a narrow screen, `leftSheet` and `rightSheet` set the heights each
+side's sheet offers and whether it closes. A sheet with
+`closable: false` does not close below its lowest height, and while its
+region is not open (`leftOpen` or `rightOpen` is false) it stays at that
+height, so that its head still shows; raising it opens the region again.
+It rests under the sheets that are open, Escape passes it by, and the
+toolbar rises above it too. `leftStage` and `rightStage` are the height
+of each sheet while its region is open: the application reads them and
+can set them, to lower a sheet to its lowest height instead of closing
+it, say.
 
 ## Example
 

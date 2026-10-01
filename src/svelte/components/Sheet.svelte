@@ -1,3 +1,8 @@
+<script lang="ts" module>
+  /** A height of a Sheet: peek (the handle and the head), half or full */
+  export type SheetStage = 'peek' | 'half' | 'full';
+</script>
+
 <script lang="ts">
   import '../styles/components.css';
   import type { Snippet } from 'svelte';
@@ -19,7 +24,7 @@
   //     {#snippet head()}…{/snippet}
   //     <Stack gap="md">…</Stack>
   //   </Sheet>
-  type Stage = 'peek' | 'half' | 'full';
+  type Stage = SheetStage;
   let {
     stage = $bindable('half'),
     stages = ['peek', 'half', 'full'],
