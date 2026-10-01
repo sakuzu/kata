@@ -4,7 +4,7 @@
   import Magnet from '@lucide/svelte/icons/magnet';
   import MousePointer from '@lucide/svelte/icons/mouse-pointer';
   import Type from '@lucide/svelte/icons/type';
-  import { Drawbar, type DrawbarToggle, type DrawbarTool } from '@sakuzu/kata/svelte';
+  import { Drawbar, type DrawbarToggle, type DrawbarTool, Toggle } from '@sakuzu/kata/svelte';
   import Case from '../_shared/Case.svelte';
   import Example from '../_shared/Example.svelte';
 
@@ -24,6 +24,19 @@
   const toggles: DrawbarToggle[] = $derived([
     { id: 'snap', label: 'Snap', icon: Magnet, kbd: '⇧S', on: snap, onchange: (v) => (snap = v) },
     { id: 'grid', label: 'Grid', icon: Grid, kbd: '⇧G', on: grid, onchange: (v) => (grid = v) },
+  ]);
+  // A switch whose settings open in a popover: it shows on while any kind of snapping is on
+  let vertices = $state(true);
+  let edges = $state(false);
+  const snapping: DrawbarToggle[] = $derived([
+    {
+      id: 'snapping',
+      label: 'Snapping',
+      icon: Magnet,
+      on: vertices || edges,
+      onchange: () => {},
+      popover: snapSettings,
+    },
   ]);
   const deleteTool: DrawbarTool = {
     id: 'delete',
@@ -64,7 +77,23 @@
       />
     </div>
   </Case>
+  <Case label="A switch with a popover: its settings open above the bar">
+    <div class="area">
+      <Drawbar
+        label="Tools"
+        tools={tools.slice(0, 4)}
+        toggles={snapping}
+        current={tool}
+        onselect={(id) => (tool = id)}
+      />
+    </div>
+  </Case>
 </Example>
+
+{#snippet snapSettings()}
+  <Toggle label="To vertices" bind:checked={vertices} between />
+  <Toggle label="To edges" bind:checked={edges} between />
+{/snippet}
 
 <style>
   /* The stage: a positioned container */

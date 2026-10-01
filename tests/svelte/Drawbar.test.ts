@@ -1,5 +1,5 @@
 import { fireEvent, render } from '@testing-library/svelte';
-import { tick } from 'svelte';
+import { createRawSnippet, tick } from 'svelte';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import Drawbar, {
   type DrawbarToggle,
@@ -55,6 +55,25 @@ describe('Drawbar', () => {
     expect(getByRole('button', { name: 'Grid' }).getAttribute('aria-pressed')).toBe('false');
     await fireEvent.click(snap);
     expect(onchange).toHaveBeenCalledWith(false);
+  });
+
+  it('opens the popover of a switch instead of reporting a state', async () => {
+    const onchange = vi.fn();
+    const popover = createRawSnippet(() => ({ render: () => '<p>Snap to vertices</p>' }));
+    const { getByRole, queryByText, findByText } = render(Drawbar, {
+      tools,
+      toggles: [{ ...toggle('snap', true, onchange), popover }],
+    });
+    const snap = getByRole('button', { name: 'Snap' });
+    expect(snap.getAttribute('aria-haspopup')).toBe('true');
+    expect(snap.getAttribute('aria-expanded')).toBe('false');
+    expect(snap.getAttribute('aria-pressed')).toBe('true');
+    expect(queryByText('Snap to vertices')).toBeNull();
+    await fireEvent.click(snap);
+    await tick();
+    expect(await findByText('Snap to vertices')).toBeTruthy();
+    expect(snap.getAttribute('aria-expanded')).toBe('true');
+    expect(onchange).not.toHaveBeenCalled();
   });
 
   it('marks the current tool and reports the tool that is pressed', async () => {

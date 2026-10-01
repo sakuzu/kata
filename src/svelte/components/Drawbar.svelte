@@ -1,4 +1,5 @@
 <script lang="ts" module>
+  import type { Snippet } from 'svelte';
   import type { IconSource } from '../icons.js';
 
   /** One tool of a Drawbar */
@@ -28,6 +29,11 @@
     /** The key that switches it, shown in its tooltip */
     kbd?: string;
     disabled?: boolean;
+    /**
+     * The settings of the aid: pressing the switch opens a Popover with this snippet, which
+     * receives the close function, instead of calling onchange
+     */
+    popover?: Snippet<[close: () => void]>;
   }
 </script>
 
@@ -41,6 +47,7 @@
   import Icon from './Icon.svelte';
   import MenuDivider from './MenuDivider.svelte';
   import MenuItem from './MenuItem.svelte';
+  import Popover from './Popover.svelte';
 
   // Drawbar: the toolbar of drawing tools that floats at the bottom centre of the stage.
   // Each tool is a ghost icon button; the current tool is on. Tools with the same group sit side by
@@ -53,7 +60,8 @@
   // tools and switches that do not fit fold into a "More" menu at the right end: the current tool
   // always shows, then the others from the start as long as they fit. Pressing a tool calls
   // onselect with its id; the application decides what is current. Pressing a switch calls its
-  // onchange with the state it asks for. Each button shows its name and its key in a Tooltip.
+  // onchange with the state it asks for; a switch with a popover opens it above the bar instead,
+  // and on is only what it shows. Each button shows its name and its key in a Tooltip.
   //
   //   <Drawbar label="Tools" {tools} {toggles} current={tool} onselect={(id) => (tool = id)} />
   type Step = '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
@@ -180,6 +188,27 @@
             aria-pressed={t.id === current}
             onclick={() => onselect?.(t.id)}><Icon name={t.icon} /></Button
           >
+        {:else if item.toggle.popover}
+          {@const s = item.toggle}
+          {@const content = item.toggle.popover}
+          <Popover align="end" up>
+            {#snippet anchor(toggle, open)}
+              <Button
+                variant="ghost"
+                icon
+                on={s.on}
+                disabled={s.disabled}
+                aria-label={s.label}
+                aria-keyshortcuts={s.kbd}
+                shortcut={s.kbd}
+                aria-pressed={s.on}
+                aria-haspopup="true"
+                aria-expanded={open}
+                onclick={toggle}><Icon name={s.icon} /></Button
+              >
+            {/snippet}
+            {#snippet children(close)}{@render content(close)}{/snippet}
+          </Popover>
         {:else}
           {@const s = item.toggle}
           <Button

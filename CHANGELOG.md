@@ -14,6 +14,12 @@ These changes will be released as 1.3.0.
 - Added: `InspectorSection value`, the current value shown muted on the
   right of the head, before the actions, as a Disclosure shows it. It
   shows whether the section folds or not, and while it is closed.
+- Added: `DrawbarToggle popover`, a snippet of `(close)`. Pressing such a
+  switch opens a Popover with it, lined up with the switch's end and
+  above the bar, instead of calling `onchange`; the switch has
+  `aria-haspopup="true"` and `aria-expanded`, and `on` stays what it
+  shows. `Dropdown up` and `Popover up` open above the trigger first,
+  and below only when there is no room above.
 
 ## [1.2.0] - 2026-10-01
 

@@ -15,6 +15,7 @@ with `menu`); a form or a choice that stops the work is a
 | --- | --- | --- |
 | `anchor` | required | The trigger: a snippet of `(toggle, open)` |
 | `align` | `start` | The edge of the trigger it lines up with |
+| `up` | `false` | Opens above the trigger, below only without room |
 | `gap` | `sm` | `0`, `sm`, `md` or `lg` between the children |
 | `openInitially` | `false` | Open from the start |
 | `children` | required | The content: a snippet of `(close)` |
@@ -24,7 +25,8 @@ with `menu`); a form or a choice that stops the work is a
 The surface is a [Bubble](bubble.md): the panel color, a strong line,
 the width of a popover and pad-md inside. It is placed as a
 [Dropdown](dropdown.md) is: in the top layer, below the trigger (above
-it when there is no room below), inside the window at the sides. A press
+it when there is no room below; with `up`, above it, and below only when
+there is no room above), inside the window at the sides. A press
 outside, Escape or Tab closes it.
 
 ## Example

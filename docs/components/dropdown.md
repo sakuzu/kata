@@ -21,6 +21,7 @@ are a [Kebab](kebab.md).
 | `menu` | `false` | The content is a list of MenuItem |
 | `bare` | `false` | The content has its own container |
 | `align` | `end` | The edge of the trigger it lines up with |
+| `up` | `false` | Opens above the trigger, below only without room |
 | `openInitially` | `false` | Open from the start |
 | `menuMaxWidth` | | The greatest width, a CSS length |
 | `block` | `false` | The trigger is as wide as its container |
@@ -32,13 +33,15 @@ are a [Kebab](kebab.md).
 The place is a popover in the top layer, so a modal or a panel around
 the trigger does not hide it. It opens 4px below the trigger, lined up
 with its `align` edge, or above it when there is less room below than
-its height (or 120px); it stays 8px inside the window. With `menu`, it
-has the surface of a [Menu](menu.md) and `role="menu"`, the first item
-takes the focus, the arrow keys move the focus between the items and
-wrap at the ends, and Home and End go to the first and the last. A
-press outside, Escape or Tab closes it; Escape and Tab return the focus
-to the trigger of a menu. Escape goes no further, so a modal around it
-stays open.
+its height (or 120px); it stays 8px inside the window. With `up` the
+two sides change places: it opens above the trigger, and below it when
+there is less room above than its height (or 120px) and more below.
+With `menu`, it has the surface of a [Menu](menu.md) and `role="menu"`,
+the first item takes the focus, the arrow keys move the focus between
+the items and wrap at the ends, and Home and End go to the first and the
+last. A press outside, Escape or Tab closes it; Escape and Tab return
+the focus to the trigger of a menu. Escape goes no further, so a modal
+around it stays open.
 
 ## Example
 

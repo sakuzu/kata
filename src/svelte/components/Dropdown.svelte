@@ -11,7 +11,8 @@
   // focus between the items. With bare, the content brings its own container (a picker, a list).
   //
   // It is placed from the trigger's rectangle: below it, or above when there is no room below, and
-  // pushed inside the window at the sides. A press outside, Escape or Tab closes it; Escape and Tab
+  // pushed inside the window at the sides. With up the sides are swapped: above it, or below when
+  // there is no room above (a trigger at the bottom of the stage). A press outside, Escape or Tab closes it; Escape and Tab
   // return the focus to the trigger of a menu.
   //
   //   <Dropdown menu>
@@ -26,6 +27,7 @@
     trigger,
     panel,
     align = 'end',
+    up: preferUp = false,
     openInitially = false,
     menuMaxWidth,
     menu = false,
@@ -40,6 +42,8 @@
     panel: Snippet<[() => void]>;
     /** The edge of the trigger the place lines up with (it moves back inside the window) */
     align?: 'start' | 'end';
+    /** Opens above the trigger, and below only when there is no room above */
+    up?: boolean;
     /** Open from the start */
     openInitially?: boolean;
     /** The widest the place gets (a CSS length); long names end with an ellipsis */
@@ -90,7 +94,9 @@
     panelEl.style.maxHeight = keep;
     const below = vh - r.bottom - GAP - EDGE;
     const above = r.top - GAP - EDGE;
-    const up = below < Math.min(natural, MIN_HEIGHT) && above > below;
+    const up = preferUp
+      ? !(above < Math.min(natural, MIN_HEIGHT) && below > above)
+      : below < Math.min(natural, MIN_HEIGHT) && above > below;
     const maxHeight = Math.max(MIN_HEIGHT, up ? above : below);
     const shown = Math.min(natural, maxHeight);
     const top = up ? r.top - GAP - shown : r.bottom + GAP;
