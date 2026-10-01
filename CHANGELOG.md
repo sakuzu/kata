@@ -6,7 +6,16 @@ follows semantic versioning.
 
 ## [Unreleased]
 
-These changes will be released as 1.4.0.
+## [1.4.0] - 2026-10-02
+
+What the layer panel, the comments and the shortcuts of an editor need
+from the workbench: each row of a LayerTree can hide its eye, its lock
+or its grip, refuse selection, carry a reason for a disabled eye and be
+marked current; a folded CommentList; `top` for a field of several
+lines; the matching of shortcut keys exported, symbols matched by their
+physical key, and the order of the groups in the list of shortcuts.
+Nothing changes incompatibly, except that `TreeSelectModifiers` now
+carries `pressed`.
 
 - Added: `matchesShortcut`, `matchesAnyShortcut` and `shortcutText` are
   exported, the matching and the writing of keys that a Shell uses, for
@@ -211,6 +220,7 @@ them to the rules.
   of drawing out of kata; `npm run check:package` runs publint and Are
   the Types Wrong on the package.
 
+[1.4.0]: https://github.com/sakuzu/kata/compare/v1.3.0...v1.4.0
 [1.3.0]: https://github.com/sakuzu/kata/compare/v1.2.0...v1.3.0
 [1.2.0]: https://github.com/sakuzu/kata/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/sakuzu/kata/compare/v1.0.0...v1.1.0
