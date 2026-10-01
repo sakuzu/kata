@@ -6,7 +6,15 @@ follows semantic versioning.
 
 ## [Unreleased]
 
-These changes will be released as 1.3.0.
+## [1.3.0] - 2026-10-01
+
+Openings that the editor of the reference application needs to put its own
+content into the workbench components: a band under the head of the
+InspectorFrame, the value of an InspectorSection, a popover on a Drawbar
+switch, live values and an external color picker in a FieldList, and
+aliases, hidden keys, display keys, digits and lone modifiers in the
+shortcuts. Two fixes to the text of a Toggle and to the line of Tabs.
+Nothing changes incompatibly.
 
 - Added: `InspectorFrame underHead`, a snippet placed under the head and
   above the tabs, for a band of the application such as a palette. It
@@ -157,6 +165,7 @@ them to the rules.
   of drawing out of kata; `npm run check:package` runs publint and Are
   the Types Wrong on the package.
 
+[1.3.0]: https://github.com/sakuzu/kata/compare/v1.2.0...v1.3.0
 [1.2.0]: https://github.com/sakuzu/kata/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/sakuzu/kata/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/sakuzu/kata/releases/tag/v1.0.0
