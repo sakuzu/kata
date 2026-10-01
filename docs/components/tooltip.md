@@ -33,7 +33,9 @@ leaving, on a press, on a scroll and on a resize. It goes above the
 control, gap-sm away, or below (gap-lg, clear of the pointer), right or
 left, whichever fits the window first, and never covers the control. It
 is moved to the body, or into the open modal dialog it is in, so no
-container clips it.
+container clips it. When kata is embedded in a page it does not own, it
+is moved into the nearest root marked `data-kata-root` instead of the
+body ([Embedding kata](../layout.md#embedding-kata-in-a-page-you-do-not-own)).
 
 ## Example
 

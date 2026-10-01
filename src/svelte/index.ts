@@ -163,6 +163,7 @@ export {
   readFontScale,
   setFontScale,
 } from './lib/fontScale.js';
+export { hostOf } from './lib/host.js';
 export { isMenuItem, type MenuModel, type MenuModelItem } from './lib/menuModel.js';
 export { formatShortcut, type Shortcut } from './lib/shortcuts.js';
 export { createNarrow, isNarrowerThan, WIDTHS } from './lib/viewport.svelte.js';
