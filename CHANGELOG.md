@@ -35,7 +35,9 @@ when the room is short. Nothing changes incompatibly.
   change of size in the next frame, which ends the ResizeObserver loop
   error on WebKit (#25).
 - Fixed: a dropdown or a popover opened from inside a toolbar opens from
-  the bar's edge instead of covering its line (#26).
+  the bar's edge instead of covering its line; from a vertical bar (a
+  Drawbar standing in a column) it opens beside the bar, on the left, or
+  on the right when there is no room, lined up with the trigger (#26).
 
 ## [1.5.0] - 2026-10-02
 
