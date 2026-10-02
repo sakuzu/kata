@@ -1,0 +1,1 @@
+import{E as e,M as t,N as n,P as r,X as i,Z as a,mt as o,t as s}from"./Stack-B8pUv6dR.js";var c=r(`<main class="example" data-audit=""><!></main>`);function l(r,l){var u=c(),d=i(u);s(d,{gap:`xl`,children:(r,i)=>{var o=n(),s=a(o);e(s,()=>l.children),t(r,o)},$$slots:{default:!0}}),o(u),t(r,u)}export{l as t};

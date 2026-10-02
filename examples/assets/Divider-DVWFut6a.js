@@ -1,1 +1,0 @@
-import{K as e,M as t,P as n,b as r,r as i}from"./Stack-zw3zUo_i.js";var a=n(`<div data-role="rule" role="separator"></div>`);function o(n,o){let s=i(o,`inset`,3,!1),c=i(o,`gap`,3,!1);var l=a();let u;e(()=>u=r(l,1,`rule svelte-orutl9`,null,u,{inset:s(),gap:c()})),t(n,l)}export{o as t};
