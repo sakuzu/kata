@@ -173,6 +173,14 @@
     text-decoration: underline;
     text-underline-offset: 2px;
   }
+  // The anchor of a heading (a link to it) shows only while the heading is hovered or holds the
+  // focus
+  .prose :global(:is(h1, h2, h3, h4) a[data-role='heading-anchor']) {
+    opacity: 0;
+  }
+  .prose :global(:is(h1, h2, h3, h4):is(:hover, :focus-within) a[data-role='heading-anchor']) {
+    opacity: 1;
+  }
   // Links that are terms (a table of contents) are underlined on hover only
   .prose :global(dt > a:not([data-role])) {
     text-decoration: none;

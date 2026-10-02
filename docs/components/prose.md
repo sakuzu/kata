@@ -24,7 +24,9 @@ block, pad-xl before an h2, and after a heading the heading's offset, so
 that a heading sits closer to the text it introduces. The headings take
 the roles title, h1, h2 and label. Code is one quarter step smaller than
 the text around it, links in running text are underlined and a wide table
-scrolls sideways.
+scrolls sideways. The anchor of a heading, a link marked
+`data-role="heading-anchor"` inside it, shows only while the heading is
+hovered or holds the focus.
 
 ## Example
 
