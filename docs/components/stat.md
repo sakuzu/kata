@@ -19,9 +19,12 @@ unit. Several stats side by side go in [Stats](stats.md).
 ## Contract
 
 The figure is in the num role with figures of equal width, and the name
-is a muted caption under it. Neither is trimmed, so they sit with no gap:
-their line heights are the distance. The icon is centred on the name's
-line, gap-2xs from it. A long name ends with an ellipsis.
+is a muted caption under it. Between them nothing is trimmed, so they sit
+with no gap: their line heights are the distance. At an edge (the inner
+edge of a container, or a line) a Stat trims the line that touches it, as
+[Text](text.md) does: the top of the figure, the bottom of the name. The
+icon is centred on the name's line, gap-2xs from it. A long name ends
+with an ellipsis.
 
 ## Example
 

@@ -1,8 +1,9 @@
 <script lang="ts">
   import FileText from '@lucide/svelte/icons/file-text';
-  import { Row, Stat } from '@sakuzu/kata/svelte';
+  import { Block, Divider, Row, Stack, Stat, Text } from '@sakuzu/kata/svelte';
   import Case from '../_shared/Case.svelte';
   import Example from '../_shared/Example.svelte';
+  import Surface from '../_shared/Surface.svelte';
 </script>
 
 <Example>
@@ -14,5 +15,18 @@
       <Stat label="Storage" value="1.2 GB" />
       <Stat label="Pages" value="24" icon={FileText} />
     </Row>
+  </Case>
+  <Case label="Before and after a Divider: the line is as far from the figure's ink as from the text">
+    <Surface width="16rem">
+      <Block>
+        <Stack gap="sm">
+          <Text>Plan</Text>
+          <Divider />
+          <Stat label="per month" value="$12" />
+          <Divider />
+          <Text>Up to 10 members</Text>
+        </Stack>
+      </Block>
+    </Surface>
   </Case>
 </Example>
