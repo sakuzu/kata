@@ -716,7 +716,7 @@
       min-height: 0;
     }
   }
-  // The frame of a sheet: the stage itself, so that half is half the stage
+  // The frame of a sheet: the stage itself, so that half is at most half the stage
   .sheet-seat {
     position: absolute;
     inset: 0;

@@ -1,5 +1,6 @@
 <script lang="ts" module>
-  /** A height of a Sheet: peek (the handle and the head), half or full */
+  /** A height of a Sheet: peek (the handle and the head), half (the content's height up to half
+   * the frame) or full */
   export type SheetStage = 'peek' | 'half' | 'full';
 </script>
 
@@ -9,9 +10,10 @@
   import { getMessages } from '../messages.js';
 
   // Sheet: a panel that comes up from the bottom of a narrow screen, with a strong line along its
-  // top. It has three heights: peek (the handle and the head), half and full. A press on the handle
-  // steps up through them (from the highest it returns to the lowest), the arrow keys step up and
-  // down, and a drag snaps to the nearest height on release. stages offers fewer heights.
+  // top. It has three heights: peek (the handle and the head), half (the content's height up to half
+  // the frame; a taller content scrolls) and full. A press on the handle steps up through them (from
+  // the highest it returns to the lowest), the arrow keys step up and down, and a drag snaps to the
+  // nearest height on release. stages offers fewer heights.
   //
   // The order inside is fixed: the handle, the head, the content and the foot. Only the content
   // shrinks and scrolls. It has no padding. When the content is a panel with a head of its own,
@@ -211,8 +213,10 @@
   .sheet[data-stage='peek'] > .scroll.pane :global(.scroll) {
     display: none;
   }
+  // half: the content's height up to half the frame; a taller content scrolls there
   .sheet[data-stage='half'] {
-    height: 50%;
+    height: auto;
+    max-height: 50%;
   }
   .sheet[data-stage='full'] {
     height: 100%;

@@ -33,7 +33,8 @@ positioned element, with the panel surface and a strong line along its
 top. The order inside is fixed: a handle gap-md high (a bar of two
 lines), the head, the content and the foot; only the content shrinks and
 scrolls, and it has no padding. `peek` is as high as the handle and the
-head, `half` is half the frame and `full` all of it. A press on the
+head, `half` is the content's height up to half the frame (a taller
+content scrolls there) and `full` all of the frame. A press on the
 handle steps up through the heights and returns to the lowest; ArrowUp
 and ArrowDown on the handle step up and down; a drag follows the pointer
 and snaps to the nearest height on release. With `closable`, a drag well
