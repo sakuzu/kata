@@ -6,6 +6,21 @@ follows semantic versioning.
 
 ## [Unreleased]
 
+## [1.6.1] - 2026-10-02
+
+Fixes found in an application's review. Nothing changes incompatibly.
+
+- Fixed: a menu opened from the actions of a TreeRow keeps them shown
+  while the pointer moves into it: a Dropdown (and so a Kebab and a
+  Popover) dispatches a bubbling `kata-menu-toggle` event with
+  `detail: { open }` from its trigger, and the row has `data-open` while
+  a menu of its own is open (#31).
+- Fixed: a Stat at an edge (the padding of a container, or a line) trims
+  the top of its figure and the bottom of its name, as Text does, so a
+  line is as far from its ink as from the text on the other side (#28).
+- Fixed: the centre of a Topbar is clipped at its sides only, so the
+  focus ring of a button there stays whole (#30).
+
 ## [1.6.0] - 2026-10-02
 
 What the panels and the frame of an editor need around a selection, a
@@ -385,6 +400,7 @@ them to the rules.
   of drawing out of kata; `npm run check:package` runs publint and Are
   the Types Wrong on the package.
 
+[1.6.1]: https://github.com/sakuzu/kata/compare/v1.6.0...v1.6.1
 [1.6.0]: https://github.com/sakuzu/kata/compare/v1.5.1...v1.6.0
 [1.5.1]: https://github.com/sakuzu/kata/compare/v1.5.0...v1.5.1
 [1.5.0]: https://github.com/sakuzu/kata/compare/v1.4.1...v1.5.0
