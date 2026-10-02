@@ -1,4 +1,5 @@
 import { fireEvent, render, within } from '@testing-library/svelte';
+import { tick } from 'svelte';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import Pager from '../../src/svelte/components/Pager.svelte';
 import { setMessages } from '../../src/svelte/messages.js';
@@ -48,6 +49,89 @@ describe('Pager', () => {
     const last = render(Pager, { page: 3, pages: 3, onchange: () => {} });
     const next = within(last.container).getByRole('button', { name: 'Next page' });
     expect((next as HTMLButtonElement).disabled).toBe(true);
+  });
+
+  describe('in a narrow width', () => {
+    // jsdom lays nothing out: every square is 30px wide (the gap reads as 0), the pager is as
+    // wide as `width`, a ResizeObserver that the test triggers reports its changes, and a frame
+    // runs at once
+    let width = 0;
+    let observers: { cb: ResizeObserverCallback }[] = [];
+    const setup = () => {
+      observers = [];
+      vi.stubGlobal(
+        'ResizeObserver',
+        class {
+          constructor(public cb: ResizeObserverCallback) {
+            observers.push(this);
+          }
+          observe() {}
+          unobserve() {}
+          disconnect() {}
+        },
+      );
+      vi.stubGlobal('requestAnimationFrame', (f: FrameRequestCallback) => {
+        f(0);
+        return 1;
+      });
+      const original = Element.prototype.getBoundingClientRect;
+      vi.spyOn(Element.prototype, 'getBoundingClientRect').mockImplementation(function (
+        this: Element,
+      ) {
+        return this.matches('[data-h="icon-button"]')
+          ? new DOMRect(0, 0, 30, 30)
+          : original.call(this);
+      });
+      vi.spyOn(HTMLElement.prototype, 'clientWidth', 'get').mockImplementation(function (
+        this: HTMLElement,
+      ) {
+        return this.matches('nav') ? width : 0;
+      });
+    };
+    const resize = async (w: number) => {
+      width = w;
+      for (const o of observers) o.cb([], o as unknown as ResizeObserver);
+      await tick();
+    };
+    afterEach(() => {
+      vi.restoreAllMocks();
+      vi.unstubAllGlobals();
+    });
+
+    it('drops the neighbours of the current page, then scrolls, and comes back', async () => {
+      setup();
+      // The full form is 9 squares (270px), the compact one 7 (210px)
+      width = 300;
+      const { container } = render(Pager, { page: 5, pages: 12, onchange: () => {} });
+      await tick();
+      const nav = container.querySelector('nav') as HTMLElement;
+      expect(shown(container)).toEqual(['1', '…', '4', '5', '6', '…', '12']);
+      await resize(250);
+      expect(shown(container)).toEqual(['1', '…', '5', '…', '12']);
+      expect(nav.hasAttribute('data-scroll')).toBe(false);
+      await resize(200);
+      expect(shown(container)).toEqual(['1', '…', '5', '…', '12']);
+      expect(nav.hasAttribute('data-scroll')).toBe(true);
+      await resize(280);
+      expect(shown(container)).toEqual(['1', '…', '4', '5', '6', '…', '12']);
+      expect(nav.hasAttribute('data-scroll')).toBe(false);
+    });
+
+    it('shows a page once in the compact form, next to the first or the last', async () => {
+      setup();
+      width = 150;
+      const first = render(Pager, { page: 1, pages: 12, onchange: () => {} });
+      await tick();
+      expect(shown(first.container)).toEqual(['1', '…', '12']);
+      first.unmount();
+      const second = render(Pager, { page: 2, pages: 12, onchange: () => {} });
+      await tick();
+      expect(shown(second.container)).toEqual(['1', '2', '…', '12']);
+      second.unmount();
+      const last = render(Pager, { page: 11, pages: 12, onchange: () => {} });
+      await tick();
+      expect(shown(last.container)).toEqual(['1', '…', '11', '12']);
+    });
   });
 
   it('takes its names from the messages', () => {

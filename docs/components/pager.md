@@ -23,6 +23,9 @@ The numbers and the arrows are ghost icon buttons, squares of a small
 button, gap-md apart; the current page has the selected surface and
 `aria-current="page"`, and "…" is muted in a square of the same size.
 The arrows are disabled at the ends. Nothing shows for a single page.
+It never wraps: when the pages do not fit in its width, the neighbours of
+the current page go (‹ 1 … 5 … 12 ›), and when even that does not fit,
+it scrolls sideways.
 The names come from the messages `pagination`, `previousPage`,
 `nextPage` and `page`.
 
