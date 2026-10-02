@@ -138,6 +138,10 @@
       flex: 1 1 auto;
       min-width: 0;
     }
+    // A mark (a swatch, a badge, a thumbnail) keeps its own size and its aspect ratio at the start
+    > :global([data-role='mark']) {
+      flex: none;
+    }
   }
   .v {
     display: block;
