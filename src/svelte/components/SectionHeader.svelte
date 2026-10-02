@@ -104,7 +104,7 @@
   }
   .flush > .body {
     padding: 0;
-    padding-top: gap(xs);
+    padding-top: gap(xs); /* kata-allow-gap-padding */
     --kata-inset: #{pad(md)};
   }
   .flush.acted > .body {
