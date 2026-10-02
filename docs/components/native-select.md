@@ -26,8 +26,11 @@ chosen. For options with a description use a [Select](select.md).
 ## Contract
 
 The control is a `<label>` of the height its container declares, with
-one line in line-strong, pad-md at the sides and a chevron on the right;
-the select inside is transparent. Focus turns the line blue-ink. While
+one line in line-strong, pad-md at the sides and a chevron on the right.
+The chosen label is drawn in one line that ends with an ellipsis when it
+does not fit, in every browser, under the select, which covers the
+control, transparent, and takes the press, the focus and the keys. Focus
+turns the line blue-ink. While
 the placeholder shows, the text is faint. The list takes the panel
 color.
 

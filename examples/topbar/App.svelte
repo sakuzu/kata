@@ -8,7 +8,9 @@
     Kebab,
     MenuDivider,
     MenuItem,
+    Popover,
     Presence,
+    SearchInput,
     Topbar,
   } from '@sakuzu/kata/svelte';
   import Case from '../_shared/Case.svelte';
@@ -16,6 +18,7 @@
   import { appMenu } from '../_shared/menu.js';
 
   let name = $state('Spring layout');
+  let query = $state('');
   const people = [
     { name: 'Sam Taylor', you: true },
     { name: 'Kai Morgan', color: '#6f86e6' },
@@ -61,6 +64,36 @@
           <Kebab items={[{ id: 'share', label: 'Share' }]} onselect={() => {}} />
         {:else}
           <Button variant="primary">Share</Button>
+        {/if}
+      {/snippet}
+    </Topbar>
+  </Case>
+  <Case label="A search in the centre, folded into an icon button when the row is short">
+    <Topbar brand="Sketchbook" brandHref="#top">
+      {#snippet center({ compact }: { compact: boolean })}
+        {#if compact}
+          <Popover align="end">
+            {#snippet anchor(toggle, open)}
+              <Button
+                variant="ghost"
+                icon
+                aria-label="Search"
+                aria-haspopup="true"
+                aria-expanded={open}
+                onclick={toggle}><Icon name="search" /></Button
+              >
+            {/snippet}
+            <SearchInput bind:value={query} label="Search" placeholder="Search the help" />
+          </Popover>
+        {:else}
+          <SearchInput bind:value={query} label="Search" placeholder="Search the help" />
+        {/if}
+      {/snippet}
+      {#snippet end({ compact }: { compact: boolean })}
+        {#if compact}
+          <Kebab items={[{ id: 'sign-in', label: 'Sign in' }]} onselect={() => {}} />
+        {:else}
+          <Button>Sign in</Button>
         {/if}
       {/snippet}
     </Topbar>

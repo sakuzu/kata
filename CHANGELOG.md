@@ -24,6 +24,11 @@ when the room is short. Nothing changes incompatibly.
   new `dock` message (#6).
 - Changed: the `half` stage of a Sheet is the content's height up to half
   the frame (#7).
+- Fixed: an input and a select show an ellipsis when their text does not
+  fit (a NativeSelect draws its label over a transparent select, so WebKit
+  shows it too), and the centre of a Topbar is clipped and receives
+  `{ compact }` as a third step, to fold a search into an icon button
+  (#9).
 - Fixed: a Floating stays inside its frame: pinned, no wider than the
   frame less its sides; in the flow, its content wraps (#12).
 - Fixed: the Drawbar, the sheets of a Shell and the measured widths read a

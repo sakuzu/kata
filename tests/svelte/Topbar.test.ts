@@ -46,10 +46,19 @@ async function resize() {
   await settle();
 }
 
-// The widths, in px: the brand, and the end by what its two groups show
-const WIDTHS: Record<string, number> = { faces: 80, count: 30, buttons: 80, kebab: 30 };
+// The widths, in px: the brand, the end by what its two groups show, and the centre's content
+const WIDTHS: Record<string, number> = {
+  faces: 80,
+  count: 30,
+  buttons: 80,
+  kebab: 30,
+  search: 60,
+  icon: 30,
+};
 function widthOf(el: Element): number {
   if (el.matches('.brand')) return 100;
+  if (el.matches('.center'))
+    return WIDTHS[el.querySelector('[data-testid]')?.textContent ?? ''] ?? 0;
   if (el.matches('.end'))
     return [...el.querySelectorAll('[data-testid]')].reduce(
       (sum, t) => sum + (WIDTHS[t.textContent ?? ''] ?? 0),
@@ -83,6 +92,8 @@ describe('Topbar', () => {
     container.querySelector('[data-testid="presence"]')?.textContent,
     container.querySelector('[data-testid="end"]')?.textContent,
   ];
+  const centre = (container: HTMLElement) =>
+    container.querySelector('[data-testid="center"]')?.textContent;
 
   it('keeps the presence and the actions while the row fits', async () => {
     // 100 + 80 + 80 = 260
@@ -111,6 +122,27 @@ describe('Topbar', () => {
 
     width = 300;
     await resize();
+    expect(shows(container)).toEqual(['faces', 'buttons']);
+  });
+
+  it('then to the centre, counting its content, and goes back when the width allows', async () => {
+    // With the search: 100 + 60 + 80 + 80 = 320 at first; 100 + 60 + 30 + 30 = 220 with the
+    // presence and the actions compacted does not fit; 100 + 30 + 30 + 30 = 190 does
+    width = 200;
+    const { container } = render(TopbarHarness, { search: true });
+    await resize();
+    expect(shows(container)).toEqual(['count', 'kebab']);
+    expect(centre(container)).toBe('icon');
+
+    // 220 fits again: the centre comes back, the presence and the actions stay compacted
+    width = 230;
+    await resize();
+    expect(centre(container)).toBe('search');
+    expect(shows(container)).toEqual(['count', 'kebab']);
+
+    width = 400;
+    await resize();
+    expect(centre(container)).toBe('search');
     expect(shows(container)).toEqual(['faces', 'buttons']);
   });
 });

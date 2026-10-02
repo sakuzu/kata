@@ -22,9 +22,11 @@
   // The brand never hides. The bar measures its row (a ResizeObserver, read in the delivery and
   // written in the next frame, and again when its content changes) and, when the row does not fit,
   // passes { compact: true } to presence first (the application shows a count: Presence max={0}),
-  // then to end too (the application folds its actions into a Kebab). It stops at the first step
-  // that fits, and goes back when the width allows the row again. When even that does not fit, the
-  // crumbs shrink, and only once they have no width left does the brand end with an ellipsis.
+  // then to end too (the application folds its actions into a Kebab), then to center too (the
+  // application folds a search into an icon button). The row counts the centre's content at its
+  // min-content width. It stops at the first step that fits, and goes back when the width allows
+  // the row again. When even that does not fit, the centre is clipped, then the crumbs shrink, and
+  // only once they have no width left does the brand end with an ellipsis.
   //
   // menu gives the brand's menu as a model (MenuModel[], the same as AppMenu's) instead of the
   // brandMenu snippet; onmenu receives the id of the item that was chosen.
@@ -71,7 +73,7 @@
     /** After the brand and the crumbs */
     start?: Snippet;
     /** The centre: a title or an inline edit; it takes the rest of the width */
-    center?: Snippet;
+    center?: Snippet<[{ compact: boolean }]>;
     /** Who else is here, before the actions; compact asks for a count when the row is short */
     presence?: Snippet<[{ compact: boolean }]>;
     /** The actions at the right end; compact asks to fold them into a Kebab when the row is short */
@@ -79,8 +81,9 @@
   } = $props();
 
   let root = $state<HTMLElement>();
-  // How far the row is compacted: 0 not at all, 1 the presence, 2 the presence and the actions
-  let level = $state<0 | 1 | 2>(0);
+  // How far the row is compacted: 0 not at all, 1 the presence, 2 the actions too, 3 the centre too
+  type Level = 0 | 1 | 2 | 3;
+  let level = $state<Level>(0);
   $effect(() => {
     const el = root;
     if (!el || typeof ResizeObserver === 'undefined') return;
@@ -97,14 +100,27 @@
       }
       return width;
     };
-    // What the row needs: the start at full width, the centre nothing (it shrinks first), the end
-    // as it is, and the gaps between them
+    // The width of the centre's content, laid out at its min-content for the moment
+    const content = (center: HTMLElement) => {
+      const keep = center.getAttribute('style');
+      center.style.flex = 'none';
+      center.style.width = 'min-content';
+      const width = center.getBoundingClientRect().width;
+      if (keep === null) center.removeAttribute('style');
+      else center.setAttribute('style', keep);
+      return width;
+    };
+    // What the row needs: the start at full width, the centre's content, the end as it is, and the
+    // gaps between them
     const needOf = () => {
       const cs = getComputedStyle(el);
       const places = [...el.children];
       let need = Math.max(0, places.length - 1) * px(cs.columnGap);
       for (const place of places) {
-        if (place.matches('.center')) continue;
+        if (place instanceof HTMLElement && place.matches('.center')) {
+          need += content(place);
+          continue;
+        }
         if (place.matches('.end')) {
           need += place.getBoundingClientRect().width;
           continue;
@@ -115,7 +131,7 @@
       }
       return need;
     };
-    const write = (next: 0 | 1 | 2) => {
+    const write = (next: Level) => {
       cancelAnimationFrame(frame);
       frame = requestAnimationFrame(() => {
         frame = 0;
@@ -135,12 +151,12 @@
       for (let l = 0; l <= now; l++) {
         const need = needs[l];
         if (need !== undefined && need - room <= 0.5) {
-          write(l as 0 | 1 | 2);
+          write(l as Level);
           return;
         }
       }
-      // Nothing fits: the next level, or, at the last, the brand's ellipsis
-      write(now < 2 ? ((now + 1) as 1 | 2) : now);
+      // Nothing fits: the next level, or, at the last, the ellipsis of the crumbs and the brand
+      write(now < 3 ? ((now + 1) as Level) : now);
     };
     const ro = new ResizeObserver(read);
     ro.observe(el);
@@ -196,7 +212,7 @@
     {#if crumbs?.length}<Crumbs items={crumbs} label={crumbsLabel} />{/if}
     {@render start?.()}
   </div>
-  {#if center}<div class="center">{@render center()}</div>{/if}
+  {#if center}<div class="center">{@render center({ compact: level >= 3 })}</div>{/if}
   {#if presence || end}
     <div class="side end">
       {#if presence}<div class="group">{@render presence({ compact: level >= 1 })}</div>{/if}
@@ -227,8 +243,9 @@
       white-space: nowrap;
     }
   }
-  // The centre shrinks first; then the presence and the actions are compacted (in script), and only
-  // then the start shrinks: its crumbs first, then its brand, cut short with an ellipsis
+  // The presence, the actions and the centre are compacted first (in script); then the centre gives
+  // up its width (it is clipped), and only then the start shrinks: its crumbs first, then its brand,
+  // cut short with an ellipsis
   .side {
     display: flex;
     align-items: center;
@@ -264,6 +281,8 @@
     gap: gap(sm);
     flex: 1 1 0;
     min-width: 0;
+    // What does not fit is clipped here, so that it never runs over the end
+    overflow: clip;
   }
   // The brand: the application's name at the size of h2, text in a control, a little tighter
   // (--kata-topbar-brand-tracking, -0.01em unless the page sets it)
