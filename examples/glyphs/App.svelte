@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Glyphs } from '@sakuzu/kata/svelte';
+  import { Block, Glyphs } from '@sakuzu/kata/svelte';
   import Case from '../_shared/Case.svelte';
   import Example from '../_shared/Example.svelte';
   import Surface from '../_shared/Surface.svelte';
@@ -31,7 +31,9 @@
 <Example>
   <Case label="A grid of eight columns; one is selected">
     <Surface width="22.5rem">
-      <Glyphs items={symbols} value={picked} onselect={(g) => (picked = g)} label={(_, i) => names[i]} />
+      <Block>
+        <Glyphs items={symbols} value={picked} onselect={(g) => (picked = g)} label={(_, i) => names[i]} />
+      </Block>
     </Surface>
   </Case>
   <Case label="row: one line that scrolls sideways">
