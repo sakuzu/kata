@@ -7,7 +7,8 @@
   // can be pressed keeps the color of the text around it and is underlined on hover. The places are
   // separated by a faint chevron, and the last one is the current place, which cannot be pressed.
   // With current={false} the last one is a place like the others: the current place follows the
-  // trail outside it (a title next to it).
+  // trail outside it (a title next to it), so a chevron follows the last place too, with gap-2xs
+  // after it, and the application adds none of its own.
   //
   // The text is caption, the same in a PageHeader and in a Topbar; inside a component with a
   // height (a Toolbar, a list item) it is trimmed to its ink. Each place is at most 12rem wide and
@@ -46,6 +47,9 @@
       >
     {/if}
   {/each}
+  {#if !current && items.length > 0}
+    <span class="sep end" aria-hidden="true"><Icon name="chevron-right" /></span>
+  {/if}
 </nav>
 
 <style lang="scss">
@@ -87,6 +91,10 @@
     display: inline-flex;
     flex: none;
     color: color(faint);
+  }
+  // The chevron after the last place keeps gap-2xs from what follows the trail
+  .sep.end {
+    margin-inline-end: gap(2xs);
   }
   // Inside a component with a height, the text is text in a control
   :global([data-h]) .t {
