@@ -1,0 +1,1 @@
+import{E as e,K as t,M as n,P as r,X as i,m as a,mt as o}from"./Stack-zw3zUo_i.js";var s=r(`<div class="menu svelte-pcnuyd" data-role="menu"><!></div>`);function c(r,c){var l=s(),u=i(l);e(u,()=>c.children),o(l),t(()=>a(l,`data-rows`,c.rows)),n(r,l)}export{c as t};

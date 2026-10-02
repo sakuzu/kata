@@ -1,1 +1,0 @@
-import{E as e,K as t,M as n,P as r,X as i,b as a,mt as o,r as s}from"./Stack-BaKiDLzv.js";var c=r(`<span data-role="markbox" data-h="icon"><!></span>`);function l(r,l){let u=s(l,`glyph`,3,!1);var d=c();let f;var p=i(d);e(p,()=>l.children),o(d),t(()=>f=a(d,1,`markbox svelte-1ies92c`,null,f,{glyph:u()})),n(r,d)}export{l as t};

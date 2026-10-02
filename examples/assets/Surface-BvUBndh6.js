@@ -1,1 +1,0 @@
-import{E as e,K as t,M as n,P as r,X as i,mt as a,y as o}from"./Stack-BaKiDLzv.js";var s=r(`<div class="surface" data-role="surface"><!></div>`);function c(r,c){var l=s();let u;var d=i(l);e(d,()=>c.children),a(l),t(()=>u=o(l,``,u,{"max-width":c.width})),n(r,l)}export{c as t};
