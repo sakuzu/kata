@@ -175,6 +175,7 @@ export {
 } from './lib/fontScale.js';
 export { hostOf } from './lib/host.js';
 export { isMenuItem, type MenuModel, type MenuModelItem } from './lib/menuModel.js';
+export { overflowEdges } from './lib/overflowEdges.js';
 export {
   formatShortcut,
   isMacPlatform,

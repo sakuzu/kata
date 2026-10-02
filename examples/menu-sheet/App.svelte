@@ -24,6 +24,7 @@
   /* A positioned frame, as the frame of an application is */
   .frame {
     position: relative;
+    max-width: 24rem;
     height: 28rem;
     overflow: hidden;
     background: var(--kata-color-ground);

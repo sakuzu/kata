@@ -1,6 +1,7 @@
 <script lang="ts">
   import '../styles/components.css';
   import type { Snippet } from 'svelte';
+  import { overflowEdges } from '../lib/overflowEdges.js';
 
   // Table: rows of values in aligned columns. The column headers are the body size in the heavy
   // weight, with a line under them and the height of a list item. A cell is at least as tall as a
@@ -37,7 +38,7 @@
     rows?: 'mark' | 'box' | 'thumb' | 'two';
     /** Lines between the column headers (a table of data) */
     dividers?: boolean;
-    /** Keeps the first column at the left and the last column (the actions) at the right */
+    /** Keeps the first column at the left while the table scrolls sideways */
     sticky?: boolean;
     /** Fills its container and scrolls both ways itself; the column headers stay at the top */
     fill?: boolean;
@@ -48,7 +49,7 @@
   } = $props();
 </script>
 
-<div class="wrap" class:fill bind:this={el} {onscroll} data-role="table">
+<div class="wrap" class:fill bind:this={el} {onscroll} data-role="table" {@attach overflowEdges()}>
   <table class="table" class:dividers class:sticky data-role="table" data-rows={rows}>
     <thead><tr>{@render head()}</tr></thead>
     <tbody>{@render children()}</tbody>
@@ -58,9 +59,11 @@
 <style lang="scss">
   @use '../styles/kata' as *;
 
+  // A table wider than its frame scrolls sideways, and a line marks the edge that has more
   .wrap {
     min-width: 0;
     overflow-x: auto;
+    @include overflow-edges;
   }
   .fill {
     height: 100%;
@@ -92,25 +95,14 @@
     padding-right: pad(md);
   }
   .sticky :global(th:first-child),
-  .sticky :global(td:first-child),
-  .sticky :global(th:last-child),
-  .sticky :global(td:last-child) {
+  .sticky :global(td:first-child) {
     position: sticky;
+    left: 0;
     z-index: 1;
     background-color: color(ground);
   }
-  .sticky :global(th:first-child),
-  .sticky :global(td:first-child) {
-    left: 0;
-  }
-  .sticky :global(th:last-child),
-  .sticky :global(td:last-child) {
-    right: 0;
-  }
   .sticky :global(tr:hover td:first-child),
-  .sticky :global(tr:hover td:last-child),
-  .sticky :global(tr[aria-selected='true'] > td:first-child),
-  .sticky :global(tr[aria-selected='true'] > td:last-child) {
+  .sticky :global(tr[aria-selected='true'] > td:first-child) {
     background-color: color(ground);
     background-image: linear-gradient(#{color(raise)}, #{color(raise)});
   }

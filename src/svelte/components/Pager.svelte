@@ -9,7 +9,9 @@
   // numbers and the arrows are ghost icon buttons (squares of a small button: the area that is
   // pressed and the hover surface are that square), gap-md apart; the current page has the
   // selected surface, and "…" sits in a square of the same size. Nothing shows for a single page.
-  // How pages map to the application's data (a cursor, an offset) is the application's.
+  // It never wraps: when the pages do not fit in its width, the neighbours of the current page go
+  // (‹ 1 … 5 … 12 ›), and when even that does not fit, the pager scrolls sideways. How pages map
+  // to the application's data (a cursor, an offset) is the application's.
   //
   //   <Pager page={3} pages={12} onchange={(p) => load(p)} />
   let {
@@ -25,10 +27,10 @@
     onchange: (page: number) => void;
   } = $props();
 
-  // The first, the last, and the current page with one on each side; a gap becomes "…"
-  const items = $derived.by(() => {
+  // The pages that show, in order; a gap between them becomes "…"
+  function list(shown: number[]): (number | '…')[] {
     const out: (number | '…')[] = [];
-    const keep = new Set([1, pages, page - 1, page, page + 1].filter((n) => n >= 1 && n <= pages));
+    const keep = new Set(shown.filter((n) => n >= 1 && n <= pages));
     let prev = 0;
     for (const n of [...keep].sort((a, b) => a - b)) {
       if (n - prev > 1) out.push('…');
@@ -36,11 +38,59 @@
       prev = n;
     }
     return out;
+  }
+  // The first, the last, and the current page with one on each side
+  const full = $derived(list([1, pages, page - 1, page, page + 1]));
+  // The compact form: the first, the current and the last page
+  const compact = $derived(list([1, page, pages]));
+
+  // Which form fits: every item (the numbers, "…" and the arrows) is the square of an icon button,
+  // gap-md apart, so the width of a form follows from its count. It is read when the pager changes
+  // size, and written in the next animation frame
+  let nav = $state<HTMLElement>();
+  let fit = $state<'full' | 'compact' | 'scroll'>('full');
+  $effect(() => {
+    const el = nav;
+    if (!el) return;
+    const counts = { full: full.length + 2, compact: compact.length + 2 };
+    const read = () => {
+      const square =
+        el.querySelector<HTMLElement>('[data-h="icon-button"]')?.getBoundingClientRect().width ?? 0;
+      const gap = Number.parseFloat(getComputedStyle(el).columnGap) || 0;
+      const width = (n: number) => n * square + (n - 1) * gap;
+      // Half a pixel of room for rounding
+      const room = el.clientWidth + 0.5;
+      if (width(counts.full) <= room) return 'full';
+      return width(counts.compact) <= room ? 'compact' : 'scroll';
+    };
+    fit = read();
+    if (typeof ResizeObserver === 'undefined') return;
+    let frame = 0;
+    const ro = new ResizeObserver(() => {
+      const next = read();
+      if (frame) cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        frame = 0;
+        if (next !== fit) fit = next;
+      });
+    });
+    ro.observe(el);
+    return () => {
+      ro.disconnect();
+      if (frame) cancelAnimationFrame(frame);
+    };
   });
+  const items = $derived(fit === 'full' ? full : compact);
 </script>
 
 {#if pages > 1}
-  <nav class="pager" data-role="row-inline" aria-label={getMessages().pagination}>
+  <nav
+    class="pager"
+    data-role="row-inline"
+    data-scroll={fit === 'scroll' ? '' : undefined}
+    aria-label={getMessages().pagination}
+    bind:this={nav}
+  >
     <Button
       variant="ghost"
       icon
@@ -85,8 +135,12 @@
     display: flex;
     align-items: center;
     gap: gap(md);
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    min-width: 0;
     @include text(body);
+  }
+  .pager[data-scroll] {
+    overflow-x: auto;
   }
   // "…" tells that more pages follow, so it is muted, not faint
   .gap {

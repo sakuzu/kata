@@ -58,7 +58,7 @@
     width: h(icon);
     height: h(icon);
     background: var(--kata-swatch-color);
-    box-shadow: inset 0 0 0 bw() color(line);
+    box-shadow: inset 0 0 0 bw() color(line-strong);
     flex: none;
   }
   // A point is round: the shape of the thing itself

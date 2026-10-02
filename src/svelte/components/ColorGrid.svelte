@@ -61,7 +61,7 @@
     border: 0;
     padding: 0;
     background: var(--kata-color-grid-color);
-    box-shadow: inset 0 0 0 bw() color(line);
+    box-shadow: inset 0 0 0 bw() color(line-strong);
     cursor: pointer;
   }
   // The ring: two lines of the focus color inside, and one of the panel within them, which

@@ -103,7 +103,10 @@ From the lowest to the highest: `ground` (the page), `panel`, `raise` and
 `raise-2` (translucent, laid over the panel for hover and selection),
 `fill` (an opaque surface of the same weight as raise-2) and `solid` (the
 primary action), with `solid-hover`, `solid-active` and `on-solid` for the
-text on it.
+text on it. A disabled primary action takes `solid-disabled` with
+`solid-disabled-text` instead of being dimmed: the fill's grey with muted
+text in the dark theme, and a paler blue with white text in the light
+one.
 
 ### Text and lines
 
@@ -184,9 +187,12 @@ still reaches 4.5:1. The layers, from the lowest, are
 ## Fonts
 
 `--kata-font-sans` is IBM Plex Sans, then IBM Plex Sans JP and Noto Sans
-SC and TC for CJK text, then the system font. `--kata-font-mono` is IBM
-Plex Mono, then the system monospace font. kata does not load these
+SC and TC for CJK text, then the system font. kata does not load these
 fonts; an application that wants them loads them itself.
+`--kata-font-mono` names only the monospace faces of the systems
+(ui-monospace, SF Mono, Menlo, Consolas, Liberation Mono), so that it
+never falls back to Courier; an application that loads a monospace font
+of its own puts it first by setting `--kata-font-mono`.
 
 ## Base CSS
 

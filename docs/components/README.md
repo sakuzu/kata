@@ -152,6 +152,10 @@ any icon component, such as another Lucide icon.
   ([Embedding kata](../layout.md#embedding-kata-in-a-page-you-do-not-own)).
 - `clampTip` is an action for an element that clips its text with an
   ellipsis: the full text shows on hover and on keyboard focus.
+- `overflowEdges` is an attachment for a container that scrolls
+  sideways: it sets `data-overflow-start` and `data-overflow-end` while
+  content lies beyond those edges, and the `overflow-edges` mixin of the
+  Sass helpers (in the style of a Svelte component) draws a line there.
 - `toast` is the store of the messages that [ToastHost](toast-host.md)
   shows: `toast.show()` and `toast.error()` add one, `toast.dismiss()`
   removes one, and each goes by itself after `TOAST_DURATION`.

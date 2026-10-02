@@ -2,6 +2,7 @@
   import { Button, Icon, Kbd, Row, Text } from '@sakuzu/kata/svelte';
   import Case from '../_shared/Case.svelte';
   import Example from '../_shared/Example.svelte';
+  import Frame from '../_shared/Frame.svelte';
 
   const keys = ['⌘K', '⌘P', '⌘S', '⌘Z', '⇧⌘Z', '⌘C', '⌘V', '⌘X', '⌘A', '⌘F'];
 </script>
@@ -20,7 +21,9 @@
     </Row>
   </Case>
   <Case label="between: the two ends">
-    <Row between><Text>Shortcuts</Text><Kbd>⌘/</Kbd></Row>
+    <Frame width="var(--kata-width-popover)">
+      <Row between><Text>Shortcuts</Text><Kbd>⌘/</Kbd></Row>
+    </Frame>
   </Case>
   <Case label="justify end">
     <Row justify="end"><Button>Cancel</Button><Button variant="primary">Save</Button></Row>

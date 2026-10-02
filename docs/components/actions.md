@@ -21,8 +21,9 @@ a panel with a bar at its bottom, use Footer.
 ## Contract
 
 Actions has no height, padding or line of its own; the buttons keep
-theirs. Neighbours are gap-sm apart. When they do not fit on one line,
-the actions wrap and stay at the right end.
+theirs. Neighbours are gap-sm apart. Secondary and primary are one
+group, as in a [Footer](footer.md): when it does not fit beside the
+lead, the whole group moves below it and stays at the right end.
 
 ## Example
 

@@ -28,10 +28,10 @@ A line around it and pad-md inside. The names (6rem wide, muted) and
 the values sit in two columns, gap-md apart, with gap-sm between the
 rows; both are trimmed to their ink, and a name is level with the first
 line of its value. An empty value still takes one line. Below 48rem the
-columns fold into one: a name sits on its value, and pad-sm lies above
-the next name. The actions are md under the values, at the right, with
-a button's height. Selected is the raise surface and a blue line of two
-at the left.
+columns fold into one: a name sits gap-xs above its value, and pad-sm
+more lies above the next name. The actions are md under the values, at
+the right, with a button's height. Selected is the raise surface and a
+blue line of two at the left.
 
 ## Example
 

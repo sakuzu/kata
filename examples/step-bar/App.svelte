@@ -14,7 +14,7 @@
   <Case label="Two steps done, the third current">
     <StepBar {steps} current={3} />
   </Case>
-  <Case label="It wraps in a narrow container">
+  <Case label="In a narrow container">
     <Surface width="18rem"><Block><StepBar {steps} current={2} /></Block></Surface>
   </Case>
 </Example>

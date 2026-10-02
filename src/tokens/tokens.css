@@ -164,7 +164,8 @@
   /* ---- Fonts ------------------------------------------------------------------------------- */
   --kata-font-sans:
     "IBM Plex Sans", "IBM Plex Sans JP", "Noto Sans SC", "Noto Sans TC", system-ui, sans-serif;
-  --kata-font-mono: "IBM Plex Mono", ui-monospace, monospace;
+  --kata-font-mono:
+    ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
 
   /* ---- Color (dark, the default) -----------------------------------------------------------
    * Surfaces from the lowest to the highest: ground, panel, raise, raise-2, fill, solid. Raise
@@ -178,6 +179,10 @@
   --kata-color-solid: #204ec3;
   --kata-color-solid-hover: #123eb2;
   --kata-color-solid-active: #062da1;
+  /* A disabled primary action: the fill's grey with muted text, so that it does not read as a
+   * darker primary */
+  --kata-color-solid-disabled: #46464a;
+  --kata-color-solid-disabled-text: rgba(245, 245, 248, 0.92);
   --kata-color-on-solid: #ffffff;
   /* Text in three levels and lines in two. Only faint text (placeholders, disabled) is light */
   --kata-color-text: #f5f5f8;
@@ -230,6 +235,8 @@
   --kata-color-raise: rgba(29, 31, 32, 0.06);
   --kata-color-raise-2: rgba(29, 31, 32, 0.12);
   --kata-color-fill: #e4e4e5;
+  --kata-color-solid-disabled: #6c89d4;
+  --kata-color-solid-disabled-text: #ffffff;
   --kata-color-text: #1d1f20;
   --kata-color-muted: rgba(29, 31, 32, 0.94);
   --kata-color-faint: rgba(29, 31, 32, 0.5);

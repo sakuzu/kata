@@ -4,7 +4,9 @@
 
   // Actions: a row of actions at the end of a container that has no Footer. The actions sit at the
   // right end, secondary then primary; lead sits at the left end (a status, or a third outcome). It
-  // has no height of its own and no line, unlike Footer. Neighbours are gap-sm apart.
+  // has no height of its own and no line, unlike Footer. Neighbours are gap-sm apart. Secondary and
+  // primary are one group, as in a Footer: when it does not fit beside the lead, the whole group
+  // moves below it.
   //
   //   <Actions>
   //     {#snippet secondary()}<Button>Cancel</Button>{/snippet}
@@ -24,8 +26,12 @@
 
 <div class="actions" data-role="actions">
   {#if lead}<div class="lead">{@render lead()}</div>{/if}
-  {@render secondary?.()}
-  {@render primary?.()}
+  {#if secondary || primary}
+    <div class="group">
+      {@render secondary?.()}
+      {@render primary?.()}
+    </div>
+  {/if}
 </div>
 
 <style lang="scss">
@@ -43,6 +49,15 @@
     margin-right: auto;
     display: flex;
     align-items: center;
+    min-width: 0;
+  }
+  .group {
+    display: flex;
+    align-items: center;
+    gap: gap(sm);
+    flex: none;
+    margin-left: auto;
+    max-width: 100%;
     min-width: 0;
   }
 </style>

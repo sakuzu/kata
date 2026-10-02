@@ -23,8 +23,13 @@ one has a blue line and blue number and its name in the text color,
 and the steps to come have a strong line and a muted name. The number is
 a glyph trimmed to its ink; the name is not trimmed. gap-sm lies between
 a number and its name and between steps, and lines share the rest of the
-width between the steps. It wraps when it does not fit. The current step
-has `aria-current="step"`.
+width between the steps and shrink first. It stays on one line. When the
+steps do not fit, each name goes under its number, centred and allowed
+to wrap, and the lines run level with the centre of the numbers; when
+even that does not fit, only the numbers show and the current step's
+name is written under the bar, at the start. The form is measured, and
+the wider form comes back when there is room for it again. The current
+step has `aria-current="step"`.
 
 ## Example
 

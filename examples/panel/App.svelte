@@ -66,7 +66,7 @@
     </div>
   </Case>
   <Case label="fit: the height of the content only">
-    <div class="frame">
+    <div class="frame short">
       <Panel side="panel" fit>
         {#snippet head()}<Toolbar title="Selection" rule />{/snippet}
         <Block><Text>Two shapes are selected.</Text></Block>

@@ -6,9 +6,9 @@
   // Tcard: one row of a table, folded into a card for a narrow screen. The names of the columns
   // and the values sit in two columns, a name 6rem wide and its value, gap-sm between the rows
   // (measured from the trimmed ink) and gap-md between the columns; pad-md inside a line. Below
-  // 48rem the two columns fold into one: a name sits right on its value, and pad-sm lies above the
-  // next name. The children are pairs of <dt> (the name) and <dd> (the value); an empty value
-  // still takes one line. Controls do not go in a value: the row's actions go in foot.
+  // 48rem the two columns fold into one: a name sits gap-xs above its value, and pad-sm more lies
+  // above the next name. The children are pairs of <dt> (the name) and <dd> (the value); an empty
+  // value still takes one line. Controls do not go in a value: the row's actions go in foot.
   //
   // On a wide screen the same rows are a Table. Inside Tcards (a scrolling column of cards) the
   // card is placed at y. A card that is pressed takes role, tabindex and onclick.
@@ -97,7 +97,7 @@
   @include narrow {
     .tcard {
       grid-template-columns: minmax(0, 1fr);
-      gap: 0;
+      gap: gap(xs) 0;
     }
     .tcard :global(dt) {
       padding-top: pad(sm);

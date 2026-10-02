@@ -52,10 +52,11 @@ pad-md and an icon is gap-sm from the text. An icon button is the square
 of a small button, wherever it is. The text is one line, trimmed to its
 ink; a button wider than its container shrinks and ends its text with an
 ellipsis. Hover shows the raise surface, pressing the stronger one;
-disabled and busy are dimmed. The area that is pressed, the hover
-surface, the line and the focus ring all belong to the button. An icon
-button shows its `aria-label` in a [Tooltip](tooltip.md), with `shortcut`
-as the key hint; a text button shows one only when `tip` is given.
+disabled and busy are dimmed, except a disabled primary, which takes the
+solid-disabled surface. The area that is pressed, the hover surface, the
+line and the focus ring all belong to the button. An icon button shows
+its `aria-label` in a [Tooltip](tooltip.md), with `shortcut` as the key
+hint; a text button shows one only when `tip` is given.
 
 ## Example
 

@@ -163,6 +163,45 @@ describe('LayerTree', () => {
     expect(onselect).not.toHaveBeenCalled();
   });
 
+  it('keeps a place only for the kept actions, and follows when an action is kept', async () => {
+    // jsdom lays nothing out: a kept action is 30px wide, and a frame runs at once
+    const original = Element.prototype.getBoundingClientRect;
+    vi.spyOn(Element.prototype, 'getBoundingClientRect').mockImplementation(function (
+      this: Element,
+    ) {
+      return this.hasAttribute('data-keep') ? new DOMRect(0, 0, 30, 30) : original.call(this);
+    });
+    vi.stubGlobal('requestAnimationFrame', (f: FrameRequestCallback) => {
+      f(0);
+      return 1;
+    });
+    try {
+      const nodes = sample();
+      const { container, rerender } = render(LayerTree, {
+        nodes,
+        label: 'Layers',
+        expanded: open,
+        onvisible: () => {},
+        onlock: () => {},
+      });
+      await settle();
+      const seat = (id: string) => row(container, id).querySelector<HTMLElement>('.keep-seat');
+      // The second layer is hidden and locked: its eye and its lock keep their place
+      expect(seat('l2')?.style.width).toBe('60px');
+      expect(row(container, 'l2').style.gridTemplateColumns).toBe('auto minmax(0, 1fr) auto');
+      // The first one keeps nothing: its actions show over the end of the row on hover
+      expect(seat('l1')).toBeNull();
+      expect(row(container, 'l1').style.gridTemplateColumns).toBe('auto minmax(0, 1fr)');
+      // Hiding the first layer keeps its eye
+      await rerender({ nodes: [{ ...nodes[0], visible: false }, nodes[1]] });
+      await settle();
+      expect(seat('l1')?.style.width).toBe('30px');
+    } finally {
+      vi.restoreAllMocks();
+      vi.unstubAllGlobals();
+    }
+  });
+
   it('renames in place with F2 and with a double click', async () => {
     const onrename = vi.fn();
     const onselect = vi.fn();

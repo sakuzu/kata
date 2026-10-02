@@ -236,9 +236,20 @@
       border-color: color(solid-active);
     }
   }
+  // A disabled primary is not dimmed: it takes a surface of its own, so that it does not read as
+  // a darker primary. A busy one is dimmed as the others are
+  .primary:disabled:not(.busy) {
+    opacity: 1;
+    background: color(solid-disabled);
+    border-color: color(solid-disabled);
+    color: color(solid-disabled-text);
+  }
   // The hint on the fill keeps the fill's text color
   .btn.primary .kbd {
     color: color(on-solid);
+  }
+  .btn.primary:disabled:not(.busy) .kbd {
+    color: color(solid-disabled-text);
   }
   // The same size as the other buttons, with a transparent line
   .ghost {
