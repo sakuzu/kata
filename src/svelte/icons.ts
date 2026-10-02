@@ -5,6 +5,7 @@
 // Icon and the components that take an icon accept a name from this list or any icon component
 // (a Lucide icon, or a component that accepts `class`).
 
+import ArrowDown from '@lucide/svelte/icons/arrow-down';
 import ArrowLeft from '@lucide/svelte/icons/arrow-left';
 import ArrowUpRight from '@lucide/svelte/icons/arrow-up-right';
 import Check from '@lucide/svelte/icons/check';
@@ -47,6 +48,7 @@ import StickyNote from './glyphs/StickyNote.svelte';
 export type IconComponent = Component<{ class?: string }>;
 
 export const icons = {
+  'arrow-down': ArrowDown as unknown as IconComponent,
   'arrow-left': ArrowLeft as unknown as IconComponent,
   'arrow-up-right': ArrowUpRight as unknown as IconComponent,
   check: Check as unknown as IconComponent,

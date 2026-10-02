@@ -34,10 +34,11 @@ Each item of `sorts` has `id` and `label`, and optionally `dir`,
 
 The name has the height of a small button and no padding at the sides,
 so that it lines up with the text of the column; it is trimmed to its
-ink and underlines on hover. The sort key shows a blue chevron after the
+ink and underlines on hover. The sort key shows a blue arrow after the
 name, down for descending and up for ascending, and its name is in the
-text color. The column menu is a ghost icon button (a chevron) at the
-right end of the header, which opens a [Dropdown](dropdown.md) menu; the
+text color; it is an arrow so that it is not taken for the chevron of
+the column menu. The column menu is a ghost icon button (a chevron) at
+the right end of the header, which opens a [Dropdown](dropdown.md) menu; the
 current direction has a check mark. The names of merged columns stack,
 touching. The words of the menu come from the messages `actions`,
 `sortAscending`, `sortDescending` and `clearSort`.

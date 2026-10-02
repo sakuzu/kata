@@ -10,9 +10,9 @@
 
   // ColHead: the content of a table's column header. The name of the column is at the left;
   // pressing it sorts the table by that column. The column that the table is sorted by shows a
-  // blue chevron: up ascending, down descending. The name has the height of a small button and no
-  // padding at the sides, so that it lines up with the text of the column. A column that cannot be
-  // sorted takes no onsort.
+  // blue arrow: up ascending, down descending (an arrow, so that it is not taken for the ▾ of the
+  // column menu). The name has the height of a small button and no padding at the sides, so that it
+  // lines up with the text of the column. A column that cannot be sorted takes no onsort.
   //
   // A press asks for the next direction: the column's first direction when it is not the sort
   // key yet (ascending by default; a column of dates starts descending), then the other one.
@@ -69,7 +69,7 @@
 </script>
 
 {#snippet mark(d: 'asc' | 'desc' | undefined)}
-  {#if d}<span class="mark" class:asc={d === 'asc'}><Icon name="chevron-down" /></span>{/if}
+  {#if d}<span class="mark" class:asc={d === 'asc'}><Icon name="arrow-down" /></span>{/if}
 {/snippet}
 
 <span class="head" data-role="row-inline" class:merged>
@@ -200,7 +200,7 @@
     @include trim;
     @include ellipsis;
   }
-  // The sort key: a blue chevron, down for descending, turned up for ascending
+  // The sort key: a blue arrow, down for descending, turned up for ascending
   .mark {
     display: inline-flex;
     color: color(blue-ink);

@@ -30,6 +30,7 @@ the same grid for the shapes Lucide does not have.
 
 | Name | Drawn by |
 | --- | --- |
+| `arrow-down` | Lucide |
 | `arrow-left` | Lucide |
 | `arrow-up-right` | Lucide |
 | `check` | Lucide |
