@@ -1,11 +1,13 @@
 <script lang="ts">
   import '../styles/components.css';
+  import type { Snippet } from 'svelte';
 
   // Radio: one choice of a group. It is a control of the height of a small button, and the whole
   // control is pressed. The circle sits in the square of an icon; the text on its right is trimmed
   // to its ink and centred. A radio can take a second line, a description: the first line keeps the
-  // height of a small button and the description is gap-xs below it, under the text. The control is
-  // a <label>, so pressing the text chooses it too.
+  // height of a small button and the description is gap-xs below it, under the text. A note (a
+  // snippet) goes in the same column under them, as a caption. The control is a <label>, so
+  // pressing the text chooses it too.
   //
   // RadioGroup arranges a group; group is bindable, so a radio also works on its own.
   //
@@ -14,6 +16,7 @@
     value,
     label,
     description,
+    note,
     name,
     group = $bindable(),
     disabled = false,
@@ -24,6 +27,8 @@
     label: string;
     /** A second line that describes the choice */
     description?: string;
+    /** A note under the label, in the column of the text, as a caption (a snippet) */
+    note?: Snippet;
     /** The name shared by the radios of one group */
     name: string;
     /** The value chosen in the group */
@@ -38,9 +43,9 @@
 <label
   class="ctl"
   class:disabled={disabled}
-  class:two={!!description}
+  class:two={!!description || !!note}
   data-role="switch"
-  data-h={description ? undefined : 'button-sm'}
+  data-h={description || note ? undefined : 'button-sm'}
   data-control
 >
   <span class="seat">
@@ -60,13 +65,14 @@
   </span>
   <span class="line"><span class="t">{label}</span></span>
   {#if description}<span class="desc">{description}</span>{/if}
+  {#if note}<span class="desc">{@render note()}</span>{/if}
 </label>
 
 <style lang="scss">
   @use '../styles/kata' as *;
 
-  // The first line (the circle and the text) is as high as a small button; the description is in
-  // the text's column, gap-xs below
+  // The first line (the circle and the text) is as high as a small button; the description and the
+  // note are in the text's column, gap-xs below
   .ctl {
     display: grid;
     grid-template-columns: auto minmax(0, 1fr);
