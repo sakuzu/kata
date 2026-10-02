@@ -96,11 +96,19 @@
   padding-bottom: 0;
 }
 
-// A type role: size, leading, tracking, and the weight of the roles that name or head something
+// A type role: size, leading, tracking, the wrapping of its lines, and the weight of the roles that
+// name or head something
 @mixin text($role) {
   font-size: fs($role);
   line-height: lh($role);
   letter-spacing: ls($role);
+  // Running text avoids a last line of one short word; headings and short text balance their
+  // lines. The longhand, so that white-space: nowrap still holds a line together
+  @if $role == body or $role == prose {
+    text-wrap-style: pretty;
+  } @else {
+    text-wrap-style: balance;
+  }
   @if $role == num {
     font-weight: 600;
     font-variant-numeric: tabular-nums;

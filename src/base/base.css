@@ -52,6 +52,8 @@ body {
   font-size: var(--kata-text-size-body);
   line-height: var(--kata-text-leading-body);
   letter-spacing: var(--kata-text-tracking-body);
+  /* Paragraphs avoid a last line of one short word (the longhand, so nowrap is untouched) */
+  text-wrap-style: pretty;
   -webkit-font-smoothing: antialiased;
 }
 
