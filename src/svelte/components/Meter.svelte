@@ -94,6 +94,6 @@
     background: color(yellow-fill);
   }
   .bar.over .fill {
-    background: color(red-ink);
+    background: color(red-fill);
   }
 </style>

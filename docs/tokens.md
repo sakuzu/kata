@@ -101,7 +101,10 @@ From the lowest to the highest: `ground` (the page), `panel`, `raise` and
 `raise-2` (translucent, laid over the panel for hover and selection),
 `fill` (an opaque surface of the same weight as raise-2) and `solid` (the
 primary action), with `solid-hover`, `solid-active` and `on-solid` for the
-text on it.
+text on it. A disabled primary action takes `solid-disabled` with
+`solid-disabled-text` instead of being dimmed: the fill's grey with muted
+text in the dark theme, and a paler blue with white text in the light
+one.
 
 ### Text and lines
 
