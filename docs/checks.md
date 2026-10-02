@@ -39,7 +39,7 @@ element inside the example is measured; a finding fails the audit.
 | border | Borders are 0, 1 or 2px and solid, so no border of the browser |
 | height | An element with `data-h` has the height of that token |
 | trim | Text is trimmed in a control, at a container's edge or at a line |
-| trim-clip | Trimmed text is clipped with a margin, never cut |
+| trim-clip | Trimmed text keeps its vertical overflow, so no ink is cut |
 | cursor | What can be pressed shows the pointer |
 | contrast | Text reaches 7:1 on its surface (4.5:1 when disabled or dimmed) |
 | focus-halo | A text field shows a 2px ring on focus |

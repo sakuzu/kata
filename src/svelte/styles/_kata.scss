@@ -183,13 +183,13 @@
   }
 }
 
-// One line with an ellipsis. Text trimmed to the cap height would lose the top of CJK ink and the
-// descenders under overflow: hidden, so the clip edge is moved outside the ink by size-xs. Chrome
-// does not accept calc() or var() in overflow-clip-margin, so the value of the step is written out.
+// One line with an ellipsis. Text trimmed to the cap height reaches outside its box with the
+// descenders and the top of CJK ink, so it is clipped sideways only: the vertical overflow stays
+// visible. WebKit ignores overflow-clip-margin, so a clip edge moved outside the ink is not enough.
 @mixin ellipsis {
   white-space: nowrap;
-  overflow: clip;
-  overflow-clip-margin: 0.382em;
+  overflow-x: clip;
+  overflow-y: visible;
   text-overflow: ellipsis;
   min-width: 0;
 }

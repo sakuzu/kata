@@ -13,7 +13,8 @@
 //   trim           text is trimmed to its ink only inside a control ([data-h], a mark, a pair,
 //                  a section head, a table cell), at the inner edge of a container or a section, and
 //                  next to a line
-//   trim-clip      trimmed text is clipped with overflow: clip and a clip margin of at least 0.3em
+//   trim-clip      trimmed text keeps its vertical overflow visible (or clips it with a clip margin
+//                  of at least 0.3em), so the descenders and the top of CJK ink are never cut
 //   cursor         everything that can be pressed shows the pointer
 //   contrast       text reaches 7:1 on its surface (4.5:1 when disabled, or dimmed as a state:
 //                  data-dim)
@@ -380,15 +381,19 @@
           el: label(el),
           v: `${trim} outside a control, a container's edge or a line`,
         });
-      if (trim && trim !== 'none' && /^(hidden|scroll|auto)$/.test(cs.overflowY))
-        bad.push({ kind: 'trim-clip', el: label(el), v: cs.overflowY });
+      // Trimmed text reaches outside its box with the descenders and the top of CJK ink, so its
+      // vertical overflow is visible, or clipped with a margin of at least 0.3em.
       if (
         trim &&
         trim !== 'none' &&
-        cs.overflowY === 'clip' &&
-        Number.parseFloat(cs.overflowClipMargin) < fs * 0.3
+        cs.overflowY !== 'visible' &&
+        !(cs.overflowY === 'clip' && Number.parseFloat(cs.overflowClipMargin) >= fs * 0.3)
       )
-        bad.push({ kind: 'trim-clip', el: label(el), v: `clip-margin ${cs.overflowClipMargin}` });
+        bad.push({
+          kind: 'trim-clip',
+          el: label(el),
+          v: cs.overflowY === 'clip' ? `clip-margin ${cs.overflowClipMargin}` : cs.overflowY,
+        });
 
       if (
         el.matches(PRESSABLE) &&
