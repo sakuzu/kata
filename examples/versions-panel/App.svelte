@@ -53,4 +53,8 @@
     flex-wrap: wrap;
     gap: var(--kata-gap-lg);
   }
+  .pair > .frame {
+    min-width: 0;
+    max-width: 100%;
+  }
 </style>

@@ -2,6 +2,7 @@
   import { Button, Dropdown, Menu, MenuList, Row, Text } from '@sakuzu/kata/svelte';
   import Case from '../_shared/Case.svelte';
   import Example from '../_shared/Example.svelte';
+  import Frame from '../_shared/Frame.svelte';
   import { appMenu } from '../_shared/menu.js';
 
   let chosen = $state('');
@@ -10,14 +11,18 @@
 
 <Example>
   <Case label="A model with submenus, a divider, a heading and check marks, in a Menu">
-    <Menu>
-      <div role="menu"><MenuList items={appMenu} onselect={pick} /></div>
-    </Menu>
+    <Frame>
+      <Menu>
+        <div role="menu"><MenuList items={appMenu} onselect={pick} /></div>
+      </Menu>
+    </Frame>
   </Case>
   <Case label="inline: a submenu takes the place of the list, under a row that goes back">
-    <Menu>
-      <div role="menu"><MenuList items={appMenu} onselect={pick} inline /></div>
-    </Menu>
+    <Frame>
+      <Menu>
+        <div role="menu"><MenuList items={appMenu} onselect={pick} inline /></div>
+      </Menu>
+    </Frame>
   </Case>
   <Case label="In a Dropdown with menu: the arrow keys move into and out of the submenus">
     <Row gap="sm" wrap>
