@@ -1,6 +1,6 @@
 {
   "name": "@sakuzu/kata",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "description": "The design system of sakuzu: a numeric scale derived from the golden ratio, CSS tokens, base CSS and Svelte components for drawing applications.",
   "keywords": [
     "design-system",
