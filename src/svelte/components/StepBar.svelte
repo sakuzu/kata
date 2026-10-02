@@ -156,7 +156,7 @@
     background: color(line);
   }
   // Stacked: each name under its number, centred and allowed to wrap; the lines run level with
-  // the centre of the numbers
+  // the centre of the numbers (a line drawn across the middle of a box as tall as a number)
   .steps[data-stack] {
     align-items: flex-start;
     .step {
@@ -165,7 +165,8 @@
       white-space: normal;
     }
     .bar {
-      margin-top: calc((#{h(badge)} - #{bw()}) / 2);
+      height: h(badge);
+      background: linear-gradient(#{color(line)}, #{color(line)}) center / 100% #{bw()} no-repeat;
     }
   }
   // Only the numbers: the names are left to screen readers, and the current step's name is
