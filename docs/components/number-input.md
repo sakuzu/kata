@@ -7,7 +7,10 @@ NumberInput is the input of a number.
 Use it for an exact number, with its unit. It is empty when `value` is
 `null`; a `placeholder` can say what empty means (for example Auto).
 Only short values take a fixed width, one of 6, 8 or 12rem; without
-`width` it fills its container.
+`width` it fills its container. `digits` sizes it to its value instead:
+the input is as many characters wide as the longest value (or the
+placeholder, when it is longer), and the unit follows it; `digits` wins
+over `width`.
 
 ## Props
 
@@ -19,6 +22,7 @@ Only short values take a fixed width, one of 6, 8 or 12rem; without
 | `step` | | The step; `any` takes decimals |
 | `placeholder` | | Shown while it is empty |
 | `width` | | `6rem`, `8rem` or `12rem` |
+| `digits` | | The characters of the longest value; the input is that wide |
 | `ariaLabel` | | The accessible name without a Field |
 | `id` | | The id of the input |
 | `error` | `false` | The line turns red |
@@ -31,7 +35,8 @@ Only short values take a fixed width, one of 6, 8 or 12rem; without
 
 It is the control of a [TextInput](text-input.md). The number is aligned
 to the end, with figures of equal width, and the unit is muted on the
-right inside the control, trimmed to its ink.
+right inside the control, trimmed to its ink. The browser's spin buttons
+are removed, so they take no room; the arrow keys still step the value.
 
 ## Example
 

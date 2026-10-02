@@ -50,6 +50,7 @@ A `FieldSpec` has these keys.
 | `mixed` | The things selected differ; no value shows |
 | `options` | The choices of `select` and `segmented`, `{ value, label }[]` |
 | `min`, `max`, `step` | The range of `number` and `slider` |
+| `digits` | The characters of the longest `number`; it keeps that width |
 | `unit` | Text after the value (`px`, `%`, `°`) |
 | `placeholder` | A word shown while a text or a number is empty |
 | `disabled` | The control cannot be changed |
@@ -64,7 +65,7 @@ apart, with the control of its kind.
 | Kind | Control | Reported value |
 | --- | --- | --- |
 | `text` | [TextInput](../components/text-input.md) | The text, on change |
-| `number` | [NumberInput](../components/number-input.md) | A number, or null when emptied |
+| `number` | [NumberInput](../components/number-input.md); with `digits`, as wide as its value at the start of the value column | A number, or null when emptied |
 | `select` | [NativeSelect](../components/native-select.md) | The option's value |
 | `color` | A button with a [Swatch](../components/swatch.md), as wide as the value column, that opens a [ColorPicker](../components/color-picker.md) | `#RRGGBB`, at each pick |
 | `toggle` | [Toggle](../components/toggle.md), at the end of the row | `true` or `false` |

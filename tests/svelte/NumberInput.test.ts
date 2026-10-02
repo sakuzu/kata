@@ -44,6 +44,23 @@ describe('NumberInput', () => {
     expect(input.getAttribute('aria-invalid')).toBe('true');
     expect((container.querySelector('label') as HTMLElement).style.width).toBe('8rem');
   });
+
+  it('is as wide as its digits, or its placeholder when longer, and digits win over width', () => {
+    const short = render(NumberInput, { value: 12.5, digits: 4, width: '6rem', ariaLabel: 'A' });
+    const a = short.container.querySelector('label') as HTMLElement;
+    expect(a.dataset.digits).toBe('4');
+    expect(a.style.getPropertyValue('--kata-number-digits')).toBe('4');
+    expect(a.style.width).toBe('');
+    const long = render(NumberInput, {
+      value: null,
+      digits: 2,
+      placeholder: 'Auto size',
+      ariaLabel: 'B',
+    });
+    const b = long.container.querySelector('label') as HTMLElement;
+    expect(b.dataset.digits).toBe('2');
+    expect(b.style.getPropertyValue('--kata-number-digits')).toBe('9');
+  });
 });
 
 describe('TextInput', () => {
