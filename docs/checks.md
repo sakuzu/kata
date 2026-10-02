@@ -70,4 +70,5 @@ library) is not measured.
 head-gap allows one exception: flush content under a head with an
 action keeps pad-md above it, so that the action that hangs below the
 head does not reach the first row, and its distance from the head may
-grow by that padding and the action's overhang.
+grow by that padding and the action's overhang. head-near allows the
+same group to lie further from its head by the action's overhang.

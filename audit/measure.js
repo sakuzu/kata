@@ -798,6 +798,17 @@
 
   // ---- Heads ------------------------------------------------------------------------------------
 
+  // How far the action of a flush group's head hangs below the head (0 for any other group)
+  function actionOverhang(group, head) {
+    if (!group.matches('.flush.acted')) return 0;
+    const action = head.children[1];
+    if (!action) return 0;
+    const bottom = head.getBoundingClientRect().bottom;
+    return Math.max(
+      0,
+      ...[...action.children].map((c) => c.getBoundingClientRect().bottom - bottom),
+    );
+  }
   function headGap(root, bad) {
     const tol = 6 * (rootPx() / 16);
     for (const group of root.querySelectorAll('[data-role="section-header"]')) {
@@ -814,16 +825,8 @@
       // hangs below the head does not reach the first row: the distance may grow by that padding
       // and the action's overhang
       let extra = 0;
-      if (group.matches('.flush.acted')) {
-        const action = head.children[1];
-        const overhang = action
-          ? Math.max(
-              0,
-              ...[...action.children].map((c) => c.getBoundingClientRect().bottom - headBox.bottom),
-            )
-          : 0;
-        extra = Number.parseFloat(getComputedStyle(body).paddingTop) + overhang;
-      }
+      if (group.matches('.flush.acted'))
+        extra = Number.parseFloat(getComputedStyle(body).paddingTop) + actionOverhang(group, head);
       if (d < md - tol || d > md + extra + tol)
         bad.push({ kind: 'head-gap', el: label(head), v: +d.toFixed(1), want: +md.toFixed(1) });
     }
@@ -832,7 +835,8 @@
     const tol = 0.1 * rootPx();
     for (const group of root.querySelectorAll('[data-role="section-header"]')) {
       if (!visible(group)) continue;
-      const name = group.querySelector(':scope > [data-role="section-head"] > span');
+      const head = group.querySelector(':scope > [data-role="section-head"]');
+      const name = head?.querySelector(':scope > span');
       const body = group.children[1];
       const prev = group.previousElementSibling;
       if (!name || !body || !visible(body) || !prev || !visible(prev)) continue;
@@ -844,7 +848,9 @@
         continue;
       const above = nameTop - prevBottom;
       const below = bodyTop - nameBottom;
-      if (below > above - tol)
+      // Flush content under a head with an action may lie further by the action's overhang
+      const extra = head ? actionOverhang(group, head) : 0;
+      if (below > above - tol + extra)
         bad.push({
           kind: 'head-near',
           el: label(name),
