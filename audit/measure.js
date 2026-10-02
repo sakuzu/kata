@@ -32,6 +32,8 @@
 //   head-near      a section header's head is closer to its content than to what comes before
 //   page-head-gap  a page's head is pad-lg from the first visible thing of its content
 //   section-head-gap  a section's head is gap-lg from its content
+//   tabs-gap       the content under the line of Tabs (data-rule) is gap-lg from it; inside a Panel
+//                  the next SectionHeader sets the distance, so it is not measured
 //   read-row       a list item that is neither pressed nor parted by a line or a surface is not an
 //                  outline (unless another item of its list is; the head of a comment is not an
 //                  item of a list)
@@ -886,6 +888,20 @@
         });
     }
   }
+  function tabsGap(root, bad) {
+    const tol = 6 * (rootPx() / 16);
+    const want = pxOf('var(--kata-gap-lg)');
+    for (const tabs of root.querySelectorAll('[data-role="tabs"][data-rule]')) {
+      if (!visible(tabs) || skipped(tabs) || tabs.closest('[data-role="panel"]')) continue;
+      const next = sibling(tabs, 'next');
+      if (!next || skipped(next)) continue;
+      const top = inkTop(next);
+      if (top === null) continue;
+      const d = top - tabs.getBoundingClientRect().bottom;
+      if (Math.abs(d - want) > tol)
+        bad.push({ kind: 'tabs-gap', el: label(tabs), v: +d.toFixed(1), want: +want.toFixed(1) });
+    }
+  }
 
   // ---- Lists ------------------------------------------------------------------------------------
 
@@ -1000,6 +1016,7 @@
       headNear(root, bad);
       pageHeadGap(root, bad);
       sectionHeadGap(root, bad);
+      tabsGap(root, bad);
       readRow(root, bad);
       overlap(root, bad);
       crush(root, bad);
