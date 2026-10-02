@@ -54,7 +54,7 @@ element inside the example is measured; a finding fails the audit.
 | head-near | A group's head is nearer its content than the group above |
 | page-head-gap | A page's head is pad-lg from its content |
 | section-head-gap | A section's head is gap-lg from its content |
-| tabs-gap | Content under the line of Tabs is gap-lg away (not in a Panel) |
+| tabs-gap | Content under Tabs is gap-lg away (not in an unpadded container) |
 | read-row | A list item that is only read has a line or a surface |
 | overlap | The children of a layout do not overlap |
 | crush | Text is never squeezed narrower than two characters |
