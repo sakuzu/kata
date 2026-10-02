@@ -1,0 +1,1 @@
+import{_ as t,o as d,c as a,a2 as o}from"./chunks/framework.BGlkWkwp.js";const m=JSON.parse('{"title":"Tokens","description":"","frontmatter":{},"headers":[],"relativePath":"tokens.md","filePath":"tokens.md"}'),n={name:"tokens.md"};function r(i,e,s,h,c,l){return d(),a("div",null,[...e[0]||(e[0]=[o("",44)])])}const u=t(n,[["render",r]]);export{m as __pageData,u as default};
