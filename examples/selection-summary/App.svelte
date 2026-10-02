@@ -2,6 +2,7 @@
   import {
     Button,
     ColorGrid,
+    Footer,
     Icon,
     Row,
     SectionHeader,
@@ -68,6 +69,21 @@
       </SelectionSummary>
     </div>
   </Case>
+  <Case label="foot: a Footer with Delete in the lead">
+    <div class="frame foot">
+      <SelectionSummary
+        count={3}
+        kinds={[{ label: 'Shapes', count: 3 }]}
+        onclose={() => {}}
+      >
+        {#snippet foot()}
+          <Footer>
+            {#snippet lead()}<Button variant="danger">Delete</Button>{/snippet}
+          </Footer>
+        {/snippet}
+      </SelectionSummary>
+    </div>
+  </Case>
   <Case label="The frame alone: the counts only">
     <div class="frame short">
       <SelectionSummary count={2} kinds={[{ label: 'Shapes', count: 2 }]} />
@@ -83,5 +99,8 @@
   }
   .frame.short {
     height: 10rem;
+  }
+  .frame.foot {
+    height: 16rem;
   }
 </style>

@@ -6,8 +6,9 @@ Footer holds the actions at the bottom of a modal or a panel.
 
 Use it for the buttons that close or confirm a modal or a panel. Their
 order is fixed: `lead` on the left, then `secondary`, `cancel` and
-`primary` on the right. A destructive action is not placed here; it is the
-primary action of a confirmation.
+`primary` on the right. A destructive action goes in the lead of an
+inspector's foot (Delete), never among the actions at the end; elsewhere
+it is the primary action of a confirmation.
 
 ## Props
 

@@ -4,12 +4,13 @@
   import { tick, untrack } from 'svelte';
 
   // Footer: the actions at the bottom of a modal or a panel, in a fixed order: lead on the left,
-  // then secondary, cancel and primary on the right. A destructive action does not go here (it is
-  // the primary action of a confirmation). The height is a button plus pad-md above and below; the
-  // sides are pad-md and a line runs along the top. The parts stay in one row as long as the row
-  // fits; it stacks only when the row does not fit, every part at full width, primary first and the
-  // lead last. The footer measures its row (a ResizeObserver, read in the delivery and written in
-  // the next frame), and measures again when its content changes.
+  // then secondary, cancel and primary on the right. A destructive action goes in the lead of an
+  // inspector's foot (Delete), never among the actions at the end; elsewhere it is the primary
+  // action of a confirmation. The height is a button plus pad-md above and below; the sides are
+  // pad-md and a line runs along the top. The parts stay in one row as long as the row fits; it
+  // stacks only when the row does not fit, every part at full width, primary first and the lead
+  // last. The footer measures its row (a ResizeObserver, read in the delivery and written in the
+  // next frame), and measures again when its content changes.
   //
   //   <Footer>
   //     {#snippet cancel()}…{/snippet}

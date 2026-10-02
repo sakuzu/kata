@@ -15,8 +15,8 @@
   // number selected (the messages API writes it, or title), the actions of end and a close button
   // with onclose. The content is, in order: the count of each kind as Stats in a Block, the fields
   // that edit what the things share (a snippet, usually SectionHeader groups), and the actions on
-  // the whole selection in a Block. The panel knows nothing of the kinds; the application counts
-  // them and names them.
+  // the whole selection in a Block; foot is the foot (a Footer). The panel knows nothing of the
+  // kinds; the application counts them and names them.
   //
   //   <SelectionSummary count={5} kinds={[{ label: 'Shapes', count: 3 }, { label: 'Notes', count: 2 }]}>
   //     {#snippet fields()}<SectionHeader label="Color">…</SectionHeader>{/snippet}
@@ -29,6 +29,7 @@
     fields,
     actions,
     end,
+    foot,
     onclose,
     side = 'panel',
   }: {
@@ -44,6 +45,8 @@
     actions?: Snippet;
     /** Icon buttons at the end of the head, before the close button (a snippet) */
     end?: Snippet;
+    /** The foot of the panel, a Footer with the actions (a snippet) */
+    foot?: Snippet;
     /** Shows a close button in the head and is called when it is pressed */
     onclose?: () => void;
     /** The width of the panel, as Panel's side */
@@ -62,7 +65,7 @@
   {/if}
 {/snippet}
 
-<Panel {side} label={name}>
+<Panel {side} {foot} label={name}>
   {#snippet head()}
     <Toolbar title={name} rule tail={!!(onclose || end)} end={onclose || end ? headEnd : undefined} />
   {/snippet}

@@ -22,6 +22,7 @@ selection goes in `end`, as an icon button, not among the actions.
 | `fields` | | The editors of what the things share (a snippet) |
 | `actions` | | The actions on the whole selection (a snippet) |
 | `end` | | Icon buttons in the head, before the close button (a snippet) |
+| `foot` | | The foot of the panel, a Footer with the actions (a snippet) |
 | `onclose` | | Shows a close button in the head |
 | `side` | `panel` | The width, as [Panel](../components/panel.md)'s `side` |
 
