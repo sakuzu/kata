@@ -110,8 +110,8 @@ size and with more weight.
 
 `subrows(node)` draws what the application puts right under a row and
 before its children, such as a line of settings of that node. It is not
-a row: it spans the width of the tree, starts where the rows one level
-deeper are indented, and has no grip and no selection; a press in it
+a row: it spans the width of the tree, starts at the column of its
+row's name, and has no grip and no selection; a press in it
 neither selects nor starts a drag. Its distances are the application's.
 
 A press selects the row alone; Shift adds the rows from the last one

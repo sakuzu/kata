@@ -808,8 +808,23 @@
       const top = inkTop(body);
       if (top === null) continue;
       const md = Number.parseFloat(getComputedStyle(body).fontSize);
-      const d = top - head.getBoundingClientRect().bottom;
-      if (Math.abs(d - md) > tol)
+      const headBox = head.getBoundingClientRect();
+      const d = top - headBox.bottom;
+      // Flush content under a head with an action keeps pad-md above it, so that the action that
+      // hangs below the head does not reach the first row: the distance may grow by that padding
+      // and the action's overhang
+      let extra = 0;
+      if (group.matches('.flush.acted')) {
+        const action = head.children[1];
+        const overhang = action
+          ? Math.max(
+              0,
+              ...[...action.children].map((c) => c.getBoundingClientRect().bottom - headBox.bottom),
+            )
+          : 0;
+        extra = Number.parseFloat(getComputedStyle(body).paddingTop) + overhang;
+      }
+      if (d < md - tol || d > md + extra + tol)
         bad.push({ kind: 'head-gap', el: label(head), v: +d.toFixed(1), want: +md.toFixed(1) });
     }
   }

@@ -14,7 +14,8 @@
   // that square.
   //
   // The grip shows on hover and on focus, just left of the first thing the row shows (the chevron,
-  // or the name), over the padding, so it takes no place. Of the actions on the right, only those
+  // or the name), over the padding, so it takes no place; beside a chevron at depth 0, where the
+  // padding is too narrow, it lies pad-xs from the edge over the chevron's column. Of the actions on the right, only those
   // in a state other than their default (a hidden eye, a closed lock: data-keep on them) keep a
   // place: they always show, at the right end, and take their own width from the name. The others
   // keep no place: while the row is hovered or focused (or has data-open, while a menu of the row
@@ -151,7 +152,13 @@
 >
   <ListItem {columns} {sel} tail={!!end} {onclick} {onkeydown}>
     {#if grip}
-      <span class="grip" class:beside={expandable || noSeat} class:show={gripShow} data-grip aria-hidden="true"
+      <span
+        class="grip"
+        class:beside={expandable || noSeat}
+        class:top={depth === 0}
+        class:show={gripShow}
+        data-grip
+        aria-hidden="true"
         ><Icon name="grip-vertical" /></span
       >
     {/if}
@@ -217,6 +224,13 @@
   }
   .grip.beside {
     left: calc(#{pad(md)} + var(--kata-tree-depth, 0) * #{pad(md)});
+  }
+  // At depth 0 the padding before the chevron is narrower than the grip: the grip lies pad-xs from
+  // the edge, inside the focus ring, over the chevron's column, and shows only on hover and focus
+  // as the others do
+  .grip.beside.top {
+    left: pad(xs);
+    translate: 0 -50%;
   }
   .tree-row:hover .grip,
   .tree-row:focus-within .grip,

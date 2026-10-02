@@ -12,7 +12,8 @@
   // half of the previous group plus pad-sm (about pad-lg from the previous ink; pad-lg after a
   // line), and the head is pad-md from the content. The content has pad-md on its sides and bottom,
   // so text, fields and pairs go in directly, without a Block. Content that reaches the edges
-  // (List, Tree, Table, Disclosure) takes flush (no padding).
+  // (List, Tree, Table, Disclosure) takes flush (no padding); with an action, flush content keeps
+  // pad-md above it, so that the action that hangs below the head does not reach the first row.
   //
   // Section headers are stacked with gap 0. rule draws a line above, with the same distance from the
   // ink on both sides.
@@ -43,7 +44,13 @@
   } = $props();
 </script>
 
-<div class="kata-section-header" class:flush class:rule data-role="section-header">
+<div
+  class="kata-section-header"
+  class:flush
+  class:rule
+  class:acted={!!actions}
+  data-role="section-header"
+>
   <div class="head" data-role="section-head">
     <span class="label">{label}</span>
     {#if actions}<div class="side">{@render actions()}</div>{/if}
@@ -97,6 +104,9 @@
   .flush > .body {
     padding: 0;
     --kata-inset: #{pad(md)};
+  }
+  .flush.acted > .body {
+    padding-top: pad(md);
   }
   // Content that ends with a filled row (a Disclosure) gets the lower half of a list item below it
   .flush > .body > :global([data-role='list-item']:last-child) {

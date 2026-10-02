@@ -77,12 +77,12 @@
   // when its callback is given). row(node, name) draws the part before the actions for a kind of
   // its own, and renders name(node) where the name goes; actions(node) adds actions before the
   // eye, or after the lock with actionsAfter. subrows(node) draws what the application puts under
-  // a row, before its children: not a row, without a grip or a selection. A press selects (Shift
-  // adds the range, ⌘ or Ctrl toggles), F2 or a double click renames in place, and with onmove the
-  // rows are reordered by dragging: a node goes into any open group, but a group keeps its depth
-  // unless allowNesting, so a group never enters another group. A node may turn off its own eye,
-  // lock, dragging or selection (eye, lock, draggable, selectable), disable its eye with a reason
-  // (eyeDisabled) and mark itself current.
+  // a row, before its children, from the column of the row's name: not a row, without a grip or
+  // a selection. A press selects (Shift adds the range, ⌘ or Ctrl toggles), F2 or a double click
+  // renames in place, and with onmove the rows are reordered by dragging: a node goes into any
+  // open group, but a group keeps its depth unless allowNesting, so a group never enters another
+  // group. A node may turn off its own eye, lock, dragging or selection (eye, lock, draggable,
+  // selectable), disable its eye with a reason (eyeDisabled) and mark itself current.
   //
   //   <LayerTree label="Layers" {nodes} bind:selected bind:expanded
   //     onvisible={show} onlock={lock} onrename={rename} onmove={move}
@@ -447,7 +447,7 @@
       <TreeRow {...rowProps(node, depth, parentHidden)}>{@render body(node)}</TreeRow>
     {/if}
     {#if subrows}
-      <div class="subrows" data-subrows style:--kata-tree-depth={depth + 1}>
+      <div class="subrows" data-subrows style:--kata-tree-depth={depth}>
         {@render subrows(node)}
       </div>
     {/if}
@@ -504,14 +504,19 @@
     min-width: 0;
     flex: none;
   }
-  // What the application puts under a row: the width of the tree, indented as a row one deeper
+  // What the application puts under a row: the width of the tree, indented as its row, with its
+  // content in the column of the row's name (after the chevron's place and gap-sm)
   .subrows {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: h(icon-button) minmax(0, 1fr);
+    column-gap: gap(sm);
     min-width: 0;
     flex: none;
     padding-left: calc(#{pad(md)} + var(--kata-tree-depth, 0) * #{pad(md)});
     padding-right: var(--kata-inset, #{pad(md)});
+    > :global(*) {
+      grid-column: 2;
+    }
   }
   // The input of a rename takes the width of the name
   .rename {

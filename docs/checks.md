@@ -66,3 +66,8 @@ is an edge on that side only; from the other side the distance runs to
 what is inside it (the text of tabs with a line along their bottom). An
 element marked `data-kata-skip` (drawn by the browser or by another
 library) is not measured.
+
+head-gap allows one exception: flush content under a head with an
+action keeps pad-md above it, so that the action that hangs below the
+head does not reach the first row, and its distance from the head may
+grow by that padding and the action's overhang.
