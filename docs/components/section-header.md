@@ -29,9 +29,10 @@ height, and controls in it are small buttons. The content has pad-md on
 its sides and below (none with `flush`) and starts pad-md below the head,
 so the head is closer to its content than to the group before it
 (pad-sm plus that group's lower padding, pad-lg first or after a line).
-Flush content under a head with an action keeps pad-md above it, so
-that the action, which hangs below the head, does not reach the first
-row. With `rule`, the line is pad-lg from the ink on both sides.
+Flush content starts gap-xs below the ink of the name. Flush content
+under a head with an action keeps pad-md above it instead, so that the
+action, which hangs below the head, does not reach the first row. With
+`rule`, the line is pad-lg from the ink on both sides.
 
 ## Example
 

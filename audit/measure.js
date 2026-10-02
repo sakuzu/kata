@@ -841,10 +841,13 @@
       const d = top - headBox.bottom;
       // Flush content under a head with an action keeps pad-md above it, so that the action that
       // hangs below the head does not reach the first row: the distance may grow by that padding
-      // and the action's overhang
+      // and the action's overhang. Flush content without an action keeps gap-xs above it, by which
+      // the distance may grow too
       let extra = 0;
       if (group.matches('.flush.acted'))
         extra = Number.parseFloat(getComputedStyle(body).paddingTop) + actionOverhang(group, head);
+      else if (group.matches('.flush'))
+        extra = Number.parseFloat(getComputedStyle(body).paddingTop);
       if (d < md - tol || d > md + extra + tol)
         bad.push({ kind: 'head-gap', el: label(head), v: +d.toFixed(1), want: +md.toFixed(1) });
     }
@@ -866,8 +869,11 @@
         continue;
       const above = nameTop - prevBottom;
       const below = bodyTop - nameBottom;
-      // Flush content under a head with an action may lie further by the action's overhang
-      const extra = head ? actionOverhang(group, head) : 0;
+      // Flush content under a head with an action may lie further by the action's overhang, and
+      // flush content without one by the gap-xs above it
+      let extra = head ? actionOverhang(group, head) : 0;
+      if (group.matches('.flush:not(.acted)'))
+        extra += Number.parseFloat(getComputedStyle(body).paddingTop);
       if (below > above - tol + extra)
         bad.push({
           kind: 'head-near',

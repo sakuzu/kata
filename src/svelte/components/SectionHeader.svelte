@@ -12,8 +12,9 @@
   // half of the previous group plus pad-sm (about pad-lg from the previous ink; pad-lg after a
   // line), and the head is pad-md from the content. The content has pad-md on its sides and bottom,
   // so text, fields and pairs go in directly, without a Block. Content that reaches the edges
-  // (List, Tree, Table, Disclosure) takes flush (no padding); with an action, flush content keeps
-  // pad-md above it, so that the action that hangs below the head does not reach the first row.
+  // (List, Tree, Table, Disclosure) takes flush (no padding at the sides and below, gap-xs between
+  // the ink of the name and the content); with an action, flush content keeps pad-md above it, so
+  // that the action that hangs below the head does not reach the first row.
   //
   // Section headers are stacked with gap 0. rule draws a line above, with the same distance from the
   // ink on both sides.
@@ -103,6 +104,7 @@
   }
   .flush > .body {
     padding: 0;
+    padding-top: gap(xs);
     --kata-inset: #{pad(md)};
   }
   .flush.acted > .body {
