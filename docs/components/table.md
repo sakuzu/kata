@@ -29,7 +29,7 @@ holds text or a [ColHead](col-head.md). A selected row is
 | `children` | required | The rows (`tr`) |
 | `rows` | | The least row height: `mark`, `box`, `thumb` or `two` |
 | `dividers` | `false` | Lines between the header cells |
-| `sticky` | `false` | Keeps the first and the last column in place |
+| `sticky` | `false` | Keeps the first column in place |
 | `fill` | `false` | Fills its container and scrolls itself |
 | `el` | | The element that scrolls (bindable) |
 | `onscroll` | | Called when it scrolls |
@@ -43,10 +43,12 @@ and md above and below. `rows` raises the least height of every row to a
 list item that holds a mark, a small button, a thumbnail or two lines,
 so that the rows line up. Cells have pad-sm at the sides, the outer
 columns pad-md; their text is trimmed to its ink and does not wrap, so a
-wide table scrolls sideways. Controls in a cell are small buttons. Hover
-and selection show the raise surface; a selected row has a blue line of
-two at the left. With `fill` the headers stay at the top on the panel
-surface; with `sticky` the outer columns stay on the ground surface.
+wide table scrolls sideways in its own frame, and a strong line marks
+the edge that still has columns beyond it. Controls in a cell are small
+buttons. Hover and selection show the raise surface; a selected row has
+a blue line of two at the left. With `fill` the headers stay at the top
+on the panel surface; with `sticky` the first column stays at the start
+on the ground surface while the others scroll under it.
 
 ## Example
 

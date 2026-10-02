@@ -202,6 +202,23 @@
   }
 }
 
+// A container that scrolls sideways marks the edge that still has content beyond it with a strong
+// line, drawn inside the edge. The attributes come from the overflowEdges attachment, so the
+// mixin writes :global() and belongs in the style of a Svelte component
+@mixin overflow-edges {
+  $start: inset bw() 0 0 0 color(line-strong);
+  $end: inset calc(#{bw()} * -1) 0 0 0 color(line-strong);
+  &:global([data-overflow-start]) {
+    box-shadow: $start;
+  }
+  &:global([data-overflow-end]) {
+    box-shadow: $end;
+  }
+  &:global([data-overflow-start][data-overflow-end]) {
+    box-shadow: $start, $end;
+  }
+}
+
 // ---- Rows of lists and tables --------------------------------------------------------------------
 
 // The least height of the list items of one list or the rows of one table, named after what they
