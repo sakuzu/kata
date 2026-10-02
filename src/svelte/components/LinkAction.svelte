@@ -8,8 +8,9 @@
   // line ("Add a description", "Show all"). In a layout its height is the line box of its text, so
   // it is measured like the text around it; the area that is pressed reaches the square of an icon
   // button above and below it. No padding at the sides, so its edge lines up with the text around
-  // it. The color is blue-ink, underlined on hover. An action that opens a modal or changes the
-  // screen is a Button.
+  // it. The color is blue-ink, underlined on hover. In a sentence (inside a Text) it takes the size
+  // and the line height of the text around it. An action that opens a modal or changes the screen
+  // is a Button.
   //
   //   <LinkAction icon="plus" onclick={add}>Add a description</LinkAction>
   //   <LinkAction href={url} external>Terms of use</LinkAction>      opens in a new tab
@@ -92,6 +93,12 @@
     > :global(svg) {
       flex: none;
     }
+  }
+  // In a sentence (inside a Text) it takes the size and the line height of the text around it, and
+  // stays inline
+  :global(.kata-text) .link {
+    font-size: inherit;
+    line-height: inherit;
   }
   // In a layout the text keeps its line box. Inside something that declares a height (a list
   // item, a toolbar) it is text in a control, trimmed to its ink and centred.

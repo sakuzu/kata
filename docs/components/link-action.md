@@ -26,7 +26,9 @@ arrow after the text.
 In a layout its height is the line box of its text, so it is measured
 like the text around it; the area that is pressed reaches the height of
 an icon button. There is no padding at the sides, so its edge lines up
-with the text around it. The text is blue-ink, underlined on hover.
+with the text around it. The text is blue-ink, underlined on hover. In
+a sentence, inside a [Text](text.md), it takes the size and the line
+height of the text around it and stays inline.
 Inside something that declares a height (a list item, a toolbar) the
 text is trimmed to its ink. Disabled, the text takes the text color,
 dimmed.
