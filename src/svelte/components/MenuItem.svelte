@@ -12,8 +12,8 @@
   //
   // It is a <button> (an <a> with href), always with role="menuitem" and tabindex="-1": the menu
   // moves the focus with the arrow keys. Other attributes (data-*, aria-*, onmouseenter) go to the
-  // element. An item grows with its content: a Stack with a second line of description makes it
-  // two lines high.
+  // element. An item grows with its content: a Stack (gap sm) with a second line of description
+  // makes it two lines high.
   //
   //   <MenuItem icon="copy" kbd="⌘D" onclick={duplicate}>Duplicate</MenuItem>
   //   <MenuItem checked={sort === 'name'} onclick={() => (sort = 'name')}>Name</MenuItem>

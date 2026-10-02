@@ -302,7 +302,7 @@
     }
     @include focus-inside;
   }
-  // An option with a description: the two lines gap-xs apart, pad-md above and below
+  // An option with a description: the two lines gap-sm apart, pad-md above and below
   .option.two {
     padding-block: pad(md);
   }
@@ -314,7 +314,7 @@
   .text {
     display: flex;
     flex-direction: column;
-    gap: gap(xs);
+    gap: gap(sm);
     min-width: 0;
   }
   .t {
