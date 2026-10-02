@@ -55,11 +55,15 @@ function setWindow(width: number) {
   Object.defineProperty(window, 'innerWidth', { configurable: true, value: width });
 }
 
-/** Gives the shell a width (in px, at a root of 16px) and reports it to the observers */
+/**
+ * Gives the shell a width (in px, at a root of 16px), reports it to the observers and waits for
+ * the next frame, where the change is measured
+ */
 async function resizeShell(width: number) {
   shellWidth = width;
   const shells = [...document.querySelectorAll('[data-role="shell"]')];
   for (const o of observers) o.fire(shells);
+  await new Promise((resolve) => requestAnimationFrame(resolve));
   await tick();
   await tick();
 }

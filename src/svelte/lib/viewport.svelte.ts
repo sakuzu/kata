@@ -54,13 +54,24 @@ function appContainer(): AppContainer | undefined {
   }
 }
 
-// One ResizeObserver for every element that is measured, however many flags watch it
+// One ResizeObserver for every element that is measured, however many flags watch it. The flags
+// are measured in the next frame, not in the delivery, so that what they change is not delivered
+// in the same frame again; the elements that changed meanwhile are measured once.
 let observer: ResizeObserver | undefined;
 const watchers = new Map<Element, Set<() => void>>();
+const changed = new Set<Element>();
+let frame = 0;
 
 function watchSize(el: Element, run: () => void): () => void {
   observer ??= new ResizeObserver((entries) => {
-    for (const entry of entries) for (const fn of watchers.get(entry.target) ?? []) fn();
+    for (const entry of entries) changed.add(entry.target);
+    cancelAnimationFrame(frame);
+    frame = requestAnimationFrame(() => {
+      frame = 0;
+      const targets = [...changed];
+      changed.clear();
+      for (const target of targets) for (const fn of watchers.get(target) ?? []) fn();
+    });
   });
   let set = watchers.get(el);
   if (!set) {

@@ -150,11 +150,23 @@
     };
     read();
     if (typeof ResizeObserver === 'undefined') return;
-    // The container's width, and the bar's own size, which follows the text size
-    const ro = new ResizeObserver(read);
+    // The container's width, and the bar's own size, which follows the text size. A change is
+    // measured in the next frame, not in the delivery, so that what it writes is not delivered in
+    // the same frame again
+    let frame = 0;
+    const ro = new ResizeObserver(() => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        frame = 0;
+        read();
+      });
+    });
     ro.observe(container);
     ro.observe(el);
-    return () => ro.disconnect();
+    return () => {
+      ro.disconnect();
+      cancelAnimationFrame(frame);
+    };
   });
 
   const shown = $derived.by(() => {

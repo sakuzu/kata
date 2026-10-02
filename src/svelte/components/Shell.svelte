@@ -355,12 +355,20 @@
     return (seat) => {
       const sheet = seat.firstElementChild;
       if (!sheet || typeof ResizeObserver === 'undefined') return;
+      // Measured in the next frame, not in the delivery: the toolbar it moves is not delivered again
+      // in the same frame
+      let frame = 0;
       const ro = new ResizeObserver(() => {
-        sheetH[side] = sheet.getBoundingClientRect().height;
+        cancelAnimationFrame(frame);
+        frame = requestAnimationFrame(() => {
+          frame = 0;
+          sheetH[side] = sheet.getBoundingClientRect().height;
+        });
       });
       ro.observe(sheet);
       return () => {
         ro.disconnect();
+        cancelAnimationFrame(frame);
         sheetH[side] = 0;
       };
     };
