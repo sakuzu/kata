@@ -6,6 +6,19 @@ follows semantic versioning.
 
 ## [Unreleased]
 
+## [1.6.2] - 2026-10-02
+
+Fixes found in an application's review. Nothing changes incompatibly.
+
+- Fixed: a Sheet with `pane` at half scrolls the panel's content and
+  keeps its foot in view, through a wrapper of the application as tall
+  as its place too; a drag that ends above the height it started from
+  never snaps to a lower stage (nor one below it to a higher one), and
+  the click that ends a drag no longer steps (#56).
+- Fixed: headings and short text wrap as they come instead of balancing
+  their lines, which narrowed a Japanese caption and split the words of
+  a heading; body and prose keep `pretty` (#32).
+
 ## [1.6.1] - 2026-10-02
 
 Fixes found in an application's review. Nothing changes incompatibly.
@@ -400,6 +413,7 @@ them to the rules.
   of drawing out of kata; `npm run check:package` runs publint and Are
   the Types Wrong on the package.
 
+[1.6.2]: https://github.com/sakuzu/kata/compare/v1.6.1...v1.6.2
 [1.6.1]: https://github.com/sakuzu/kata/compare/v1.6.0...v1.6.1
 [1.6.0]: https://github.com/sakuzu/kata/compare/v1.5.1...v1.6.0
 [1.5.1]: https://github.com/sakuzu/kata/compare/v1.5.0...v1.5.1
