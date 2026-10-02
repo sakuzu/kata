@@ -287,8 +287,10 @@
     gap: gap(sm);
     flex: 1 1 0;
     min-width: 0;
-    // What does not fit is clipped here, so that it never runs over the end
-    overflow: clip;
+    // What does not fit is clipped here at the sides, so that it never runs over the end; above
+    // and below nothing is clipped, so a focus ring drawn outside a button stays whole
+    overflow-x: clip;
+    overflow-y: visible;
   }
   // The brand: the application's name at the size of h2, text in a control, a little tighter
   // (--kata-topbar-brand-tracking, -0.01em unless the page sets it)

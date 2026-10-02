@@ -62,10 +62,11 @@ row counts the centre's content at its min-content width, up to 10rem:
 a title keeps at least this much before the others fold, and a longer
 one is clipped. The bar stops
 at the first step that fits and goes back when the width allows the row
-again. When even that does not fit, the centre is clipped, and the start
-shrinks: the crumbs first, and only once they have no width left, the
-brand, which ends with an ellipsis. A snippet that takes no argument
-works as before and is not compacted.
+again. When even that does not fit, the centre is clipped at its sides
+(a focus ring above and below stays whole), and the start shrinks: the
+crumbs first, and only once they have no width left, the brand, which
+ends with an ellipsis. A snippet that takes no argument works as before
+and is not compacted.
 
 ## Example
 
