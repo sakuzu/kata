@@ -48,7 +48,7 @@ describe('NumberInput', () => {
   it('is as wide as its digits, or its placeholder when longer, and digits win over width', () => {
     const short = render(NumberInput, { value: 12.5, digits: 4, width: '6rem', ariaLabel: 'A' });
     const a = short.container.querySelector('label') as HTMLElement;
-    expect(a.dataset.digits).toBe('4');
+    expect(a.getAttribute('data-digits')).toBe('4');
     expect(a.style.getPropertyValue('--kata-number-digits')).toBe('4');
     expect(a.style.width).toBe('');
     const long = render(NumberInput, {
@@ -58,7 +58,7 @@ describe('NumberInput', () => {
       ariaLabel: 'B',
     });
     const b = long.container.querySelector('label') as HTMLElement;
-    expect(b.dataset.digits).toBe('2');
+    expect(b.getAttribute('data-digits')).toBe('2');
     expect(b.style.getPropertyValue('--kata-number-digits')).toBe('9');
   });
 });
