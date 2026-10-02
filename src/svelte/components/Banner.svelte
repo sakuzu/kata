@@ -7,9 +7,9 @@
   // Banner: a notice in the flow of a page or a panel. Its line takes the color of its tone (info
   // blue, warn yellow, error red, ok green) and so does its icon; the padding is pad-md. The icon
   // is centred on the first line of the text, which is not trimmed. An action (act) sits at the
-  // right end; when it does not fit beside the text, it moves below it. A notice of several lines
-  // puts them in a Stack. floating gives it the panel surface, for a notice over the stage; the
-  // application places it.
+  // right end, on the baseline of the first line; when it does not fit beside the text, it moves
+  // below it. A notice of several lines puts them in a Stack. floating gives it the panel surface,
+  // for a notice over the stage; the application places it.
   //
   //   <Banner tone="warn">The trial ends in 3 days{#snippet act()}<Button>Renew</Button>{/snippet}</Banner>
   let {
@@ -61,7 +61,8 @@
     @include container;
     display: flex;
     flex-wrap: wrap;
-    align-items: flex-start;
+    // The first line of the text and the action share one baseline
+    align-items: baseline;
     gap: gap(sm);
     color: color(text);
     min-width: 0;
@@ -86,9 +87,11 @@
     flex: none;
     height: calc(#{fs(body)} * #{lh(body)});
   }
+  // The line takes its baseline from the first line of the text
   .text {
     flex: 1 1 auto;
     min-width: 0;
+    align-self: baseline;
   }
   // Below the text, the action shrinks to the container and its text ends with an ellipsis
   .act {
