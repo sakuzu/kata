@@ -38,6 +38,45 @@ when the room is short. Nothing changes incompatibly.
   the bar's edge instead of covering its line; from a vertical bar (a
   Drawbar standing in a column) it opens beside the bar, on the left, or
   on the right when there is no room, lined up with the trigger (#26).
+- Fixed: trimmed single-line text clips sideways only, so WebKit keeps the
+  descenders; the audit's `trim-clip` check follows (#1).
+- Changed: a title and its caption in a two-line item are gap-sm apart,
+  both lines trimmed (the examples, MenuItem and Select follow) (#2).
+- Fixed: a NumberInput removes the spin buttons, which took room even
+  where they were invisible, and takes `digits` (a FieldSpec too) to size
+  itself to its value (#11).
+- Fixed: the action of a Banner sits on the baseline of its first line
+  (#19).
+- Added: the audit checks `tabs-gap` (the content under Tabs on a page is
+  gap-lg away) and `bundle-edge` in a bare Surface; the examples follow
+  (#20, #21).
+- Changed: the summary of a details in Prose is body text at the label
+  weight after a chevron (#22).
+- Fixed: a mark in the value of a Pair keeps its own size (#23).
+- Added: `text-wrap-style`: pretty for body and prose, balance for the
+  other roles (#24).
+- Changed: a Table keeps only its first column sticky; a Table and a Bulk
+  show that they scroll sideways with a line at the edge (`overflowEdges`,
+  exported); the narrow Tcard sets its name and value gap-xs apart (#10).
+- Fixed: in the dark palette a black swatch has an edge, the over-limit
+  Meter uses the red fill, and a disabled primary button uses the new
+  `solid-disabled` tokens (#13).
+- Changed: the mono font stack no longer names IBM Plex Mono; an
+  application that loads it puts it first (#14).
+- Fixed: the hover-only actions of a TreeRow keep no place; only the
+  `data-keep` ones do (#15).
+- Fixed: a flush SectionHeader with actions keeps pad-md above its body,
+  the subrows of a LayerTree indent to the name, and the grip of a
+  depth-0 row sits inside the focus ring (#16).
+- Fixed: the actions of Actions wrap as one group; a Pager stays on one
+  line, compact (first, current, last) when it does not fit, and scrolls
+  after that (#17).
+- Fixed: a StepBar shrinks its connectors first, then stacks the names
+  under the numbers, then shows the numbers only with the current name
+  under the bar (#18).
+- Fixed: the examples of the menus, kbd, row and settings-row sit in a
+  frame of their width; the panel fit case, versions-panel at 390 and
+  bulk follow (#27).
 
 ## [1.5.0] - 2026-10-02
 
