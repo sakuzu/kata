@@ -99,3 +99,37 @@ test('tree-row: a menu item is pressed after the pointer leaves the row', async 
   await expect(page.getByText('Chose rename First')).toBeVisible();
   await expect(row).not.toHaveAttribute('data-open', '');
 });
+
+// A Sheet at half holding a panel taller than half the frame (an InspectorFrame in a wrapper as tall
+// as its place, as an application puts it there): the sheet stops at half, the panel's content
+// takes the height left between its head and its foot and scrolls there, and the foot stays in the
+// frame.
+test('sheet: at half, a pane taller than half scrolls its content above the foot', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 1000 });
+  await page.goto('/sheet/', { waitUntil: 'networkidle' });
+  const sheet = page.getByRole('complementary', { name: 'Inspector' });
+  await expect(sheet).toHaveAttribute('data-stage', 'half');
+  const frame = sheet.locator('xpath=..');
+  await frame.scrollIntoViewIfNeeded();
+  const scroll = sheet.locator('section[data-role="panel"] > .scroll');
+  const { scrollHeight, clientHeight } = await scroll.evaluate((el) => ({
+    scrollHeight: el.scrollHeight,
+    clientHeight: el.clientHeight,
+  }));
+  expect(clientHeight, 'the content has a height').toBeGreaterThan(0);
+  expect(scrollHeight, 'the content scrolls').toBeGreaterThan(clientHeight);
+  const box = await frame.boundingBox();
+  const foot = await sheet.locator('[data-role="footer"]').boundingBox();
+  if (!box || !foot) throw new Error('the frame or the foot has no box');
+  expect(foot.y + foot.height, 'the foot ends in the frame').toBeLessThanOrEqual(
+    box.y + box.height + 0.5,
+  );
+  // Nothing covers the foot's button: it is not clipped by the sheet
+  const hit = await sheet.getByRole('button', { name: 'Delete' }).evaluate((el) => {
+    const r = el.getBoundingClientRect();
+    return el.contains(document.elementFromPoint(r.x + r.width / 2, r.y + r.height / 2));
+  });
+  expect(hit, 'the foot is shown').toBe(true);
+});

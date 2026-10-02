@@ -34,12 +34,16 @@ top. The order inside is fixed: a handle gap-md high (a bar of two
 lines), the head, the content and the foot; only the content shrinks and
 scrolls, and it has no padding. `peek` is as high as the handle and the
 head, `half` is the content's height up to half the frame (a taller
-content scrolls there) and `full` all of the frame. A press on the
-handle steps up through the heights and returns to the lowest; ArrowUp
-and ArrowDown on the handle step up and down; a drag follows the pointer
-and snaps to the nearest height on release. With `closable`, a drag well
-below the lowest height, or ArrowDown there, closes it. The handle's
-name is the `sheetHeight` message.
+content scrolls there, inside the panel with `pane`, through a wrapper of
+the application as tall as its place too) and `full` all of the frame. A
+press on the handle steps up through the heights and returns to the
+lowest; ArrowUp and ArrowDown on the handle step up and down; a drag
+follows the pointer and snaps to the nearest height on release. A drag
+that ends above the height it started from never snaps to a lower one,
+nor one that ends below it to a higher one, and the click that ends a
+drag does not step. With `closable`, a drag well below the lowest height,
+or ArrowDown there, closes it. The handle's name is the `sheetHeight`
+message.
 
 ## Example
 

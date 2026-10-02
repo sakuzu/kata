@@ -13,7 +13,8 @@
   // top. It has three heights: peek (the handle and the head), half (the content's height up to half
   // the frame; a taller content scrolls) and full. A press on the handle steps up through them (from
   // the highest it returns to the lowest), the arrow keys step up and down, and a drag snaps to the
-  // nearest height on release. stages offers fewer heights.
+  // nearest height on release, never below the height it started from when it ends above it (nor
+  // above it when it ends below). stages offers fewer heights.
   //
   // The order inside is fixed: the handle, the head, the content and the foot. Only the content
   // shrinks and scrolls. It has no padding. When the content is a panel with a head of its own,
@@ -74,11 +75,15 @@
   const FRAC: Record<Stage, number> = { peek: 0.14, half: 0.5, full: 1 };
   // The least height while dragging, in px
   const MIN_DRAG = 48;
+  // A press that moves less than this, in px, is a press and not a drag
+  const MIN_MOVE = 4;
 
   let el = $state<HTMLElement>();
   // The height in px while dragging; back to a stage on release
   let dragH = $state<number | null>(null);
   let dragging = $state(false);
+  // A drag that moved has just ended: the click that a browser sends after it does not step
+  let dragged = false;
   let startY = 0;
   let startH = 0;
   let parentH = 0;
@@ -91,8 +96,13 @@
     onstage?.(next);
   }
 
-  function cycle() {
+  function cycle(e: MouseEvent) {
     if (dragging) return;
+    // The click after a drag (a click from the keyboard has no detail)
+    if (dragged && e.detail > 0) {
+      dragged = false;
+      return;
+    }
     go(stages[index >= stages.length - 1 ? 0 : index + 1]);
   }
 
@@ -104,6 +114,7 @@
     startH = el.getBoundingClientRect().height;
     dragH = startH;
     dragging = true;
+    dragged = false;
     (e.currentTarget as HTMLElement).setPointerCapture?.(e.pointerId);
   }
   function move(e: PointerEvent) {
@@ -111,18 +122,25 @@
     const h = startH + (startY - e.clientY);
     dragH = Math.max(MIN_DRAG, Math.min(parentH * 0.94, h));
   }
-  function up() {
+  function up(e: PointerEvent) {
     if (!dragging) return;
     dragging = false;
-    const frac = (dragH ?? 0) / (parentH || 1);
+    const h = dragH ?? 0;
     dragH = null;
+    // A press without a drag: the click steps
+    if (Math.abs(e.clientY - startY) < MIN_MOVE) return;
+    dragged = true;
+    const frac = h / (parentH || 1);
     if (closable && frac < FRAC[stages[0]] * 0.55) {
       onclose?.();
       return;
     }
-    let best = stages[0];
+    // A drag that ends above the height it started from never snaps to a lower stage, and one that
+    // ends below it never to a higher one
+    const near = stages.filter((_, i) => (h > startH ? i >= index : h < startH ? i <= index : true));
+    let best = near[0];
     let bestD = Number.POSITIVE_INFINITY;
-    for (const s of stages) {
+    for (const s of near) {
       const d = Math.abs(FRAC[s] - frac);
       if (d < bestD) {
         bestD = d;
@@ -227,9 +245,13 @@
     min-width: 0;
     overflow: auto;
   }
+  // A column, so that the height left to the content reaches the panel as its main size, through
+  // a wrapper of the application too (one as tall as its place, height 100%, which a row would let
+  // grow to its content at half, where the sheet's height is not fixed)
   .scroll.pane {
     overflow: hidden;
     display: flex;
+    flex-direction: column;
     > :global(*) {
       flex: 1 1 auto;
       width: 100%;
