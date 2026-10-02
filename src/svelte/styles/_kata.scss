@@ -102,12 +102,14 @@
   font-size: fs($role);
   line-height: lh($role);
   letter-spacing: ls($role);
-  // Running text avoids a last line of one short word; headings and short text balance their
-  // lines. The longhand, so that white-space: nowrap still holds a line together
+  // Running text avoids a last line of one short word; headings and short text wrap as they come
+  // (not the pretty they would inherit from the body): balancing them narrows a Japanese caption
+  // of two lines and splits the words of a heading. The longhand, so that white-space: nowrap still
+  // holds a line together
   @if $role == body or $role == prose {
     text-wrap-style: pretty;
   } @else {
-    text-wrap-style: balance;
+    text-wrap-style: auto;
   }
   @if $role == num {
     font-weight: 600;

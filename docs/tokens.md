@@ -68,7 +68,8 @@ component, not by a token.
 - On an element whose language is Chinese or Japanese, every tracking
   token is 0: CJK text takes no negative letter spacing.
 - Body and prose wrap pretty, so a paragraph does not end in one short
-  word; the other roles balance their lines (`text-wrap-style`).
+  word; the other roles wrap as they come (`text-wrap-style: auto`), as
+  balancing narrows a Japanese caption and splits the words of a heading.
 
 ## Typeface metrics
 
