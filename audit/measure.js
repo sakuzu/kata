@@ -22,8 +22,9 @@
 //   double-rule    no two lines run along one edge
 //   double-inset   a container with padding never sits directly in another one
 //   bundle-edge    text inside a container without padding (one that declares a non-zero inset for
-//                  its items: a Panel's content, a drawer, a flush group) that no component with
-//                  padding of its own holds is at least pad-md from its left edge
+//                  its items: a Panel's content, a drawer, a flush group; or a surface of the
+//                  examples, data-role="surface") that no component with padding of its own holds is
+//                  at least pad-md from its left edge
 //   inner-gap      inside a container with padding, neighbours are no further apart than the edge
 //   box-touch      a control with an outline never touches the padded edge of its container
 //   box-gap        controls stacked vertically are at least md apart
@@ -672,11 +673,20 @@
     }
     return null;
   }
+  // A surface (data-role="surface") without padding is a container without padding too, for the
+  // text that no container inside it (one that declares an inset of its own) holds
+  function surfaceBundleOf(el) {
+    const surface = el.closest('[data-role="surface"]');
+    if (!surface || Number.parseFloat(getComputedStyle(surface).paddingLeft) !== 0) return null;
+    for (let n = el; n && n !== surface; n = n.parentElement)
+      if (n.parentElement && insetOf(n) !== insetOf(n.parentElement)) return null;
+    return surface;
+  }
   function bundleEdge(root, bad) {
     for (const el of root.querySelectorAll('*')) {
       if (!visible(el) || skipped(el) || el.closest('svg')) continue;
       if (![...el.childNodes].some((n) => n.nodeType === 3 && n.textContent.trim())) continue;
-      const bundle = bundleOf(el);
+      const bundle = bundleOf(el) ?? surfaceBundleOf(el);
       if (!bundle) continue;
       const owner = el.closest(INSET_OWNERS);
       if (owner && bundle.contains(owner)) continue;

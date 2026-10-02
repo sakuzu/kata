@@ -45,7 +45,7 @@ element inside the example is measured; a finding fails the audit.
 | focus-halo | A text field shows a 2px ring on focus |
 | double-rule | No two lines run along one edge |
 | double-inset | A container with padding never sits in another one |
-| bundle-edge | Text in a container without padding keeps pad-md from its edge |
+| bundle-edge | Text in an unpadded container or surface keeps pad-md |
 | inner-gap | In a padded container, neighbours are no further than the edge |
 | box-touch | A control never touches the padded edge of its container |
 | box-gap | Controls stacked vertically are at least md apart |

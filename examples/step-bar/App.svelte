@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { StepBar } from '@sakuzu/kata/svelte';
+  import { Block, StepBar } from '@sakuzu/kata/svelte';
   import Case from '../_shared/Case.svelte';
   import Example from '../_shared/Example.svelte';
   import Surface from '../_shared/Surface.svelte';
@@ -15,6 +15,6 @@
     <StepBar {steps} current={3} />
   </Case>
   <Case label="It wraps in a narrow container">
-    <Surface width="18rem"><StepBar {steps} current={2} /></Surface>
+    <Surface width="18rem"><Block><StepBar {steps} current={2} /></Block></Surface>
   </Case>
 </Example>
