@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Block, Button, Sheet, Stack, Text, Toolbar } from '@sakuzu/kata/svelte';
+  import { Block, Button, Footer, Sheet, Stack, Text, Toolbar } from '@sakuzu/kata/svelte';
   import Case from '../_shared/Case.svelte';
   import Example from '../_shared/Example.svelte';
 
@@ -33,7 +33,7 @@
       <Sheet bind:stage={two} stages={['half', 'full']} label="Share" {head}>
         {@render body()}
         {#snippet foot()}
-          <Block><Button variant="primary" block>Share</Button></Block>
+          <Footer>{#snippet primary()}<Button variant="primary">Share</Button>{/snippet}</Footer>
         {/snippet}
       </Sheet>
     </div>

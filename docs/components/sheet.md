@@ -22,7 +22,7 @@ how much of the screen it takes.
 | `name` | | Tells several sheets apart (`data-sheet`) |
 | `z` | | The stacking order; the sheet layer by default |
 | `head` | | The head, which does not shrink (a snippet) |
-| `foot` | | The foot, for a primary action (a snippet) |
+| `foot` | | The foot, a Footer (a snippet) |
 | `children` | required | The content, which scrolls |
 | `inline` | `false` | In the flow, for documentation |
 

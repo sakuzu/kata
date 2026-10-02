@@ -61,7 +61,7 @@
     label?: string;
     /** The head; it does not shrink */
     head?: Snippet;
-    /** The foot, for a primary action */
+    /** The foot, a Footer */
     foot?: Snippet;
     /** The content; it scrolls */
     children: Snippet;

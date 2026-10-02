@@ -17,7 +17,7 @@
       </Stack>
     </Surface>
   </Case>
-  <Case label="lead, secondary, cancel and primary (stacked below 48rem)">
+  <Case label="lead, secondary, cancel and primary (stacked when the row does not fit)">
     <Surface width="35rem">
       <Stack gap={0}>
         <Block><Text>The content of a modal.</Text></Block>

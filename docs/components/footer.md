@@ -22,9 +22,12 @@ primary action of a confirmation.
 
 The height is at least `--kata-height-footer` (a button and pad-md above
 and below), the padding is pad-md, a line runs along the top and the
-buttons are gap-sm apart at the height of a button. When the buttons do
-not fit beside the lead they move below it as one group. Below 48rem
-everything stacks at full width: primary first, the lead last.
+buttons are gap-sm apart at the height of a button. The parts stay in one
+row as long as the row fits, at any width. Everything stacks only when the
+row does not fit: every part at full width, primary first, then cancel and
+secondary, and the lead last. The footer measures its row when its width
+or its content changes, so there is no stage in between: one row, or
+stacked.
 
 ## Example
 
