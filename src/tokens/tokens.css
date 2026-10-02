@@ -164,7 +164,8 @@
   /* ---- Fonts ------------------------------------------------------------------------------- */
   --kata-font-sans:
     "IBM Plex Sans", "IBM Plex Sans JP", "Noto Sans SC", "Noto Sans TC", system-ui, sans-serif;
-  --kata-font-mono: "IBM Plex Mono", ui-monospace, monospace;
+  --kata-font-mono:
+    ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
 
   /* ---- Color (dark, the default) -----------------------------------------------------------
    * Surfaces from the lowest to the highest: ground, panel, raise, raise-2, fill, solid. Raise

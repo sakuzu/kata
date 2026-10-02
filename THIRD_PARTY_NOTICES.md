@@ -17,8 +17,9 @@ dependency: the application that uses the Svelte entry installs it. The
 drawing glyphs (point, polyline, polygon, arrow and sticky note) are
 kata's own.
 
-The font tokens name typefaces (IBM Plex Sans, IBM Plex Sans JP, IBM Plex
-Mono, Noto Sans SC and Noto Sans TC). The package does not bundle or load
-these fonts; an application that wants them installs and loads them under
-their own licenses (SIL Open Font License 1.1). Without them, the browser
-falls back to the system fonts named at the end of each list.
+The sans font token names typefaces (IBM Plex Sans, IBM Plex Sans JP,
+Noto Sans SC and Noto Sans TC). The package does not bundle or load these
+fonts; an application that wants them installs and loads them under their
+own licenses (SIL Open Font License 1.1). Without them, the browser falls
+back to the system font named at the end of the list. The monospace font
+token names only fonts of the operating systems.
