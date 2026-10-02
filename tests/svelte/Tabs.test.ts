@@ -58,23 +58,53 @@ describe('Tabs', () => {
   describe('when the tabs do not fit', () => {
     afterEach(() => vi.restoreAllMocks());
 
-    it('shows the current tab and those that fit, and folds the rest into "More"', () => {
-      // Every tab and "More" is 100px wide; the tabs have 320px
+    const four = [...tabs, { id: 'history', label: 'History' }];
+    /** Every tab and the trigger are 100px wide; the tabs have 320px */
+    function narrow() {
       vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockReturnValue({
         width: 100,
       } as DOMRect);
       vi.spyOn(HTMLElement.prototype, 'clientWidth', 'get').mockReturnValue(320);
-      const four = [...tabs, { id: 'history', label: 'History' }];
+    }
+
+    it('shows the tabs that fit from the start, and folds the rest into "More"', () => {
+      narrow();
       const { getByRole, queryByRole } = render(Tabs, {
         tabs: four,
-        current: 'assets',
+        current: 'pages',
         label: 'Views',
       });
-      expect(getByRole('button', { name: 'Assets' }).getAttribute('aria-current')).toBe('page');
-      expect(getByRole('button', { name: 'Shapes' })).toBeTruthy();
-      expect(queryByRole('button', { name: 'Pages' })).toBeNull();
+      const nav = getByRole('navigation', { name: 'Views' });
+      const shown = [...nav.querySelectorAll('button.tab:not(.more)')].map((b) => b.textContent);
+      expect(shown).toEqual(['Shapes', 'Pages']);
+      expect(getByRole('button', { name: 'Pages' }).getAttribute('aria-current')).toBe('page');
+      expect(queryByRole('button', { name: 'Assets' })).toBeNull();
       expect(queryByRole('button', { name: 'History' })).toBeNull();
-      expect(getByRole('button', { name: 'More' }).getAttribute('aria-haspopup')).toBe('menu');
+      const more = getByRole('button', { name: 'More' });
+      expect(more.getAttribute('aria-haspopup')).toBe('menu');
+      expect(more.tabIndex).toBe(-1);
+      expect(more.classList.contains('on')).toBe(false);
+    });
+
+    it('keeps the order when the current tab is folded, and shows it on the trigger', () => {
+      narrow();
+      const { getByRole, queryByRole } = render(Tabs, {
+        tabs: four,
+        current: 'history',
+        label: 'Views',
+      });
+      const nav = getByRole('navigation', { name: 'Views' });
+      const shown = [...nav.querySelectorAll('button.tab:not(.more)')].map((b) => b.textContent);
+      expect(shown).toEqual(['Shapes', 'Pages']);
+      expect(queryByRole('button', { name: 'More' })).toBeNull();
+      // The trigger has the name and the mark of the current tab, and is in the tab order
+      const trigger = getByRole('button', { name: 'History' });
+      expect(trigger.getAttribute('aria-haspopup')).toBe('menu');
+      expect(trigger.classList.contains('on')).toBe(true);
+      expect(trigger.tabIndex).toBe(0);
+      expect([...nav.querySelectorAll('button')].filter((b) => b.tabIndex === 0)).toEqual([
+        trigger,
+      ]);
     });
   });
 });

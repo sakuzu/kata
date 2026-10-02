@@ -17,9 +17,10 @@
   // Home and End move the focus between the tabs, and Enter or Space opens the focused one.
   //
   // When the tabs do not fit, as many as fit show and the rest fold into a "More" menu at the right
-  // end; nothing scrolls. The current tab always shows: its width is taken first, then the others
-  // from the start as long as they fit. The widths are measured on a hidden copy of the tabs and
-  // followed with a ResizeObserver.
+  // end; nothing scrolls. The tabs are taken from the start as long as they fit, so their order
+  // never changes. When the current tab is folded, the trigger of the menu shows its name and its
+  // mark instead of "More", and is the tab in the tab order. The widths are measured on a hidden
+  // copy of the tabs and of the trigger, and followed with a ResizeObserver.
   //
   //   <Tabs {tabs} current="general" onselect={(id) => (view = id)} label="Views" />
   type Tab = { id: string; label: string; href?: string };
@@ -45,8 +46,8 @@
   // The tab that is in the tab order: the current one, or the first when none is current
   const focusable = $derived(tabs.some((t) => t.id === current) ? current : tabs[0]?.id);
 
-  // The indexes of the tabs that show, or null when all fit
-  let shownIdx = $state<number[] | null>(null);
+  // The number of tabs that show from the start, or null when all fit
+  let shownCount = $state<number | null>(null);
   $effect(() => {
     const r = root;
     const m = measure;
@@ -59,23 +60,26 @@
         (el) => el.getBoundingClientRect().width,
       );
       if (widths.reduce((a, b) => a + b, 0) <= avail) {
-        shownIdx = null;
+        shownCount = null;
         return;
       }
+      const widthOf = (sel: string) =>
+        m.querySelector<HTMLElement>(sel)?.getBoundingClientRect().width ?? 0;
+      /** How many tabs from the start fit beside a trigger of that width */
+      const fitting = (trigger: number) => {
+        let sum = trigger;
+        let n = 0;
+        while (n < widths.length && sum + widths[n] <= avail) {
+          sum += widths[n];
+          n += 1;
+        }
+        return n;
+      };
+      const n = fitting(widthOf('.more:not(.cur)'));
       const ci = tabs.findIndex((t) => t.id === current);
-      const chosen = new Set<number>();
-      let sum = m.querySelector<HTMLElement>('.more')?.getBoundingClientRect().width ?? 0;
-      if (ci >= 0) {
-        chosen.add(ci);
-        sum += widths[ci];
-      }
-      for (let i = 0; i < widths.length; i += 1) {
-        if (chosen.has(i)) continue;
-        if (sum + widths[i] > avail) break;
-        chosen.add(i);
-        sum += widths[i];
-      }
-      shownIdx = [...chosen].sort((a, b) => a - b);
+      // The current tab is folded: the trigger shows its name instead of "More", and the tabs are
+      // taken again beside that trigger, the current one still folded
+      shownCount = ci >= 0 && ci >= n ? Math.min(fitting(widthOf('.more.cur')), ci) : n;
     };
     read();
     if (typeof ResizeObserver === 'undefined') return;
@@ -84,10 +88,12 @@
     return () => ro.disconnect();
   });
   const split = $derived.by(() => {
-    if (!shownIdx) return { shown: tabs, hidden: [] as Tab[] };
-    const set = new Set(shownIdx);
-    return { shown: tabs.filter((_, i) => set.has(i)), hidden: tabs.filter((_, i) => !set.has(i)) };
+    if (shownCount === null) return { shown: tabs, hidden: [] as Tab[] };
+    return { shown: tabs.slice(0, shownCount), hidden: tabs.slice(shownCount) };
   });
+  // The current tab when it is folded: the trigger of the menu shows it
+  const folded = $derived(split.hidden.find((t) => t.id === current));
+  const currentLabel = $derived(tabs.find((t) => t.id === current)?.label);
 
   function onkeydown(e: KeyboardEvent) {
     const all = root ? [...root.querySelectorAll<HTMLElement>('a.tab, button.tab')] : [];
@@ -147,12 +153,14 @@
         <button
           type="button"
           class="tab more"
+          class:on={!!folded}
           data-h={bar ? 'toolbar' : 'list-item'}
-          tabindex="-1"
+          tabindex={folded ? 0 : -1}
           aria-haspopup="menu"
           aria-expanded={open}
           {onkeydown}
-          onclick={toggle}><span class="t">{getMessages().more}</span><Icon name="chevron-down" /></button
+          onclick={toggle}
+          ><span class="t">{folded ? folded.label : getMessages().more}</span><Icon name="chevron-down" /></button
         >
       {/snippet}
       {#snippet panel(close)}
@@ -168,12 +176,16 @@
       {/snippet}
     </Dropdown>
   {/if}
-  <!-- A hidden copy of every tab and of "More", to measure their widths -->
+  <!-- A hidden copy of every tab and of the trigger, with "More" and with the name of the current
+  tab, to measure their widths -->
   <span class="measure" aria-hidden="true" data-kata-skip bind:this={measure}>
     {#each tabs as t (t.id)}
       <span class="tab"><span class="t">{t.label}</span></span>
     {/each}
     <span class="tab more"><span class="t">{getMessages().more}</span><Icon name="chevron-down" /></span>
+    {#if currentLabel !== undefined}
+      <span class="tab more cur"><span class="t">{currentLabel}</span><Icon name="chevron-down" /></span>
+    {/if}
   </span>
 </nav>
 

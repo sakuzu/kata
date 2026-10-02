@@ -37,8 +37,10 @@ tab is in the tab order: the left and right arrow keys, Home and End
 move the focus between the tabs, and Enter or Space opens the focused
 one. When the tabs do not fit, as many as fit show and the rest fold
 into a "More" [Menu](menu.md) at the right end (the `more` message);
-nothing scrolls. The current tab always shows: its width is taken first,
-then the others from the start as long as they fit.
+nothing scrolls. The tabs are taken from the start as long as they fit,
+so their order never changes. When the current tab is folded, the
+trigger of the menu shows its name and its double line instead of
+"More", and it is the tab in the tab order.
 
 ## Example
 

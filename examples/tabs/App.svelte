@@ -42,7 +42,7 @@
       </Toolbar>
     </Surface>
   </Case>
-  <Case label="The tabs that do not fit fold into More; the current one always shows">
+  <Case label="The tabs that do not fit fold into More; a folded current tab shows on its trigger">
     <Surface width="16rem">
       <Tabs
         tabs={[
