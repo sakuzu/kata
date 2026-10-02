@@ -2,7 +2,7 @@
 // shell too. jsdom lays nothing out and has no ResizeObserver: the width of the shell's element is
 // given here, and a ResizeObserver that the test triggers reports its changes.
 import { render } from '@testing-library/svelte';
-import { tick } from 'svelte';
+import { createRawSnippet, tick } from 'svelte';
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
 import type { ShellLayout } from '../../src/svelte/components/Shell.svelte';
 import Shell from '../../src/svelte/components/Shell.svelte';
@@ -35,13 +35,17 @@ class MockObserver {
   }
 }
 
-// The width of every shell's element, in px; other elements have no box
+// The width of every shell's element, in px; other elements have no box, unless a test gives them
+// one in boxOf
 let shellWidth = 0;
+let boxOf: ((el: Element) => DOMRect | undefined) | undefined;
 const original = Element.prototype.getBoundingClientRect;
 
 beforeAll(() => {
   globalThis.ResizeObserver = MockObserver as unknown as typeof ResizeObserver;
   vi.spyOn(Element.prototype, 'getBoundingClientRect').mockImplementation(function (this: Element) {
+    const box = boxOf?.(this);
+    if (box) return box;
     return this.matches('[data-role="shell"]')
       ? new DOMRect(0, 0, shellWidth, 600)
       : original.call(this);
@@ -54,6 +58,16 @@ afterAll(() => {
 function setWindow(width: number) {
   Object.defineProperty(window, 'innerWidth', { configurable: true, value: width });
 }
+
+/** Reports every element the observers watch, and waits for the next frame, where it is written */
+async function deliver() {
+  for (const o of [...observers]) o.fire([...o.targets]);
+  await new Promise((resolve) => requestAnimationFrame(resolve));
+  await tick();
+  await tick();
+}
+
+const rightRegion = createRawSnippet(() => ({ render: () => '<section>Details</section>' }));
 
 /**
  * Gives the shell a width (in px, at a root of 16px), reports it to the observers and waits for
@@ -80,36 +94,44 @@ describe('Shell measures its element', () => {
     const onlayout = vi.fn<(l: ShellLayout) => void>();
     const { container } = render(ShellHarness, { side: 'beside', onlayout });
     await tick();
-    expect(onlayout).toHaveBeenLastCalledWith({
-      width: 'wide',
-      leftMode: 'beside',
-      rightMode: 'beside',
-    });
+    expect(onlayout).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        width: 'wide',
+        leftMode: 'beside',
+        rightMode: 'beside',
+      }),
+    );
 
     // The window stays at 1440px; the shell narrows to 60rem, then 30rem
     await resizeShell(960);
-    expect(onlayout).toHaveBeenLastCalledWith({
-      width: 'mid',
-      leftMode: 'floating',
-      rightMode: 'floating',
-    });
+    expect(onlayout).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        width: 'mid',
+        leftMode: 'floating',
+        rightMode: 'floating',
+      }),
+    );
     expect(container.querySelector('[data-role="shell"]')?.getAttribute('data-width')).toBe('mid');
     await resizeShell(480);
-    expect(onlayout).toHaveBeenLastCalledWith({
-      width: 'narrow',
-      leftMode: 'sheet',
-      rightMode: 'sheet',
-    });
+    expect(onlayout).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        width: 'narrow',
+        leftMode: 'sheet',
+        rightMode: 'sheet',
+      }),
+    );
 
     // A resize of the window alone changes nothing
     setWindow(2000);
     window.dispatchEvent(new Event('resize'));
     await tick();
-    expect(onlayout).toHaveBeenLastCalledWith({
-      width: 'narrow',
-      leftMode: 'sheet',
-      rightMode: 'sheet',
-    });
+    expect(onlayout).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        width: 'narrow',
+        leftMode: 'sheet',
+        rightMode: 'sheet',
+      }),
+    );
   });
 
   it('measures the window while its element has no box yet', async () => {
@@ -118,11 +140,13 @@ describe('Shell measures its element', () => {
     const onlayout = vi.fn<(l: ShellLayout) => void>();
     render(ShellHarness, { onlayout });
     await tick();
-    expect(onlayout).toHaveBeenLastCalledWith({
-      width: 'mid',
-      leftMode: 'floating',
-      rightMode: 'floating',
-    });
+    expect(onlayout).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        width: 'mid',
+        leftMode: 'floating',
+        rightMode: 'floating',
+      }),
+    );
   });
 
   it('measures the window where there is no ResizeObserver', async () => {
@@ -135,11 +159,13 @@ describe('Shell measures its element', () => {
       const onlayout = vi.fn<(l: ShellLayout) => void>();
       render(Shell, { side: 'beside', onlayout });
       await tick();
-      expect(onlayout).toHaveBeenLastCalledWith({
-        width: 'wide',
-        leftMode: 'beside',
-        rightMode: 'beside',
-      });
+      expect(onlayout).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          width: 'wide',
+          leftMode: 'beside',
+          rightMode: 'beside',
+        }),
+      );
     } finally {
       globalThis.ResizeObserver = keep;
     }
@@ -167,6 +193,45 @@ describe('Shell measures its element', () => {
     expect(isNarrowerThan(48, container.querySelector('[data-role="shell"]'))).toBe(true);
     // Without an element it is the window
     expect(isNarrowerThan(48)).toBe(false);
+  });
+});
+
+describe('Shell inset', () => {
+  afterEach(() => {
+    shellWidth = 0;
+    boxOf = undefined;
+  });
+
+  it('reports the floating pane and the gap before it as the inset on its side', async () => {
+    // A stage of 1200 by 600px; each pane is 320px wide, 16px (gap-md) from its side
+    shellWidth = 1200;
+    boxOf = (el) => {
+      if (el.matches('.stage')) return new DOMRect(0, 0, 1200, 600);
+      const region = el.matches('[data-role="floating"]')
+        ? el.querySelector(':scope > .pane')?.getAttribute('data-region')
+        : undefined;
+      if (region === 'left') return new DOMRect(16, 16, 320, 400);
+      if (region === 'right') return new DOMRect(1200 - 16 - 320, 16, 320, 400);
+      return undefined;
+    };
+    const onlayout = vi.fn<(l: ShellLayout) => void>();
+    const { container, rerender } = render(ShellHarness, { leftOpen: false, onlayout });
+    await tick();
+    await deliver();
+    expect(onlayout).toHaveBeenLastCalledWith(
+      expect.objectContaining({ inset: { top: 0, right: 0, bottom: 0, left: 0 } }),
+    );
+
+    // The right pane opens: the inset on the right is its width and the gap before it
+    await rerender({ leftOpen: false, rightOpen: true, right: rightRegion, onlayout });
+    await tick();
+    await deliver();
+    expect(onlayout).toHaveBeenLastCalledWith(
+      expect.objectContaining({ inset: { top: 0, right: 336, bottom: 0, left: 0 } }),
+    );
+    const shell = container.querySelector('[data-role="shell"]') as HTMLElement;
+    expect(shell.style.getPropertyValue('--kata-shell-inset-right')).toBe('336px');
+    expect(shell.style.getPropertyValue('--kata-shell-inset-left')).toBe('0px');
   });
 });
 

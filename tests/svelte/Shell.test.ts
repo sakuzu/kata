@@ -85,11 +85,13 @@ describe('Shell', () => {
     const onlayout = vi.fn<(l: ShellLayout) => void>();
     const { container } = render(Shell, { ...regions, rightOpen: true, onlayout });
     await tick();
-    expect(onlayout).toHaveBeenLastCalledWith({
-      width: 'wide',
-      leftMode: 'floating',
-      rightMode: 'floating',
-    });
+    expect(onlayout).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        width: 'wide',
+        leftMode: 'floating',
+        rightMode: 'floating',
+      }),
+    );
     // Both panes float at once, left first, and nothing covers the rest of the stage
     const panes = [...container.querySelectorAll('[data-role="floating"] > [data-region]')];
     expect(panes.map((p) => p.getAttribute('data-region'))).toEqual(['left', 'right']);
@@ -98,21 +100,25 @@ describe('Shell', () => {
 
     // 60rem: between the narrow and the medium width
     await resize(960);
-    expect(onlayout).toHaveBeenLastCalledWith({
-      width: 'mid',
-      leftMode: 'floating',
-      rightMode: 'floating',
-    });
+    expect(onlayout).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        width: 'mid',
+        leftMode: 'floating',
+        rightMode: 'floating',
+      }),
+    );
     expect(container.querySelectorAll('[data-role="floating"]')).toHaveLength(2);
     expect(container.querySelector('.scrim')).toBeNull();
 
     // 30rem: below the narrow width, one sheet at a time: the one opened last stays
     await resize(480);
-    expect(onlayout).toHaveBeenLastCalledWith({
-      width: 'narrow',
-      leftMode: 'sheet',
-      rightMode: 'sheet',
-    });
+    expect(onlayout).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        width: 'narrow',
+        leftMode: 'sheet',
+        rightMode: 'sheet',
+      }),
+    );
     expect(container.querySelector('[data-sheet="left"]')).toBeNull();
     expect(container.querySelector('[data-sheet="right"]')).not.toBeNull();
     expect(container.querySelector('[data-role="floating"]')).toBeNull();
@@ -122,43 +128,51 @@ describe('Shell', () => {
     const onlayout = vi.fn<(l: ShellLayout) => void>();
     const { container } = render(Shell, { ...regions, side: 'beside', rightOpen: true, onlayout });
     await tick();
-    expect(onlayout).toHaveBeenLastCalledWith({
-      width: 'wide',
-      leftMode: 'beside',
-      rightMode: 'beside',
-    });
+    expect(onlayout).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        width: 'wide',
+        leftMode: 'beside',
+        rightMode: 'beside',
+      }),
+    );
     expect(container.querySelector('.side.left')).not.toBeNull();
     expect(container.querySelector('.side.right')).not.toBeNull();
     expect(container.querySelector('[data-role="floating"]')).toBeNull();
 
     // From 48 to 64rem they float, without a scrim
     await resize(960);
-    expect(onlayout).toHaveBeenLastCalledWith({
-      width: 'mid',
-      leftMode: 'floating',
-      rightMode: 'floating',
-    });
+    expect(onlayout).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        width: 'mid',
+        leftMode: 'floating',
+        rightMode: 'floating',
+      }),
+    );
     expect(container.querySelectorAll('[data-role="floating"]')).toHaveLength(2);
     expect(container.querySelector('.side')).toBeNull();
     expect(container.querySelector('.scrim')).toBeNull();
 
     await resize(480);
-    expect(onlayout).toHaveBeenLastCalledWith({
-      width: 'narrow',
-      leftMode: 'sheet',
-      rightMode: 'sheet',
-    });
+    expect(onlayout).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        width: 'narrow',
+        leftMode: 'sheet',
+        rightMode: 'sheet',
+      }),
+    );
   });
 
   it('takes the narrow form at any width with narrow, and never with narrow false', async () => {
     const onlayout = vi.fn<(l: ShellLayout) => void>();
     const { container, unmount } = render(Shell, { ...regions, narrow: true, onlayout });
     await tick();
-    expect(onlayout).toHaveBeenLastCalledWith({
-      width: 'narrow',
-      leftMode: 'sheet',
-      rightMode: 'sheet',
-    });
+    expect(onlayout).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        width: 'narrow',
+        leftMode: 'sheet',
+        rightMode: 'sheet',
+      }),
+    );
     expect(container.querySelector('[data-sheet="left"]')).not.toBeNull();
     expect(container.querySelector('[data-role="floating"]')).toBeNull();
     unmount();
@@ -166,11 +180,13 @@ describe('Shell', () => {
     await resize(480);
     const second = render(Shell, { ...regions, narrow: false, onlayout });
     await tick();
-    expect(onlayout).toHaveBeenLastCalledWith({
-      width: 'mid',
-      leftMode: 'floating',
-      rightMode: 'floating',
-    });
+    expect(onlayout).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        width: 'mid',
+        leftMode: 'floating',
+        rightMode: 'floating',
+      }),
+    );
     expect(second.container.querySelector('[data-sheet]')).toBeNull();
     expect(region(second.container, 'left')?.closest('[data-role="floating"]')).not.toBeNull();
   });

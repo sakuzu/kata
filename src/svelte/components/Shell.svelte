@@ -41,6 +41,8 @@
     width: ShellWidth;
     leftMode: ShellMode;
     rightMode: ShellMode;
+    /** From each edge of the stage to the inner edge of the region on that side, in px */
+    inset: { top: number; right: number; bottom: number; left: number };
   }
 </script>
 
@@ -79,7 +81,16 @@
   // stage takes the pointer wherever a pane is not. With side="beside" they stand beside the stage
   // from 64rem instead, with a strong line between, and float from 48 to 64rem. Below 48rem they
   // are Sheets from the bottom of the stage and the toolbar rises to stay above them. leftOpen and
-  // rightOpen open and close them; onlayout reports the width and where each region is.
+  // rightOpen open and close them; onlayout reports the width, where each region is and the inset.
+  //
+  // The inset is what the regions cover of the stage, in px, from each edge of the stage to the
+  // inner edge of the region on that side: left and right are the width of an open side region
+  // (beside the stage), or the floating pane's box and the gap-md before it (floating), and 0 for
+  // the sheets; a sheet resting at its lowest height does not count. bottom is the height of the
+  // sheets the toolbar rises above (the Fab's column is not counted), and top is the floating bar's
+  // box and the gap-md above it (topFloating), or 0. The shell measures them with a ResizeObserver
+  // (read in the delivery, written in the next frame), calls onlayout when the width, a mode or the
+  // inset changes, and sets them on the root as --kata-shell-inset-top, -right, -bottom and -left.
   //
   // On a narrow screen one of the side sheets and the dock is open at a time: opening a side sheet
   // closes the other side and the dock (ondockclose), and the dock's coming closes the side sheets.
@@ -214,11 +225,6 @@
   const mode: ShellMode = $derived(
     width === 'narrow' ? 'sheet' : width === 'wide' && sides === 'beside' ? 'beside' : 'floating',
   );
-
-  $effect(() => {
-    const layout: ShellLayout = { width, leftMode: mode, rightMode: mode };
-    untrack(() => onlayout?.(layout));
-  });
 
   // On a narrow screen the dock is always a sheet, at the lowest of its heights at first
   const dockSheeted = $derived(!!dock && mode === 'sheet');
@@ -374,6 +380,70 @@
     };
   }
 
+  // ---- The inset ----
+  // The sides from the open regions beside the stage or floating over it, and the top from the
+  // floating bar; the bottom is the height of the sheets (lift)
+  const sideInset = $state({ left: 0, right: 0 });
+  let topInset = $state(0);
+  const inset: ShellLayout['inset'] = $derived({
+    top: topInset,
+    right: sideInset.right,
+    bottom: lift,
+    left: sideInset.left,
+  });
+  $effect(() => {
+    const el = root;
+    // Measured again when the regions over the stage or beside it change
+    const at = mode;
+    const open = floating;
+    const barFloats = topFloats;
+    if (!el || typeof ResizeObserver === 'undefined') return;
+    const stageEl = el.querySelector<HTMLElement>(':scope > .body > .main > .stage');
+    if (!stageEl) return;
+    /** The element of a side region: its seat beside the stage, or the box of its floating pane */
+    const regionBox = (side: Side): Element | null | undefined =>
+      at === 'beside'
+        ? el.querySelector(`:scope > .body > .side.${side}`)
+        : at === 'floating'
+          ? stageEl.querySelector(`:scope > [data-role='floating'] > .pane[data-region='${side}']`)
+              ?.parentElement
+          : null;
+    const barBox = barFloats ? stageEl.querySelector('.top-float')?.parentElement : null;
+    let frame = 0;
+    const read = () => {
+      const stageBox = stageEl.getBoundingClientRect();
+      const next = { left: 0, right: 0, top: 0 };
+      for (const side of open) {
+        const box = regionBox(side)?.getBoundingClientRect();
+        if (!box) continue;
+        if (at === 'beside') next[side] = box.width;
+        else if (side === 'left') next.left = Math.max(0, box.right - stageBox.left);
+        else next.right = Math.max(0, stageBox.right - box.left);
+      }
+      if (barBox) next.top = Math.max(0, barBox.getBoundingClientRect().bottom - stageBox.top);
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        frame = 0;
+        if (sideInset.left !== next.left) sideInset.left = next.left;
+        if (sideInset.right !== next.right) sideInset.right = next.right;
+        if (topInset !== next.top) topInset = next.top;
+      });
+    };
+    const ro = new ResizeObserver(read);
+    for (const target of [el, stageEl, ...open.map(regionBox), barBox])
+      if (target) ro.observe(target);
+    return () => {
+      ro.disconnect();
+      cancelAnimationFrame(frame);
+    };
+  });
+
+  // Reported at mount, and again when the width, a mode or the inset changes
+  $effect(() => {
+    const layout: ShellLayout = { width, leftMode: mode, rightMode: mode, inset };
+    untrack(() => onlayout?.(layout));
+  });
+
   // ---- The dock's grip ----
   let dockEl = $state<HTMLElement>();
   let mainH = $state(0);
@@ -466,6 +536,10 @@
   style:--kata-shell-lift="{lift}px"
   style:--kata-shell-top={topFloats ? `calc(${topH}px + var(--kata-gap-md))` : undefined}
   style:--kata-shell-dock={dockHeight === undefined ? undefined : `${dockHeight}px`}
+  style:--kata-shell-inset-top="{inset.top}px"
+  style:--kata-shell-inset-right="{inset.right}px"
+  style:--kata-shell-inset-bottom="{inset.bottom}px"
+  style:--kata-shell-inset-left="{inset.left}px"
 >
   {#if top && !topFloats}<div class="top" data-region="top">{@render top()}</div>{/if}
   <div class="body">

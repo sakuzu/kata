@@ -51,13 +51,16 @@ pointer through to it everywhere but its regions.
 | `dockSheet` | | The dock's sheet when narrow, `ShellDockSheet` |
 | `ondockclose` | | Called when the dock's sheet closes |
 | `topFloating` | `false` | The bar floats over the stage when narrow |
-| `onlayout` | | Called with `{ width, leftMode, rightMode }` when they change |
+| `onlayout` | | Called with `{ width, leftMode, rightMode, inset }` on change |
 | `onescape` | | Called with Escape when no sheet is left to close |
 
 `width` is `wide`, `mid` or `narrow`, and each mode is `beside`,
 `floating` or `sheet` (`ShellLayout`, `ShellWidth` and `ShellMode`; the
-type of `side` is `ShellSide`). `onescape` returns `false` to leave the key to the
-browser.
+type of `side` is `ShellSide`). `inset` is
+`{ top, right, bottom, left }` in px: what the regions cover of the
+stage, from each edge of the stage to the inner edge of the region on
+that side (see [Inset](#inset)). `onescape` returns `false` to leave the
+key to the browser.
 
 A `ShellSheet` is `{ stages?, closable? }`: `stages` are the heights the
 sheet offers, lowest first (`SheetStage[]`, all three by default), and
@@ -241,6 +244,33 @@ and the drawing shows under the bar. The root then sets
 `--kata-shell-top` to the bar's height plus gap-md, the top inset of the
 stage, for what lies over the stage below the bar. From 48rem the bar
 keeps its place.
+
+## Inset
+
+`onlayout` reports, in `inset`, what the regions cover of the stage, so
+that the application can keep what it draws in view (the padding of a
+map's camera, say). Each side is the distance in px from that edge of
+the stage to the inner edge of the region on that side.
+
+- `left` and `right`: beside the stage, the width of the open side
+  region; floating, the pane's box and the gap-md before it; as a
+  sheet, 0.
+- `bottom`: the height of the sheets the toolbar rises above.
+- `top`: with `topFloating` on a narrow screen, the bar's box and the
+  gap-md above it.
+
+Only an open side region counts: a sheet that rests at its lowest
+height (`closable: false`) does not, and neither does a closed region's
+control to open it again. `bottom` leaves out the column of the toolbar
+above the Fab (`bottomFab`); it is 0 from 48rem. `top` is 0 when the bar
+keeps its place above the stage.
+
+The shell measures these with a `ResizeObserver` (read in the delivery
+and written in the next frame), and calls `onlayout` when the width, a
+mode or the inset changes. The root also sets them as
+`--kata-shell-inset-top`, `--kata-shell-inset-right`,
+`--kata-shell-inset-bottom` and `--kata-shell-inset-left`, in px, for
+what lies over the stage.
 
 ## Example
 
