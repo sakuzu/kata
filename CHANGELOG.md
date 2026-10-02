@@ -6,6 +6,51 @@ follows semantic versioning.
 
 ## [Unreleased]
 
+## [1.6.0] - 2026-10-02
+
+What the panels and the frame of an editor need around a selection, a
+picker and the stage: a foot for a selection's panel, a bare Board,
+Glyphs with its own columns, and the inset of the stage from a Shell;
+and the folding, the marks and the spacing found in the editor.
+
+- Added: `SelectionSummary foot`, the foot of the panel (a Footer), as
+  the `end` of an InspectorFrame.
+- Changed: a destructive action goes in the lead of an inspector's foot
+  (Delete), never among the actions at the end of a Footer; elsewhere it
+  is the primary action of a confirmation.
+- Added: `Board bare`, which keeps only the padding, for a slot that
+  draws the surface and the line, as `ColorPicker bare`.
+- Added: `Glyphs columns` (8 by default). In a row a cell is as wide as a
+  column of the grid, so that a band above a grid lines up with it.
+- Added: `ShellLayout inset`, `{ top, right, bottom, left }` in px: from
+  each edge of the stage to the inner edge of the region on that side
+  (an open side region beside the stage, a floating pane and the gap-md
+  before it, the sheets, the floating bar). `onlayout` is called when
+  the inset changes too, and the root sets `--kata-shell-inset-top`,
+  `-right`, `-bottom` and `-left`.
+- Changed: the sort key of a ColHead is marked with an arrow
+  (`arrow-down`, a new icon) instead of a chevron, apart from the ▾ of
+  the column menu.
+- Changed: the content of a flush SectionHeader without an action starts
+  gap-xs below the ink of the name; the audit's `head-gap` and
+  `head-near` allow that gap.
+- Fixed: the button beside the title of a PageHeader (`titleEnd`) no
+  longer raises the title's line; it overlaps the centre of the title,
+  as the action of a SectionHeader does.
+- Changed: a Crumbs with `current={false}` follows its last place with a
+  chevron and gap-2xs, so the title after it needs no separator of its
+  own; an application that added one removes it.
+- Added: `Radio note`, a caption under the label in the column of the
+  text (a snippet).
+- Added: in Prose, the anchor of a heading
+  (`a[data-role="heading-anchor"]`) shows only while the heading is
+  hovered or holds the focus.
+- Changed: Tabs that do not fit are taken from the start in their order,
+  and a folded current tab shows its name and its mark on the trigger of
+  the menu instead of "More".
+- Changed: a LinkAction in a sentence (inside a Text) takes the size and
+  the line height of the text around it.
+
 ## [1.5.1] - 2026-10-02
 
 The narrow screen, from the visual review: what stacks, folds and opens
@@ -340,6 +385,7 @@ them to the rules.
   of drawing out of kata; `npm run check:package` runs publint and Are
   the Types Wrong on the package.
 
+[1.6.0]: https://github.com/sakuzu/kata/compare/v1.5.1...v1.6.0
 [1.5.1]: https://github.com/sakuzu/kata/compare/v1.5.0...v1.5.1
 [1.5.0]: https://github.com/sakuzu/kata/compare/v1.4.1...v1.5.0
 [1.4.1]: https://github.com/sakuzu/kata/compare/v1.4.0...v1.4.1
