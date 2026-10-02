@@ -26,9 +26,14 @@ positioned, such as the content of a [Dropdown](dropdown.md) with
 It has the panel color and one strong line, no shadow, and floats on
 the floating layer. It is placed absolutely in its frame, which must be
 a positioned element; a step name (`2xs` to `xl`) is that gap step, and
-any other string is a CSS length. With no side given it stands in the
-flow and fills its place. It has no padding: list items hold their own,
-and text goes in a [Block](block.md).
+any other string is a CSS length. Pinned, it is no wider than the frame
+less the left and right sides given as steps (or 0); a side given as
+another length is the application's own and is not subtracted. Two
+Floatings that would overlap are the application's layout to solve. With
+no side given it stands in the flow, fills its place and stacks its
+content in a column, so that text wraps inside the frame. It has no
+padding: list items hold their own, and text goes in a
+[Block](block.md).
 
 ## Example
 

@@ -11,7 +11,11 @@
   <Case label="Pinned to the sides of a frame, gap-md from its edges">
     <div class="frame">
       <Floating top="md" left="md">
-        <Block><SearchInput bind:value={query} label="Search" placeholder="Search the drawing" /></Block>
+        <Block>
+          <div class="search">
+            <SearchInput bind:value={query} label="Search" placeholder="Search the drawing" />
+          </div>
+        </Block>
       </Floating>
       <Floating top="md" right="md">
         <Button variant="ghost" icon aria-label="Show the list"><Icon name={List} /></Button>
@@ -31,13 +35,26 @@
 </Example>
 
 <style>
-  /* A positioned frame, as the stage is */
+  /* A positioned frame, as the stage is; its width is what the search measures against */
   .frame {
     position: relative;
+    container-type: inline-size;
     height: 16rem;
     overflow: hidden;
     background: var(--kata-color-ground);
     border: var(--kata-border-width) solid var(--kata-color-line);
+  }
+  /* Two Floatings that would overlap are the application's to place: the search leaves the top
+     right corner to the button, the frame less the three gaps, the button and the lines and the
+     padding around the search */
+  .search {
+    width: min(
+      15rem,
+      calc(
+        100cqw - 3 * var(--kata-gap-md) - var(--kata-height-icon-button) -
+          4 * var(--kata-border-width) - 2 * var(--kata-pad-md)
+      )
+    );
   }
   .place {
     display: flex;
