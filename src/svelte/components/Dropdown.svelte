@@ -14,8 +14,9 @@
   // pushed inside the window at the sides. With up the sides are swapped: above it, or below when
   // there is no room above (a trigger at the bottom of the stage). A trigger inside a bar (a
   // toolbar: a Toolbar, a Topbar or a Drawbar) opens from the bar's edge instead of its own, still
-  // lined up with the trigger at the sides. A press outside, Escape or Tab closes it; Escape and Tab
-  // return the focus to the trigger of a menu.
+  // lined up with the trigger at the sides; from a vertical bar it opens beside the bar, on the left
+  // (on the right when there is no room), lined up with the top of the trigger. A press outside,
+  // Escape or Tab closes it; Escape and Tab return the focus to the trigger of a menu.
   //
   //   <Dropdown menu>
   //     {#snippet trigger(toggle, open)}
@@ -98,6 +99,18 @@
     panelEl.style.maxHeight = '';
     const natural = panelEl.scrollHeight;
     panelEl.style.maxHeight = keep;
+    // A vertical bar (a Drawbar standing in a column): the place opens beside it, GAP from its left
+    // edge, or from its right edge when there is no room on the left, lined up with the top of the
+    // trigger and kept inside the window; up does not apply
+    if (bar?.getAttribute('aria-orientation') === 'vertical') {
+      const maxHeight = Math.max(MIN_HEIGHT, vh - 2 * EDGE);
+      const shown = Math.min(natural, maxHeight);
+      const top = Math.max(EDGE, Math.min(r.top, vh - shown - EDGE));
+      let left = edge.left - GAP - width;
+      if (left < EDGE) left = Math.min(edge.right + GAP, vw - width - EDGE);
+      pos = { top: Math.round(top), left: Math.round(left), maxHeight: Math.round(maxHeight) };
+      return;
+    }
     const below = vh - edge.bottom - GAP - EDGE;
     const above = edge.top - GAP - EDGE;
     const up = preferUp

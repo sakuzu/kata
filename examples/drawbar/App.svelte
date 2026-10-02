@@ -93,6 +93,18 @@
       <Drawbar label="Tools" {tools} {toggles} current={tool} onselect={(id) => (tool = id)} column />
     </div>
   </Case>
+  <Case label="column at the right, with a switch with a popover: its settings open beside the column">
+    <div class="seat end">
+      <Drawbar
+        label="Tools"
+        tools={tools.slice(0, 4)}
+        toggles={snapping}
+        current={tool}
+        onselect={(id) => (tool = id)}
+        column
+      />
+    </div>
+  </Case>
 </Example>
 
 {#snippet snapSettings()}
@@ -112,5 +124,9 @@
   .seat {
     display: flex;
     align-items: flex-start;
+  }
+  /* At the right, as the column above a Fab is */
+  .seat.end {
+    justify-content: flex-end;
   }
 </style>

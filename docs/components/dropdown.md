@@ -39,12 +39,15 @@ there is less room above than its height (or 120px) and more below.
 A trigger inside a bar (an element with `role="toolbar"` or
 `data-role="toolbar"`: a Toolbar, a Topbar or a Drawbar) opens it from
 the bar's edge instead of its own, still lined up with the trigger at
-the sides. With `menu`, it has the surface of a [Menu](menu.md) and `role="menu"`,
-the first item takes the focus, the arrow keys move the focus between
-the items and wrap at the ends, and Home and End go to the first and the
-last. A press outside, Escape or Tab closes it; Escape and Tab return
-the focus to the trigger of a menu. Escape goes no further, so a modal
-around it stays open.
+the sides. From a vertical bar (`aria-orientation="vertical"`, a Drawbar
+standing in a column) it opens beside the bar, 4px from its left edge, or
+from its right edge when there is no room on the left, lined up with the
+top of the trigger; `up` does not apply there. With `menu`, it has the
+surface of a [Menu](menu.md) and `role="menu"`, the first item takes the
+focus, the arrow keys move the focus between the items and wrap at the
+ends, and Home and End go to the first and the last. A press outside,
+Escape or Tab closes it; Escape and Tab return the focus to the trigger
+of a menu. Escape goes no further, so a modal around it stays open.
 
 ## Example
 
