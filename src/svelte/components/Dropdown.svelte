@@ -12,7 +12,9 @@
   //
   // It is placed from the trigger's rectangle: below it, or above when there is no room below, and
   // pushed inside the window at the sides. With up the sides are swapped: above it, or below when
-  // there is no room above (a trigger at the bottom of the stage). A press outside, Escape or Tab closes it; Escape and Tab
+  // there is no room above (a trigger at the bottom of the stage). A trigger inside a bar (a
+  // toolbar: a Toolbar, a Topbar or a Drawbar) opens from the bar's edge instead of its own, still
+  // lined up with the trigger at the sides. A press outside, Escape or Tab closes it; Escape and Tab
   // return the focus to the trigger of a menu.
   //
   //   <Dropdown menu>
@@ -84,6 +86,10 @@
   function place() {
     if (!anchor || !panelEl) return;
     const r = anchor.getBoundingClientRect();
+    // Inside a bar, the place opens from the bar's edge, so that it does not cover the bar's line;
+    // the sides stay the trigger's
+    const bar = anchor.closest('[role="toolbar"], [data-role="toolbar"]');
+    const edge = bar ? bar.getBoundingClientRect() : r;
     const vw = window.innerWidth;
     const vh = window.innerHeight;
     const width = panelEl.offsetWidth;
@@ -92,14 +98,14 @@
     panelEl.style.maxHeight = '';
     const natural = panelEl.scrollHeight;
     panelEl.style.maxHeight = keep;
-    const below = vh - r.bottom - GAP - EDGE;
-    const above = r.top - GAP - EDGE;
+    const below = vh - edge.bottom - GAP - EDGE;
+    const above = edge.top - GAP - EDGE;
     const up = preferUp
       ? !(above < Math.min(natural, MIN_HEIGHT) && below > above)
       : below < Math.min(natural, MIN_HEIGHT) && above > below;
     const maxHeight = Math.max(MIN_HEIGHT, up ? above : below);
     const shown = Math.min(natural, maxHeight);
-    const top = up ? r.top - GAP - shown : r.bottom + GAP;
+    const top = up ? edge.top - GAP - shown : edge.bottom + GAP;
     let left = align === 'end' ? r.right - width : r.left;
     left = Math.max(EDGE, Math.min(left, vw - width - EDGE));
     pos = { top: Math.round(top), left: Math.round(left), maxHeight: Math.round(maxHeight) };

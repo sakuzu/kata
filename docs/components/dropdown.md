@@ -36,7 +36,10 @@ with its `align` edge, or above it when there is less room below than
 its height (or 120px); it stays 8px inside the window. With `up` the
 two sides change places: it opens above the trigger, and below it when
 there is less room above than its height (or 120px) and more below.
-With `menu`, it has the surface of a [Menu](menu.md) and `role="menu"`,
+A trigger inside a bar (an element with `role="toolbar"` or
+`data-role="toolbar"`: a Toolbar, a Topbar or a Drawbar) opens it from
+the bar's edge instead of its own, still lined up with the trigger at
+the sides. With `menu`, it has the surface of a [Menu](menu.md) and `role="menu"`,
 the first item takes the focus, the arrow keys move the focus between
 the items and wrap at the ends, and Home and End go to the first and the
 last. A press outside, Escape or Tab closes it; Escape and Tab return
