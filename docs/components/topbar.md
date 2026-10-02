@@ -31,8 +31,8 @@ drawer on a narrow screen. The head of a panel or a modal is a
 | `lead` | | Before the brand (a snippet) |
 | `start` | | After the brand and the crumbs (a snippet) |
 | `center` | | A title or an inline edit in the centre (a snippet) |
-| `presence` | | Who else is here, before the actions (a snippet) |
-| `end` | | The actions at the right end (a snippet) |
+| `presence` | | Who else is here, before `end` (a snippet of `{ compact }`) |
+| `end` | | The actions at the right end (a snippet of `{ compact }`) |
 
 ## Contract
 
@@ -45,12 +45,21 @@ is a button without a line, with a chevron, that opens a
 [Dropdown](dropdown.md) menu below it (the snippet receives `close`).
 `menu` opens the same Dropdown with a [MenuList](../workbench/menu-list.md)
 of the model, as an [AppMenu](../workbench/app-menu.md) does.
-The start keeps its size except the crumbs, which shrink; the centre
-takes the rest of the width and shrinks first, and what is in it clips
-its own text. The end
-holds `presence` and `end` as two groups gap-md apart; inside a group,
-icon buttons sit side by side. Nothing wraps and the places never
-overlap. Below 24rem the brand is hidden and the buttons stay.
+The centre takes the rest of the width and shrinks first, and what is in
+it clips its own text. The end holds `presence` and `end` as two groups
+gap-md apart; inside a group, icon buttons sit side by side. Nothing
+wraps and the places never overlap.
+
+The brand is never hidden. The bar measures its row when its width or
+its content changes, and when the row does not fit it compacts the end
+in two steps. First `presence` receives `{ compact: true }`: the
+application shows a count instead of the faces (`Presence max={0}`).
+When that does not fit either, `end` receives `{ compact: true }` too:
+the application folds its actions into a [Kebab](kebab.md). The bar
+stops at the first step that fits and goes back when the width allows
+the row again. When even that does not fit, the start shrinks: the crumbs
+and the brand end with an ellipsis. A snippet that takes no
+argument works as before and is not compacted.
 
 ## Example
 

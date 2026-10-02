@@ -14,6 +14,7 @@
     Icon,
     InspectorFrame,
     InspectorSection,
+    Kebab,
     LayerTree,
     Panel,
     SelectionSummary,
@@ -145,25 +146,35 @@
 {#snippet bar()}
   <Topbar brand="Sketchbook" brandLabel="Sketchbook menu" menu={appMenu}>
     {#snippet center()}<Text clamp>Garden plan</Text>{/snippet}
-    {#snippet end()}
-      <Button
-        variant="ghost"
-        icon
-        aria-label="Layers"
-        aria-pressed={leftOpen}
-        onclick={() => (leftOpen = !leftOpen)}
-      >
-        <Icon name={PanelLeft} />
-      </Button>
-      <Button
-        variant="ghost"
-        icon
-        aria-label="Inspector"
-        aria-pressed={rightOpen}
-        onclick={() => (rightOpen = !rightOpen)}
-      >
-        <Icon name={PanelRight} />
-      </Button>
+    {#snippet end({ compact }: { compact: boolean })}
+      {#if compact}
+        <Kebab
+          items={[
+            { id: 'layers', label: 'Layers', checked: leftOpen },
+            { id: 'inspector', label: 'Inspector', checked: rightOpen },
+          ]}
+          onselect={(id) => (id === 'layers' ? (leftOpen = !leftOpen) : (rightOpen = !rightOpen))}
+        />
+      {:else}
+        <Button
+          variant="ghost"
+          icon
+          aria-label="Layers"
+          aria-pressed={leftOpen}
+          onclick={() => (leftOpen = !leftOpen)}
+        >
+          <Icon name={PanelLeft} />
+        </Button>
+        <Button
+          variant="ghost"
+          icon
+          aria-label="Inspector"
+          aria-pressed={rightOpen}
+          onclick={() => (rightOpen = !rightOpen)}
+        >
+          <Icon name={PanelRight} />
+        </Button>
+      {/if}
     {/snippet}
   </Topbar>
 {/snippet}

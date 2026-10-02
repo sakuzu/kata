@@ -11,6 +11,7 @@
     type DrawbarTool,
     Field,
     Icon,
+    Kebab,
     Panel,
     Row,
     SectionHeader,
@@ -82,33 +83,48 @@
 
 {#snippet bar()}
   <Topbar brand="Sketchbook">
-    {#snippet end()}
-      <Button
-        variant="ghost"
-        icon
-        aria-label="Contents"
-        aria-pressed={leftOpen}
-        onclick={() => (leftOpen = !leftOpen)}
-      >
-        <Icon name={PanelLeft} />
-      </Button>
-      <Button
-        variant="ghost"
-        icon
-        aria-label="Details"
-        aria-pressed={rightOpen}
-        onclick={() => (rightOpen = !rightOpen)}
-      >
-        <Icon name={PanelRight} />
-      </Button>
-      <Button
-        variant="ghost"
-        icon
-        aria-label="Keyboard shortcuts"
-        onclick={() => (shortcutsOpen = true)}
-      >
-        <Icon name={Keyboard} />
-      </Button>
+    {#snippet end({ compact }: { compact: boolean })}
+      {#if compact}
+        <Kebab
+          items={[
+            { id: 'contents', label: 'Contents', checked: leftOpen },
+            { id: 'details', label: 'Details', checked: rightOpen },
+            { id: 'shortcuts', label: 'Keyboard shortcuts' },
+          ]}
+          onselect={(id) => {
+            if (id === 'contents') leftOpen = !leftOpen;
+            else if (id === 'details') rightOpen = !rightOpen;
+            else shortcutsOpen = true;
+          }}
+        />
+      {:else}
+        <Button
+          variant="ghost"
+          icon
+          aria-label="Contents"
+          aria-pressed={leftOpen}
+          onclick={() => (leftOpen = !leftOpen)}
+        >
+          <Icon name={PanelLeft} />
+        </Button>
+        <Button
+          variant="ghost"
+          icon
+          aria-label="Details"
+          aria-pressed={rightOpen}
+          onclick={() => (rightOpen = !rightOpen)}
+        >
+          <Icon name={PanelRight} />
+        </Button>
+        <Button
+          variant="ghost"
+          icon
+          aria-label="Keyboard shortcuts"
+          onclick={() => (shortcutsOpen = true)}
+        >
+          <Icon name={Keyboard} />
+        </Button>
+      {/if}
     {/snippet}
   </Topbar>
 {/snippet}

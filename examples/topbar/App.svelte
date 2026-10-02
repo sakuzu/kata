@@ -5,6 +5,7 @@
     Button,
     Icon,
     InlineEdit,
+    Kebab,
     MenuDivider,
     MenuItem,
     Presence,
@@ -52,8 +53,16 @@
           onCommit={(v) => (name = v)}
         />
       {/snippet}
-      {#snippet presence()}<Presence users={people} />{/snippet}
-      {#snippet end()}<Button variant="primary">Share</Button>{/snippet}
+      {#snippet presence({ compact }: { compact: boolean })}
+        <Presence users={people} max={compact ? 0 : 3} />
+      {/snippet}
+      {#snippet end({ compact }: { compact: boolean })}
+        {#if compact}
+          <Kebab items={[{ id: 'share', label: 'Share' }]} onselect={() => {}} />
+        {:else}
+          <Button variant="primary">Share</Button>
+        {/if}
+      {/snippet}
     </Topbar>
   </Case>
   <Case label="The brand opens the application's menu (brandMenu)">
