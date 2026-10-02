@@ -6,6 +6,32 @@ follows semantic versioning.
 
 ## [Unreleased]
 
+## [1.5.1] - 2026-10-02
+
+The narrow screen, from the visual review: what stacks, folds and opens
+when the room is short. Nothing changes incompatibly.
+
+- Fixed: a Footer stacks only when its row does not fit, measured, instead
+  of always below 48rem, and every stacked part takes the full width (#3).
+- Fixed: the toolbar's column above the Fab of a narrow Shell starts below
+  the floating bar (`--kata-shell-top`) and scrolls when it does not fit
+  (#4).
+- Fixed: a Topbar never hides its brand; when the row does not fit it
+  passes `{ compact }` to `presence`, then to `end`, and the brand ends
+  with an ellipsis last (#5).
+- Changed: a narrow Shell opens one of the side sheets and the dock at a
+  time, and puts the dock in a sheet without `dockSheet` too, named by the
+  new `dock` message (#6).
+- Changed: the `half` stage of a Sheet is the content's height up to half
+  the frame (#7).
+- Fixed: a Floating stays inside its frame: pinned, no wider than the
+  frame less its sides; in the flow, its content wraps (#12).
+- Fixed: the Drawbar, the sheets of a Shell and the measured widths read a
+  change of size in the next frame, which ends the ResizeObserver loop
+  error on WebKit (#25).
+- Fixed: a dropdown or a popover opened from inside a toolbar opens from
+  the bar's edge instead of covering its line (#26).
+
 ## [1.5.0] - 2026-10-02
 
 What the frame of an editor needs from the Shell on a narrow screen and
@@ -268,6 +294,7 @@ them to the rules.
   of drawing out of kata; `npm run check:package` runs publint and Are
   the Types Wrong on the package.
 
+[1.5.1]: https://github.com/sakuzu/kata/compare/v1.5.0...v1.5.1
 [1.5.0]: https://github.com/sakuzu/kata/compare/v1.4.1...v1.5.0
 [1.4.1]: https://github.com/sakuzu/kata/compare/v1.4.0...v1.4.1
 [1.4.0]: https://github.com/sakuzu/kata/compare/v1.3.0...v1.4.0
