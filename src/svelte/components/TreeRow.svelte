@@ -8,15 +8,18 @@
   import ListItem from './ListItem.svelte';
 
   // TreeRow: one row of a Tree, a ListItem indented by its depth: pad-md plus depth × pad-md on
-  // the left. Its columns are fixed: the chevron, the name, the actions. The chevron's place (the
-  // square of an icon button) is kept even when the row does not open, so nothing moves when a row
-  // gains children; a flat Tree removes it. The chevron is a button of that square.
+  // the left. Its columns are fixed: the chevron, the name, the actions that are kept. The
+  // chevron's place (the square of an icon button) is kept even when the row does not open, so
+  // nothing moves when a row gains children; a flat Tree removes it. The chevron is a button of
+  // that square.
   //
   // The grip shows on hover and on focus, just left of the first thing the row shows (the chevron,
-  // or the name), over the padding, so it takes no place. The actions on the right keep no place:
-  // an action in a state other than its default (a hidden eye, a closed lock: data-keep on it)
-  // always shows, the others only while the row is hovered or focused (data-open on the row keeps
-  // them while a menu of the row is open).
+  // or the name), over the padding, so it takes no place. Of the actions on the right, only those
+  // in a state other than their default (a hidden eye, a closed lock: data-keep on them) keep a
+  // place: they always show, at the right end, and take their own width from the name. The others
+  // keep no place: while the row is hovered or focused (or has data-open, while a menu of the row
+  // is open) they show over the end of the row, gap-sm before the kept ones, on an opaque ground
+  // (the panel under the row's own surface).
   //
   // States: sel (selected: a double blue line on the left and the raise surface), hidden (the row
   // hides its content: dimmed), dimmed (a parent is hidden), dragging (the row is being dragged).
@@ -73,6 +76,46 @@
   const flatTree = getContext<(() => boolean) | undefined>('kata-tree-flat');
   const noSeat = $derived(!!flatTree?.() && !expandable);
 
+  // The width of the actions that are kept (data-keep), which the row keeps for them. It is read
+  // when the actions change size, when one is added or removed and when one is marked or unmarked,
+  // and written in the next animation frame
+  let endEl = $state<HTMLElement>();
+  let keepW = $state(0);
+  $effect(() => {
+    const el = endEl;
+    if (!el) return;
+    const read = () => {
+      let w = 0;
+      for (const c of el.children)
+        if (c.hasAttribute('data-keep')) w += c.getBoundingClientRect().width;
+      return w;
+    };
+    keepW = read();
+    let frame = 0;
+    const update = () => {
+      const w = read();
+      if (frame) cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        frame = 0;
+        if (w !== keepW) keepW = w;
+      });
+    };
+    const ro = typeof ResizeObserver === 'undefined' ? undefined : new ResizeObserver(update);
+    ro?.observe(el);
+    const mo = typeof MutationObserver === 'undefined' ? undefined : new MutationObserver(update);
+    mo?.observe(el, {
+      childList: true,
+      subtree: true,
+      attributes: true,
+      attributeFilter: ['data-keep'],
+    });
+    return () => {
+      ro?.disconnect();
+      mo?.disconnect();
+      if (frame) cancelAnimationFrame(frame);
+    };
+  });
+
   function toggle() {
     expanded = !expanded;
     ontoggle?.(expanded);
@@ -88,12 +131,13 @@
     }
   }
   const columns = $derived(
-    [noSeat ? '' : 'auto', 'minmax(0, 1fr)', end ? 'auto' : ''].filter(Boolean).join(' '),
+    [noSeat ? '' : 'auto', 'minmax(0, 1fr)', keepW > 0 ? 'auto' : ''].filter(Boolean).join(' '),
   );
 </script>
 
 <div
   class="tree-row"
+  class:pressable={!!onclick}
   class:hidden
   class:dimmed
   class:dragging
@@ -130,7 +174,8 @@
     {/if}
     <span class="main">{@render children()}</span>
     {#if end}
-      <span class="end">{@render end()}</span>
+      {#if keepW > 0}<span class="keep-seat" style:width="{keepW}px" aria-hidden="true"></span>{/if}
+      <span class="end" bind:this={endEl}>{@render end()}</span>
     {/if}
   </ListItem>
 </div>
@@ -210,34 +255,56 @@
     min-width: 0;
     white-space: normal;
   }
-  // The actions keep no place: they show on hover and focus, and an action marked data-keep always
+  // The place the row keeps for the kept actions, as wide as they are
+  .keep-seat {
+    display: block;
+    flex: none;
+  }
+  // The actions lie over the end of the row, at its right padding, so they take no place of their
+  // own; the seat keeps the place of the kept ones, which come last. The others show only on hover
+  // and focus, gap-sm before the kept ones, on the panel under the row's own surface
   .end {
+    position: absolute;
+    right: pad(sm);
+    top: 50%;
+    transform: translateY(-50%);
     display: flex;
     align-items: center;
     gap: 0;
-    flex: none;
-    > :global(*:not([data-keep])) {
+    pointer-events: none;
+    > :global(*) {
       opacity: 0;
     }
+    > :global([data-keep]) {
+      order: 2;
+      opacity: 1;
+      pointer-events: auto;
+    }
+  }
+  .end:has(> :global([data-keep])):has(> :global(:not([data-keep])))::after {
+    content: '';
+    order: 1;
+    flex: none;
+    width: gap(sm);
+  }
+  .tree-row:hover .end,
+  .tree-row:focus-within .end,
+  .tree-row[data-open] .end {
+    background-color: color(panel);
+    > :global(*) {
+      opacity: 1;
+      pointer-events: auto;
+    }
+  }
+  .tree-row.pressable:hover .end,
+  .tree-row[aria-selected='true']:focus-within .end,
+  .tree-row[aria-selected='true'][data-open] .end {
+    background-image: linear-gradient(#{color(raise)}, #{color(raise)});
   }
   // A mark among the actions does not add to the row's height. The selector outweighs the list
   // item's rule for the content of a row (a class, three attributes and the scope)
   .tree-row .end :global([data-role='mark'][data-h]) {
     margin-block: 0;
-  }
-  // Where the name would be squeezed, the actions float over its end instead of taking a column
-  @include tiny {
-    .end {
-      position: absolute;
-      right: pad(sm);
-      top: 50%;
-      transform: translateY(-50%);
-    }
-  }
-  .tree-row:hover .end > :global(*),
-  .tree-row:focus-within .end > :global(*),
-  .tree-row[data-open] .end > :global(*) {
-    opacity: 1;
   }
   .hidden,
   .dimmed,

@@ -36,17 +36,20 @@ Other attributes (`data-*`, `aria-*`) go to the row.
 
 The row is a ListItem: its height comes from its content, at least the
 tree's least height, and pad-md plus depth × pad-md on the left. Its
-columns are fixed: the chevron, the name, the actions. The chevron's
+columns are fixed: the chevron, the name, the kept actions. The chevron's
 place, the square of an icon button, is kept on a row that does not
 open, so nothing moves when a row gains children; a flat tree removes
 it. The name is one line, trimmed to its ink and clipped at the end of
 its column; a name in a [Text](text.md) with `clamp` ends with an
 ellipsis and shows in full on hover. The grip
 shows on hover and focus, gap-2xs left of the first thing the row shows,
-over the padding. The actions keep no place: an action marked
-`data-keep` (a state other than its default, such as a hidden eye)
-always shows, the others on hover and focus, and `data-open` on the row
-keeps them while a menu of the row is open. A selected row has the raise
+over the padding. Only an action marked `data-keep` (a state other than
+its default, such as a hidden eye) keeps a place: it always shows, at
+the right end, and its width is taken from the name. The other actions
+keep no place: on hover and focus they show over the end of the row,
+gap-sm before the kept ones, on an opaque ground (the panel under the
+row's own surface), and `data-open` on the row keeps them while a menu
+of the row is open. A selected row has the raise
 surface and a double blue line along its left edge; `hidden`, `dimmed`
 and `dragging` dim the row. A row with `onclick` is pressed with a
 click, Enter or Space; the right and left arrow keys open and close it,
