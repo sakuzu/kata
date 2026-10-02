@@ -24,9 +24,10 @@
   // passes { compact: true } to presence first (the application shows a count: Presence max={0}),
   // then to end too (the application folds its actions into a Kebab), then to center too (the
   // application folds a search into an icon button). The row counts the centre's content at its
-  // min-content width. It stops at the first step that fits, and goes back when the width allows
-  // the row again. When even that does not fit, the centre is clipped, then the crumbs shrink, and
-  // only once they have no width left does the brand end with an ellipsis.
+  // min-content width, up to 10rem: a title keeps at least this much before the others fold, and a
+  // longer one is clipped. It stops at the first step that fits, and goes back when the width
+  // allows the row again. When even that does not fit, the centre is clipped, then the crumbs
+  // shrink, and only once they have no width left does the brand end with an ellipsis.
   //
   // menu gives the brand's menu as a model (MenuModel[], the same as AppMenu's) instead of the
   // brandMenu snippet; onmenu receives the id of the item that was chosen.
@@ -100,7 +101,11 @@
       }
       return width;
     };
-    // The width of the centre's content, laid out at its min-content for the moment
+    // The most the centre counts, in rem (no width token lies between 8 and 12rem): a title keeps
+    // at least this much before the others fold
+    const CENTRE_MAX = 10;
+    // The width of the centre's content, laid out at its min-content for the moment, up to
+    // CENTRE_MAX
     const content = (center: HTMLElement) => {
       const keep = center.getAttribute('style');
       center.style.flex = 'none';
@@ -108,7 +113,8 @@
       const width = center.getBoundingClientRect().width;
       if (keep === null) center.removeAttribute('style');
       else center.setAttribute('style', keep);
-      return width;
+      const rem = px(getComputedStyle(document.documentElement).fontSize) || 16;
+      return Math.min(width, CENTRE_MAX * rem);
     };
     // What the row needs: the start at full width, the centre's content, the end as it is, and the
     // gaps between them

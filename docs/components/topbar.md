@@ -58,7 +58,9 @@ When that does not fit either, `end` receives `{ compact: true }` too:
 the application folds its actions into a [Kebab](kebab.md). Then
 `center` receives `{ compact: true }` too: the application folds a
 search into an icon button that opens it in a [Popover](popover.md). The
-row counts the centre's content at its min-content width. The bar stops
+row counts the centre's content at its min-content width, up to 10rem:
+a title keeps at least this much before the others fold, and a longer
+one is clipped. The bar stops
 at the first step that fits and goes back when the width allows the row
 again. When even that does not fit, the centre is clipped, and the start
 shrinks: the crumbs first, and only once they have no width left, the
