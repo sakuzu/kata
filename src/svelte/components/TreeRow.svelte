@@ -182,7 +182,7 @@
     <span class="main">{@render children()}</span>
     {#if end}
       {#if keepW > 0}<span class="keep-seat" style:width="{keepW}px" aria-hidden="true"></span>{/if}
-      <span class="end" bind:this={endEl}>{@render end()}</span>
+      <span class="end" class:kept={keepW > 0} bind:this={endEl}>{@render end()}</span>
     {/if}
   </ListItem>
 </div>
@@ -295,7 +295,8 @@
       pointer-events: auto;
     }
   }
-  .end:has(> :global([data-keep])):has(> :global(:not([data-keep])))::after {
+  // gap-sm between the others and the kept ones
+  .end.kept::after {
     content: '';
     order: 1;
     flex: none;
