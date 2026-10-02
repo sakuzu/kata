@@ -58,8 +58,9 @@ When that does not fit either, `end` receives `{ compact: true }` too:
 the application folds its actions into a [Kebab](kebab.md). The bar
 stops at the first step that fits and goes back when the width allows
 the row again. When even that does not fit, the start shrinks: the crumbs
-and the brand end with an ellipsis. A snippet that takes no
-argument works as before and is not compacted.
+first, and only once they have no width left, the brand, which ends with
+an ellipsis. A snippet that takes no argument works as before and is not
+compacted.
 
 ## Example
 

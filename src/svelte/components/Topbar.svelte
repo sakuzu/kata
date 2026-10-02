@@ -24,7 +24,7 @@
   // passes { compact: true } to presence first (the application shows a count: Presence max={0}),
   // then to end too (the application folds its actions into a Kebab). It stops at the first step
   // that fits, and goes back when the width allows the row again. When even that does not fit, the
-  // brand ends with an ellipsis.
+  // crumbs shrink, and only once they have no width left does the brand end with an ellipsis.
   //
   // menu gives the brand's menu as a model (MenuModel[], the same as AppMenu's) instead of the
   // brandMenu snippet; onmenu receives the id of the item that was chosen.
@@ -228,7 +228,7 @@
     }
   }
   // The centre shrinks first; then the presence and the actions are compacted (in script), and only
-  // then the start shrinks, its crumbs and its brand cut short with an ellipsis
+  // then the start shrinks: its crumbs first, then its brand, cut short with an ellipsis
   .side {
     display: flex;
     align-items: center;
@@ -238,6 +238,12 @@
   }
   .start {
     overflow: hidden;
+    // The crumbs take the width the brand leaves (a basis of 0, and a large shrink), so the brand
+    // shrinks only once the crumbs have none left
+    > :global([data-role='crumbs']) {
+      flex: 1 100 0;
+      min-width: 0;
+    }
   }
   // The groups at the end are gap-md apart; inside a group icon buttons sit side by side
   .end {
