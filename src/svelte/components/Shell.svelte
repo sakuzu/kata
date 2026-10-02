@@ -89,6 +89,10 @@
   // overlay lays the shell over a drawing surface that belongs to the page: the shell's root lets
   // the pointer through, and only the regions it draws take it.
   //
+  // While the bar floats over the stage (topFloating on a narrow screen), the root sets
+  // --kata-shell-top to the bar's height plus gap-md, the top inset of the stage: the toolbar's
+  // column above the Fab (bottomFab) starts gap-md below it, and scrolls when it does not fit.
+  //
   //   <Shell bind:leftOpen shortcuts={keys} onescape={clearSelection}>
   //     {#snippet top()}<Topbar …/>{/snippet}
   //     {#snippet left()}<Panel label="Contents">…</Panel>{/snippet}
@@ -283,6 +287,8 @@
   );
   // On a narrow screen with topFloating, the bar floats over the stage and takes no height
   const topFloats = $derived(topFloating && mode === 'sheet');
+  // The height of the floating bar, which the column of the toolbar starts below
+  let topH = $state(0);
   // On a narrow screen with bottomFab, the toolbar folds into a Fab and shows while it is pressed
   const folded = $derived(!!bottomFab && mode === 'sheet');
   let fabOpen = $state(false);
@@ -419,6 +425,7 @@
   data-role="shell"
   data-width={width}
   style:--kata-shell-lift="{lift}px"
+  style:--kata-shell-top={topFloats ? `calc(${topH}px + var(--kata-gap-md))` : undefined}
   style:--kata-shell-dock={dockHeight === undefined ? undefined : `${dockHeight}px`}
 >
   {#if top && !topFloats}<div class="top" data-region="top">{@render top()}</div>{/if}
@@ -433,10 +440,10 @@
           <div class="bottom" data-region="bottom">{@render bottom({ column: false })}</div>
         {/if}
         {#if bottom && bottomFab && folded}
+          {#if fabOpen}
+            <div class="fab-column" data-region="bottom">{@render bottom({ column: true })}</div>
+          {/if}
           <div class="fab-seat">
-            {#if fabOpen}
-              <div class="fab-column" data-region="bottom">{@render bottom({ column: true })}</div>
-            {/if}
             <Fab
               label={fabOpen ? bottomFab.closeLabel : bottomFab.label}
               icon={fabOpen ? 'x' : (bottomFab.icon ?? 'plus')}
@@ -447,7 +454,9 @@
         {#if top && topFloats}
           <div class="top-seat">
             <Floating top="md" left="md" right="md">
-              <div class="top-float" data-region="top">{@render top()}</div>
+              <div class="top-float" data-region="top" bind:offsetHeight={topH}>
+                {@render top()}
+              </div>
             </Floating>
           </div>
         {/if}
@@ -621,8 +630,7 @@
     max-width: calc(100% - #{gap(md)} * 2);
     max-height: calc(100% - #{gap(md)} * 2);
   }
-  // The Fab's place on a narrow screen: gap-md from the right and from the top of the sheets, with
-  // the toolbar in one column gap-md above it
+  // The Fab's place on a narrow screen: gap-md from the right and from the top of the sheets
   .fab-seat {
     position: absolute;
     left: 0;
@@ -630,11 +638,24 @@
     bottom: var(--kata-shell-lift, 0px);
     height: 0;
   }
+  // The toolbar in one column gap-md above the Fab, and gap-md below the top inset (the floating
+  // bar, --kata-shell-top). It stands at the bottom of that space, and scrolls when it does not fit
+  // (the column Drawbar's own overflow). Only the toolbar takes the pointer, not the space above it
   .fab-column {
     position: absolute;
     z-index: z(floating);
     right: gap(md);
-    bottom: calc(#{gap(md)} * 2 + #{h(button)});
+    top: calc(var(--kata-shell-top, 0px) + #{gap(md)});
+    bottom: calc(var(--kata-shell-lift, 0px) + #{gap(md)} * 2 + #{h(button)});
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    pointer-events: none;
+    > :global(*) {
+      pointer-events: auto;
+      min-height: 0;
+      max-height: 100%;
+    }
   }
   // The seat of the bar floating over the stage: no box of its own, so that its Floating spans the
   // stage less gap-md on each side
@@ -697,6 +718,7 @@
     > .body > .main > .dock,
     > .body > .main > .stage > .bottom,
     > .body > .main > .stage > .fab-seat,
+    > .body > .main > .stage > .fab-column > :global(*),
     > .body > .main > .stage > .reopen,
     > .body > .main > .stage > .top-seat,
     > .body > .main > .stage > :global([data-role='floating']),

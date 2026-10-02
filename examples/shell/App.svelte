@@ -311,6 +311,22 @@
       />
     </div>
   </Case>
+  <Case label="The bar floating over the stage and the toolbar in a Fab">
+    <div class="frame">
+      <Shell
+        narrow
+        topFloating
+        leftOpen={false}
+        leftSheet={{ closable: false }}
+        bottomFab={{ label: 'Tools', closeLabel: 'Hide the tools' }}
+        leftLabel="Contents"
+        top={plainBar}
+        left={contents}
+        stage={surface}
+        bottom={columnToolbar}
+      />
+    </div>
+  </Case>
 </Example>
 
 <style>

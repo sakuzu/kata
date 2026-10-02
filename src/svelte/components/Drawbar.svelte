@@ -320,6 +320,9 @@
     transform: none;
     flex-direction: column;
     max-width: none;
+    // As tall as its place at most; beyond that it scrolls (overflow-x: auto makes y auto too)
+    max-height: 100%;
+    min-height: 0;
     > .group {
       flex-direction: column;
     }

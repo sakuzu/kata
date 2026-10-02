@@ -210,8 +210,10 @@ gap-md apart and gap-md from the right, and another press hides it; while
 it shows, the Fab's name is `closeLabel` and its icon `x`. The `bottom`
 snippet receives `{ column }`, true while the toolbar stands in one
 column above the Fab and false elsewhere: pass it to the Drawbar's
-`column`. A snippet that takes no argument works as before. From 48rem
-the toolbar stays over the bottom of the stage.
+`column`. A snippet that takes no argument works as before. The column
+stays between gap-md below the top inset of the stage and gap-md above
+the Fab, and scrolls when it does not fit there. From 48rem the toolbar
+stays over the bottom of the stage.
 
 With `dockSheet`, the narrow form puts the dock in a
 [Sheet](../components/sheet.md) named `dock` instead of the area under
@@ -225,7 +227,10 @@ With `topFloating`, the narrow form floats the bar over the stage in a
 [Floating](../components/floating.md) gap-md from the top of the stage
 and from each side, instead of keeping its height above it; the frame
 of the Floating is the bar's only line. The stage then fills the shell,
-and the drawing shows under the bar. From 48rem the bar keeps its place.
+and the drawing shows under the bar. The root then sets
+`--kata-shell-top` to the bar's height plus gap-md, the top inset of the
+stage, for what lies over the stage below the bar. From 48rem the bar
+keeps its place.
 
 ## Example
 
