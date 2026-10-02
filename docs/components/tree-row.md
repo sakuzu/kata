@@ -49,9 +49,11 @@ the right end, and its width is taken from the name. The other actions
 keep no place: on hover and focus they show over the end of the row,
 gap-sm before the kept ones, on an opaque ground (the panel under the
 row's own surface), and `data-open` on the row keeps them while a menu
-of the row is open. A selected row has the raise
-surface and a double blue line along its left edge; `hidden`, `dimmed`
-and `dragging` dim the row. A row with `onclick` is pressed with a
+of the row is open: the row listens for the bubbling `kata-menu-toggle`
+event of a [Dropdown](dropdown.md) (and so a Kebab or a Popover) among
+its actions and has `data-open` while one is open. A selected row has
+the raise surface and a double blue line along its left edge; `hidden`,
+`dimmed` and `dragging` dim the row. A row with `onclick` is pressed with a
 click, Enter or Space; the right and left arrow keys open and close it,
 and the chevron never presses the row.
 

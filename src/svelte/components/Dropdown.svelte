@@ -16,7 +16,9 @@
   // toolbar: a Toolbar, a Topbar or a Drawbar) opens from the bar's edge instead of its own, still
   // lined up with the trigger at the sides; from a vertical bar it opens beside the bar, on the left
   // (on the right when there is no room), lined up with the top of the trigger. A press outside,
-  // Escape or Tab closes it; Escape and Tab return the focus to the trigger of a menu.
+  // Escape or Tab closes it; Escape and Tab return the focus to the trigger of a menu. Each time it
+  // opens or closes, the trigger's wrapper dispatches a bubbling kata-menu-toggle event with
+  // detail { open }.
   //
   //   <Dropdown menu>
   //     {#snippet trigger(toggle, open)}
@@ -70,6 +72,18 @@
   });
 
   let anchor = $state<HTMLElement>();
+
+  // Each time the place opens or closes, the trigger tells the elements around it: a bubbling
+  // kata-menu-toggle event with detail { open } from the trigger's wrapper. A TreeRow keeps its
+  // actions shown while a menu of the row is open, since the place lies outside the row
+  let told = false;
+  $effect(() => {
+    const el = anchor;
+    const now = open;
+    if (!el || now === told) return;
+    told = now;
+    el.dispatchEvent(new CustomEvent('kata-menu-toggle', { bubbles: true, detail: { open: now } }));
+  });
   let panelEl = $state<HTMLElement>();
   let placed = $state(false);
   let pos = $state({ top: 0, left: 0, maxHeight: 0 });

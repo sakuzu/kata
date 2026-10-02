@@ -75,3 +75,27 @@ for (const name of names) {
     expect(lines, lines.slice(0, 30).join('\n')).toEqual([]);
   });
 }
+
+// A menu opened from the hover-only actions of a TreeRow covers the next row. The pointer leaves
+// the row on its way into the menu (through the next row), and the item is still pressed: the
+// Dropdown tells the row it is open (kata-menu-toggle), and the row keeps its actions shown.
+test('tree-row: a menu item is pressed after the pointer leaves the row', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await page.goto('/tree-row/', { waitUntil: 'networkidle' });
+  const tree = page.getByRole('tree', { name: 'Menus' });
+  const row = tree.locator('[data-id="First"]');
+  await row.hover();
+  await row.getByRole('button', { name: 'Actions', exact: true }).click();
+  await expect(row).toHaveAttribute('data-open', '');
+  const item = page.getByRole('menuitem', { name: 'Rename' });
+  await expect(item).toBeVisible();
+  const next = await tree.locator('[data-id="Second"]').boundingBox();
+  const box = await item.boundingBox();
+  if (!next || !box) throw new Error('the next row or the item has no box');
+  // Through the next row, outside the menu, then onto the item
+  await page.mouse.move(next.x + 4, next.y + next.height / 2, { steps: 4 });
+  await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2, { steps: 4 });
+  await page.mouse.click(box.x + box.width / 2, box.y + box.height / 2);
+  await expect(page.getByText('Chose rename First')).toBeVisible();
+  await expect(row).not.toHaveAttribute('data-open', '');
+});

@@ -48,6 +48,10 @@ focus, the arrow keys move the focus between the items and wrap at the
 ends, and Home and End go to the first and the last. A press outside,
 Escape or Tab closes it; Escape and Tab return the focus to the trigger
 of a menu. Escape goes no further, so a modal around it stays open.
+Each time it opens or closes, the wrapper of the trigger dispatches a
+bubbling `kata-menu-toggle` event with `detail: { open }`, so the element
+around the trigger (a [TreeRow](tree-row.md)) knows a menu of its own is
+open.
 
 ## Example
 

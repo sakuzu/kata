@@ -2,12 +2,13 @@
   import Eye from '@lucide/svelte/icons/eye';
   import EyeOff from '@lucide/svelte/icons/eye-off';
   import Lock from '@lucide/svelte/icons/lock';
-  import { Button, Icon, Text, Tree, TreeRow } from '@sakuzu/kata/svelte';
+  import { Button, Icon, Kebab, Text, Tree, TreeRow } from '@sakuzu/kata/svelte';
   import Case from '../_shared/Case.svelte';
   import Example from '../_shared/Example.svelte';
   import Surface from '../_shared/Surface.svelte';
 
   let open = $state(true);
+  let chosen = $state('');
 </script>
 
 <Example>
@@ -57,5 +58,26 @@
         </TreeRow>
       </Tree>
     </Surface>
+  </Case>
+  <Case label="A Kebab among the actions: its menu covers the next row and keeps the actions shown">
+    <Surface width="22.5rem">
+      <Tree label="Menus">
+        {#each ['First', 'Second', 'Third'] as name (name)}
+          <TreeRow onclick={() => {}} data-id={name}>
+            {name}
+            {#snippet end()}
+              <Kebab
+                items={[
+                  { id: 'rename', label: 'Rename' },
+                  { id: 'duplicate', label: 'Duplicate' },
+                ]}
+                onselect={(id) => (chosen = `${id} ${name}`)}
+              />
+            {/snippet}
+          </TreeRow>
+        {/each}
+      </Tree>
+    </Surface>
+    <Text role="caption" muted>{chosen ? `Chose ${chosen}` : 'Nothing chosen'}</Text>
   </Case>
 </Example>

@@ -18,9 +18,9 @@
   // padding is too narrow, it lies pad-xs from the edge over the chevron's column. Of the actions on the right, only those
   // in a state other than their default (a hidden eye, a closed lock: data-keep on them) keep a
   // place: they always show, at the right end, and take their own width from the name. The others
-  // keep no place: while the row is hovered or focused (or has data-open, while a menu of the row
-  // is open) they show over the end of the row, gap-sm before the kept ones, on an opaque ground
-  // (the panel under the row's own surface).
+  // keep no place: while the row is hovered or focused (or has data-open, which the row sets while
+  // a menu of the row is open: kata-menu-toggle from a Dropdown) they show over the end of the
+  // row, gap-sm before the kept ones, on an opaque ground (the panel under the row's own surface).
   //
   // States: sel (selected: a double blue line on the left and the raise surface), hidden (the row
   // hides its content: dimmed), dimmed (a parent is hidden), dragging (the row is being dragged).
@@ -117,6 +117,26 @@
     };
   });
 
+  // A menu of the row (a Dropdown, a Kebab or a Popover among its actions) tells the row when it
+  // opens and closes (kata-menu-toggle); while one is open, the row has data-open and keeps its
+  // actions shown, though the pointer leaves the row for the menu
+  let rowEl = $state<HTMLElement>();
+  let menuOpen = $state(false);
+  $effect(() => {
+    const el = rowEl;
+    if (!el) return;
+    const from = new Set<EventTarget>();
+    const onMenuToggle = (e: Event) => {
+      const target = e.target;
+      if (!target) return;
+      if ((e as CustomEvent<{ open: boolean }>).detail?.open) from.add(target);
+      else from.delete(target);
+      menuOpen = from.size > 0;
+    };
+    el.addEventListener('kata-menu-toggle', onMenuToggle);
+    return () => el.removeEventListener('kata-menu-toggle', onMenuToggle);
+  });
+
   function toggle() {
     expanded = !expanded;
     ontoggle?.(expanded);
@@ -143,12 +163,14 @@
   class:dimmed
   class:dragging
   data-dim={hidden || dimmed || dragging ? '' : undefined}
+  data-open={menuOpen ? '' : undefined}
   style:--kata-tree-depth={depth}
   role="treeitem"
   aria-selected={sel}
   aria-expanded={expandable ? expanded : undefined}
   aria-level={depth + 1}
   {...rest}
+  bind:this={rowEl}
 >
   <ListItem {columns} {sel} tail={!!end} {onclick} {onkeydown}>
     {#if grip}
