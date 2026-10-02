@@ -48,7 +48,7 @@ pointer through to it everywhere but its regions.
 | `leftReopen` | | A control that opens the closed left region, `ShellReopen` |
 | `rightReopen` | | A control that opens the closed right region |
 | `bottomFab` | | Folds the toolbar into a Fab when narrow, `ShellFab` |
-| `dockSheet` | | Puts the dock in a sheet when narrow, `ShellDockSheet` |
+| `dockSheet` | | The dock's sheet when narrow, `ShellDockSheet` |
 | `ondockclose` | | Called when the dock's sheet closes |
 | `topFloating` | `false` | The bar floats over the stage when narrow |
 | `onlayout` | | Called with `{ width, leftMode, rightMode }` when they change |
@@ -215,13 +215,23 @@ stays between gap-md below the top inset of the stage and gap-md above
 the Fab, and scrolls when it does not fit there. From 48rem the toolbar
 stays over the bottom of the stage.
 
-With `dockSheet`, the narrow form puts the dock in a
-[Sheet](../components/sheet.md) named `dock` instead of the area under
-the stage. The sheet holds the dock as a panel, opens at the lowest of
-its heights and closes below it; it then calls `ondockclose`, and the
+The narrow form puts the dock in a [Sheet](../components/sheet.md) named
+`dock` instead of the area under the stage; `dockSheet` gives the
+sheet's name and heights (without it, the `dock` message and `half` and
+`full`). The sheet holds the dock as a panel, opens at the lowest of its
+heights and closes below it; it then calls `ondockclose`, and the
 application removes the dock. It lies under the sheets of the side
 regions, and the toolbar rises above it as above them. `dockHeight` and
 the grip belong to the dock under the stage only.
+
+On a narrow screen one of the side sheets and the dock is open at a
+time. Opening a side sheet closes the other side (its `leftOpen` or
+`rightOpen` becomes false) and the dock (`ondockclose` is called); the
+dock's sheet coming, when the application gives the dock or the screen
+narrows with it, closes the side sheets. A sheet that rests at its
+lowest height (`closable: false`) does not count as open and stays.
+When the screen narrows with both side regions open, the one opened
+last stays, the right one at mount.
 
 With `topFloating`, the narrow form floats the bar over the stage in a
 [Floating](../components/floating.md) gap-md from the top of the stage

@@ -119,6 +119,8 @@ export interface Messages {
   keyboardShortcuts: string;
   /** Shell: the name of the dock's grip */
   dockHeight: string;
+  /** Shell: the name of the dock's sheet on a narrow screen, when dockSheet gives none */
+  dock: string;
   /**
    * Shell: the name of the scrim that closed the panels floating over the stage.
    * @deprecated The Shell no longer draws a scrim; the message is kept so that the messages an
@@ -224,6 +226,7 @@ const english: Messages = {
   running: 'Running',
   keyboardShortcuts: 'Keyboard shortcuts',
   dockHeight: 'Dock height',
+  dock: 'Dock',
   closePanes: 'Close the panels',
   addName: 'Add a name',
   mixed: 'Mixed',

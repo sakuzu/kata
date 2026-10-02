@@ -106,14 +106,14 @@ describe('Shell', () => {
     expect(container.querySelectorAll('[data-role="floating"]')).toHaveLength(2);
     expect(container.querySelector('.scrim')).toBeNull();
 
-    // 30rem: below the narrow width
+    // 30rem: below the narrow width, one sheet at a time: the one opened last stays
     await resize(480);
     expect(onlayout).toHaveBeenLastCalledWith({
       width: 'narrow',
       leftMode: 'sheet',
       rightMode: 'sheet',
     });
-    expect(container.querySelector('[data-sheet="left"]')).not.toBeNull();
+    expect(container.querySelector('[data-sheet="left"]')).toBeNull();
     expect(container.querySelector('[data-sheet="right"]')).not.toBeNull();
     expect(container.querySelector('[data-role="floating"]')).toBeNull();
   });
@@ -309,6 +309,95 @@ describe('Shell', () => {
     expect(wide.container.querySelector('.dock')?.textContent?.trim()).toBe('Output');
   });
 
+  it('puts the dock in a sheet on a narrow screen without dockSheet, named by the messages', async () => {
+    const { container } = render(Shell, {
+      stage: regions.stage,
+      dock: html('<div>Output</div>'),
+      narrow: true,
+    });
+    await tick();
+    const sheet = container.querySelector('[data-sheet="dock"]');
+    expect(sheet?.textContent?.trim()).toBe('Output');
+    expect(sheet?.getAttribute('aria-label')).toBe('Dock');
+    expect(sheet?.getAttribute('data-stage')).toBe('half');
+    expect(container.querySelector('.dock')).toBeNull();
+  });
+
+  describe('on a narrow screen, one sheet at a time', () => {
+    it('closes the other side when a side sheet opens', async () => {
+      const { container, rerender } = render(Shell, { ...regions, narrow: true });
+      await tick();
+      expect(container.querySelector('[data-sheet="left"]')).not.toBeNull();
+      await rerender({ rightOpen: true });
+      await tick();
+      expect(container.querySelector('[data-sheet="right"]')).not.toBeNull();
+      expect(container.querySelector('[data-sheet="left"]')).toBeNull();
+      await rerender({ leftOpen: true });
+      await tick();
+      expect(container.querySelector('[data-sheet="left"]')).not.toBeNull();
+      expect(container.querySelector('[data-sheet="right"]')).toBeNull();
+    });
+
+    it('keeps the right one when both are open at mount', async () => {
+      const { container } = render(Shell, { ...regions, narrow: true, rightOpen: true });
+      await tick();
+      expect(container.querySelector('[data-sheet="left"]')).toBeNull();
+      expect(container.querySelector('[data-sheet="right"]')).not.toBeNull();
+    });
+
+    it('closes the side sheets when the dock comes, and the dock when a side opens', async () => {
+      const ondockclose = vi.fn();
+      const dock = html('<div>Output</div>');
+      const { container, rerender } = render(Shell, { ...regions, narrow: true, ondockclose });
+      await tick();
+      expect(container.querySelector('[data-sheet="left"]')).not.toBeNull();
+      await rerender({ dock });
+      await tick();
+      expect(container.querySelector('[data-sheet="dock"]')).not.toBeNull();
+      expect(container.querySelector('[data-sheet="left"]')).toBeNull();
+      expect(ondockclose).not.toHaveBeenCalled();
+      await rerender({ rightOpen: true });
+      await tick();
+      expect(container.querySelector('[data-sheet="right"]')).not.toBeNull();
+      expect(ondockclose).toHaveBeenCalledOnce();
+    });
+
+    it('keeps the dock given at mount, closing the side that is open', async () => {
+      const ondockclose = vi.fn();
+      const { container } = render(Shell, {
+        ...regions,
+        narrow: true,
+        dock: html('<div>Output</div>'),
+        ondockclose,
+      });
+      await tick();
+      expect(container.querySelector('[data-sheet="dock"]')).not.toBeNull();
+      expect(container.querySelector('[data-sheet="left"]')).toBeNull();
+      expect(ondockclose).not.toHaveBeenCalled();
+    });
+
+    it('does not close a sheet that rests at its lowest height', async () => {
+      const { container, rerender } = render(Shell, {
+        ...regions,
+        narrow: true,
+        leftOpen: false,
+        leftSheet: { closable: false },
+      });
+      await tick();
+      const left = () => container.querySelector('[data-sheet="left"]');
+      expect(left()?.getAttribute('data-stage')).toBe('peek');
+      await rerender({ rightOpen: true });
+      await tick();
+      expect(container.querySelector('[data-sheet="right"]')).not.toBeNull();
+      expect(left()?.getAttribute('data-stage')).toBe('peek');
+      await rerender({ dock: html('<div>Output</div>') });
+      await tick();
+      expect(container.querySelector('[data-sheet="dock"]')).not.toBeNull();
+      expect(container.querySelector('[data-sheet="right"]')).toBeNull();
+      expect(left()?.getAttribute('data-stage')).toBe('peek');
+    });
+  });
+
   it('floats the bar over the stage with topFloating on a narrow screen', async () => {
     const { container } = render(Shell, { ...regions, narrow: true, topFloating: true });
     await tick();
@@ -380,17 +469,20 @@ describe('Shell', () => {
   it('closes the sheet opened last with Escape, then passes Escape to the application', async () => {
     await resize(480);
     const onescape = vi.fn();
-    const { container, rerender } = render(Shell, { ...regions, leftOpen: true, onescape });
+    const { container, rerender } = render(Shell, {
+      ...regions,
+      leftOpen: false,
+      leftSheet: { closable: false },
+      onescape,
+    });
     await tick();
     await rerender({ rightOpen: true });
     await tick();
     press('Escape');
     await tick();
     expect(region(container, 'right')).toBeNull();
-    expect(region(container, 'left')).not.toBeNull();
-    press('Escape');
-    await tick();
-    expect(region(container, 'left')).toBeNull();
+    // The left sheet rests at its lowest height, and Escape passes it by
+    expect(container.querySelector('[data-sheet="left"]')?.getAttribute('data-stage')).toBe('peek');
     expect(onescape).not.toHaveBeenCalled();
     press('Escape');
     expect(onescape).toHaveBeenCalledOnce();

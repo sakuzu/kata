@@ -81,6 +81,10 @@
   // are Sheets from the bottom of the stage and the toolbar rises to stay above them. leftOpen and
   // rightOpen open and close them; onlayout reports the width and where each region is.
   //
+  // On a narrow screen one of the side sheets and the dock is open at a time: opening a side sheet
+  // closes the other side and the dock (ondockclose), and the dock's coming closes the side sheets.
+  // A sheet that rests at its lowest height (closable: false) does not count as open.
+  //
   // shortcuts are attached to the document while the shell is mounted, and the help key (?, Help or
   // F1) opens a ShortcutsModal that lists them. Escape closes the sheet opened last; when none is
   // open (and always while the regions float or stand beside the stage) it goes to onescape. Keys
@@ -166,7 +170,7 @@
     rightReopen?: ShellReopen;
     /** On a narrow screen, the toolbar shows only while this Fab is pressed, in one column above it */
     bottomFab?: ShellFab;
-    /** On a narrow screen, the dock is a Sheet instead of the area under the stage */
+    /** The name and the heights of the Sheet that holds the dock on a narrow screen */
     dockSheet?: ShellDockSheet;
     /** Called when the dock's sheet closes; the application removes the dock */
     ondockclose?: () => void;
@@ -216,6 +220,23 @@
     untrack(() => onlayout?.(layout));
   });
 
+  // On a narrow screen the dock is always a sheet, at the lowest of its heights at first
+  const dockSheeted = $derived(!!dock && mode === 'sheet');
+  const DOCK_STAGES: SheetStage[] = ['half', 'full'];
+  const dockStages = $derived(dockSheet?.stages ?? DOCK_STAGES);
+  let dockStage = $state<SheetStage>();
+
+  // On a narrow screen one sheet at a time. The dock's sheet coming (the dock given, or the screen
+  // narrowing with it) closes the side sheets; a sheet that rests was not open and stays. This runs
+  // before the side regions are tracked, so that at mount the dock is kept.
+  $effect(() => {
+    if (!dockSheeted) return;
+    untrack(() => {
+      leftOpen = false;
+      rightOpen = false;
+    });
+  });
+
   // The side regions that are open, in the order they were opened: the last sheet is on top, and
   // Escape closes it first
   let order = $state<Side[]>([]);
@@ -226,9 +247,18 @@
     if (open && !order.includes(side)) {
       before[side] = typeof document === 'undefined' ? null : document.activeElement;
       order = [...rest, side];
+      // On a narrow screen, opening a side sheet closes the other side and the dock
+      if (mode === 'sheet') {
+        if (rest.length > 0) setOpen(rest[0], false);
+        if (dockSheeted) ondockclose?.();
+      }
     } else if (!open && order.includes(side)) {
       order = rest;
     }
+  }
+  function setOpen(side: Side, open: boolean) {
+    if (side === 'left') leftOpen = open;
+    else rightOpen = open;
   }
   $effect(() => {
     const open = leftOpen && !!left;
@@ -237,6 +267,13 @@
   $effect(() => {
     const open = rightOpen && !!right;
     untrack(() => track('right', open));
+  });
+  // When the screen narrows with both side regions open, the one opened last stays
+  $effect(() => {
+    if (mode !== 'sheet') return;
+    untrack(() => {
+      if (order.length > 1) setOpen(order[0], false);
+    });
   });
 
   const region = (side: Side) => (side === 'left' ? left : right);
@@ -306,12 +343,6 @@
     before[side] = null;
     if (back instanceof HTMLElement && back.isConnected) tick().then(() => back.focus());
   }
-
-  // On a narrow screen with dockSheet, the dock is a sheet, at the lowest of its heights at first
-  const dockSheeted = $derived(!!dock && !!dockSheet && mode === 'sheet');
-  const DOCK_STAGES: SheetStage[] = ['half', 'full'];
-  const dockStages = $derived(dockSheet?.stages ?? DOCK_STAGES);
-  let dockStage = $state<SheetStage>();
 
   // The height of the sheets, which the toolbar rises above
   const sheetH = $state<Record<Side | 'dock', number>>({ left: 0, right: 0, dock: 0 });
@@ -484,13 +515,13 @@
             </Floating>
           {/each}
         {:else if mode === 'sheet'}
-          {#if dock && dockSheet && dockSheeted}
+          {#if dock && dockSheeted}
             <div class="sheet-seat" data-region="dock" {@attach measure('dock')}>
               <Sheet
                 pane
                 closable
                 name="dock"
-                label={dockSheet.label}
+                label={dockSheet?.label ?? getMessages().dock}
                 stages={dockStages}
                 bind:stage={() => dockStage ?? dockStages[0], (next) => (dockStage = next)}
                 onclose={() => ondockclose?.()}
