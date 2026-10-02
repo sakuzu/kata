@@ -13,7 +13,8 @@
 //   trim           text is trimmed to its ink only inside a control ([data-h], a mark, a pair,
 //                  a section head, a table cell), at the inner edge of a container or a section, and
 //                  next to a line
-//   trim-clip      trimmed text is clipped with overflow: clip and a clip margin of at least 0.3em
+//   trim-clip      trimmed text keeps its vertical overflow visible (or clips it with a clip margin
+//                  of at least 0.3em), so the descenders and the top of CJK ink are never cut
 //   cursor         everything that can be pressed shows the pointer
 //   contrast       text reaches 7:1 on its surface (4.5:1 when disabled, or dimmed as a state:
 //                  data-dim)
@@ -21,8 +22,9 @@
 //   double-rule    no two lines run along one edge
 //   double-inset   a container with padding never sits directly in another one
 //   bundle-edge    text inside a container without padding (one that declares a non-zero inset for
-//                  its items: a Panel's content, a drawer, a flush group) that no component with
-//                  padding of its own holds is at least pad-md from its left edge
+//                  its items: a Panel's content, a drawer, a flush group; or a surface of the
+//                  examples, data-role="surface") that no component with padding of its own holds is
+//                  at least pad-md from its left edge
 //   inner-gap      inside a container with padding, neighbours are no further apart than the edge
 //   box-touch      a control with an outline never touches the padded edge of its container
 //   box-gap        controls stacked vertically are at least md apart
@@ -31,6 +33,9 @@
 //   head-near      a section header's head is closer to its content than to what comes before
 //   page-head-gap  a page's head is pad-lg from the first visible thing of its content
 //   section-head-gap  a section's head is gap-lg from its content
+//   tabs-gap       the content under the line of Tabs (data-rule) is gap-lg from it; inside a
+//                  container without padding (a Panel, a flush Modal, a drawer, a bare surface) the
+//                  next item's own padding sets the distance, so it is not measured
 //   read-row       a list item that is neither pressed nor parted by a line or a surface is not an
 //                  outline (unless another item of its list is; the head of a comment is not an
 //                  item of a list)
@@ -380,15 +385,19 @@
           el: label(el),
           v: `${trim} outside a control, a container's edge or a line`,
         });
-      if (trim && trim !== 'none' && /^(hidden|scroll|auto)$/.test(cs.overflowY))
-        bad.push({ kind: 'trim-clip', el: label(el), v: cs.overflowY });
+      // Trimmed text reaches outside its box with the descenders and the top of CJK ink, so its
+      // vertical overflow is visible, or clipped with a margin of at least 0.3em.
       if (
         trim &&
         trim !== 'none' &&
-        cs.overflowY === 'clip' &&
-        Number.parseFloat(cs.overflowClipMargin) < fs * 0.3
+        cs.overflowY !== 'visible' &&
+        !(cs.overflowY === 'clip' && Number.parseFloat(cs.overflowClipMargin) >= fs * 0.3)
       )
-        bad.push({ kind: 'trim-clip', el: label(el), v: `clip-margin ${cs.overflowClipMargin}` });
+        bad.push({
+          kind: 'trim-clip',
+          el: label(el),
+          v: cs.overflowY === 'clip' ? `clip-margin ${cs.overflowClipMargin}` : cs.overflowY,
+        });
 
       if (
         el.matches(PRESSABLE) &&
@@ -665,11 +674,20 @@
     }
     return null;
   }
+  // A surface (data-role="surface") without padding is a container without padding too, for the
+  // text that no container inside it (one that declares an inset of its own) holds
+  function surfaceBundleOf(el) {
+    const surface = el.closest('[data-role="surface"]');
+    if (!surface || Number.parseFloat(getComputedStyle(surface).paddingLeft) !== 0) return null;
+    for (let n = el; n && n !== surface; n = n.parentElement)
+      if (n.parentElement && insetOf(n) !== insetOf(n.parentElement)) return null;
+    return surface;
+  }
   function bundleEdge(root, bad) {
     for (const el of root.querySelectorAll('*')) {
       if (!visible(el) || skipped(el) || el.closest('svg')) continue;
       if (![...el.childNodes].some((n) => n.nodeType === 3 && n.textContent.trim())) continue;
-      const bundle = bundleOf(el);
+      const bundle = bundleOf(el) ?? surfaceBundleOf(el);
       if (!bundle) continue;
       const owner = el.closest(INSET_OWNERS);
       if (owner && bundle.contains(owner)) continue;
@@ -881,6 +899,24 @@
         });
     }
   }
+  function tabsGap(root, bad) {
+    const tol = 6 * (rootPx() / 16);
+    const want = pxOf('var(--kata-gap-lg)');
+    for (const tabs of root.querySelectorAll('[data-role="tabs"][data-rule]')) {
+      if (!visible(tabs) || skipped(tabs)) continue;
+      // In a container without padding the next item's own padding is the distance
+      const up = tabs.parentElement;
+      if (tabs.closest('[data-role="panel"]') || (up && (bundleOf(up) || surfaceBundleOf(up))))
+        continue;
+      const next = sibling(tabs, 'next');
+      if (!next || skipped(next)) continue;
+      const top = inkTop(next);
+      if (top === null) continue;
+      const d = top - tabs.getBoundingClientRect().bottom;
+      if (Math.abs(d - want) > tol)
+        bad.push({ kind: 'tabs-gap', el: label(tabs), v: +d.toFixed(1), want: +want.toFixed(1) });
+    }
+  }
 
   // ---- Lists ------------------------------------------------------------------------------------
 
@@ -995,6 +1031,7 @@
       headNear(root, bad);
       pageHeadGap(root, bad);
       sectionHeadGap(root, bad);
+      tabsGap(root, bad);
       readRow(root, bad);
       overlap(root, bad);
       crush(root, bad);

@@ -32,7 +32,7 @@ at least as wide as it and 12rem, and never wider than the window; it
 opens upward when there is no room below. It has the panel surface and
 one line in line-strong. Each option is as high as a list item, with
 pad-md at the sides and a check mark on the left of the chosen one; an
-option with a description has two lines gap-xs apart and pad-md above
+option with a description has two lines gap-sm apart and pad-md above
 and below. The arrow keys, Home and End move between the options, Enter
 or Space chooses one, and a press outside, Escape or Tab closes the list;
 Escape returns the focus to the trigger.

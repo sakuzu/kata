@@ -32,7 +32,7 @@
     <Menu>
       <div role="menu">
         <MenuItem>
-          <Stack gap="2xs">
+          <Stack gap="sm">
             <Text>Copy a link</Text>
             <Text role="caption" muted>Anyone in the team can open it</Text>
           </Stack>

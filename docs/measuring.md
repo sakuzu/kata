@@ -62,6 +62,10 @@ Chinese, Japanese or Korean, the ink also reaches the top and the bottom of
 CJK characters, and the trim adds that part back as padding, so a control
 is a little taller and no character is cut.
 
+The descenders still reach below the trimmed box, so trimmed text never
+clips its vertical overflow: a trimmed line that ends in an ellipsis is
+clipped sideways only.
+
 ## Padding and gaps
 
 Every distance is one of two scales, and each property takes only one.

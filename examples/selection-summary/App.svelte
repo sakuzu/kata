@@ -78,7 +78,7 @@
 <style>
   .frame {
     display: flex;
-    height: 30rem;
+    height: 34rem;
     background: var(--kata-color-ground);
   }
   .frame.short {

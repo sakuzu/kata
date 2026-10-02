@@ -27,6 +27,9 @@
     min?: number;
     max?: number;
     step?: number;
+    /** The characters of the longest value of a number: the input is that wide and sits at the
+     * start of the value column, instead of filling it */
+    digits?: number;
     /** A unit shown after the value, as text only */
     unit?: string;
     /** A word shown while a text or a number is empty */
@@ -65,7 +68,8 @@
   // application's: the list does not convert them, and a unit is text after the value.
   //
   //   text       TextInput; a string, on change (Enter or leaving the input)
-  //   number     NumberInput; a number, or null when emptied, on change
+  //   number     NumberInput; a number, or null when emptied, on change. With digits the input
+  //              keeps that width at the start of the value column
   //   select     NativeSelect of the options; the option's value
   //   color      a button with a Swatch and the value, which opens a ColorPicker; #RRGGBB, per
   //              pick. With oncolor, the button opens nothing and calls oncolor(key), so that the
@@ -151,18 +155,23 @@
           onchange={(e) => report(f.key, e.currentTarget.value)}
         />
       {:else if f.kind === 'number'}
-        <NumberInput
-          {id}
-          value={num(f)}
-          ariaLabel={f.label}
-          unit={f.unit}
-          min={f.min}
-          max={f.max}
-          step={f.step ?? 'any'}
-          placeholder={f.mixed ? getMessages().mixed : f.placeholder}
-          disabled={f.disabled}
-          onchange={(e) => commitNumber(f, e.currentTarget.value)}
-        />
+        {#snippet number()}
+          <NumberInput
+            {id}
+            value={num(f)}
+            ariaLabel={f.label}
+            unit={f.unit}
+            min={f.min}
+            max={f.max}
+            step={f.step ?? 'any'}
+            digits={f.digits}
+            placeholder={f.mixed ? getMessages().mixed : f.placeholder}
+            disabled={f.disabled}
+            onchange={(e) => commitNumber(f, e.currentTarget.value)}
+          />
+        {/snippet}
+        <!-- A number with digits keeps its own width: a Row holds it at the start of the column -->
+        {#if f.digits === undefined}{@render number()}{:else}<Row>{@render number()}</Row>{/if}
       {:else if f.kind === 'select'}
         <NativeSelect
           {id}

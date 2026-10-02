@@ -111,7 +111,7 @@
     <Surface width="22.5rem">
       <Tree label="Files" flat rows="two">
         <TreeRow grip={false} onclick={() => {}}>
-          <Stack gap={0}>
+          <Stack gap="sm">
             <Text clamp>Poster draft</Text>
             <Text role="caption" clamp>Edited today</Text>
           </Stack>

@@ -24,6 +24,12 @@
       <NumberInput value={3} readonly width="6rem" ariaLabel="Pages" />
     </Row>
   </Case>
+  <Case label="digits: as wide as the longest value, then the unit">
+    <Row wrap>
+      <NumberInput value={12.5} unit="px" step="any" digits={4} ariaLabel="Offset" />
+      <NumberInput value={null} placeholder="Auto" digits={2} ariaLabel="Columns" />
+    </Row>
+  </Case>
   <Case label="In a field, and the small button">
     <Surface width="22.5rem">
       <Block>

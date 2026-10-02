@@ -49,13 +49,15 @@ from how the screen looks.
 
 | Gap | In a Stack | In a Row |
 | --- | --- | --- |
-| 0 | a title and its caption; sections | icon buttons without a border |
+| 0 | sections | icon buttons without a border |
 | 2xs | inside components | an icon and its text |
 | xs | inside components | |
-| sm | the things of one group | controls |
+| sm | the things of one group; a title and its caption | controls |
 | md | different things | |
 | lg | topics, and a page's head to its content | groups of controls |
 | xl | the sections of a long page | |
+
+A title and its caption are gap sm apart, both lines trimmed.
 
 Controls stacked directly are at least md apart, so that their outlines
 do not read as one.

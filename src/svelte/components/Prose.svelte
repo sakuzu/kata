@@ -51,19 +51,42 @@
   .prose > :global(* + h2) {
     margin-top: pad(xl);
   }
-  // A folded part: the summary looks like an h2 and keeps its marker
+  // A folded part: the summary is body text at the label weight after a chevron, which turns down
+  // when the part is open. The chevron is the chevron-right icon at the icon size, drawn with a
+  // mask so that it takes the color of the text. A folded part is a block: pad-lg before it
   .prose :global(summary) {
-    @include text(h1);
+    @include text(body);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: gap(2xs);
+    list-style: none;
     cursor: pointer;
+    &::-webkit-details-marker {
+      display: none;
+    }
+    &::before {
+      content: '';
+      flex: none;
+      width: h(icon);
+      height: h(icon);
+      background: currentColor;
+      mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m9 18 6-6-6-6'/%3E%3C/svg%3E")
+        center / contain no-repeat;
+    }
+  }
+  .prose :global(details[open] > summary::before) {
+    rotate: 90deg;
   }
   .prose > :global(* + details) {
-    margin-top: pad(xl);
+    margin-top: pad(lg);
   }
   .prose :global(details > * + *) {
     margin-top: pad(lg);
   }
+  // The summary is body text at the label weight: the label's offset (the one of the body size)
   .prose :global(summary + *) {
-    margin-top: off(h1);
+    margin-top: off(label);
   }
   .prose > :global(h1 + *) {
     margin-top: off(title);

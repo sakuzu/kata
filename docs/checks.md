@@ -39,13 +39,13 @@ element inside the example is measured; a finding fails the audit.
 | border | Borders are 0, 1 or 2px and solid, so no border of the browser |
 | height | An element with `data-h` has the height of that token |
 | trim | Text is trimmed in a control, at a container's edge or at a line |
-| trim-clip | Trimmed text is clipped with a margin, never cut |
+| trim-clip | Trimmed text keeps its vertical overflow, so no ink is cut |
 | cursor | What can be pressed shows the pointer |
 | contrast | Text reaches 7:1 on its surface (4.5:1 when disabled or dimmed) |
 | focus-halo | A text field shows a 2px ring on focus |
 | double-rule | No two lines run along one edge |
 | double-inset | A container with padding never sits in another one |
-| bundle-edge | Text in a container without padding keeps pad-md from its edge |
+| bundle-edge | Text in an unpadded container or surface keeps pad-md |
 | inner-gap | In a padded container, neighbours are no further than the edge |
 | box-touch | A control never touches the padded edge of its container |
 | box-gap | Controls stacked vertically are at least md apart |
@@ -54,6 +54,7 @@ element inside the example is measured; a finding fails the audit.
 | head-near | A group's head is nearer its content than the group above |
 | page-head-gap | A page's head is pad-lg from its content |
 | section-head-gap | A section's head is gap-lg from its content |
+| tabs-gap | Content under Tabs is gap-lg away (not in an unpadded container) |
 | read-row | A list item that is only read has a line or a surface |
 | overlap | The children of a layout do not overlap |
 | crush | Text is never squeezed narrower than two characters |

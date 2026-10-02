@@ -89,7 +89,7 @@
       <List label="Recent" rows="two">
         <ListItem columns="auto minmax(0, 1fr)" onclick={() => {}}>
           <Icon name={FileText} />
-          <Stack gap={0}>
+          <Stack gap="sm">
             <Text clamp>Quarterly report</Text>
             <Text role="caption" clamp>Edited 3 minutes ago</Text>
           </Stack>

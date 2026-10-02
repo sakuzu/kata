@@ -29,6 +29,8 @@ inside it, so its height does not change. The tabs have a line along
 their bottom, which counts as a line as a [Divider](divider.md) does:
 what follows them is placed as after a Divider, so a section after them
 starts as after a line and text right after them is trimmed to its ink.
+On a page the content under the rule is gap-lg away; inside a Panel the
+next SectionHeader's pad-md is the distance.
 Inside a Toolbar they take the toolbar's height and its line instead. A
 tab with `href` is a link, a tab without is a button. Only the current
 tab is in the tab order: the left and right arrow keys, Home and End
