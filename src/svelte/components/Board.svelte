@@ -8,12 +8,22 @@
   // a level above the panel around it. pad-md inside, and the content is a Stack gap md, so a
   // search, a Segmented and Glyphs are just placed in order. The bars of a picker (hue, lightness,
   // a scheme) are the picker's own; Board is the container only. A container to read is a Card.
+  // In a slot that draws the surface and the line (bare), it keeps only its padding, so that no
+  // line is drawn twice.
   //
   //   <Board><SearchInput … /><Glyphs … /></Board>
-  let { children }: { children: Snippet } = $props();
+  let {
+    bare = false,
+    children,
+  }: {
+    /** The slot around it draws the surface and the line; the board keeps its padding only */
+    bare?: boolean;
+    /** The parts of the picker */
+    children: Snippet;
+  } = $props();
 </script>
 
-<div class="board" data-inset data-role="card">
+<div class="board" class:bare data-inset data-role={bare ? 'block' : 'card'}>
   <Stack gap="md">{@render children()}</Stack>
 </div>
 
@@ -26,5 +36,10 @@
     @include container;
     min-width: 0;
     @include scope-box(button);
+  }
+  // In a slot that draws the surface and the line, only the padding remains
+  .board.bare {
+    background: none;
+    border: 0;
   }
 </style>

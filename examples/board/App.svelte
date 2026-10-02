@@ -18,4 +18,11 @@
       </Board>
     </Surface>
   </Case>
+  <Case label="bare, in a slot that draws the surface and the line">
+    <Surface width="22.5rem">
+      <Board bare>
+        <Glyphs {items} {value} onselect={(g) => (value = g)} />
+      </Board>
+    </Surface>
+  </Case>
 </Example>

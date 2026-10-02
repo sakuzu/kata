@@ -1,10 +1,11 @@
 <script lang="ts">
   import '../styles/components.css';
 
-  // Glyphs: a grid of emoji or symbols to pick one from. Eight columns fill the width of the
-  // container; the selected cell has the raise-2 surface and a blue line inside. The characters are
-  // symbols rather than interface text, so they take the size of the h1 role, the smallest at which
-  // emoji stay legible. row lays the cells out in one line that scrolls sideways.
+  // Glyphs: a grid of emoji or symbols to pick one from. The columns (eight by default) fill the
+  // width of the container; the selected cell has the raise-2 surface and a blue line inside. The
+  // characters are symbols rather than interface text, so they take the size of the h1 role, the
+  // smallest at which emoji stay legible. row lays the cells out in one line that scrolls sideways,
+  // each cell as wide as a column of the grid, so that a band above a grid lines up with it.
   //
   // The font of the characters comes from --kata-glyph-font, set by the container (an emoji font,
   // for example); without it they inherit.
@@ -17,6 +18,7 @@
     label,
     selected,
     row = false,
+    columns = 8,
   }: {
     /** The characters, one per cell */
     items: string[];
@@ -29,6 +31,8 @@
     selected?: (glyph: string, i: number) => boolean;
     /** One line instead of a grid */
     row?: boolean;
+    /** The number of columns of the grid; in a row, a cell is as wide as one of them */
+    columns?: number;
   } = $props();
 
   function isOn(glyph: string, i: number): boolean {
@@ -36,7 +40,7 @@
   }
 </script>
 
-<div class="glyphs" class:row data-role="grid">
+<div class="glyphs" class:row data-role="grid" style:--kata-glyphs-columns={columns}>
   <!-- Keyed by position: the same character can appear twice -->
   {#each items as glyph, i (i)}
     <button
@@ -58,16 +62,18 @@
 
   .glyphs {
     display: grid;
-    grid-template-columns: repeat(8, minmax(0, 1fr));
+    grid-template-columns: repeat(var(--kata-glyphs-columns, 8), minmax(0, 1fr));
     gap: gap(2xs);
     min-width: 0;
   }
+  // In a row, a cell is as wide as a column of the grid
   .glyphs.row {
     display: flex;
     overflow-x: auto;
     > .cell {
-      flex: none;
-      min-width: h(button);
+      $columns: var(--kata-glyphs-columns, 8);
+      flex: 0 0 calc((100% - (#{$columns} - 1) * #{gap(2xs)}) / #{$columns});
+      min-width: 0;
     }
   }
   .cell {

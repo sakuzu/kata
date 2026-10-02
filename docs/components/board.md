@@ -16,6 +16,7 @@ container to read is a [Card](card.md).
 
 | Prop | Default | Description |
 | --- | --- | --- |
+| `bare` | `false` | Keeps only its padding, for a slot with a surface |
 | `children` | required | The parts of the picker |
 
 ## Contract

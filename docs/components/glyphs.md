@@ -19,11 +19,14 @@ colors is a [ColorGrid](color-grid.md).
 | `label` | | `(symbol, i)` to the name of a cell (default: the symbol) |
 | `selected` | | `(symbol, i)` to whether a cell is selected |
 | `row` | `false` | One line that scrolls sideways |
+| `columns` | `8` | The number of columns; in a row, a cell is as wide as one |
 
 ## Contract
 
-Eight columns fill the width, gap-2xs apart; a cell is as tall as a button
-and its symbol takes the size of the h1 role. A cell has the raise surface
+`columns` columns (eight by default) fill the width, gap-2xs apart; a cell
+is as tall as a button and its symbol takes the size of the h1 role. In a
+row, a cell is as wide as a column of the grid, so that a band above a
+grid with the same `columns` lines up with it. A cell has the raise surface
 on hover; the selected cell has `--kata-color-raise-2` and a line of
 `--kata-color-blue-ink` inside, and reports `aria-pressed`. The focus ring
 is drawn inside. The font of the symbols is `--kata-glyph-font`, set by the
