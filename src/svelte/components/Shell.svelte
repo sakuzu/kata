@@ -94,7 +94,8 @@
   //
   // On a narrow screen one of the side sheets and the dock is open at a time: opening a side sheet
   // closes the other side and the dock (ondockclose), and the dock's coming closes the side sheets.
-  // A sheet that rests at its lowest height (closable: false) does not count as open.
+  // A sheet that rests at its lowest height (closable: false) does not count as open; it is not
+  // shown while the dock's sheet is open, and comes back when the dock closes.
   //
   // shortcuts are attached to the document while the shell is mounted, and the help key (?, Help or
   // F1) opens a ShortcutsModal that lists them. Escape closes the sheet opened last; when none is
@@ -289,12 +290,13 @@
   const stagesOf = (side: Side) => sheetOf(side)?.stages ?? ALL_STAGES;
   const closableOf = (side: Side) => sheetOf(side)?.closable ?? true;
   // The sheets on a narrow screen: those that do not close rest at their lowest height while their
-  // region is not open, under the open ones, which are on top in the order they were opened
+  // region is not open and the dock's sheet is not open, under the open ones, which are on top in
+  // the order they were opened
   const sheets = $derived(
     mode === 'sheet'
       ? [
           ...(['left', 'right'] as const).filter(
-            (side) => !closableOf(side) && !!region(side) && !shown(side),
+            (side) => !closableOf(side) && !!region(side) && !shown(side) && !dockSheeted,
           ),
           ...order,
         ]
