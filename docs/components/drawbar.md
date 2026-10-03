@@ -66,7 +66,10 @@ of a group gap-2xs apart and the groups gap-md apart, and the bar has
 `aria-orientation="vertical"`. It is in the flow of its container
 (`position: static`), so `bottom` does not apply and the container places
 it, as the place above the Fab of a [Shell](../workbench/shell.md) does;
-nothing folds into More.
+nothing folds into More. Taller than its place, the column scrolls and
+shows its scrollbar beside the tools, and grows wider by it, so that the
+tools keep their width
+([Regions that scroll](../layout.md#regions-that-scroll)).
 
 ## Example
 

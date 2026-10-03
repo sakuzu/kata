@@ -302,6 +302,18 @@
       />
     </div>
   </Case>
+  <Case label="bottomFab in a low frame: the column does not fit, scrolls and shows its scrollbar beside the tools">
+    <div class="frame short">
+      <Shell
+        narrow
+        leftOpen={false}
+        bottomFab={{ label: 'Tools', closeLabel: 'Hide the tools' }}
+        top={plainBar}
+        stage={surface}
+        bottom={columnToolbar}
+      />
+    </div>
+  </Case>
   <Case label="dockSheet: on a narrow screen the dock is a sheet, which the application removes when it closes">
     <div class="frame">
       <Shell

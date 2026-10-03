@@ -162,3 +162,41 @@ test('shell: a resting sheet is not shown while the dock sheet is open', async (
   await expect(dock).toBeVisible();
   await expect(rest).toHaveCount(0);
 });
+
+// A scrollbar never squeezes a control. In a frame too low for it, the toolbar's column above the
+// Fab scrolls, shows its scrollbar beside the tools at the track's thickness (size-sm), and grows
+// by it: the tools keep their width, so the column does not scroll sideways.
+test('shell: the column above the Fab scrolls and grows by its scrollbar', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 1000 });
+  await page.goto('/shell/', { waitUntil: 'networkidle' });
+  const example = page.getByText('bottomFab in a low frame', { exact: false }).locator('xpath=..');
+  await example.scrollIntoViewIfNeeded();
+  await example.getByRole('button', { name: 'Tools', exact: true }).click();
+  const column = example.locator('[data-region="bottom"] > [aria-orientation="vertical"]');
+  await expect(column).toBeVisible();
+  const m = await column.evaluate((el) => {
+    const cs = getComputedStyle(el);
+    const probe = document.createElement('div');
+    probe.style.cssText =
+      'position:absolute;visibility:hidden;width:0;height:var(--kata-size-sm-rem)';
+    document.body.appendChild(probe);
+    const track = probe.getBoundingClientRect().height;
+    probe.remove();
+    const r = el.getBoundingClientRect();
+    const tool = el.querySelector('button')?.getBoundingClientRect();
+    const borders = Number.parseFloat(cs.borderLeftWidth) + Number.parseFloat(cs.borderRightWidth);
+    return {
+      track,
+      bar: r.width - borders - el.clientWidth,
+      // The room the tools need: a tool, the padding at both sides, the lines and the scrollbar
+      need: (tool?.width ?? 0) + 2 * Number.parseFloat(cs.paddingLeft) + borders,
+      width: r.width,
+      scrollsY: el.scrollHeight > el.clientHeight,
+      scrollsX: el.scrollWidth > el.clientWidth,
+    };
+  });
+  expect(m.scrollsY, 'the column scrolls').toBe(true);
+  expect(Math.abs(m.bar - m.track), 'a scrollbar of the track').toBeLessThan(1.5);
+  expect(m.scrollsX, 'the tools are not squeezed').toBe(false);
+  expect(m.width, 'the column grows by its scrollbar').toBeGreaterThan(m.need + m.track - 1.5);
+});

@@ -215,7 +215,8 @@ snippet receives `{ column }`, true while the toolbar stands in one
 column above the Fab and false elsewhere: pass it to the Drawbar's
 `column`. A snippet that takes no argument works as before. The column
 stays between gap-md below the top inset of the stage and gap-md above
-the Fab, and scrolls when it does not fit there. From 48rem the toolbar
+the Fab, and scrolls when it does not fit there, its scrollbar beside
+the tools. From 48rem the toolbar
 stays over the bottom of the stage.
 
 The narrow form puts the dock in a [Sheet](../components/sheet.md) named
