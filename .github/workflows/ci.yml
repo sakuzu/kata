@@ -40,7 +40,7 @@ jobs:
       - name: The package (build, publint and attw)
         run: npm run check:package
       - name: The browser for the audit
-        run: npx playwright install --with-deps --only-shell chromium
+        run: npx playwright install --with-deps --only-shell chromium webkit
       - name: The audit of the components (styles and measurements)
         run: npm run audit
       - name: Documentation site and examples (fails on a dead link)

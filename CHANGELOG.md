@@ -6,6 +6,76 @@ follows semantic versioning.
 
 ## [Unreleased]
 
+## [1.7.0] - 2026-10-03
+
+Fixes and rules found in an application's review: a mark beside text
+that wraps, the surface under a cover, disabled without hue, narrow
+widths that fold instead of squeezing, and scrollbars that are always
+visible. Nothing is removed; a few looks change (listed as Changed).
+
+- Added: the rule for a mark beside text that may wrap (measuring.md)
+  and the `seat` mixin: the mark is centred on the ink of the first
+  line. Note, Banner, Toggle, Markbox and the summary of Prose use it,
+  so a Note's icon and a Prose chevron stay on the first line (#40,
+  #37).
+- Added: `Row align="first"`, which aligns its items by the first
+  baseline, so a mark in a Markbox stays on the first line of text that
+  wraps (#36).
+- Added: `Text end`, a mark (a Badge, a button) beside a title that
+  hangs without making the line taller; PageHeader puts its side there
+  with the same API (#29).
+- Added: the context token `--kata-color-surface`, the opaque surface an
+  element sits on, and the `surface` mixin. A sticky column, a fill
+  head, the end of a TreeRow and the rings of Counter, Presence and
+  ColorGrid paint it, so they match the surface they cover (#55).
+- Added: `--kata-color-thumb` and `--kata-color-thumb-hover`, and the
+  rule "Regions that scroll" (layout.md): a region that scrolls shows a
+  thin scrollbar at all times, on both axes, in kata's colors, and the
+  scrollbar adds to a region sized by its controls instead of squeezing
+  them. Firefox follows the operating system (#33, #42, #52).
+- Added: `lib/place.ts`: a Dropdown, a Select and a MenuList follow
+  their trigger while open, and keep gap-xs from it and gap-md from the
+  window's edge, read from the tokens (#50).
+- Added: the checks `first-line`, `near`, `scroll-mark` and `thumb`.
+- Changed: disabled is the same shape without hue. A filled shape
+  (primary, danger-fill, Fab, a chosen Toggle, Checkbox or Radio,
+  Segmented's chosen option) takes `solid-disabled` and
+  `solid-disabled-text`, now derived from fill and muted in both
+  palettes (light was a pale blue); a busy button takes the same; a
+  danger button disabled takes the text and line of an outline; a
+  disabled or busy button takes no hover (#38, #57).
+- Changed: Crumbs fold by their own width (every place, the current
+  place, none) instead of being squeezed to fragments in a narrow
+  Topbar; the brand ellipsizes only after the crumbs are gone (#48).
+- Changed: in Japanese, a long string breaks only when it does not fit
+  (`overflow-wrap: break-word`), so a Latin word keeps its width and a
+  StepBar switches to its numbers form (#49).
+- Changed: Segmented no longer hides its scrollbar. Table and Bulk no
+  longer draw the inset line at an edge that has more; `overflowEdges`
+  and the `overflow-edges` mixin stay exported, are used by no
+  component, and will be removed in the next major (#42, #52).
+- Changed: a Glyphs cell is at most a square, in a band and in the grid
+  alike (#43).
+- Fixed: a resting side sheet is not shown while the dock's sheet is
+  open in a narrow Shell (#35).
+- Fixed: Pager keeps the size of its squares and switches to the
+  compact form when the full one does not fit (#51).
+- Fixed: Actions wrap the buttons inside a group wider than the frame
+  (#58).
+- Fixed: NativeSelect shows its placeholder when there is no value
+  (#45).
+- Fixed: the subrows of a LayerTree row start at the column of its name
+  (#39).
+- Fixed: a Chip without a remove button has pad-sm on both sides (#44).
+- Fixed: the description of a Radio is nearer its own label than the
+  next one (#46).
+- Fixed: a Stat at the edge of a container trims its lines, through
+  Stats and the items of a Row (#53).
+- Docs: Panel draws no edge; the container that docks it draws the line
+  (#54). Notices bring no space below; the content after them does
+  (#41). The examples of small inputs, the shell's modes and col-head's
+  merged column are corrected (#47).
+
 ## [1.6.2] - 2026-10-02
 
 Fixes found in an application's review. Nothing changes incompatibly.
@@ -413,6 +483,7 @@ them to the rules.
   of drawing out of kata; `npm run check:package` runs publint and Are
   the Types Wrong on the package.
 
+[1.7.0]: https://github.com/sakuzu/kata/compare/v1.6.2...v1.7.0
 [1.6.2]: https://github.com/sakuzu/kata/compare/v1.6.1...v1.6.2
 [1.6.1]: https://github.com/sakuzu/kata/compare/v1.6.0...v1.6.1
 [1.6.0]: https://github.com/sakuzu/kata/compare/v1.5.1...v1.6.0
