@@ -22,6 +22,7 @@ edge of the text.
 | `onclick` | | Makes the item pressable |
 | `href` | | Renders a link |
 | `plain` | `false` | Not pressed: no hover surface |
+| `disabled` | `false` | With `onclick`: cannot be pressed now |
 | `sel` | `false` | Selected |
 | `rule` | `false` | A line under the item, except the last |
 | `tail` | `false` | pad-sm at the right, for an icon button |
@@ -41,7 +42,10 @@ a markbox does not push. The columns are gap-sm apart; pad-md at the
 sides, or the inset the container declares. Bare text is trimmed to its
 ink and ends with an ellipsis. Controls inside are small buttons. Hover
 shows the raise surface; selected is the raise surface and a blue line
-of two at the left; the focus ring is drawn inside.
+of two at the left; the focus ring is drawn inside. Disabled, an item
+pressed with `onclick` is the same shape without hue, as a disabled
+[Button](button.md): dimmed, without hover, not pressed by a click or a
+key, `aria-disabled="true"` and out of the tab order.
 
 ## Example
 

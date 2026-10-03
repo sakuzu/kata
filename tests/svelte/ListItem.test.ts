@@ -35,6 +35,24 @@ describe('ListItem', () => {
     expect(still.queryByRole('button')).toBeNull();
   });
 
+  it('is dimmed, not pressed and out of the tab order when disabled', async () => {
+    const onclick = vi.fn();
+    const { getByRole } = render(ListItem, {
+      columns: '1fr',
+      onclick,
+      disabled: true,
+      children: text('A'),
+    });
+    const item = getByRole('button');
+    expect(item.getAttribute('aria-disabled')).toBe('true');
+    expect(item.hasAttribute('tabindex')).toBe(false);
+    expect(item.classList.contains('disabled')).toBe(true);
+    await fireEvent.click(item);
+    await fireEvent.keyDown(item, { key: 'Enter' });
+    await fireEvent.keyDown(item, { key: ' ' });
+    expect(onclick).not.toHaveBeenCalled();
+  });
+
   it('renders a link with href', () => {
     const { container } = render(ListItem, { columns: '1fr', href: '/a', children: text('A') });
     expect(container.querySelector('a[data-role="list-item"]')?.getAttribute('href')).toBe('/a');

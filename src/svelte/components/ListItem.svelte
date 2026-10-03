@@ -16,7 +16,8 @@
   // area that is pressed all belong to this item.
   //
   // Items touch (no gap). rule draws a line under an item, between items only. An item that is
-  // pressed takes onclick or href; one that is not takes plain.
+  // pressed takes onclick or href; one that is not takes plain. disabled, with onclick, is the same
+  // shape without hue, as a disabled Button: dimmed, no hover, not pressed and out of the tab order.
   //
   //   <ListItem columns="auto minmax(0, 1fr)" onclick={open}><Icon name="image" /><span>Photos</span></ListItem>
   //   <ListItem columns="minmax(0, 1fr) auto" tail plain><span>Name</span><Button …/></ListItem>
@@ -26,6 +27,7 @@
     sel = false,
     rule = false,
     plain = false,
+    disabled = false,
     href,
     onclick,
     onkeydown,
@@ -42,6 +44,8 @@
     rule?: boolean;
     /** An item that is not pressed: no hover surface */
     plain?: boolean;
+    /** A pressable item (onclick) that cannot be pressed now: dimmed and out of the tab order */
+    disabled?: boolean;
     /** Renders a link */
     href?: string;
     /** Makes the item pressable (Enter and Space press it too) */
@@ -51,9 +55,11 @@
   } = $props();
 
   const clickable = $derived(!plain && !!(onclick || href));
+  // Disabled applies to an item pressed with onclick (a link is not disabled)
+  const off = $derived(disabled && !plain && !href && !!onclick);
   function onKeyDown(e: KeyboardEvent) {
     onkeydown?.(e);
-    if (e.defaultPrevented) return;
+    if (e.defaultPrevented || off) return;
     if (e.key !== 'Enter' && e.key !== ' ') return;
     // The keys typed into a field inside the item stay the field's
     if ((e.target as HTMLElement).closest('input, textarea, select, [contenteditable]')) return;
@@ -87,12 +93,14 @@
     class:rule
     class:plain
     class:tail
+    class:disabled={off}
     data-role="list-item"
     data-h="list-item"
     data-rule={rule ? '' : undefined}
     style:grid-template-columns={columns}
-    {...clickable ? { role: 'button', tabindex: 0 } : {}}
-    {onclick}
+    {...clickable ? { role: 'button', tabindex: off ? undefined : 0 } : {}}
+    aria-disabled={off ? 'true' : undefined}
+    onclick={off ? undefined : onclick}
     onkeydown={clickable ? onKeyDown : onkeydown}
     {...rest}
   >
@@ -136,12 +144,16 @@
   .tail {
     padding-inline-end: pad(sm);
   }
-  .row[role='button'],
+  .row[role='button']:not(.disabled),
   a.row {
     cursor: pointer;
     &:hover {
       background: color(raise);
     }
+  }
+  // Disabled: the same shape without hue, dimmed, without hover
+  .disabled {
+    opacity: dim();
   }
   .sel {
     background: color(raise);

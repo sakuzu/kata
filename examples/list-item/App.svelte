@@ -10,7 +10,7 @@
 </script>
 
 <Example>
-  <Case label="Pressed (onclick), a link (href) and selected">
+  <Case label="Pressed (onclick), a link (href), selected and disabled">
     <Surface width="22.5rem">
       <List>
         <ListItem columns="auto minmax(0, 1fr)" onclick={() => {}}>
@@ -21,6 +21,9 @@
         </ListItem>
         <ListItem columns="auto minmax(0, 1fr)" sel onclick={() => {}}>
           <Icon name={FileText} /><span>Selected</span>
+        </ListItem>
+        <ListItem columns="auto minmax(0, 1fr)" disabled onclick={() => {}}>
+          <Icon name={FileText} /><span>Cannot be pressed now</span>
         </ListItem>
       </List>
     </Surface>
