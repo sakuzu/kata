@@ -109,9 +109,10 @@ text on it.
 Disabled is the same shape without hue. A filled shape (a primary or
 danger-fill button, a Fab, a switch, checkbox or radio that is on, the
 chosen option of a Segmented) takes `solid-disabled` with
-`solid-disabled-text` instead of being dimmed: `fill` with `muted` text,
-in both themes. A shape drawn with a line takes the outline's text and
-`line-strong`, dimmed. Busy uses the same tokens as disabled; only the
+`solid-disabled-text` instead of being dimmed: `fill` with the text at
+the dimmed opacity, as dim as a disabled outline's text, in both themes.
+A shape drawn with a line takes the outline's text and `line-strong`,
+dimmed. Busy uses the same tokens as disabled; only the
 cursor differs. Hover does not apply to a disabled control.
 
 `ground` and `panel` are the only independent surfaces: the page's and a

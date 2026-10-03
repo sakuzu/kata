@@ -40,8 +40,10 @@ visible. Nothing is removed; a few looks change (listed as Changed).
 - Changed: disabled is the same shape without hue. A filled shape
   (primary, danger-fill, Fab, a chosen Toggle, Checkbox or Radio,
   Segmented's chosen option) takes `solid-disabled` and
-  `solid-disabled-text`, now derived from fill and muted in both
-  palettes (light was a pale blue); a busy button takes the same; a
+  `solid-disabled-text`, now the fill's grey with the text as dim as a
+  disabled outline's, in both palettes (light was a pale blue, and the
+  text of a disabled primary read as pressable); a busy button takes
+  the same; a
   danger button disabled takes the text and line of an outline; a
   disabled or busy button takes no hover (#38, #57).
 - Changed: Crumbs fold by their own width (every place, the current
