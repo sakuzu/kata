@@ -6,8 +6,8 @@ Chip is a chosen value that can be removed, such as a filter.
 
 Use it for chosen values, one Chip each in a [Row](row.md); the ✕
 removes one. With `onclick` the text can be pressed too, for example to edit the
-value. A value that cannot be removed, a state or a kind is not a Chip:
-use [Badge](badge.md) or [Tag](tag.md).
+value. A Chip without a remove button is a value that can be pressed. A
+state or a kind is not a Chip: use [Badge](badge.md) or [Tag](tag.md).
 
 ## Props
 
@@ -22,9 +22,10 @@ use [Badge](badge.md) or [Tag](tag.md).
 
 A chip is a rectangle, since it can be pressed, with the height of a
 small button (`--kata-height-button-sm`), a strong line and the raise
-surface. pad-sm at the left and pad-2xs at the right, where the ✕ is a
-square of `--kata-height-badge`: its hit area and its hover surface are
-that square. The text is trimmed to its ink; a long value ends with an
+surface. pad-sm at both sides, and pad-2xs at the right when it has a
+✕, which carries its own white space: a square of
+`--kata-height-badge`, whose hit area and hover surface are that
+square. The text is trimmed to its ink; a long value ends with an
 ellipsis. Pressable text underlines on hover.
 
 ## Example

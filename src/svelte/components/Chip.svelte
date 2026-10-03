@@ -7,7 +7,8 @@
   // Chip: a value that can be removed. Chosen values sit in a row, one Chip each, and the ✕ on the
   // right removes one. It can be pressed, so it is a rectangle, with the height of a small button.
   // The ✕ is a square of a badge's height; its hit area and its hover surface are that square.
-  // A state (Badge) or a kind (Tag) is not a Chip, and neither is a value that cannot be removed.
+  // A Chip without a remove button is a value that can be pressed. A state (Badge) or a kind (Tag)
+  // is not a Chip.
   //
   //   <Chip onremove={() => drop(v)}>{v}</Chip>
   //   <Chip onclick={edit} onremove={drop}>Status is public</Chip>   the text can be pressed too
@@ -27,7 +28,7 @@
   } = $props();
 </script>
 
-<span class="chip" data-role="box" data-h="button-sm">
+<span class="chip" class:tail={!!onremove} data-role="box" data-h="button-sm">
   {#if onclick}
     <button type="button" class="text press" {onclick}>{@render children()}</button>
   {:else}
@@ -53,14 +54,17 @@
     align-items: center;
     gap: gap(2xs);
     height: h(button-sm);
-    // The ✕ carries its own white space, so the right side is narrower
-    padding-inline: pad(sm) pad(2xs);
+    padding-inline: pad(sm);
     border: bw() solid color(line-strong);
     background: color(raise);
     @include text(body);
     white-space: nowrap;
     max-width: 100%;
     flex: none;
+  }
+  // The ✕ carries its own white space, so the right side is narrower
+  .tail {
+    padding-inline-end: pad(2xs);
   }
   // The text is trimmed to its ink and centred; a long value ends with an ellipsis
   .text {
