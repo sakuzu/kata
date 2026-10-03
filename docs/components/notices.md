@@ -19,7 +19,9 @@ leave it out.
 
 It stacks its children gap-md apart, with the margin of a page around
 them: gap-lg above and at the sides, gap-md at the sides below 48rem,
-and none below, where the page's own margin follows.
+and none below, where the page's own margin follows. Placed alone, the
+last notice meets the bottom edge; the content that follows brings the
+space.
 
 ## Example
 
