@@ -6,6 +6,16 @@ follows semantic versioning.
 
 ## [Unreleased]
 
+## [1.8.1] - 2026-10-04
+
+A fix found by an application. Nothing changes incompatibly.
+
+- Fixed: a component that takes `--kata-inset` as its padding (ListItem,
+  Comment, LayerTree's subrows, Pair, AttributeList, Toggle, Checkbox)
+  declares `--kata-inset: 0px` on its children, so a Toggle or a
+  Checkbox in a ListItem inside a Panel no longer takes the inset twice
+  and starts at the column of the plain rows' names (#68).
+
 ## [1.8.0] - 2026-10-03
 
 What the standard UI of a map editor needed from 1.7.0: scrollbars in
@@ -516,6 +526,7 @@ them to the rules.
   of drawing out of kata; `npm run check:package` runs publint and Are
   the Types Wrong on the package.
 
+[1.8.1]: https://github.com/sakuzu/kata/compare/v1.8.0...v1.8.1
 [1.8.0]: https://github.com/sakuzu/kata/compare/v1.7.0...v1.8.0
 [1.7.0]: https://github.com/sakuzu/kata/compare/v1.6.2...v1.7.0
 [1.6.2]: https://github.com/sakuzu/kata/compare/v1.6.1...v1.6.2
