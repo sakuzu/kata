@@ -241,8 +241,8 @@
 // A container that scrolls sideways marks the edge that still has content beyond it with a strong
 // line, drawn inside the edge. The attributes come from the overflowEdges attachment, so the
 // mixin writes :global() and belongs in the style of a Svelte component. It is no longer the sign
-// that a region scrolls (the scrollbar is, from the base CSS), no component uses it, and the next
-// major version removes it
+// that a region scrolls (the scrollbar is, from the shared rules of the components), no component
+// uses it, and the next major version removes it
 @mixin overflow-edges {
   $start: inset bw() 0 0 0 color(line-strong);
   $end: inset calc(#{bw()} * -1) 0 0 0 color(line-strong);

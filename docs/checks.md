@@ -100,7 +100,11 @@ the client size is whole pixels and the scrollbar snaps to them. A
 hidden scrollbar measures 0. thumb composes `thumb` over the surface of
 the region and its ancestors, as contrast does for text. The audit runs
 Chromium without Playwright's hidden scrollbars, and hides only the
-page's own scrollbar, so that the three widths are the content's.
+page's own scrollbar, so that the three widths are the content's. The
+embed example puts kata under a root (`data-kata-root`) in a page that
+sets its own scrollbar colors, without the base CSS; the audit reads the
+tokens from the root of what it measures, so every check, scroll-mark
+included, measures the embed as it measures a page.
 
 near measures a control with a description (a radio, a checkbox or a
 switch, which marks itself `data-control`) that another control

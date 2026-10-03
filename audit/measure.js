@@ -78,8 +78,13 @@
   const ROLES = ['num', 'title', 'h1', 'h2', 'body', 'prose', 'caption', 'label', 'glyph'];
   const OFFSETS = ['num', 'title', 'h1', 'h2', 'prose', 'caption', 'label'];
 
+  // The element that holds the tokens: the root element of a page kata owns, or the root of kata
+  // embedded in a page it does not own ([data-kata-root]), where the tokens are scoped. The
+  // measured root sets it before it is measured.
+  let HOST = document.documentElement;
+
   /** The length of a CSS value in px, resolved in the context of an element */
-  function pxOf(value, el = document.documentElement) {
+  function pxOf(value, el = HOST) {
     const probe = document.createElement('div');
     probe.style.cssText = `position:absolute;visibility:hidden;height:${value};width:0`;
     el.appendChild(probe);
@@ -129,9 +134,7 @@
   let INK_UNDER = 0;
   let INK = CAP;
   function readInk() {
-    CAP = Number.parseFloat(
-      getComputedStyle(document.documentElement).getPropertyValue('--kata-cap'),
-    );
+    CAP = Number.parseFloat(getComputedStyle(HOST).getPropertyValue('--kata-cap'));
     INK_OVER = pxOf('calc(var(--kata-ink-over) * 100px)') / 100;
     INK_UNDER = pxOf('calc(var(--kata-ink-under) * 100px)') / 100;
     INK = CAP + INK_OVER + INK_UNDER;
@@ -456,7 +459,7 @@
   function tokenColor(name) {
     const probe = document.createElement('div');
     probe.style.cssText = `position:absolute;visibility:hidden;color:var(${name})`;
-    document.body.appendChild(probe);
+    (HOST === document.documentElement ? document.body : HOST).appendChild(probe);
     const c = parseColor(getComputedStyle(probe).color) ?? [0, 0, 0, 1];
     probe.remove();
     return c;
@@ -746,9 +749,7 @@
   function innerGap(root, bad) {
     const root16 = rootPx();
     const body = pxOf('var(--kata-text-size-body)');
-    const leading = Number.parseFloat(
-      getComputedStyle(document.documentElement).getPropertyValue('--kata-lh-body'),
-    );
+    const leading = Number.parseFloat(getComputedStyle(HOST).getPropertyValue('--kata-lh-body'));
     const tol = 0.2 * root16 + body * (leading - CAP);
     for (const el of root.querySelectorAll('*')) {
       if (!visible(el) || skipped(el)) continue;
@@ -1210,10 +1211,11 @@
   }
 
   window.kataAudit = (rootSelector = '[data-audit]') => {
-    readInk();
     const bad = [];
     const roots = [...document.querySelectorAll(rootSelector)];
     for (const root of roots) {
+      HOST = root.closest('[data-kata-root]') ?? document.documentElement;
+      readInk();
       elements(root, bad);
       contrast(root, bad);
       focusHalo(root, bad);
