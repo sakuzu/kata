@@ -78,13 +78,19 @@
     cursor: pointer;
   }
   // The track is as high as the thumb, and draws its line of two widths across its middle, so that
-  // the thumb sits on it without an offset
+  // the thumb sits on it without an offset. The colors of the passed part, the rest and the thumb
+  // are properties, so that disabled changes them
+  .slider {
+    --kata-slider-passed: #{color(solid)};
+    --kata-slider-rest: #{color(line-strong)};
+    --kata-slider-thumb: #{color(text)};
+  }
   @mixin track {
     height: h(icon);
     background: linear-gradient(
         to right,
-        color(solid) 0 var(--kata-slider-fill),
-        color(line-strong) var(--kata-slider-fill) 100%
+        var(--kata-slider-passed) 0 var(--kata-slider-fill),
+        var(--kata-slider-rest) var(--kata-slider-fill) 100%
       )
       center / 100% calc(#{bw()} * 2) no-repeat;
   }
@@ -94,7 +100,7 @@
     height: h(icon);
     border: 0;
     border-radius: 0;
-    background: color(text);
+    background: var(--kata-slider-thumb);
   }
   input::-webkit-slider-runnable-track {
     @include track;
@@ -120,7 +126,15 @@
     font-variant-numeric: tabular-nums;
     @include trim;
   }
+  // Disabled is the same shape without hue. The passed part is the filled shape, not dimmed: the
+  // disabled surface, and the thumb its text on that surface (the knob of a switch that is on).
+  // The line of the rest and the value are dimmed
   .disabled {
-    opacity: dim();
+    --kata-slider-passed: #{color(solid-disabled)};
+    --kata-slider-rest: color-mix(in srgb, #{color(line-strong)} calc(#{dim()} * 100%), transparent);
+    --kata-slider-thumb: linear-gradient(#{color(solid-disabled-text)} 0 0) #{color(solid-disabled)};
+    .val {
+      opacity: dim();
+    }
   }
 </style>

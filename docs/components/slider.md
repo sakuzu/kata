@@ -31,7 +31,10 @@ dragged. It is a native range input, so the keys and screen readers work
 as the browser does. The track is two lines thick, solid on the side
 that has been passed; the thumb is the square of an icon. The value sits
 gap-sm to the right in a slot of fixed width, aligned to its end and
-trimmed to its ink. Disabled is dimmed.
+trimmed to its ink. Disabled, the passed part of the track takes the
+solid-disabled surface and the thumb its text on that surface, not
+dimmed, as a switch that is on; the rest of the track and the value are
+dimmed.
 
 ## Example
 
