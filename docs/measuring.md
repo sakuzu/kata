@@ -100,6 +100,9 @@ stays on its first line: a [Toggle](components/toggle.md), a
 [Markbox](components/markbox.md) in a [Row](components/row.md) with
 `align="first"`, the summary of a folded part in
 [Prose](components/prose.md), and the end of a [Text](components/text.md).
+The end of a Text moves to a line of its own when the text cannot keep
+four of its characters beside it, and there its seat has the height of
+its mark.
 
 ## Padding and gaps
 

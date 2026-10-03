@@ -40,7 +40,8 @@
 //                  outline (unless another item of its list is; the head of a comment is not an
 //                  item of a list)
 //   first-line     a mark in a seat is centred on the ink of the first line of the text beside it
-//                  (the cap height, and the CJK ink outside it by the root's language)
+//                  (the cap height, and the CJK ink outside it by the root's language); a seat on
+//                  a line of its own under its text (data-under) is not measured
 //   near           the description of a control is nearer its own label than the next control's
 //   overlap        the children of a layout do not overlap
 //   crush          text is never squeezed into a column narrower than two characters
@@ -1079,6 +1080,9 @@
       if (cs.display === 'none' || cs.visibility === 'hidden' || !seat.getClientRects().length)
         continue;
       if (!isSeat(seat)) continue;
+      // A seat that has moved to a line of its own under its text (the end of a Text) is not beside
+      // a line of it
+      if (seat.hasAttribute('data-under')) continue;
       // The mark: the visible elements the seat holds
       const marks = [...seat.children].filter((k) => visible(k));
       if (!marks.length) continue;

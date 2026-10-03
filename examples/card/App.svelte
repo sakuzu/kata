@@ -2,6 +2,7 @@
   import { Badge, Button, Card, Grid, Row, Text } from '@sakuzu/kata/svelte';
   import Case from '../_shared/Case.svelte';
   import Example from '../_shared/Example.svelte';
+  import Surface from '../_shared/Surface.svelte';
 </script>
 
 <Example>
@@ -23,6 +24,40 @@
       <Text role="h2">Team plan{#snippet end()}<Badge>New</Badge>{/snippet}</Text>
       <Text role="caption">Seven members, 20 GB of storage.</Text>
     </Card>
+  </Case>
+  <Case label="A narrow card: the title keeps at least four of its characters beside the Badge; when it cannot, the Badge moves under it">
+    <Surface width="9rem">
+      <Card>
+        <Text role="h2">Free{#snippet end()}<Badge>Current plan</Badge>{/snippet}</Text>
+        <Text role="caption">One member.</Text>
+      </Card>
+    </Surface>
+  </Case>
+  <Case label="Plans side by side: the Badge moves under its title only where the card is too narrow">
+    <Grid cols={3}>
+      <Card>
+        <Text role="h2">Free{#snippet end()}<Badge>Current plan</Badge>{/snippet}</Text>
+        <Text role="caption">One member, 1 GB of storage.</Text>
+      </Card>
+      <Card>
+        <Text role="h2">Team</Text>
+        <Text role="caption">Seven members, 20 GB of storage.</Text>
+      </Card>
+      <Card>
+        <Text role="h2">Business</Text>
+        <Text role="caption">Any number of members, 1 TB of storage.</Text>
+      </Card>
+    </Grid>
+  </Case>
+  <Case label="A long title wraps its own words, and the Badge stays on its first line">
+    <Surface width="22.5rem">
+      <Card>
+        <Text role="h2"
+          >Team plan for a large organisation{#snippet end()}<Badge>Current plan</Badge>{/snippet}</Text
+        >
+        <Text role="caption">Any number of members, 1 TB of storage.</Text>
+      </Card>
+    </Surface>
   </Case>
   <Case label="gap md">
     <Card gap="md">

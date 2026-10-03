@@ -1,6 +1,7 @@
 <script lang="ts">
   import '../styles/components.css';
   import type { Snippet } from 'svelte';
+  import { untrack } from 'svelte';
   import type { Action } from 'svelte/action';
   import { clampTip } from '../lib/clampTip.js';
 
@@ -18,7 +19,11 @@
   // end puts a mark at the end of the text's first line (a Badge beside a title, an icon button).
   // The text and the end sit in one line aligned by their first baseline; the end is a seat of
   // height 0, so the mark is centred on the ink of the first line and hangs without making the
-  // line taller. The text wraps its own words; the end does not move to a line of its own.
+  // line taller. The text wraps its own words and keeps at least min(its own width, 4em) beside
+  // the end; when it cannot, the end moves to a line of its own under the text, and there its seat
+  // has the height of its mark (data-under, set by a ResizeObserver, read in the delivery and
+  // written in the next frame). One line with an ellipsis (clamp, or text in a control) keeps the
+  // end beside it.
   //
   //   <Text role="h2">Team plan{#snippet end()}<Badge>Current</Badge>{/snippet}</Text>
   type Role = 'num' | 'title' | 'h1' | 'h2' | 'prose' | 'body' | 'caption' | 'label' | 'glyph';
@@ -73,6 +78,33 @@
             : 'span'),
   );
   const dataRole = $derived(role === 'body' || role === 'prose' ? 'p' : role);
+  let ended = $state<HTMLElement>();
+  let seat = $state<HTMLElement>();
+  // Whether the end has moved to a line of its own under the text
+  let under = $state(false);
+  $effect(() => {
+    const row = ended;
+    const s = seat;
+    if (!row || !s || typeof ResizeObserver === 'undefined') return;
+    let frame = 0;
+    const read = () => {
+      const text = row.firstElementChild;
+      if (!text) return;
+      const next = s.getBoundingClientRect().top >= text.getBoundingClientRect().bottom;
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        frame = 0;
+        if (untrack(() => under) !== next) under = next;
+      });
+    };
+    const ro = new ResizeObserver(read);
+    ro.observe(row);
+    ro.observe(s);
+    return () => {
+      ro.disconnect();
+      cancelAnimationFrame(frame);
+    };
+  });
   // The full text of a clipped line shows as a tooltip (clampTip), only while clamp is on
   const clampTipIf: Action<HTMLElement, boolean> = (node, on) => {
     let inner: ReturnType<typeof clampTip> | undefined = on ? clampTip(node) : undefined;
@@ -113,9 +145,11 @@
 
 {#if end}
   <!-- A row of the text and its end: it passes the edge flags to the text, as a Row does -->
-  <div class="ended" data-edge-pass>
+  <div class="ended" class:one={clamp} data-edge-pass bind:this={ended}>
     {@render text()}
-    <span class="end end-{role}">{@render end()}</span>
+    <span class="end end-{role}" data-under={under || undefined} bind:this={seat}
+      >{@render end()}</span
+    >
   </div>
 {:else}
   {@render text()}
@@ -186,21 +220,46 @@
   .tabular {
     font-variant-numeric: tabular-nums;
   }
-  // The text and its end, on their first baseline. The text shrinks and wraps its own words; the
-  // end keeps its size and stays on the first line
+  // The text and its end, on their first baseline. The text wraps its own words and keeps at least
+  // min(its own width, 4em) beside the end, which keeps its size; when they do not fit side by side
+  // the end moves to a line of its own, gap-sm under the text. A short text keeps the end right
+  // after it (it grows no wider than its own width)
   .ended {
     display: flex;
+    flex-wrap: wrap;
     align-items: baseline;
     gap: gap(sm);
     min-width: 0;
     > .kata-text {
+      flex: 1 1 4em;
+      min-width: 0;
+      max-width: max-content;
+    }
+  }
+  // One line with an ellipsis (clamp, or text in a control) shrinks beside the end instead
+  .ended.one {
+    flex-wrap: nowrap;
+    > .kata-text {
       flex: 0 1 auto;
+      max-width: none;
+    }
+  }
+  @container style(--kata-in-control: 1) {
+    .ended {
+      flex-wrap: nowrap;
+      > .kata-text {
+        flex: 0 1 auto;
+        max-width: none;
+      }
     }
   }
   // A seat of height 0 at the size of the text, so the mark hangs centred on the ink of the first
-  // line without making it taller
+  // line without making it taller; on a line of its own, the seat has the height of its mark
   .end {
     @include seat(0);
+  }
+  .end[data-under] {
+    @include seat(auto);
   }
   @each $role in num, title, h1, h2, body, prose, caption, label, glyph {
     .end-#{$role} {

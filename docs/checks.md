@@ -90,7 +90,9 @@ it). The ink runs from the cap height to the baseline of the font,
 measured with a trimmed line placed before the text, and with a Japanese
 root it also takes the CJK ink above and below them, as a trimmed line
 does. The chevron of a Prose summary is drawn by the summary's own
-`::before` and is not measured.
+`::before` and is not measured, and neither is the end of a
+[Text](components/text.md) that has moved to a line of its own under the
+text (`data-under`).
 
 scroll-mark measures every element that overflows on an axis with
 `overflow` auto or scroll ([Regions that

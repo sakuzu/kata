@@ -45,8 +45,13 @@ apart. The end is a seat of no height, so the mark is centred on the ink
 of the first line and hangs without making the line taller
 ([a mark beside text](../measuring.md#a-mark-beside-text)). At the edge of
 a container the mark hangs into the padding, and the line keeps the
-height of its ink. The text wraps its own words; the end does not move
-to a line of its own.
+height of its ink. The text wraps its own words and keeps at least
+min(its own width, 4em) beside the end, four of its own characters, so a
+short title keeps the end right after it. When the text cannot keep that
+much, the end moves to a line of its own, gap-sm under the text, and
+there its seat has the height of its mark: nothing is squeezed, the line
+folds instead. Text on one line with an ellipsis (`clamp`, or text in a
+control) keeps the end beside it and shrinks instead.
 
 ```svelte
 <Text role="h2">Team plan{#snippet end()}<Badge>Current</Badge>{/snippet}</Text>
