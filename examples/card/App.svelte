@@ -20,7 +20,7 @@
   </Case>
   <Case label="A title with a Badge at its end: the Badge hangs into the padding">
     <Card>
-      <Text role="h2">Team plan{#snippet end()}<Badge>Current</Badge>{/snippet}</Text>
+      <Text role="h2">Team plan{#snippet end()}<Badge>New</Badge>{/snippet}</Text>
       <Text role="caption">Seven members, 20 GB of storage.</Text>
     </Card>
   </Case>

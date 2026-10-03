@@ -89,7 +89,8 @@ const SHORTHANDS = new Set([
 ]);
 const COLORISH =
   /#[0-9a-f]{3,8}\b|\brgba?\(|\bhsla?\(|\b(white|black|red|blue|gray|grey)(?![\w-])/i;
-// The components that hold text inside a control, at an edge or in a column, and may trim it
+// The components that hold text inside a control, at an edge or in a column, and may trim it; and
+// Prose, whose summary trims the empty line that seats its chevron (as the seat mixin does)
 const TRIM_OK = new Set([
   'Text',
   'Kbd',
@@ -133,6 +134,7 @@ const TRIM_OK = new Set([
   'Topbar',
   'TreeRow',
   'Stat',
+  'Prose',
 ]);
 // The components whose root may have an outer margin: the layouts, the icon and Prose
 const MARGIN_OK = new Set(['Stack', 'Row', 'Grid', 'Icon', 'Prose']);

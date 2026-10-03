@@ -15,7 +15,8 @@ repository ([CONTRIBUTING](../CONTRIBUTING.md) lists them).
 - Only the components that hold text in a control (Button, Toggle,
   TextInput and the other controls, a mark such as Badge, a list item, a
   pair or a table cell), at a container's edge (Text) or next to a line
-  (Section, SectionHeader) trim text.
+  (Section, SectionHeader) trim text. The seat of a mark trims an empty
+  line, and so does the summary of Prose, which seats its chevron.
 - No negative distance, no outer margin on a component's root (the
   layouts, Icon and Prose aside), no `@media` for a width and no `:has()`
   other than the next sibling.
@@ -56,6 +57,7 @@ element inside the example is measured; a finding fails the audit.
 | section-head-gap | A section's head is gap-lg from its content |
 | tabs-gap | Content under Tabs is gap-lg away (not in an unpadded container) |
 | read-row | A list item that is only read has a line or a surface |
+| first-line | A mark in a seat is centred on the ink of the first line |
 | overlap | The children of a layout do not overlap |
 | crush | Text is never squeezed narrower than two characters |
 | fixed-frame | A Shell or an embedded root is not the frame of fixed elements |
@@ -75,3 +77,14 @@ grow by that padding and the action's overhang. Flush content without
 an action keeps gap-xs above it, and its distance may grow by that gap.
 head-near allows the first group to lie further from its head by the
 action's overhang, and the second by the gap-xs.
+
+first-line measures every seat ([a mark beside
+text](measuring.md#a-mark-beside-text)): an element whose `::before` is
+an empty line trimmed to its ink. The centre of the mark it holds is
+within 0.06px of the centre of the ink of the first line of the text
+beside it (the nearest sibling after it that holds text, else before
+it). The ink runs from the cap height to the baseline of the font,
+measured with a trimmed line placed before the text, and with a Japanese
+root it also takes the CJK ink above and below them, as a trimmed line
+does. The chevron of a Prose summary is drawn by the summary's own
+`::before` and is not measured.

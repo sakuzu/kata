@@ -39,6 +39,8 @@
 //   read-row       a list item that is neither pressed nor parted by a line or a surface is not an
 //                  outline (unless another item of its list is; the head of a comment is not an
 //                  item of a list)
+//   first-line     a mark in a seat is centred on the ink of the first line of the text beside it
+//                  (the cap height, and the CJK ink outside it by the root's language)
 //   overlap        the children of a layout do not overlap
 //   crush          text is never squeezed into a column narrower than two characters
 //   fixed-frame    a size container (a Shell's root) and an embedded root ([data-kata-root]) are not
@@ -980,6 +982,90 @@
     }
   }
 
+  // ---- Marks beside text --------------------------------------------------------------------------
+
+  // A seat (the seat mixin) is an element whose ::before is a trimmed empty line (a zero-width
+  // space) and draws nothing: its content is the mark. Prose draws its chevron with the ::before of
+  // the summary itself, which is not an element and is not measured here.
+  function isSeat(el) {
+    const b = getComputedStyle(el, '::before');
+    const trim = b.getPropertyValue('text-box-trim');
+    return (
+      b.content.includes('\u200b') &&
+      !!trim &&
+      trim !== 'none' &&
+      !shownColor(b.backgroundColor) &&
+      b.backgroundImage === 'none' &&
+      (b.getPropertyValue('mask-image') || 'none') === 'none'
+    );
+  }
+  /** The first text node with visible text inside an element, in document order */
+  function firstText(el) {
+    const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, {
+      acceptNode: (n) =>
+        n.textContent.trim() && n.parentElement && visible(n.parentElement)
+          ? NodeFilter.FILTER_ACCEPT
+          : NodeFilter.FILTER_SKIP,
+    });
+    return walker.nextNode();
+  }
+  /**
+   * The cap height and the baseline of the line a text node starts on: a probe of no width placed
+   * before it, holding an empty line trimmed to the cap height and the baseline of the font (its
+   * own metrics, not the token's), sits on the baseline
+   */
+  function capLineOf(node) {
+    const probe = document.createElement('span');
+    probe.style.cssText =
+      'display:inline-block;width:0;vertical-align:baseline;margin:0;padding:0;border:0;text-box:trim-both cap alphabetic';
+    probe.textContent = '\u200b';
+    node.parentNode.insertBefore(probe, node);
+    const r = probe.getBoundingClientRect();
+    probe.remove();
+    return { cap: r.top, base: r.bottom };
+  }
+  function firstLine(root, bad) {
+    const TOL = 0.06 * (rootPx() / 16);
+    for (const seat of root.querySelectorAll('*')) {
+      if (seat.closest('svg') || skipped(seat)) continue;
+      const cs = getComputedStyle(seat);
+      // A seat of height 0 has no height: it is shown when it has a width
+      if (cs.display === 'none' || cs.visibility === 'hidden' || !seat.getClientRects().length)
+        continue;
+      if (!isSeat(seat)) continue;
+      // The mark: the visible elements the seat holds
+      const marks = [...seat.children].filter((k) => visible(k));
+      if (!marks.length) continue;
+      const top = Math.min(...marks.map((k) => k.getBoundingClientRect().top));
+      const bottom = Math.max(...marks.map((k) => k.getBoundingClientRect().bottom));
+      // The text beside it: the nearest sibling after it that holds text, else before it
+      const after = [];
+      for (let n = seat.nextElementSibling; n; n = n.nextElementSibling) after.push(n);
+      const before = [];
+      for (let n = seat.previousElementSibling; n; n = n.previousElementSibling) before.push(n);
+      let text = null;
+      for (const n of [...after, ...before]) {
+        if (!visible(n)) continue;
+        text = firstText(n);
+        if (text) break;
+      }
+      if (!text) continue;
+      // The ink of the first line, from the cap height to the baseline, with the CJK ink outside
+      // them by the root's language
+      const fs = Number.parseFloat(getComputedStyle(text.parentElement).fontSize);
+      const line = capLineOf(text);
+      const ink = (line.cap - fs * INK_OVER + line.base + fs * INK_UNDER) / 2;
+      const d = (top + bottom) / 2 - ink;
+      if (Math.abs(d) > TOL)
+        bad.push({
+          kind: 'first-line',
+          el: label(seat),
+          text: label(text.parentElement),
+          v: +d.toFixed(2),
+        });
+    }
+  }
+
   // ---- Layout -----------------------------------------------------------------------------------
 
   function overlap(root, bad) {
@@ -1060,6 +1146,7 @@
       sectionHeadGap(root, bad);
       tabsGap(root, bad);
       readRow(root, bad);
+      firstLine(root, bad);
       overlap(root, bad);
       crush(root, bad);
       fixedFrame(root, bad);
