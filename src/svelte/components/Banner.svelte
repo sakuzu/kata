@@ -70,7 +70,7 @@
     @include scope-box(button);
   }
   .floating {
-    background: color(panel);
+    @include surface(panel);
   }
   // The icon and the text stay together; only the action moves to the next line
   .line {

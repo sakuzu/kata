@@ -271,7 +271,7 @@
     display: flex;
     flex-direction: column;
     overflow: auto;
-    background: color(panel);
+    @include surface(panel);
     border: bw() solid color(line-strong);
     color: color(text);
     min-width: min(12rem, calc(100vw - #{gap(md)} * 2));

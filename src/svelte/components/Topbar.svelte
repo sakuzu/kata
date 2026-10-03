@@ -237,7 +237,7 @@
     gap: gap(sm);
     height: h(toolbar);
     padding-inline: pad(md);
-    background: color(panel);
+    @include surface(panel);
     border-bottom: bw() solid color(line-strong);
     flex: none;
     min-width: 0;

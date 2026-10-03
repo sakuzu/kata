@@ -4,7 +4,10 @@
   padding: var(--kata-gap-lg);
 }
 
+/* It stands in for a component that paints the panel, so it declares the surface as the surface
+ * mixin does */
 .surface {
   background: var(--kata-color-panel);
+  --kata-color-surface: var(--kata-color-panel);
   border: var(--kata-border-width) solid var(--kata-color-line);
 }

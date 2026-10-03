@@ -131,7 +131,7 @@
     flex-direction: column;
     min-height: 0;
     min-width: 0;
-    background: color(panel);
+    @include surface(panel);
     color: color(text);
     flex: none;
     @include scope-box(button);

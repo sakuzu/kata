@@ -29,7 +29,7 @@ the position in the list), `color` (the surface of their avatar), `role`
 ## Contract
 
 The avatars are circles of a small button that overlap by gap-xs, each
-with a ring two lines wide in the panel color; the one under the
+with a ring two lines wide in the surface's color; the one under the
 pointer comes to the front. A person's color is the surface of their
 avatar, without one the fill color; the contrast of a color is the
 application's. "+n" is a button that looks like an avatar and opens the

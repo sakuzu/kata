@@ -64,7 +64,7 @@
     display: flex;
     flex-direction: column;
     border: bw() solid color(line);
-    background: color(panel);
+    @include surface(panel);
     padding: 0;
     color: inherit;
     text-align: start;

@@ -173,6 +173,10 @@
    */
   --kata-color-ground: #202021;
   --kata-color-panel: #2b2b2d;
+  /* The opaque surface an element sits on: the ground, or the surface of the component around it
+   * (the surface mixin). A cover (a sticky cell, a ring cut out of the surface) paints it. var()
+   * resolves where it is declared, so the light theme declares it again */
+  --kata-color-surface: var(--kata-color-ground);
   --kata-color-raise: rgba(245, 245, 248, 0.07);
   --kata-color-raise-2: rgba(245, 245, 248, 0.14);
   --kata-color-fill: #46464a;
@@ -232,6 +236,7 @@
 [data-color-mode="light"] {
   --kata-color-ground: #f2f2f3;
   --kata-color-panel: #ffffff;
+  --kata-color-surface: var(--kata-color-ground);
   --kata-color-raise: rgba(29, 31, 32, 0.06);
   --kata-color-raise-2: rgba(29, 31, 32, 0.12);
   --kata-color-fill: #e4e4e5;

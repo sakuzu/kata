@@ -327,7 +327,7 @@
   .tree-row:hover .end,
   .tree-row:focus-within .end,
   .tree-row[data-open] .end {
-    background-color: color(panel);
+    background-color: color(surface);
     > :global(*) {
       opacity: 1;
       pointer-events: auto;

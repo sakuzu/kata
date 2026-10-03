@@ -47,8 +47,8 @@ wide table scrolls sideways in its own frame, and a strong line marks
 the edge that still has columns beyond it. Controls in a cell are small
 buttons. Hover and selection show the raise surface; a selected row has
 a blue line of two at the left. With `fill` the headers stay at the top
-on the panel surface; with `sticky` the first column stays at the start
-on the ground surface while the others scroll under it.
+and with `sticky` the first column stays at the start, both on the
+surface the table sits on, while the others scroll under them.
 
 ## Example
 

@@ -70,13 +70,13 @@
     overflow: auto;
   }
   // The headers stay at the top of the container. A collapsed border does not stay with a sticky
-  // cell, so the line is an inset shadow, and the cell takes the panel's surface so that the rows
+  // cell, so the line is an inset shadow, and the cell takes the surface it sits on so that the rows
   // do not show through
   .fill :global(thead th) {
     position: sticky;
     top: 0;
     z-index: 1;
-    background: color(panel);
+    background: color(surface);
     box-shadow: inset 0 calc(#{bw()} * -1) 0 color(line);
   }
   .table {
@@ -99,11 +99,11 @@
     position: sticky;
     left: 0;
     z-index: 1;
-    background-color: color(ground);
+    background-color: color(surface);
   }
   .sticky :global(tr:hover td:first-child),
   .sticky :global(tr[aria-selected='true'] > td:first-child) {
-    background-color: color(ground);
+    background-color: color(surface);
     background-image: linear-gradient(#{color(raise)}, #{color(raise)});
   }
   .dividers :global(th + th) {

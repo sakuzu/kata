@@ -88,7 +88,7 @@
     align-items: center;
     gap: gap(sm);
     padding: pad(sm);
-    background: color(panel);
+    @include surface(panel);
     color: color(text);
     border: bw() solid color(line-strong);
     white-space: nowrap;

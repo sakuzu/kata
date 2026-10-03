@@ -23,7 +23,7 @@ a screen reader says; `label` names the group.
 The colors stand in columns gap-2xs apart and fill the width of the
 container; each cell is a square of the color itself, with a line
 inside, and nothing is placed in it. The chosen cell shows a ring inside,
-two lines of the focus color and one of the panel. The group is a
+two lines of the focus color and one of the surface. The group is a
 `radiogroup` and each cell a `radio`.
 
 ## Example

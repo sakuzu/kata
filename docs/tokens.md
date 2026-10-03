@@ -109,6 +109,17 @@ text on it. A disabled primary action takes `solid-disabled` with
 text in the dark theme, and a paler blue with white text in the light
 one.
 
+`ground` and `panel` are the only independent surfaces: the page's and a
+component's. `surface` names the opaque surface an element sits on. It is
+`ground` on the page; a component that paints panel declares it with the
+`surface($role)` mixin (Panel, Card, Modal, Sheet, Drawer, Floating,
+Board, Menu, Dropdown, Topbar, Banner, Toast, Bubble, Pin, Gtile, Drawbar,
+Select's list, ColorPicker, ChipValue, Presence's roster). A cover,
+something that hides what is under it, paints `surface`: Table's sticky
+column and fill head, TreeRow's actions, Counter's and Presence's rings,
+ColorGrid's ring and ColorPicker's knob. Hover and selection lay raise
+over it.
+
 ### Text and lines
 
 Three levels of text: `text`, `muted` (close to text; secondary

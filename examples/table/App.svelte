@@ -65,7 +65,7 @@
       </Table>
     </Surface>
   </Case>
-  <Case label="sticky: the first and the last column stay when the table scrolls sideways">
+  <Case label="sticky: the first column stays when the table scrolls sideways">
     <Surface width="20rem">
       <Table sticky>
         {#snippet head()}<th>Name</th><th>Owner</th><th>Kind</th><th>Updated</th><th data-align="end">Size</th>{/snippet}

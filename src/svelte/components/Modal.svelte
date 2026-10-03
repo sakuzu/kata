@@ -235,7 +235,7 @@
     max-width: none;
     max-height: calc(100% - #{gap(lg)} * 2);
     color: color(text);
-    background: color(panel);
+    @include surface(panel);
     border: bw() solid color(line-strong);
     display: flex;
     flex-direction: column;

@@ -21,7 +21,7 @@ Its height and its least width are the square of an icon
 (`--kata-height-icon`); with more digits it grows sideways, with pad-2xs
 at the sides. The number is in the glyph role, with figures of equal
 width, trimmed to its ink and centred. A ring two lines wide, in the
-panel color, separates it from an icon it overlaps.
+color of the surface it sits on, separates it from an icon it overlaps.
 
 ## Example
 

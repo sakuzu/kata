@@ -76,7 +76,7 @@
     left: 0;
     width: var(--kata-width-drawer);
     max-width: 100%;
-    background: color(panel);
+    @include surface(panel);
     color: color(text);
     border-right: bw() solid color(line-strong);
     display: flex;

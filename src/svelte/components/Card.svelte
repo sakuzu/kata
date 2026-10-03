@@ -31,7 +31,7 @@
   .card {
     border: bw() solid color(line);
     @include container;
-    background: color(panel);
+    @include surface(panel);
     min-width: 0;
     flex: none;
     @include scope-box(button);
