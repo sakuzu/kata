@@ -69,7 +69,7 @@
   .floating {
     position: absolute;
     z-index: z(floating);
-    background: color(panel);
+    @include surface(panel);
     color: color(text);
     border: bw() solid color(line-strong);
     min-width: 0;

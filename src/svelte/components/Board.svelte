@@ -31,7 +31,7 @@
   @use '../styles/kata' as *;
 
   .board {
-    background: color(panel);
+    @include surface(panel);
     border: bw() solid color(line-strong);
     @include container;
     min-width: 0;

@@ -33,7 +33,9 @@ the column of the text, trimmed to its ink, gap-xs below the first line,
 and so is a note, gap-xs below what is above it; pad-sm lies below the
 last of them, so that a description is nearer its own label than the
 label of the next radio. In a [RadioGroup](radio-group.md) the radios
-stay stacked with gap 0. Disabled is dimmed.
+stay stacked with gap 0. Disabled, the text and an empty circle are
+dimmed; a chosen one takes the solid-disabled color for its line and its
+text color for the dot, not dimmed.
 
 ## Example
 

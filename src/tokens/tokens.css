@@ -173,16 +173,21 @@
    */
   --kata-color-ground: #202021;
   --kata-color-panel: #2b2b2d;
+  /* The opaque surface an element sits on: the ground, or the surface of the component around it
+   * (the surface mixin). A cover (a sticky cell, a ring cut out of the surface) paints it. var()
+   * resolves where it is declared, so the light theme declares it again */
+  --kata-color-surface: var(--kata-color-ground);
   --kata-color-raise: rgba(245, 245, 248, 0.07);
   --kata-color-raise-2: rgba(245, 245, 248, 0.14);
   --kata-color-fill: #46464a;
   --kata-color-solid: #204ec3;
   --kata-color-solid-hover: #123eb2;
   --kata-color-solid-active: #062da1;
-  /* A disabled primary action: the fill's grey with muted text, so that it does not read as a
-   * darker primary */
-  --kata-color-solid-disabled: #46464a;
-  --kata-color-solid-disabled-text: rgba(245, 245, 248, 0.92);
+  /* A disabled or busy filled shape (a primary action, a switch that is on): the same shape
+   * without hue, the fill's grey with muted text, so that it does not read as a darker primary.
+   * The light theme declares them again, as var() resolves where it is declared */
+  --kata-color-solid-disabled: var(--kata-color-fill);
+  --kata-color-solid-disabled-text: var(--kata-color-muted);
   --kata-color-on-solid: #ffffff;
   /* Text in three levels and lines in two. Only faint text (placeholders, disabled) is light */
   --kata-color-text: #f5f5f8;
@@ -232,11 +237,12 @@
 [data-color-mode="light"] {
   --kata-color-ground: #f2f2f3;
   --kata-color-panel: #ffffff;
+  --kata-color-surface: var(--kata-color-ground);
   --kata-color-raise: rgba(29, 31, 32, 0.06);
   --kata-color-raise-2: rgba(29, 31, 32, 0.12);
   --kata-color-fill: #e4e4e5;
-  --kata-color-solid-disabled: #6c89d4;
-  --kata-color-solid-disabled-text: #ffffff;
+  --kata-color-solid-disabled: var(--kata-color-fill);
+  --kata-color-solid-disabled-text: var(--kata-color-muted);
   --kata-color-text: #1d1f20;
   --kata-color-muted: rgba(29, 31, 32, 0.94);
   --kata-color-faint: rgba(29, 31, 32, 0.5);

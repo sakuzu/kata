@@ -459,9 +459,6 @@
   }
   function contrast(root, bad) {
     const GROUND = tokenColor('--kata-color-ground');
-    const ON_FILL = ['--kata-color-on-solid', '--kata-color-on-red', '--kata-color-on-yellow'].map(
-      tokenColor,
-    );
     // The surface behind an element: the opaque and translucent surfaces of its ancestors, composed
     const bgOf = (el) => {
       const layers = [];
@@ -491,10 +488,6 @@
         el.matches(':disabled');
       const col = parseColor(getComputedStyle(el).color);
       if (!col) continue;
-      const near3 = (c) =>
-        Math.abs(c[0] - col[0]) + Math.abs(c[1] - col[1]) + Math.abs(c[2] - col[2]) < 3;
-      // A disabled filled button is exempt (WCAG: inactive components)
-      if (off && ON_FILL.some(near3)) continue;
       const bg = bgOf(el);
       const fg = mix(col, col[3] * opacityProduct(el), bg);
       const ratio = ratioOf(fg, bg);

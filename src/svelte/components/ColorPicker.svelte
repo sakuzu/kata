@@ -438,7 +438,7 @@
     max-width: 100%;
     flex: 0 0 auto;
     pointer-events: auto;
-    background: color(panel);
+    @include surface(panel);
     border: bw() solid color(line-strong);
     @include container;
     min-width: 0;
@@ -464,13 +464,13 @@
     height: 0.5rem;
     background-image: linear-gradient(to right, #f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00);
   }
-  // The knob is the square of an icon, as in Slider. Two edges, in the panel color and in the
+  // The knob is the square of an icon, as in Slider. Two edges, in the surface color and in the
   // text color, keep it visible on any color.
   .knob {
     position: absolute;
     width: h(icon);
     height: h(icon);
-    border: calc(#{bw()} * 2) solid color(panel);
+    border: calc(#{bw()} * 2) solid color(surface);
     box-shadow: 0 0 0 bw() color(text);
     transform: translate(-50%, -50%);
   }

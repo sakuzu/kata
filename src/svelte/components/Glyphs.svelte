@@ -1,11 +1,12 @@
 <script lang="ts">
   import '../styles/components.css';
 
-  // Glyphs: a grid of emoji or symbols to pick one from. The columns (eight by default) fill the
-  // width of the container; the selected cell has the raise-2 surface and a blue line inside. The
-  // characters are symbols rather than interface text, so they take the size of the h1 role, the
-  // smallest at which emoji stay legible. row lays the cells out in one line that scrolls sideways,
-  // each cell as wide as a column of the grid, so that a band above a grid lines up with it.
+  // Glyphs: a grid of emoji or symbols to pick one from. The columns (eight by default) divide the
+  // width of the container, each at most a square; the selected cell has the raise-2 surface and a
+  // blue line inside. The characters are symbols rather than interface text, so they take the size
+  // of the h1 role, the smallest at which emoji stay legible. row lays the cells out in one line
+  // that scrolls sideways, each cell as wide as a column of the grid, so that a band above a grid
+  // of the same width lines up with it.
   //
   // The font of the characters comes from --kata-glyph-font, set by the container (an emoji font,
   // for example); without it they inherit.
@@ -60,9 +61,13 @@
 <style lang="scss">
   @use '../styles/kata' as *;
 
+  // One width for a column of the grid and a cell of a row: the width divided among the columns,
+  // at most a square (a button's height)
+  $columns: var(--kata-glyphs-columns, 8);
+  $col: min(calc((100% - (#{$columns} - 1) * #{gap(2xs)}) / #{$columns}), #{h(button)});
   .glyphs {
     display: grid;
-    grid-template-columns: repeat(var(--kata-glyphs-columns, 8), minmax(0, 1fr));
+    grid-template-columns: repeat(#{$columns}, #{$col});
     gap: gap(2xs);
     min-width: 0;
   }
@@ -71,8 +76,7 @@
     display: flex;
     overflow-x: auto;
     > .cell {
-      $columns: var(--kata-glyphs-columns, 8);
-      flex: 0 0 calc((100% - (#{$columns} - 1) * #{gap(2xs)}) / #{$columns});
+      flex: 0 0 #{$col};
       min-width: 0;
     }
   }

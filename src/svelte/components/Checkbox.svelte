@@ -38,17 +38,20 @@
 </script>
 
 <label class="ctl" class:disabled={disabled} data-role="switch" data-control>
-  <input
-    bind:this={el}
-    type="checkbox"
-    class="check"
-    class:ind={indeterminate}
-    bind:checked
-    {id}
-    {disabled}
-    aria-label={ariaLabel}
-    onchange={() => onchange?.(checked)}
-  />
+  <span class="seat">
+    <input
+      bind:this={el}
+      type="checkbox"
+      class="check"
+      class:ind={indeterminate}
+      bind:checked
+      {id}
+      {disabled}
+      aria-label={ariaLabel}
+      onchange={() => onchange?.(checked)}
+    />
+    <span class="mark" aria-hidden="true"></span>
+  </span>
   {#if label}<span class="t">{label}</span>{/if}
 </label>
 
@@ -85,24 +88,51 @@
     background: transparent;
     transition: background-color 0.12s ease;
   }
-  // The check mark is the background image (an input draws no pseudo-elements). Its stroke is the
-  // color of on-solid, written out because a data URI cannot read a custom property.
   .check:checked {
-    background:
-      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12l5 5 9-10'/%3E%3C/svg%3E")
-        center / calc(#{h(icon)} - #{bw()} * 4) no-repeat,
-      color(solid);
+    background: color(solid);
   }
   // Some selected: the stronger surface, after the check so that it wins
   .check.ind,
   .check:indeterminate {
     background: color(raise-2);
   }
+  // The box and the check mark lie on each other. An input draws no pseudo-elements, so the mark is
+  // an element of its own: the text color of the fill, shown through the shape of the check
+  .seat {
+    position: relative;
+    display: inline-flex;
+    flex: none;
+  }
+  .mark {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    visibility: hidden;
+    background: color(on-solid);
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12l5 5 9-10'/%3E%3C/svg%3E")
+      center / calc(#{h(icon)} - #{bw()} * 4) no-repeat;
+  }
+  .check:checked:not(.ind):not(:indeterminate) + .mark {
+    visibility: visible;
+  }
+  // Disabled is the same shape without hue: the text and an empty or partial box are dimmed; a
+  // checked box is the filled shape, not dimmed, with the disabled surface and its text for the mark
   .disabled {
-    opacity: dim();
     cursor: default;
     .check {
       cursor: default;
+    }
+    .t,
+    .check:not(:checked),
+    .check.ind,
+    .check:indeterminate {
+      opacity: dim();
+    }
+    .check:checked:not(.ind):not(:indeterminate) {
+      background: color(solid-disabled);
+    }
+    .mark {
+      background: color(solid-disabled-text);
     }
   }
 </style>

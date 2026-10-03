@@ -78,7 +78,7 @@
     border: bw() solid color(line-strong);
     border-radius: var(--kata-radius-pill);
     border-top-left-radius: 0;
-    background: color(panel);
+    @include surface(panel);
     color: color(text);
     font: inherit;
   }

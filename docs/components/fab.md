@@ -15,7 +15,7 @@ modal's primary action is the filled one then.
 | `label` | required | The name of the action |
 | `icon` | required | An icon name or an icon component |
 | `onclick` | | Called when pressed |
-| `disabled` | `false` | Dimmed and not pressable |
+| `disabled` | `false` | Not pressable, without hue |
 | `top` | | The distance from the top edge: `0` or a gap step |
 | `right` | `md` | The distance from the right edge |
 | `bottom` | `md` | The distance from the bottom edge |
@@ -27,7 +27,8 @@ A square as tall as a button, with square corners, the solid fill and a
 strong line, and its icon in the color on the fill; hover and press
 darken the fill one step each. It is placed absolutely in its positioned
 container; `top` frees the bottom and `left` frees the right. Disabled,
-it is dimmed.
+it takes the solid-disabled surface and its text, as a disabled primary
+[Button](button.md).
 
 ## Example
 

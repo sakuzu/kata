@@ -43,7 +43,7 @@
   .pop {
     width: var(--kata-width-popover);
     max-width: calc(100vw - #{gap(md)} * 2);
-    background: color(panel);
+    @include surface(panel);
     color: color(text);
     border: bw() solid color(line-strong);
     min-width: 0;

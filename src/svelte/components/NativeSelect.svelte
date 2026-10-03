@@ -63,7 +63,7 @@
     onchange={(e) => onchange?.(e.currentTarget.value as T)}
   >
     {#if placeholder !== undefined}
-      <option value="" disabled data-kata-placeholder>{placeholder}</option>
+      <option value="" disabled selected data-kata-placeholder>{placeholder}</option>
     {/if}
     {#each groups ?? [] as group (group.label)}
       <optgroup label={group.label}>

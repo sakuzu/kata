@@ -61,7 +61,7 @@
     icon?: boolean;
     /** The full width of its container */
     block?: boolean;
-    /** An action in progress: dimmed and not pressable */
+    /** An action in progress: the disabled look with a progress cursor, not pressable */
     busy?: boolean;
     disabled?: boolean;
     /** Selected (a tool in a toolbar) */
@@ -182,7 +182,7 @@
     // text ends with an ellipsis, so that it never reaches past the container's edge
     flex: 0 1 auto;
     max-width: 100%;
-    &:hover {
+    &:hover:not(:disabled):not(.busy) {
       background: color(raise);
       text-decoration: none;
     }
@@ -227,7 +227,7 @@
     background: color(solid);
     border-color: color(solid);
     color: color(on-solid);
-    &:hover {
+    &:hover:not(:disabled):not(.busy) {
       background: color(solid-hover);
       border-color: color(solid-hover);
     }
@@ -236,20 +236,9 @@
       border-color: color(solid-active);
     }
   }
-  // A disabled primary is not dimmed: it takes a surface of its own, so that it does not read as
-  // a darker primary. A busy one is dimmed as the others are
-  .primary:disabled:not(.busy) {
-    opacity: 1;
-    background: color(solid-disabled);
-    border-color: color(solid-disabled);
-    color: color(solid-disabled-text);
-  }
   // The hint on the fill keeps the fill's text color
   .btn.primary .kbd {
     color: color(on-solid);
-  }
-  .btn.primary:disabled:not(.busy) .kbd {
-    color: color(solid-disabled-text);
   }
   // The same size as the other buttons, with a transparent line
   .ghost {
@@ -259,7 +248,7 @@
   .danger {
     color: color(red-ink);
     border-color: color(red-ink);
-    &:hover {
+    &:hover:not(:disabled):not(.busy) {
       background: color(red-wash);
     }
   }
@@ -268,7 +257,7 @@
     background: color(red-fill);
     border-color: color(red-fill);
     color: color(on-red);
-    &:hover {
+    &:hover:not(:disabled):not(.busy) {
       background: color(red-fill-hover);
       border-color: color(red-fill-hover);
     }
@@ -299,6 +288,31 @@
     opacity: dim();
     cursor: progress;
   }
+  // Disabled and busy are the same shape without hue; busy differs only in its cursor. A filled
+  // shape is not dimmed: it takes the disabled surface and its text. A link is not :disabled, so
+  // busy is written as well
+  .btn.primary:disabled,
+  .btn.primary.busy,
+  .btn.danger-fill:disabled,
+  .btn.danger-fill.busy {
+    opacity: 1;
+    background: color(solid-disabled);
+    border-color: color(solid-disabled);
+    color: color(solid-disabled-text);
+  }
+  .btn.primary:disabled .kbd,
+  .btn.primary.busy .kbd,
+  .btn.danger-fill:disabled .kbd,
+  .btn.danger-fill.busy .kbd {
+    color: color(solid-disabled-text);
+  }
+  // A line shape takes the outline's text and line, dimmed
+  .btn.danger:disabled,
+  .btn.danger.busy {
+    color: color(text);
+    border-color: color(line-strong);
+    background: transparent;
+  }
   // Selected: the stronger surface. The icon of a selected tool turns blue; text keeps its color
   .on {
     background: color(raise-2);
@@ -306,7 +320,7 @@
   .on.icon > :global(svg) {
     color: color(blue-ink);
   }
-  .ghost[data-tone='danger']:hover:not(:disabled) {
+  .ghost[data-tone='danger']:hover:not(:disabled):not(.busy) {
     color: color(red-ink);
   }
   // The trigger of an open menu keeps the hover surface

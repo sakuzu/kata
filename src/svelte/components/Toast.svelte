@@ -47,7 +47,7 @@
     width: var(--kata-width-toast);
     max-width: 100%;
     @include container;
-    background: color(panel);
+    @include surface(panel);
     color: color(text);
     border: bw() solid color(line-strong);
     flex: none;

@@ -308,7 +308,7 @@
     align-items: center;
     gap: gap(md);
     padding: pad(sm);
-    background: color(panel);
+    @include surface(panel);
     color: color(text);
     border: bw() solid color(line-strong);
     max-width: calc(100% - #{gap(md)} * 2);

@@ -64,11 +64,11 @@
     box-shadow: inset 0 0 0 bw() color(line-strong);
     cursor: pointer;
   }
-  // The ring: two lines of the focus color inside, and one of the panel within them, which
+  // The ring: two lines of the focus color inside, and one of the surface within them, which
   // separates the ring from the color
   .cell.on {
     box-shadow:
       inset 0 0 0 calc(#{bw()} * 2) color(focus),
-      inset 0 0 0 calc(#{bw()} * 3) color(panel);
+      inset 0 0 0 calc(#{bw()} * 3) color(surface);
   }
 </style>

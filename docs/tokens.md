@@ -104,10 +104,27 @@ From the lowest to the highest: `ground` (the page), `panel`, `raise` and
 `raise-2` (translucent, laid over the panel for hover and selection),
 `fill` (an opaque surface of the same weight as raise-2) and `solid` (the
 primary action), with `solid-hover`, `solid-active` and `on-solid` for the
-text on it. A disabled primary action takes `solid-disabled` with
-`solid-disabled-text` instead of being dimmed: the fill's grey with muted
-text in the dark theme, and a paler blue with white text in the light
-one.
+text on it.
+
+Disabled is the same shape without hue. A filled shape (a primary or
+danger-fill button, a Fab, a switch, checkbox or radio that is on, the
+chosen option of a Segmented) takes `solid-disabled` with
+`solid-disabled-text` instead of being dimmed: `fill` with `muted` text,
+in both themes. A shape drawn with a line takes the outline's text and
+`line-strong`, dimmed. Busy uses the same tokens as disabled; only the
+cursor differs. Hover does not apply to a disabled control.
+
+`ground` and `panel` are the only independent surfaces: the page's and a
+component's. In light, raise is as light as ground, so a surface that sits
+on the ground has an edge line. `surface` names the opaque surface an
+element sits on. It is `ground` on the page; a component that paints panel
+declares it with the `surface($role)` mixin (Panel, Card, Modal, Sheet,
+Drawer, Floating, Board, Menu, Dropdown, Topbar, Banner, Toast, Bubble,
+Pin, Gtile, Drawbar, Select's list, ColorPicker, ChipValue, Presence's
+roster). A cover, something that hides what is under it, paints `surface`:
+Table's sticky column and fill head, TreeRow's actions, Counter's and
+Presence's rings, ColorGrid's ring and ColorPicker's knob. Hover and
+selection lay raise over it.
 
 ### Text and lines
 

@@ -12,6 +12,7 @@
 //   @include box;               a control: height, pad-md at the sides, one line around it
 //   margin-top: off(h1);        the distance below a heading (inside Prose only)
 //   color: color(muted);        a color token
+//   @include surface(panel);    a component's own surface (covers inside paint color(surface))
 //   @include trim;              text inside a control only
 //   @include seat(h(icon));     a mark beside text, centred on the ink of its first line
 //   @include narrow { … }       below 48rem (mid: below 64rem, tiny: below 24rem)
@@ -52,6 +53,12 @@
 // Disabled or busy content
 @function dim() {
   @return var(--kata-opacity-dim);
+}
+// A component that paints a surface of its own (panel): the background, and the surface token that
+// a cover inside it (a sticky cell, a ring cut out of the surface) paints with color(surface)
+@mixin surface($role) {
+  background: color($role);
+  --kata-color-surface: #{color($role)};
 }
 
 // The three widths are measured against the size container `app` (the body, base.css), so they

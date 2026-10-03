@@ -5,6 +5,7 @@
 
   let scope = $state('page');
   let share = $state('link');
+  let unit = $state('mm');
 </script>
 
 <Example>
@@ -13,6 +14,12 @@
       <Radio name="scope" value="page" label="This page only" bind:group={scope} />
       <Radio name="scope" value="all" label="All pages" bind:group={scope} />
       <Radio name="scope" value="none" label="Not available" disabled bind:group={scope} />
+    </Stack>
+  </Case>
+  <Case label="Disabled, one of them chosen">
+    <Stack gap={0}>
+      <Radio name="unit" value="mm" label="Millimetres" disabled bind:group={unit} />
+      <Radio name="unit" value="in" label="Inches" disabled bind:group={unit} />
     </Stack>
   </Case>
   <Case label="With a description">

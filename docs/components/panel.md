@@ -35,13 +35,14 @@ The order is fixed: head, content, foot. The head and the foot keep
 their height; only the content shrinks, and it is the only part that
 scrolls. `rail` is `--kata-width-rail` wide and `panel`
 `--kata-width-panel`, never wider than the container; `fill` takes the
-rest of the row. The surface is the panel color. The content has no
-padding and declares pad-md as the inset of the items that reach its
-edges, so a list item or a tree row brings its own padding; text in the
-content always sits in a component that brings padding. Controls
-inside have a button's height. The grip of `resizable` has no look, only
-the resize cursor; it is pad-sm tall, the arrow keys move it by 32px,
-and the application keeps the height and its limits.
+rest of the row. The surface is the panel color. Panel draws no edge;
+the container that docks it draws the line between it and the ground.
+The content has no padding and declares pad-md as the inset of the items
+that reach its edges, so a list item or a tree row brings its own
+padding; text in the content always sits in a component that brings
+padding. Controls inside have a button's height. The grip of `resizable`
+has no look, only the resize cursor; it is pad-sm tall, the arrow keys
+move it by 32px, and the application keeps the height and its limits.
 
 ## Example
 

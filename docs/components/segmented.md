@@ -21,11 +21,13 @@ derived from elsewhere, pass `value` and `onchange` instead of binding it.
 ## Contract
 
 Each option is a control of the height its container declares, a
-button's by default, with pad-md at the sides; neighbours share one line.
-The chosen option takes the solid surface while the outer line stays
-line-strong. The text is trimmed to its ink. The group does not wrap and
-does not shrink its padding: when it does not fit, it scrolls sideways
-without a scrollbar. The focus ring is drawn inside an option.
+button's by default, with pad-md at the sides; neighbours share one
+line. The chosen option takes the solid surface while the outer line
+stays line-strong. A disabled option is dimmed; a chosen one takes the
+solid-disabled surface and its text instead, not dimmed. The text is
+trimmed to its ink. The group does not wrap and does not shrink its
+padding: when it does not fit, it scrolls sideways without a scrollbar.
+The focus ring is drawn inside an option.
 
 ## Example
 

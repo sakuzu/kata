@@ -121,11 +121,21 @@
     background-position: right calc(#{bw()} * 2) center;
     border-color: color(solid);
   }
+  // Disabled is the same shape without hue: the text and an empty switch are dimmed; a switch that
+  // is on is the filled shape, not dimmed, with the disabled surface and its text for the knob
   .disabled {
-    opacity: dim();
     cursor: default;
     .toggle {
       cursor: default;
+    }
+    .line,
+    .toggle:not(:checked) {
+      opacity: dim();
+    }
+    .toggle:checked {
+      background-color: color(solid-disabled);
+      background-image: linear-gradient(color(solid-disabled-text) 0 0);
+      border-color: color(solid-disabled);
     }
   }
 </style>

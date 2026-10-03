@@ -29,7 +29,7 @@
     color: color(on-solid);
     font-variant-numeric: tabular-nums;
     flex: none;
-    box-shadow: 0 0 0 calc(#{bw()} * 2) color(panel);
+    box-shadow: 0 0 0 calc(#{bw()} * 2) color(surface);
   }
   .t {
     display: block;

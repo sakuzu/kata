@@ -2,6 +2,7 @@
   import { Block, SearchInput, Stack } from '@sakuzu/kata/svelte';
   import Case from '../_shared/Case.svelte';
   import Example from '../_shared/Example.svelte';
+  import Frame from '../_shared/Frame.svelte';
   import Small from '../_shared/Small.svelte';
   import Surface from '../_shared/Surface.svelte';
 
@@ -21,6 +22,8 @@
     </Surface>
   </Case>
   <Case label="The small button, declared by the container">
-    <Small><SearchInput placeholder="Filter layers" label="Filter layers" /></Small>
+    <Frame width="22.5rem">
+      <Small><SearchInput placeholder="Filter layers" label="Filter layers" /></Small>
+    </Frame>
   </Case>
 </Example>

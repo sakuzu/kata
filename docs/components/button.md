@@ -32,7 +32,7 @@ of a text button are text only: icons go in `leading` and `trailing`.
 | `on` | `false` | Selected, as a tool in a toolbar |
 | `tone` | | `danger`: a ghost button whose text turns red on hover |
 | `block` | `false` | The full width, for the action of a one-column form |
-| `busy` | `false` | An action in progress: dimmed and not pressable |
+| `busy` | `false` | An action in progress: disabled, with a progress cursor |
 | `disabled` | `false` | Not pressable |
 | `type` | `button` | `button` or `submit` |
 | `href` | | Renders a link with the same look |
@@ -51,11 +51,16 @@ small button, with pad-sm above and below. The padding at the sides is
 pad-md and an icon is gap-sm from the text. An icon button is the square
 of a small button, wherever it is. The text is one line, trimmed to its
 ink; a button wider than its container shrinks and ends its text with an
-ellipsis. Hover shows the raise surface, pressing the stronger one;
-disabled and busy are dimmed, except a disabled primary, which takes the
-solid-disabled surface. The area that is pressed, the hover surface, the
-line and the focus ring all belong to the button. An icon button shows
-its `aria-label` in a [Tooltip](tooltip.md), with `shortcut` as the key
+ellipsis. Hover shows the raise surface, pressing the stronger one; a
+disabled or busy button takes no hover. Disabled is the same shape without hue:
+a filled button (primary, danger-fill) takes the solid-disabled surface
+and its text and is not dimmed; a button with a line (outline, danger)
+takes the outline's text and line, and a ghost button the outline's
+text, dimmed. Busy looks the same as disabled and differs only in its
+cursor; the spinner of a running task belongs to what shows the task,
+not to the button. The area that is pressed, the hover surface, the line
+and the focus ring all belong to the button. An icon button shows its
+`aria-label` in a [Tooltip](tooltip.md), with `shortcut` as the key
 hint; a text button shows one only when `tip` is given.
 
 ## Example

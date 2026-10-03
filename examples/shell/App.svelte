@@ -35,6 +35,12 @@
   let shortcutsOpen = $state(false);
   let dockHeight = $state<number>();
   let layout = $state<ShellLayout>();
+  // What the panels are in each mode, as a sentence
+  const PANELS: Record<ShellLayout['leftMode'], string> = {
+    beside: 'The panels stand beside the stage.',
+    floating: 'The panels float over the stage.',
+    sheet: 'The panels are sheets.',
+  };
   let tool = $state('select');
   let name = $state('Hill');
   let selected = $state('hill');
@@ -154,7 +160,7 @@
         </Field>
       </SectionHeader>
       <Block>
-        <Text muted>The width is {layout?.width ?? 'wide'}; the panels are {layout?.leftMode ?? 'floating'}.</Text>
+        <Text muted>The width is {layout?.width ?? 'wide'}. {PANELS[layout?.leftMode ?? 'floating']}</Text>
       </Block>
     </Stack>
   </Panel>
@@ -164,7 +170,7 @@
   <Panel label="Properties">
     {#snippet head()}<Toolbar title="Properties" rule />{/snippet}
     <Block>
-      <Text muted>The panels are {besideLayout?.leftMode ?? 'beside'}.</Text>
+      <Text muted>{PANELS[besideLayout?.leftMode ?? 'beside']}</Text>
     </Block>
   </Panel>
 {/snippet}

@@ -159,13 +159,13 @@
   .tone {
     display: contents;
   }
-  // The ring in the panel color looks cut out of the surface; later people come on top
+  // The ring in the surface color looks cut out of the surface; later people come on top
   .slot {
     display: inline-flex;
     flex: none;
     position: relative;
     border-radius: 50%;
-    box-shadow: 0 0 0 calc(#{bw()} * 2) color(panel);
+    box-shadow: 0 0 0 calc(#{bw()} * 2) color(surface);
   }
   .slot:hover {
     z-index: 1;
@@ -186,7 +186,7 @@
   .roster {
     width: var(--kata-width-popover);
     @include bundle;
-    background: color(panel);
+    @include surface(panel);
     border: bw() solid color(line-strong);
   }
   // Eight list items show; more scroll

@@ -103,6 +103,12 @@
     background: color(solid);
     color: color(on-solid);
   }
+  // A chosen option that is disabled is the filled shape without hue, not dimmed
+  .opt.on:disabled {
+    opacity: 1;
+    background: color(solid-disabled);
+    color: color(solid-disabled-text);
+  }
   .icon {
     width: box-h();
     padding: 0;

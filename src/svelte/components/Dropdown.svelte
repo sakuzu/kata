@@ -312,7 +312,7 @@
   }
   // The surface of a menu, the same as Menu
   .menu {
-    background: color(panel);
+    @include surface(panel);
     color: color(text);
     border: bw() solid color(line-strong);
     min-width: min(12rem, calc(100vw - #{gap(md)} * 2));

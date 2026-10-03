@@ -32,7 +32,9 @@ solid surface, when on. The text is gap-sm from the switch and trimmed to
 its ink. A long text wraps instead of being cut: the control grows
 downwards, and the switch stays level with the first line, centred in the
 height of a small button as one line is. In a container without padding
-it takes the inset of the list items at its sides. Disabled is dimmed.
+it takes the inset of the list items at its sides. Disabled, the text
+and a switch that is off are dimmed; a switch that is on takes the
+solid-disabled surface with its text for the knob, not dimmed.
 
 ## Example
 

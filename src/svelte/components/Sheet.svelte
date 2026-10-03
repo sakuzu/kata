@@ -202,7 +202,7 @@
     flex-direction: column;
     min-width: 0;
     max-height: 100%;
-    background: color(panel);
+    @include surface(panel);
     color: color(text);
     border-top: bw() solid color(line-strong);
     z-index: z(sheet);

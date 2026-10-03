@@ -9,6 +9,7 @@
   let view = $state<'grid' | 'list' | 'table'>('grid');
   let unit = $state<'px' | 'pt' | 'mm'>('px');
   let shape = $state<'grid' | 'list'>('grid');
+  let fixed = $state<'px' | 'pt'>('pt');
 </script>
 
 <Example>
@@ -20,6 +21,16 @@
         { value: 'grid', label: 'Grid' },
         { value: 'list', label: 'List' },
         { value: 'table', label: 'Table', disabled: true },
+      ]}
+    />
+  </Case>
+  <Case label="A chosen option that is disabled">
+    <Segmented
+      bind:value={fixed}
+      ariaLabel="Unit of the export"
+      options={[
+        { value: 'px', label: 'px', disabled: true },
+        { value: 'pt', label: 'pt', disabled: true },
       ]}
     />
   </Case>

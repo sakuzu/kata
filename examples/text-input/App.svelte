@@ -2,6 +2,7 @@
   import { Block, Field, Stack, TextInput } from '@sakuzu/kata/svelte';
   import Case from '../_shared/Case.svelte';
   import Example from '../_shared/Example.svelte';
+  import Frame from '../_shared/Frame.svelte';
   import Small from '../_shared/Small.svelte';
   import Surface from '../_shared/Surface.svelte';
 
@@ -43,6 +44,8 @@
     </Surface>
   </Case>
   <Case label="The small button, declared by the container">
-    <Small><TextInput value="Layer 3" aria-label="Layer name" /></Small>
+    <Frame width="22.5rem">
+      <Small><TextInput value="Layer 3" aria-label="Layer name" /></Small>
+    </Frame>
   </Case>
 </Example>
