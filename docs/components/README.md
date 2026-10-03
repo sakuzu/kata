@@ -173,8 +173,9 @@ for the height of a control (the one its container declares, or a
 button's) and `inset()` for the padding at the sides of an item that
 reaches the edges of its container. An item that takes `inset()` as its
 padding declares `--kata-inset: 0px` on its children, so the inset is
-taken once and an item inside it starts at its content. Among the row mixins, `rows` lets a
-list or a table raise the least height of its items with `data-rows`
+taken once and an item inside it starts at its content. Among the row
+mixins, `rows` lets a list or a table raise the least height of its
+items with `data-rows`
 (`mark`, `box`, `thumb` or `two`), and `row-content` keeps one body size
 above and below the visible things inside an item, as a list item does;
 it writes `:global()`, so it belongs in the style of a Svelte component.
