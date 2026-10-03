@@ -122,6 +122,9 @@ still says that more follows. A scrollbar is never hidden.
   track, and fills the track in `thumb-hover` under the pointer. The
   thumb reaches 3:1 on the ground and the panel.
 - The page's own scrollbar is the system's.
+- Embedded in a page you do not own, without the base CSS
+  ([Embedding kata](#embedding-kata-in-a-page-you-do-not-own)), the
+  scrollbars follow the rules of that page.
 - No room is kept for a scrollbar: when a region overflows, its content
   narrows by the scrollbar.
 - A scrollbar never squeezes a control. Where a region's width or height
