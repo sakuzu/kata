@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Button, Icon, Kbd, Row, Text } from '@sakuzu/kata/svelte';
+  import { Button, Icon, Kbd, Markbox, Row, Stack, Text } from '@sakuzu/kata/svelte';
   import Case from '../_shared/Case.svelte';
   import Example from '../_shared/Example.svelte';
   import Frame from '../_shared/Frame.svelte';
@@ -32,6 +32,20 @@
     <Row wrap>
       {#each keys as key (key)}<Kbd>{key}</Kbd>{/each}
     </Row>
+  </Case>
+  <Case label="align first: a mark stays on the first line of text that wraps">
+    <Frame width="16rem">
+      <Stack gap="sm">
+        <Row gap="2xs" align="first">
+          <Markbox><Icon name="check" /></Markbox>
+          <Text>Unlimited maps</Text>
+        </Row>
+        <Row gap="2xs" align="first">
+          <Markbox><Icon name="check" /></Markbox>
+          <Text>The history of every change to a map, kept for a year</Text>
+        </Row>
+      </Stack>
+    </Frame>
   </Case>
   <Case label="text shrinks and wraps; marks keep their size">
     <Row gap="sm" align="start">

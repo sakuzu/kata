@@ -6,9 +6,11 @@
   // and its text, sm between controls, lg between groups, 0 between borderless icon buttons (their
   // hit area is the space). Text shrinks and wraps inside its own width while icons, marks and
   // controls keep theirs. A row of controls that may not fit takes wrap and moves whole items to
-  // the next line.
+  // the next line. align="first" aligns the items by their first baseline: a mark in a seat (a
+  // Markbox) stays centred on the ink of the first line of text that wraps beside it.
   //
   //   <Row gap="sm" between wrap>…</Row>
+  //   <Row gap="2xs" align="first"><Markbox><Icon name="check" /></Markbox><Text>…</Text></Row>
   type Gap = '0' | '2xs' | 'sm' | 'md' | 'lg';
   let {
     gap = 'sm',
@@ -24,8 +26,11 @@
     between?: boolean;
     /** Move items that do not fit to the next line */
     wrap?: boolean;
-    /** Vertical alignment; stretch fills the height of the row (columns of a frame) */
-    align?: 'center' | 'start' | 'end' | 'stretch';
+    /**
+     * Vertical alignment; first aligns by the first baseline (a mark beside text that wraps),
+     * stretch fills the height of the row (columns of a frame)
+     */
+    align?: 'center' | 'first' | 'start' | 'end' | 'stretch';
     /** end moves the whole run to the right end */
     justify?: 'start' | 'end';
     children: Snippet;
@@ -65,6 +70,10 @@
   }
   .row[data-gap='lg'] {
     gap: gap(lg);
+  }
+  // A mark in a seat (a Markbox) and the first line of the text beside it share one baseline
+  .row[data-align='first'] {
+    align-items: baseline;
   }
   .row[data-align='start'] {
     align-items: flex-start;

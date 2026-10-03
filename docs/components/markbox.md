@@ -22,6 +22,11 @@ A square of `--kata-height-icon` with no surface and no line, its
 content centred. It does not change the height of a list item. An emoji
 is not trimmed.
 
+A Markbox is a seat: its baseline is that of a trimmed line centred in
+it. Beside text that may wrap, it goes in a [Row](row.md) with
+`align="first"`, and the mark is centred on the ink of the text's first
+line ([a mark beside text](../measuring.md#a-mark-beside-text)).
+
 ## Example
 
 [Markbox](../../examples/markbox/)

@@ -40,7 +40,9 @@ Four layouts place things. None of them has a line, a surface or padding.
 
 In a Row, text shrinks and wraps within its own width while icons, marks
 and controls keep theirs; a row of controls that may not fit takes `wrap`
-and moves whole items to the next line.
+and moves whole items to the next line. A mark beside text that may wrap
+sits in a [Markbox](components/markbox.md) in a Row with `align="first"`,
+which keeps it on the first line.
 
 ## Gaps
 
