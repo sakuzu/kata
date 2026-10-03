@@ -26,7 +26,7 @@ text written as HTML goes in a [Prose](prose.md).
 | `for` | | The labelled control, with `as="label"` |
 | `id` | | The element's id |
 | `children` | | The text |
-| `end` | | A mark at the end of the first line (a snippet) |
+| `end` | | A mark or a short value at the end of the first line (a snippet) |
 
 ## Contract
 
@@ -38,7 +38,8 @@ and next to a line. A link made with `as="a"` keeps the color of the text
 around it and is underlined on hover.
 
 `end` puts a mark at the end of the text's first line: a
-[Badge](badge.md) beside a title, or a borderless icon button. The text
+[Badge](badge.md) beside a title, a borderless icon button, or a short
+value that must not shrink, such as a count in a caption. The text
 and the end sit in one line, aligned by their first baseline, gap-sm
 apart. The end is a seat of no height, so the mark is centred on the ink
 of the first line and hangs without making the line taller
