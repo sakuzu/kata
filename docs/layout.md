@@ -130,8 +130,9 @@ still says that more follows. A scrollbar is never hidden.
 - A scrollbar never squeezes a control. Where a region's width or height
   is set by its controls, the scrollbar adds to it: the column of a
   [Drawbar](components/drawbar.md) grows wider by its scrollbar, and a
-  [Pager](components/pager.md), a [Table](components/table.md) or a
-  [Segmented](components/segmented.md) that scrolls sideways grows taller.
+  [Pager](components/pager.md), a [Table](components/table.md), a
+  [Segmented](components/segmented.md) or a [Bulk](components/bulk.md)
+  that scrolls sideways grows taller.
 - Firefox takes the thin scrollbar of the system in the thumb's color;
   on macOS it follows the system's setting and may hide it.
 
