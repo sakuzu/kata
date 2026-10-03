@@ -26,8 +26,9 @@
   // application folds a search into an icon button). The row counts the centre's content at its
   // min-content width, up to 10rem: a title keeps at least this much before the others fold, and a
   // longer one is clipped. It stops at the first step that fits, and goes back when the width
-  // allows the row again. When even that does not fit, the centre is clipped, then the crumbs
-  // shrink, and only once they have no width left does the brand end with an ellipsis.
+  // allows the row again. When even that does not fit, the centre is clipped, then the crumbs fold
+  // by their own width (every place, the current place only, none), and only once they show
+  // nothing does the brand end with an ellipsis.
   //
   // menu gives the brand's menu as a model (MenuModel[], the same as AppMenu's) instead of the
   // brandMenu snippet; onmenu receives the id of the item that was chosen.
@@ -92,8 +93,14 @@
     // The width the row needs at each level, measured while it is at that level and kept
     const needs: (number | undefined)[] = [];
     let frame = 0;
-    // The width a part takes with none of its text cut short by an ellipsis
+    // The width a part takes with none of its text cut short by an ellipsis. The crumbs fold their
+    // places away when they are short of width: they count their whole trail, which they measure
+    // on a hidden copy
     const full = (part: Element) => {
+      const trail = part.matches('[data-role="crumbs"]')
+        ? part.querySelector(':scope > [data-measure]')
+        : null;
+      if (trail) return trail.getBoundingClientRect().width;
       let width = part.getBoundingClientRect().width;
       for (const t of [part, ...part.querySelectorAll('*')]) {
         const cut = t.scrollWidth - t.clientWidth;
@@ -250,8 +257,8 @@
     }
   }
   // The presence, the actions and the centre are compacted first (in script); then the centre gives
-  // up its width (it is clipped), and only then the start shrinks: its crumbs first, then its brand,
-  // cut short with an ellipsis
+  // up its width (it is clipped), and only then the start shrinks: its crumbs fold first, then its
+  // brand is cut short with an ellipsis
   .side {
     display: flex;
     align-items: center;
@@ -261,8 +268,8 @@
   }
   .start {
     overflow: hidden;
-    // The crumbs take the width the brand leaves (a basis of 0, and a large shrink), so the brand
-    // shrinks only once the crumbs have none left
+    // The crumbs take the width the brand leaves (a basis of 0, and a large shrink) and fold in it,
+    // so the brand shrinks only once the crumbs show nothing
     > :global([data-role='crumbs']) {
       flex: 1 100 0;
       min-width: 0;

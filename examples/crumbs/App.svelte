@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Crumbs, Toolbar } from '@sakuzu/kata/svelte';
+  import { Block, Crumbs, Toolbar } from '@sakuzu/kata/svelte';
   import Case from '../_shared/Case.svelte';
   import Example from '../_shared/Example.svelte';
   import Surface from '../_shared/Surface.svelte';
@@ -34,6 +34,20 @@
           label="Location"
         />
       </Toolbar>
+    </Surface>
+  </Case>
+  <Case label="In a narrow container the trail folds: only the current place shows">
+    <Surface width="10rem">
+      <Block>
+        <Crumbs
+          items={[
+            { label: 'Team', href: '#top' },
+            { label: 'Drafts', href: '#top' },
+            { label: 'Spring layout' },
+          ]}
+          label="Location"
+        />
+      </Block>
     </Surface>
   </Case>
   <Case label="current={false}: the last place is a link like the others, for a trail that a title follows">
