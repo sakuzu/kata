@@ -31,18 +31,21 @@ are a [Kebab](kebab.md).
 ## Contract
 
 The place is a popover in the top layer, so a modal or a panel around
-the trigger does not hide it. It opens 4px below the trigger, lined up
-with its `align` edge, or above it when there is less room below than
-its height (or 120px); it stays 8px inside the window. With `up` the
-two sides change places: it opens above the trigger, and below it when
-there is less room above than its height (or 120px) and more below.
-A trigger inside a bar (an element with `role="toolbar"` or
-`data-role="toolbar"`: a Toolbar, a Topbar or a Drawbar) opens it from
-the bar's edge instead of its own, still lined up with the trigger at
-the sides. From a vertical bar (`aria-orientation="vertical"`, a Drawbar
-standing in a column) it opens beside the bar, 4px from its left edge, or
-from its right edge when there is no room on the left, lined up with the
-top of the trigger; `up` does not apply there. With `menu`, it has the
+the trigger does not hide it. It opens gap-xs below the trigger, lined
+up with its `align` edge, or above it when there is less room below than
+its height (or 120px); it stays gap-md inside the window, the margin of
+a page on a narrow screen. With `up` the two sides change places: it
+opens above the trigger, and below it when there is less room above than
+its height (or 120px) and more below. While it is open it follows the
+trigger: when the trigger moves (a scroll, a change of layout, the
+stylesheets arriving late), it is placed again. A trigger inside a bar
+(an element with `role="toolbar"` or `data-role="toolbar"`: a Toolbar, a
+Topbar or a Drawbar) opens it from the bar's edge instead of its own,
+still lined up with the trigger at the sides. From a vertical bar
+(`aria-orientation="vertical"`, a Drawbar standing in a column) it opens
+beside the bar, gap-xs from its left edge, or from its right edge when
+there is no room on the left, lined up with the top of the trigger; `up`
+does not apply there. With `menu`, it has the
 surface of a [Menu](menu.md) and `role="menu"`, the first item takes the
 focus, the arrow keys move the focus between the items and wrap at the
 ends, and Home and End go to the first and the last. A press outside,

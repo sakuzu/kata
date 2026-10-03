@@ -2,6 +2,7 @@
   import '../styles/components.css';
   import { tick } from 'svelte';
   import { isMenuItem, type MenuModel, type MenuModelItem } from '../lib/menuModel.js';
+  import { follow, placeNext } from '../lib/place.js';
   import { createNarrow, WIDTHS } from '../lib/viewport.svelte.js';
   import Menu from './Menu.svelte';
   import MenuDivider from './MenuDivider.svelte';
@@ -14,9 +15,10 @@
   // Menu inside an element with role="menu"; AppMenu, MenuSheet, Kebab, Topbar and LayerTree use it.
   //
   // An item with items opens a submenu: on hover or a press, next to its row, in a Menu of its own
-  // that moves back inside the window. On a narrow screen, and with inline, the submenu takes the
-  // place of the list instead, under a row that goes back. When one item of a level has checked, the
-  // items of that level keep the column of check marks.
+  // that moves back inside the window (lib/place) and follows its row while open. On a narrow
+  // screen, and with inline, the submenu takes the place of the list instead, under a row that goes
+  // back. When one item of a level has checked, the items of that level keep the column of check
+  // marks.
   //
   // Keys: the up and down arrows, Home and End move between the items of the level shown (and wrap),
   // the right arrow opens a submenu and moves into it, the left arrow goes back to its parent row.
@@ -63,25 +65,28 @@
   let subPos = $state({ top: 0, left: 0 });
   let listEl = $state<HTMLElement>();
   let subEl = $state<HTMLElement>();
-
-  // The least distance from the window's edge, as a Dropdown keeps
-  const EDGE = 8;
+  // The row of the submenu open next to it
+  let subRow = $state<HTMLElement>();
 
   // Next to the row, on its right; on its left when there is no room; inside the window below
   function place(row: HTMLElement) {
+    subRow = row;
     const r = row.getBoundingClientRect();
     subPos = { top: r.top, left: r.right };
     void tick().then(() => {
       if (!subEl) return;
-      const w = subEl.offsetWidth;
-      const h = subEl.offsetHeight;
-      let left = r.right;
-      if (left + w > window.innerWidth - EDGE) left = Math.max(EDGE, r.left - w);
-      let top = r.top;
-      if (top + h > window.innerHeight - EDGE) top = Math.max(EDGE, window.innerHeight - EDGE - h);
-      subPos = { top, left };
+      subPos = placeNext(subEl, r);
     });
   }
+  // While a submenu is open next to its row, it follows the row
+  $effect(() => {
+    const el = subEl;
+    const row = subRow;
+    if (!el || !row) return;
+    return follow(row, el, () => {
+      subPos = placeNext(el, row.getBoundingClientRect());
+    });
+  });
 
   function openAt(index: number, row: HTMLElement, focus = false) {
     if (inPlace) inPlaceSub = index;

@@ -1,6 +1,7 @@
 <script lang="ts" generics="T extends string">
   import '../styles/components.css';
   import { tick } from 'svelte';
+  import { follow, placeBelow } from '../lib/place.js';
   import Icon from './Icon.svelte';
 
   // Select: a select with a list of its own. The trigger is the control of a button with a chevron
@@ -9,10 +10,11 @@
   // (Segmented for two to four, NativeSelect for long lists and phones). The height is the one the
   // container declares.
   //
-  // The list is a popover, so it shows above everything, also inside a modal or a panel. It opens
-  // upward when there is no room below and stays inside the window. The arrow keys move between
-  // the options, Enter or Space chooses one, and a press outside, Escape or Tab closes the list;
-  // Escape returns the focus to the trigger.
+  // The list is a popover, so it shows above everything, also inside a modal or a panel. It is
+  // placed as a Dropdown is (lib/place): gap-xs below the trigger, upward when there is no room
+  // below, gap-md inside the window, and it follows the trigger while open. The arrow keys move
+  // between the options, Enter or Space chooses one, and a press outside, Escape or Tab closes the
+  // list; Escape returns the focus to the trigger.
   //
   //   <Select {options} bind:value onchange={apply} />
   let {
@@ -46,12 +48,6 @@
   let listEl = $state<HTMLDivElement>();
   let pos = $state({ top: 0, left: 0, width: 0, maxHeight: 0 });
 
-  // The distance from the trigger, the least distance from the window's edge, and the least height
-  // below which the list opens on the other side
-  const GAP = 4;
-  const EDGE = 8;
-  const MIN_HEIGHT = 120;
-
   // Without the popover API (a test environment) the list is a plain fixed element
   const canPopover =
     typeof HTMLElement !== 'undefined' && typeof HTMLElement.prototype.showPopover === 'function';
@@ -59,26 +55,9 @@
   function place() {
     if (!triggerEl || !listEl) return;
     const r = triggerEl.getBoundingClientRect();
-    const keep = listEl.style.maxHeight;
-    listEl.style.maxHeight = '';
-    const natural = listEl.scrollHeight;
-    listEl.style.maxHeight = keep;
-    const below = window.innerHeight - r.bottom - GAP - EDGE;
-    const above = r.top - GAP - EDGE;
-    const up = below < Math.min(natural, MIN_HEIGHT) && above > below;
-    const maxHeight = Math.max(MIN_HEIGHT, up ? above : below);
-    const shown = Math.min(natural, maxHeight);
-    const width = listEl.offsetWidth;
-    const left = Math.max(
-      EDGE,
-      Math.min(r.left, window.innerWidth - Math.max(width, r.width) - EDGE),
-    );
-    pos = {
-      top: Math.round(up ? r.top - GAP - shown : r.bottom + GAP),
-      left: Math.round(left),
-      width: Math.round(r.width),
-      maxHeight: Math.round(maxHeight),
-    };
+    // Lined up with the trigger's start; at least as wide as the trigger
+    const width = Math.max(listEl.offsetWidth, r.width);
+    pos = { ...placeBelow(listEl, r, { align: 'start', width }), width: Math.round(r.width) };
   }
 
   function items(): HTMLElement[] {
@@ -106,7 +85,7 @@
   }
 
   $effect(() => {
-    if (!open || !listEl) return;
+    if (!open || !listEl || !triggerEl) return;
     const el = listEl;
     if (canPopover && !el.matches(':popover-open')) el.showPopover();
     void (async () => {
@@ -117,6 +96,7 @@
       const i = options.findIndex((o) => o.value === value);
       focusAt(Math.max(0, i));
     })();
+    return follow(triggerEl, el, place);
   });
 
   function onTriggerKey(e: KeyboardEvent) {
@@ -159,11 +139,7 @@
   }
 </script>
 
-<svelte:window
-  onpointerdowncapture={onPointerDown}
-  onresize={() => open && place()}
-  onscroll={() => open && place()}
-/>
+<svelte:window onpointerdowncapture={onPointerDown} />
 
 <button
   bind:this={triggerEl}
