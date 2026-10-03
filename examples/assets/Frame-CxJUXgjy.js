@@ -1,1 +1,0 @@
-import{E as e,K as t,M as n,P as r,X as i,mt as a,y as o}from"./Stack-B8pUv6dR.js";var s=r(`<div><!></div>`);function c(r,c){var l=s();let u;var d=i(l);e(d,()=>c.children),a(l),t(()=>u=o(l,``,u,{width:c.width===void 0?`max-content`:void 0,"max-width":c.width===void 0?`100%`:`min(${c.width}, 100%)`})),n(r,l)}export{c as t};

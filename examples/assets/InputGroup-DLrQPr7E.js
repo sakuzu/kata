@@ -1,1 +1,0 @@
-import{$ as e,E as t,M as n,P as r,X as i,mt as a}from"./Stack-B8pUv6dR.js";var o=r(`<div class="group svelte-y7vxet" data-role="box" data-multi=""><div class="main svelte-y7vxet"><!></div> <div class="act svelte-y7vxet"><!></div></div>`);function s(r,s){var c=o(),l=i(c),u=i(l);t(u,()=>s.children),a(l);var d=e(l,2),f=i(d);t(f,()=>s.action),a(d),a(c),n(r,c)}export{s as t};

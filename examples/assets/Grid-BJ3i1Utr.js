@@ -1,0 +1,1 @@
+import{E as e,K as t,M as n,P as r,X as i,m as a,mt as o,r as s}from"./Stack-DOnYVuF0.js";var c=r(`<div class="grid svelte-1a4xwt6" data-role="grid"><!></div>`);function l(r,l){let u=s(l,`cols`,3,2),d=s(l,`gap`,3,`md`);var f=c(),p=i(f);e(p,()=>l.children),o(f),t(()=>{a(f,`data-cols`,u()),a(f,`data-gap`,d())}),n(r,f)}export{l as t};
