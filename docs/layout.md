@@ -116,20 +116,20 @@ A region that scrolls shows its scrollbar at all times, on both axes,
 drawn in kata's colors, so that a list cut at the edge of its region
 still says that more follows. A scrollbar is never hidden.
 
-- The scrollbar of a kata region is a part of the component, not of the
-  page: the shared rules of the components (`components.css`, which
-  `@sakuzu/kata/svelte` imports) draw the scrollbar of every element
-  inside the body, and of every element under the root of kata embedded
-  in a page you do not own. The track is size-sm thick and transparent,
-  without arrows and with square ends; the thumb is `thumb`, size-xs
-  thick in the middle of the track, and fills the track in `thumb-hover`
-  under the pointer. The thumb reaches 3:1 on the ground and the panel.
+- The base CSS draws the scrollbar of every element inside the body:
+  the track is size-sm thick and transparent, without arrows and with
+  square ends; the thumb is `thumb`, size-xs thick in the middle of the
+  track, and fills the track in `thumb-hover` under the pointer. The
+  thumb reaches 3:1 on the ground and the panel.
 - The page's own scrollbar is the system's.
-- Embedded in a page you do not own, without the base CSS
+- The scrollbar of a kata region is the component's, and holds in an
+  embed too. Embedded in a page you do not own, without the base CSS
   ([Embedding kata](#embedding-kata-in-a-page-you-do-not-own)), the
-  scrollbars of kata's regions are still kata's. A page that sets
-  `scrollbar-color` or `scrollbar-width` would switch them off in
-  Chromium, so the root and its children set both back to `auto`.
+  shared rules of the components (`components.css`, which
+  `@sakuzu/kata/svelte` imports) draw the same scrollbar for every
+  element under the root, and nothing of the page's own. A page that sets
+  `scrollbar-color` or `scrollbar-width` would switch it off in Chromium,
+  so the root and its children set both back to `auto`.
 - No room is kept for a scrollbar: when a region overflows, its content
   narrows by the scrollbar.
 - A scrollbar never squeezes a control. Where a region's width or height
@@ -157,11 +157,8 @@ map, it lives under one root element of its own.
   root's selector (`.app-root`, say).
 - Skip `base.css`: it styles the whole page. Set the font and the text
   color on the root yourself.
-- The scrollbars of kata's regions are the components' and hold under
-  the root ([Regions that scroll](#regions-that-scroll)). The shared
-  rules of the components are written for the whole page; to keep them
-  off the page's own elements, put the root's selector in front of each
-  of their selectors, as you scope the tokens.
+- The scrollbars of kata's regions are the components' and hold in an
+  embed too ([Regions that scroll](#regions-that-scroll)).
 - Put a [Shell](workbench/shell.md) inside the root. The shell is the
   size container of the three widths and measures its own element, so it
   follows the width of the root, not of the window. Over a drawing

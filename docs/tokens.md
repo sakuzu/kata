@@ -240,4 +240,8 @@ nothing a component looks like.
 - Links are `blue-ink` and underlined on hover.
 - The focus ring shows for keyboard focus only, two lines wide in `focus`,
   outside the element.
+- Every element inside the body shows its scrollbar at all times, in
+  `thumb` on a transparent track of size-sm; the page's own scrollbar
+  stays the system's ([Regions that
+  scroll](layout.md#regions-that-scroll)).
 - `[hidden]` always hides.

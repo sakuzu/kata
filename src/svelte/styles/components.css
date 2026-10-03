@@ -98,53 +98,47 @@
 }
 
 /*
- * A region that scrolls shows its scrollbar at all times, on both axes, in kata's colors: the
- * styled scrollbar of Chromium and Safari is never an overlay. The track is size-sm and
- * transparent, without arrows; the thumb is drawn size-xs thick in its middle (a transparent
- * border, with the background inside it) and fills the track on hover. No gutter is reserved: a
- * region that overflows narrows its content by the scrollbar.
- *
- * The scrollbar is a part of the component, not of the page, so the rule is here and not in the
- * base CSS: it reaches every element inside the body of a page that kata owns, and every element
- * under the root of kata embedded in a page it does not own ([data-kata-root]). The page's own
- * scrollbar (the viewport's, which Chromium takes from the body or the root element) stays the
- * system's. The selectors are complex selectors inside :where(), so that a build that limits these
- * rules to the root of an embed by putting the root's selector in front of each one still matches
- * the elements under that root.
+ * The scrollbars of kata's regions in an embed. In a page that kata owns, the base CSS draws the
+ * scrollbar of every element inside the body; embedded in a page it does not own, without the base
+ * CSS, the scrollbar of a kata region is still the component's, so the same rule is drawn here for
+ * every element under the root ([data-kata-root]), with the same tokens. It never reaches the
+ * page's own elements. The selectors are complex selectors inside :where(), so that a build that
+ * limits these rules to the root by putting the root's selector in front of each one still matches
+ * the elements under it.
  */
-:where(body *, [data-kata-root] *)::-webkit-scrollbar {
+:where([data-kata-root] *)::-webkit-scrollbar {
   width: var(--kata-size-sm-rem);
   height: var(--kata-size-sm-rem);
   background: transparent;
 }
-:where(body *, [data-kata-root] *)::-webkit-scrollbar-thumb {
+:where([data-kata-root] *)::-webkit-scrollbar-thumb {
   background: var(--kata-color-thumb);
   background-clip: padding-box;
   border: calc((var(--kata-size-sm-rem) - var(--kata-size-xs-rem)) / 2) solid transparent;
 }
-:where(body *, [data-kata-root] *)::-webkit-scrollbar-thumb:hover {
+:where([data-kata-root] *)::-webkit-scrollbar-thumb:hover {
   background: var(--kata-color-thumb-hover);
   border-width: 0;
 }
-:where(body *, [data-kata-root] *)::-webkit-scrollbar-button {
+:where([data-kata-root] *)::-webkit-scrollbar-button {
   display: none;
 }
-:where(body *, [data-kata-root] *)::-webkit-scrollbar-corner {
+:where([data-kata-root] *)::-webkit-scrollbar-corner {
   background: transparent;
 }
 /* A page that sets scrollbar-color or scrollbar-width, which its elements inherit, would switch
- * the styled scrollbar off in Chromium; the root of an embed and its children set both back to
- * auto, so that nothing under the root inherits them */
+ * the styled scrollbar off in Chromium; the root and its children set both back to auto, so that
+ * nothing under the root inherits them */
 @supports selector(::-webkit-scrollbar) {
   :where([data-kata-root], [data-kata-root] > *) {
     scrollbar-color: auto;
     scrollbar-width: auto;
   }
 }
-/* Where the styled scrollbar is not supported (Firefox), the standard properties: thin, in the
- * thumb's color. Set anywhere else, they would switch the styled scrollbar off */
+/* Where the styled scrollbar is not supported (Firefox), the standard properties, as in the base
+ * CSS */
 @supports not selector(::-webkit-scrollbar) {
-  :where(body *, [data-kata-root] *) {
+  :where([data-kata-root] *) {
     scrollbar-width: thin;
     scrollbar-color: var(--kata-color-thumb) transparent;
   }
