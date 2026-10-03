@@ -52,9 +52,9 @@ describe('Pager', () => {
   });
 
   describe('in a narrow width', () => {
-    // jsdom lays nothing out: every square is 30px wide (the gap reads as 0), the pager is as
-    // wide as `width`, a ResizeObserver that the test triggers reports its changes, and a frame
-    // runs at once
+    // jsdom lays nothing out: the square's token (--kata-height-icon-button, read with a probe)
+    // is 30px (the gap reads as 0), the pager is as wide as `width`, a ResizeObserver that the
+    // test triggers reports its changes, and a frame runs at once
     let width = 0;
     let observers: { cb: ResizeObserverCallback }[] = [];
     const setup = () => {
@@ -78,8 +78,8 @@ describe('Pager', () => {
       vi.spyOn(Element.prototype, 'getBoundingClientRect').mockImplementation(function (
         this: Element,
       ) {
-        return this.matches('[data-h="icon-button"]')
-          ? new DOMRect(0, 0, 30, 30)
+        return this instanceof HTMLElement && this.style.height === 'var(--kata-height-icon-button)'
+          ? new DOMRect(0, 0, 0, 30)
           : original.call(this);
       });
       vi.spyOn(HTMLElement.prototype, 'clientWidth', 'get').mockImplementation(function (
