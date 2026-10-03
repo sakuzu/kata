@@ -6,6 +6,37 @@ follows semantic versioning.
 
 ## [Unreleased]
 
+## [1.8.0] - 2026-10-03
+
+What the standard UI of a map editor needed from 1.7.0: scrollbars in
+an embed, a pressable row that can be disabled, a Slider disabled
+without hue, and two fixes to 1.7.0's folding. Nothing changes
+incompatibly.
+
+- Added: `ListItem disabled`. A pressable row (`onclick`) that is
+  disabled is dimmed, takes no hover, is not pressed by a click or a
+  key, has `aria-disabled="true"` and leaves the tab order, as a
+  disabled Button (#64).
+- Fixed: the scrollbars of kata's regions reach an embed. The rule of
+  "Regions that scroll" also lives in the components' styles for the
+  elements under `[data-kata-root]`, so a panel in an embed shows that
+  it scrolls; the root resets an inherited `scrollbar-color` and
+  `scrollbar-width`, which would switch the styling off in Chromium. A
+  full page keeps the rule of the base styles, and the host's own
+  regions are not touched (#62).
+- Fixed: a disabled Slider takes `solid-disabled` for the part it has
+  passed and the filled shape's disabled colors for its thumb, instead
+  of its blue dimmed (#65).
+- Changed: a title with an `end` keeps at least min(its own width, 4em)
+  beside the end; when it cannot, the end moves to a line of its own
+  under the title and its seat takes the height of its mark, instead of
+  the title being squeezed below its words (#66).
+- Fixed: Crumbs measure the chevron after the last place with its
+  gap-2xs, so a trail with room to spare ends no place with an ellipsis
+  (#48).
+- Checks: the audit reads the tokens from the nearest `[data-kata-root]`,
+  so an embedded example is measured; a new example, embed.
+
 ## [1.7.0] - 2026-10-03
 
 Fixes and rules found in an application's review: a mark beside text
@@ -485,6 +516,7 @@ them to the rules.
   of drawing out of kata; `npm run check:package` runs publint and Are
   the Types Wrong on the package.
 
+[1.8.0]: https://github.com/sakuzu/kata/compare/v1.7.0...v1.8.0
 [1.7.0]: https://github.com/sakuzu/kata/compare/v1.6.2...v1.7.0
 [1.6.2]: https://github.com/sakuzu/kata/compare/v1.6.1...v1.6.2
 [1.6.1]: https://github.com/sakuzu/kata/compare/v1.6.0...v1.6.1
