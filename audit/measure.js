@@ -41,6 +41,7 @@
 //                  item of a list)
 //   first-line     a mark in a seat is centred on the ink of the first line of the text beside it
 //                  (the cap height, and the CJK ink outside it by the root's language)
+//   near           the description of a control is nearer its own label than the next control's
 //   overlap        the children of a layout do not overlap
 //   crush          text is never squeezed into a column narrower than two characters
 //   fixed-frame    a size container (a Shell's root) and an embedded root ([data-kata-root]) are not
@@ -1066,6 +1067,45 @@
     }
   }
 
+  // A control with a description (a radio, a checkbox, a switch: [data-control]): the description
+  // is nearer its own label than the label of the next control, so that it reads as part of its
+  // own choice
+  function near(root, bad) {
+    const texts = (el) =>
+      [...el.querySelectorAll('*')].filter(
+        (n) =>
+          visible(n) &&
+          [...n.childNodes].some((c) => c.nodeType === 3 && c.textContent.trim()) &&
+          !n.closest('svg'),
+      );
+    for (const ctl of root.querySelectorAll('[data-control]')) {
+      if (!visible(ctl) || skipped(ctl)) continue;
+      const own = texts(ctl);
+      if (own.length < 2) continue;
+      const next = sibling(ctl, 'next');
+      if (!next?.matches('[data-control]')) continue;
+      const nextLabel = texts(next)[0];
+      if (!nextLabel) continue;
+      const name = own[0];
+      const desc = own[1];
+      const last = own[own.length - 1];
+      const a = inkTop(desc);
+      const b = inkBottom(name);
+      const c = inkTop(nextLabel);
+      const d = inkBottom(last);
+      if (a === null || b === null || c === null || d === null) continue;
+      const toOwn = a - b;
+      const toNext = c - d;
+      if (toOwn >= toNext)
+        bad.push({
+          kind: 'near',
+          el: label(desc),
+          own: +toOwn.toFixed(2),
+          next: +toNext.toFixed(2),
+        });
+    }
+  }
+
   // ---- Layout -----------------------------------------------------------------------------------
 
   function overlap(root, bad) {
@@ -1147,6 +1187,7 @@
       tabsGap(root, bad);
       readRow(root, bad);
       firstLine(root, bad);
+      near(root, bad);
       overlap(root, bad);
       crush(root, bad);
       fixedFrame(root, bad);

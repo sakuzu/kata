@@ -29,9 +29,11 @@ The first line is as high as a small button, and the whole control is
 pressed. The circle is a native radio in the square of an icon; chosen,
 its line and a dot inside take the solid color. The text is gap-sm from
 the circle, one line, trimmed to its ink. A description is a caption in
-the column of the text, gap-xs below the first line, and so is a note,
-gap-xs below what is above it. In a [RadioGroup](radio-group.md) the
-radios stay stacked with gap 0. Disabled is dimmed.
+the column of the text, trimmed to its ink, gap-xs below the first line,
+and so is a note, gap-xs below what is above it; pad-sm lies below the
+last of them, so that a description is nearer its own label than the
+label of the next radio. In a [RadioGroup](radio-group.md) the radios
+stay stacked with gap 0. Disabled is dimmed.
 
 ## Example
 

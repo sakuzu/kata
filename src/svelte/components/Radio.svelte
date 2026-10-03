@@ -5,7 +5,8 @@
   // Radio: one choice of a group. It is a control of the height of a small button, and the whole
   // control is pressed. The circle sits in the square of an icon; the text on its right is trimmed
   // to its ink and centred. A radio can take a second line, a description: the first line keeps the
-  // height of a small button and the description is gap-xs below it, under the text. A note (a
+  // height of a small button and the description, trimmed to its ink, is gap-xs below it, under the
+  // text, with pad-sm below it, so that it is nearer its own label than the next radio's. A note (a
   // snippet) goes in the same column under them, as a caption. The control is a <label>, so
   // pressing the text chooses it too.
   //
@@ -84,8 +85,10 @@
     cursor: pointer;
     @include text(body);
   }
+  // Room below the last line, as below the text of a Toggle that wraps
   .two {
     height: auto;
+    padding-bottom: pad(sm);
   }
   .seat,
   .line {
@@ -101,9 +104,11 @@
     @include trim;
     @include ellipsis;
   }
+  // The description is text inside the control, trimmed to its ink
   .desc {
     grid-column: 2;
     @include text(caption);
+    @include trim;
   }
   .radio {
     appearance: none;

@@ -58,6 +58,7 @@ element inside the example is measured; a finding fails the audit.
 | tabs-gap | Content under Tabs is gap-lg away (not in an unpadded container) |
 | read-row | A list item that is only read has a line or a surface |
 | first-line | A mark in a seat is centred on the ink of the first line |
+| near | A control's description is nearer its label than the next one's |
 | overlap | The children of a layout do not overlap |
 | crush | Text is never squeezed narrower than two characters |
 | fixed-frame | A Shell or an embedded root is not the frame of fixed elements |
@@ -88,3 +89,9 @@ measured with a trimmed line placed before the text, and with a Japanese
 root it also takes the CJK ink above and below them, as a trimmed line
 does. The chevron of a Prose summary is drawn by the summary's own
 `::before` and is not measured.
+
+near measures a control with a description (a radio, a checkbox or a
+switch, which marks itself `data-control`) that another control
+follows: the distance from the ink of its label to the ink of its
+description is less than the distance from the ink of its last line to
+the ink of the next control's label.
