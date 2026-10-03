@@ -6,8 +6,8 @@
   import Icon from './Icon.svelte';
 
   // Note: a remark without a line or a surface: one sentence in the caption role, muted. tone
-  // colors it (warn yellow, error red). An icon is optional; it is centred on the ink of the first
-  // line, as in Banner. A notice with a line is a Banner; the remark under an input is the note of
+  // colors it (warn yellow, error red). An icon is optional; it sits in a seat and is centred on
+  // the ink of the first line, in a layout and inside a control alike. A notice with a line is a Banner; the remark under an input is the note of
   // its Field. Inside a control (a list item) the text is trimmed to its ink; clamp keeps it to one
   // line with an ellipsis, and the full text shows on hover.
   //
@@ -50,17 +50,16 @@
     font-size: fs(caption);
     line-height: lh(prose);
   }
+  // The icon's seat and the text align by their first baseline
   .note.ico {
     display: flex;
-    align-items: flex-start;
+    align-items: baseline;
     gap: gap(sm);
   }
-  // The icon's box is the height of the cap, centred on it; the icon overflows it evenly
+  // The icon's seat: the icon's height, with the baseline of a trimmed line centred in it, so the
+  // icon is centred on the ink of the first line whether the text is trimmed or not
   .mark {
-    display: flex;
-    align-items: center;
-    flex: none;
-    height: calc(var(--kata-cap) * 1em);
+    @include seat(h(icon));
   }
   // In a layout it keeps its line box; inside a control it is trimmed to its ink
   .text {

@@ -6,9 +6,9 @@
 
   // Banner: a notice in the flow of a page or a panel. Its line takes the color of its tone (info
   // blue, warn yellow, error red, ok green) and so does its icon; the padding is pad-md. The icon
-  // is centred on the first line of the text, which is not trimmed. An action (act) sits at the
-  // right end, on the baseline of the first line; when it does not fit beside the text, it moves
-  // below it. A notice of several lines puts them in a Stack. floating gives it the panel surface,
+  // sits in a seat and is centred on the ink of the first line of the text. An action (act) sits
+  // at the right end, on the baseline of the first line; when it does not fit beside the text, it
+  // moves below it. A notice of several lines puts them in a Stack. floating gives it the panel surface,
   // for a notice over the stage; the application places it.
   //
   //   <Banner tone="warn">The trial ends in 3 days{#snippet act()}<Button>Renew</Button>{/snippet}</Banner>
@@ -72,20 +72,19 @@
   .floating {
     background: color(panel);
   }
-  // The icon and the text stay together; only the action moves to the next line
+  // The icon and the text stay together, on their first baseline; only the action moves to the
+  // next line
   .line {
     display: flex;
-    align-items: flex-start;
+    align-items: baseline;
     gap: gap(sm);
     flex: 1 1 12em;
     min-width: 0;
   }
-  // The icon is centred in the line box of the first line
+  // The icon's seat: the icon's height, with the baseline of a trimmed line centred in it, so the
+  // icon is centred on the ink of the first line, whether the text is trimmed or not
   .mark {
-    display: flex;
-    align-items: center;
-    flex: none;
-    height: calc(#{fs(body)} * #{lh(body)});
+    @include seat(h(icon));
   }
   // The line takes its baseline from the first line of the text
   .text {
