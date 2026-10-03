@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { ColHead, MenuItem, Table } from '@sakuzu/kata/svelte';
+  import { ColHead, MenuItem, Stack, Table, Text } from '@sakuzu/kata/svelte';
   import Case from '../_shared/Case.svelte';
   import Example from '../_shared/Example.svelte';
   import Surface from '../_shared/Surface.svelte';
@@ -46,7 +46,7 @@
   </Case>
   <Case label="Two columns merged into one">
     <Surface width="20rem">
-      <Table>
+      <Table rows="two">
         {#snippet head()}
           <th>
             <ColHead
@@ -64,7 +64,14 @@
           </th>
         {/snippet}
         {#each sorted as r (r.name)}
-          <tr><td>{r.name}</td></tr>
+          <tr>
+            <td>
+              <Stack gap="sm">
+                <Text as="span">{r.name}</Text>
+                <Text role="caption" muted as="span">{r.updated}</Text>
+              </Stack>
+            </td>
+          </tr>
         {/each}
       </Table>
     </Surface>

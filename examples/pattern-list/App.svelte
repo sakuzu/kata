@@ -17,6 +17,7 @@
   } from '@sakuzu/kata/svelte';
   import Case from '../_shared/Case.svelte';
   import Example from '../_shared/Example.svelte';
+  import Frame from '../_shared/Frame.svelte';
 
   const all = [
     { id: 'a', name: 'Quarterly plan', changed: 'Today' },
@@ -45,7 +46,9 @@
   <Case label="A search and the action that creates, the items with a check box and a Kebab, the bar of the selection, the pages">
     <Stack gap="md">
       <Row between wrap>
-        <SearchInput bind:value={query} label="Search the documents" placeholder="Search" />
+        <Frame width="22.5rem">
+          <SearchInput bind:value={query} label="Search the documents" placeholder="Search" />
+        </Frame>
         <Button variant="primary" leading="plus">New document</Button>
       </Row>
       {#if picked.length}
