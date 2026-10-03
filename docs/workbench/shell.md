@@ -223,18 +223,20 @@ The narrow form puts the dock in a [Sheet](../components/sheet.md) named
 sheet's name and heights (without it, the `dock` message and `half` and
 `full`). The sheet holds the dock as a panel, opens at the lowest of its
 heights and closes below it; it then calls `ondockclose`, and the
-application removes the dock. It lies under the sheets of the side
-regions, and the toolbar rises above it as above them. `dockHeight` and
-the grip belong to the dock under the stage only.
+application removes the dock. It lies under the side sheets that are
+open; a resting sheet is not shown while the dock's sheet is open. The
+toolbar rises above it as above them. `dockHeight` and the grip belong
+to the dock under the stage only.
 
 On a narrow screen one of the side sheets and the dock is open at a
 time. Opening a side sheet closes the other side (its `leftOpen` or
 `rightOpen` becomes false) and the dock (`ondockclose` is called); the
 dock's sheet coming, when the application gives the dock or the screen
 narrows with it, closes the side sheets. A sheet that rests at its
-lowest height (`closable: false`) does not count as open and stays.
-When the screen narrows with both side regions open, the one opened
-last stays, the right one at mount.
+lowest height (`closable: false`) does not count as open: it is not
+shown while the dock's sheet is open, and comes back when the dock
+closes. When the screen narrows with both side regions open, the one
+opened last stays, the right one at mount.
 
 With `topFloating`, the narrow form floats the bar over the stage in a
 [Floating](../components/floating.md) gap-md from the top of the stage

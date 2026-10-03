@@ -1,5 +1,6 @@
 <script lang="ts">
   import '../styles/components.css';
+  import { tokenPx } from '../lib/tipPlace.js';
   import { getMessages } from '../messages.js';
   import Button from './Button.svelte';
   import Icon from './Icon.svelte';
@@ -8,7 +9,8 @@
   // last page and one page on each side of the current one; the pages between become "…". The
   // numbers and the arrows are ghost icon buttons (squares of a small button: the area that is
   // pressed and the hover surface are that square), gap-md apart; the current page has the
-  // selected surface, and "…" sits in a square of the same size. Nothing shows for a single page.
+  // selected surface, and "…" sits in a square of the same size. Every item keeps its square:
+  // nothing in the row shrinks. Nothing shows for a single page.
   // It never wraps: when the pages do not fit in its width, the neighbours of the current page go
   // (‹ 1 … 5 … 12 ›), and when even that does not fit, the pager scrolls sideways. How pages map
   // to the application's data (a cursor, an offset) is the application's.
@@ -45,8 +47,9 @@
   const compact = $derived(list([1, page, pages]));
 
   // Which form fits: every item (the numbers, "…" and the arrows) is the square of an icon button,
-  // gap-md apart, so the width of a form follows from its count. It is read when the pager changes
-  // size, and written in the next animation frame
+  // gap-md apart, so the width of a form follows from its count. The square is read from its token
+  // (--kata-height-icon-button), not from a drawn box. It is read when the pager changes size, and
+  // written in the next animation frame
   let nav = $state<HTMLElement>();
   let fit = $state<'full' | 'compact' | 'scroll'>('full');
   $effect(() => {
@@ -54,8 +57,7 @@
     if (!el) return;
     const counts = { full: full.length + 2, compact: compact.length + 2 };
     const read = () => {
-      const square =
-        el.querySelector<HTMLElement>('[data-h="icon-button"]')?.getBoundingClientRect().width ?? 0;
+      const square = tokenPx('--kata-height-icon-button', el);
       const gap = Number.parseFloat(getComputedStyle(el).columnGap) || 0;
       const width = (n: number) => n * square + (n - 1) * gap;
       // Half a pixel of room for rounding
@@ -138,6 +140,10 @@
     flex-wrap: nowrap;
     min-width: 0;
     @include text(body);
+    // Every item keeps its square
+    > :global(*) {
+      flex: none;
+    }
   }
   .pager[data-scroll] {
     overflow-x: auto;

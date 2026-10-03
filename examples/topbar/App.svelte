@@ -114,6 +114,26 @@
       {#snippet end()}<Button>Share</Button>{/snippet}
     </Topbar>
   </Case>
+  <Case label="A longer trail: when the row is short the crumbs show only the current place, and then none">
+    <Topbar
+      brand="Sketchbook"
+      brandHref="#top"
+      crumbs={[
+        { label: 'Field survey team', href: '#top' },
+        { label: 'Drafts', href: '#top' },
+        { label: 'Spring layout' },
+      ]}
+      crumbsLabel="Location"
+    >
+      {#snippet end({ compact }: { compact: boolean })}
+        {#if compact}
+          <Kebab items={[{ id: 'share', label: 'Share' }]} onselect={() => {}} />
+        {:else}
+          <Button>Share</Button>
+        {/if}
+      {/snippet}
+    </Topbar>
+  </Case>
   <Case label="No brand: the crumbs start the bar">
     <Topbar crumbs={[{ label: 'Team', href: '#top' }, { label: 'Settings' }]} crumbsLabel="Location">
       {#snippet end()}<Button>Done</Button>{/snippet}

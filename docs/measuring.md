@@ -64,7 +64,11 @@ The ink is `--kata-ink` times the font size: the cap height (0.698 of the
 em) and nothing more for Latin text. When the root element's language is
 Chinese, Japanese or Korean, the ink also reaches the top and the bottom of
 CJK characters, and the trim adds that part back as padding, so a control
-is a little taller and no character is cut.
+is a little taller and no character is cut. Japanese text breaks its lines
+by the strict rules, and breaks inside a word only when the word does not
+fit on a line by itself: the least width the text needs is still its
+longest word, so a component that measures its content takes its narrower
+form instead of breaking a word.
 
 The descenders still reach below the trimmed box, so trimmed text never
 clips its vertical overflow: a trimmed line that ends in an ellipsis is

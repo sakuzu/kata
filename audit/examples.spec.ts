@@ -133,3 +133,28 @@ test('sheet: at half, a pane taller than half scrolls its content above the foot
   });
   expect(hit, 'the foot is shown').toBe(true);
 });
+
+// On a narrow screen, a side sheet that does not close rests at its lowest height while its region
+// is not open; while the dock's sheet is open it is not shown (it would cover the dock's bottom),
+// and it comes back when the dock closes.
+test('shell: a resting sheet is not shown while the dock sheet is open', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 1000 });
+  await page.goto('/shell/', { waitUntil: 'networkidle' });
+  const example = page
+    .getByText("A sheet that does not close and the dock's sheet", { exact: false })
+    .locator('xpath=..');
+  const dock = example.locator('aside[data-sheet="dock"]');
+  const rest = example.locator('aside[data-sheet="left"]');
+  await example.scrollIntoViewIfNeeded();
+  await expect(dock).toBeVisible();
+  await expect(rest).toHaveCount(0);
+  // ArrowDown on the handle at the dock's lowest height closes it
+  await dock.getByRole('button', { name: 'Sheet height' }).press('ArrowDown');
+  await expect(dock).toHaveCount(0);
+  await expect(rest).toBeVisible();
+  await expect(rest).toHaveAttribute('data-stage', 'peek');
+  // The dock coming again hides the resting sheet
+  await example.getByRole('button', { name: 'Show the output' }).click();
+  await expect(dock).toBeVisible();
+  await expect(rest).toHaveCount(0);
+});

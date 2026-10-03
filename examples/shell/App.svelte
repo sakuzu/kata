@@ -85,6 +85,7 @@
   let restRight = $state(false);
   let restStage = $state<SheetStage>('half');
   let showDock = $state(true);
+  let restDock = $state(true);
 </script>
 
 {#snippet bar()}
@@ -316,6 +317,26 @@
     </div>
     <Row>
       <Button disabled={showDock} onclick={() => (showDock = true)}>Show the output</Button>
+    </Row>
+  </Case>
+  <Case label="A sheet that does not close and the dock's sheet: the resting sheet is not shown while the dock is open">
+    <div class="frame">
+      <Shell
+        narrow
+        leftOpen={false}
+        leftSheet={{ closable: false }}
+        dockSheet={{ label: 'Output' }}
+        ondockclose={() => (restDock = false)}
+        leftLabel="Contents"
+        top={plainBar}
+        left={contents}
+        stage={surface}
+        bottom={toolbar}
+        dock={restDock ? outputSheet : undefined}
+      />
+    </div>
+    <Row>
+      <Button disabled={restDock} onclick={() => (restDock = true)}>Show the output</Button>
     </Row>
   </Case>
   <Case label="topFloating: on a narrow screen the bar floats over the stage, which fills the shell">

@@ -96,14 +96,15 @@ Below 48rem (narrow):
 Below 24rem (tiny):
 
 - A name sits above its value in a Pair and a Kv.
-- The Topbar hides the brand.
 - The actions of a tree row float over the end of its name.
 
 Some bars fold by their own width instead of the window's: when the
 [Tabs](components/tabs.md) or the tools of a
 [Drawbar](components/drawbar.md) do not fit, as many as fit show and the
 rest move into a More menu at the end. The current tab and the current
-tool always show.
+tool always show. [Crumbs](components/crumbs.md) that do not fit with
+each place at 4rem show only the current place, and nothing when even
+that does not fit.
 
 In script, `createNarrow` and `WIDTHS` measure the window in the same way,
 and the shell inside a Shell

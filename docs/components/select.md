@@ -27,9 +27,10 @@ four options are a [Segmented](segmented.md) or a
 The trigger is the control of a button, of the height its container
 declares, with the chosen label on the left, one line with an ellipsis,
 and a chevron on the right; its line is blue-ink while the list is open.
-The list is a popover, so it shows above everything, below the trigger,
-at least as wide as it and 12rem, and never wider than the window; it
-opens upward when there is no room below. It has the panel surface and
+The list is a popover, so it shows above everything, gap-xs below the
+trigger, at least as wide as it and 12rem, and never wider than the
+window; it opens upward when there is no room below, stays gap-md inside
+the window and follows the trigger while it is open. It has the panel surface and
 one line in line-strong. Each option is as high as a list item, with
 pad-md at the sides and a check mark on the left of the chosen one; an
 option with a description has two lines gap-sm apart and pad-md above

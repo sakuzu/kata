@@ -57,9 +57,13 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/*
+ * Japanese breaks by the strict rules. A string longer than its line breaks where it does not fit,
+ * and nowhere else: a Latin word keeps its width as the least the text needs (min-content).
+ */
 :lang(ja) {
   line-break: strict;
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
 }
 
 h1,

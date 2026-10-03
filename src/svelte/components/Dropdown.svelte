@@ -2,6 +2,7 @@
   import '../styles/components.css';
   import type { Snippet } from 'svelte';
   import { tick, untrack } from 'svelte';
+  import { follow, placeBelow, placeBeside } from '../lib/place.js';
 
   // Dropdown: a place that opens below a trigger, for a menu or a small picker. It is a popover, so
   // it shows in the top layer, above everything, also when it opens from inside a modal or a panel.
@@ -10,12 +11,13 @@
   // role="menu", focuses the first item when it opens, and the arrow keys, Home and End move the
   // focus between the items. With bare, the content brings its own container (a picker, a list).
   //
-  // It is placed from the trigger's rectangle: below it, or above when there is no room below, and
-  // pushed inside the window at the sides. With up the sides are swapped: above it, or below when
-  // there is no room above (a trigger at the bottom of the stage). A trigger inside a bar (a
-  // toolbar: a Toolbar, a Topbar or a Drawbar) opens from the bar's edge instead of its own, still
-  // lined up with the trigger at the sides; from a vertical bar it opens beside the bar, on the left
-  // (on the right when there is no room), lined up with the top of the trigger. A press outside,
+  // It is placed from the trigger's rectangle (lib/place): below it, gap-xs away, or above when
+  // there is no room below, and gap-md inside the window at the sides. With up the sides are
+  // swapped: above it, or below when there is no room above (a trigger at the bottom of the stage).
+  // A trigger inside a bar (a toolbar: a Toolbar, a Topbar or a Drawbar) opens from the bar's edge
+  // instead of its own, still lined up with the trigger at the sides; from a vertical bar it opens
+  // beside the bar, on the left (on the right when there is no room), lined up with the top of the
+  // trigger. While it is open it follows the trigger when the trigger moves. A press outside,
   // Escape or Tab closes it; Escape and Tab return the focus to the trigger of a menu. Each time it
   // opens or closes, the trigger's wrapper dispatches a bubbling kata-menu-toggle event with
   // detail { open }.
@@ -92,12 +94,6 @@
   // Where the focus returns when Escape or Tab closes a menu
   let returnFocusEl: HTMLElement | null = null;
 
-  // The distance from the trigger, the least distance from the window's edge, and the least height
-  // below which the place opens on the other side
-  const GAP = 4;
-  const EDGE = 8;
-  const MIN_HEIGHT = 120;
-
   function place() {
     if (!anchor || !panelEl) return;
     const r = anchor.getBoundingClientRect();
@@ -105,37 +101,11 @@
     // the sides stay the trigger's
     const bar = anchor.closest('[role="toolbar"], [data-role="toolbar"]');
     const edge = bar ? bar.getBoundingClientRect() : r;
-    const vw = window.innerWidth;
-    const vh = window.innerHeight;
-    const width = panelEl.offsetWidth;
-    // The natural height is measured without the limit, or the direction would change each time
-    const keep = panelEl.style.maxHeight;
-    panelEl.style.maxHeight = '';
-    const natural = panelEl.scrollHeight;
-    panelEl.style.maxHeight = keep;
-    // A vertical bar (a Drawbar standing in a column): the place opens beside it, GAP from its left
-    // edge, or from its right edge when there is no room on the left, lined up with the top of the
-    // trigger and kept inside the window; up does not apply
-    if (bar?.getAttribute('aria-orientation') === 'vertical') {
-      const maxHeight = Math.max(MIN_HEIGHT, vh - 2 * EDGE);
-      const shown = Math.min(natural, maxHeight);
-      const top = Math.max(EDGE, Math.min(r.top, vh - shown - EDGE));
-      let left = edge.left - GAP - width;
-      if (left < EDGE) left = Math.min(edge.right + GAP, vw - width - EDGE);
-      pos = { top: Math.round(top), left: Math.round(left), maxHeight: Math.round(maxHeight) };
-      return;
-    }
-    const below = vh - edge.bottom - GAP - EDGE;
-    const above = edge.top - GAP - EDGE;
-    const up = preferUp
-      ? !(above < Math.min(natural, MIN_HEIGHT) && below > above)
-      : below < Math.min(natural, MIN_HEIGHT) && above > below;
-    const maxHeight = Math.max(MIN_HEIGHT, up ? above : below);
-    const shown = Math.min(natural, maxHeight);
-    const top = up ? edge.top - GAP - shown : edge.bottom + GAP;
-    let left = align === 'end' ? r.right - width : r.left;
-    left = Math.max(EDGE, Math.min(left, vw - width - EDGE));
-    pos = { top: Math.round(top), left: Math.round(left), maxHeight: Math.round(maxHeight) };
+    // A vertical bar (a Drawbar standing in a column): the place opens beside it; up does not apply
+    pos =
+      bar?.getAttribute('aria-orientation') === 'vertical'
+        ? placeBeside(panelEl, r, edge)
+        : placeBelow(panelEl, r, { align, up: preferUp, edge });
   }
 
   function toggle() {
@@ -165,9 +135,9 @@
   }
 
   // The place is measured once it is open (until then it has no size), and the focus moves once it
-  // is visible
+  // is visible. While it is open it follows the trigger
   $effect(() => {
-    if (!open || !panelEl) return;
+    if (!open || !panelEl || !anchor) return;
     const el = panelEl;
     if (canPopover && !isShown(el)) {
       try {
@@ -185,6 +155,7 @@
       await tick();
       focusItemAt(0);
     })();
+    return follow(anchor, el, place);
   });
 
   function menuItems(): HTMLElement[] {
@@ -241,12 +212,7 @@
   }
 </script>
 
-<svelte:window
-  onkeydowncapture={onKeyDown}
-  onpointerdowncapture={onPointerDown}
-  onresize={() => open && place()}
-  onscroll={() => open && place()}
-/>
+<svelte:window onkeydowncapture={onKeyDown} onpointerdowncapture={onPointerDown} />
 
 <span class="anchor" class:block bind:this={anchor} data-role={role}>
   {@render trigger(toggle, open)}

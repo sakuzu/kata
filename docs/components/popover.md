@@ -24,10 +24,11 @@ with `menu`); a form or a choice that stops the work is a
 
 The surface is a [Bubble](bubble.md): the panel color, a strong line,
 the width of a popover and pad-md inside. It is placed as a
-[Dropdown](dropdown.md) is: in the top layer, below the trigger (above
-it when there is no room below; with `up`, above it, and below only when
-there is no room above), inside the window at the sides. A press
-outside, Escape or Tab closes it.
+[Dropdown](dropdown.md) is: in the top layer, gap-xs below the trigger
+(above it when there is no room below; with `up`, above it, and below
+only when there is no room above), gap-md inside the window at the
+sides, and it follows the trigger while it is open. A press outside,
+Escape or Tab closes it.
 
 ## Example
 
