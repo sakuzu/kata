@@ -6,7 +6,8 @@
   // right end, secondary then primary; lead sits at the left end (a status, or a third outcome). It
   // has no height of its own and no line, unlike Footer. Neighbours are gap-sm apart. Secondary and
   // primary are one group, as in a Footer: when it does not fit beside the lead, the whole group
-  // moves below it.
+  // moves below it, and when the group alone does not fit, its buttons wrap inside it, at the right
+  // end and in the order written.
   //
   //   <Actions>
   //     {#snippet secondary()}<Button>Cancel</Button>{/snippet}
@@ -51,8 +52,11 @@
     align-items: center;
     min-width: 0;
   }
+  // When the group alone does not fit, its buttons wrap inside it, kept at the right end
   .group {
     display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
     align-items: center;
     gap: gap(sm);
     flex: none;

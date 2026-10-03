@@ -23,7 +23,10 @@ a panel with a bar at its bottom, use Footer.
 Actions has no height, padding or line of its own; the buttons keep
 theirs. Neighbours are gap-sm apart. Secondary and primary are one
 group, as in a [Footer](footer.md): when it does not fit beside the
-lead, the whole group moves below it and stays at the right end.
+lead, the whole group moves below it and stays at the right end. When
+the group alone does not fit, its buttons wrap inside it, gap-sm apart,
+at the right end and in the order written (secondary first, primary
+last).
 
 ## Example
 
