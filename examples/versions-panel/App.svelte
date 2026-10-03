@@ -16,22 +16,28 @@
 <Example>
   <Case label="A past version is shown: the Footer offers to go back or to restore it">
     <div class="frame">
-      <VersionsPanel
-        {versions}
-        current={shown}
-        onpreview={(id) => (shown = id)}
-        onrestore={(id) => (restored = id)}
-        onclose={() => {}}
-      />
+      <div class="side">
+        <VersionsPanel
+          {versions}
+          current={shown}
+          onpreview={(id) => (shown = id)}
+          onrestore={(id) => (restored = id)}
+          onclose={() => {}}
+        />
+      </div>
     </div>
   </Case>
   <Case label="The latest version is shown, and no version yet">
     <div class="pair">
       <div class="frame short">
-        <VersionsPanel versions={versions.slice(0, 2)} current="v5" />
+        <div class="side">
+          <VersionsPanel versions={versions.slice(0, 2)} current="v5" />
+        </div>
       </div>
       <div class="frame short">
-        <VersionsPanel versions={[]} />
+        <div class="side">
+          <VersionsPanel versions={[]} />
+        </div>
       </div>
     </div>
   </Case>
@@ -47,6 +53,14 @@
   }
   .frame.short {
     height: 12rem;
+  }
+  /* The side the panel docks into draws the line between it and the ground, as Shell's side does */
+  .side {
+    display: flex;
+    flex: none;
+    min-height: 0;
+    max-width: 100%;
+    border-right: var(--kata-border-width) solid var(--kata-color-line-strong);
   }
   .pair {
     display: flex;

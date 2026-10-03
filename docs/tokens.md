@@ -115,15 +115,16 @@ in both themes. A shape drawn with a line takes the outline's text and
 cursor differs. Hover does not apply to a disabled control.
 
 `ground` and `panel` are the only independent surfaces: the page's and a
-component's. `surface` names the opaque surface an element sits on. It is
-`ground` on the page; a component that paints panel declares it with the
-`surface($role)` mixin (Panel, Card, Modal, Sheet, Drawer, Floating,
-Board, Menu, Dropdown, Topbar, Banner, Toast, Bubble, Pin, Gtile, Drawbar,
-Select's list, ColorPicker, ChipValue, Presence's roster). A cover,
-something that hides what is under it, paints `surface`: Table's sticky
-column and fill head, TreeRow's actions, Counter's and Presence's rings,
-ColorGrid's ring and ColorPicker's knob. Hover and selection lay raise
-over it.
+component's. In light, raise is as light as ground, so a surface that sits
+on the ground has an edge line. `surface` names the opaque surface an
+element sits on. It is `ground` on the page; a component that paints panel
+declares it with the `surface($role)` mixin (Panel, Card, Modal, Sheet,
+Drawer, Floating, Board, Menu, Dropdown, Topbar, Banner, Toast, Bubble,
+Pin, Gtile, Drawbar, Select's list, ColorPicker, ChipValue, Presence's
+roster). A cover, something that hides what is under it, paints `surface`:
+Table's sticky column and fill head, TreeRow's actions, Counter's and
+Presence's rings, ColorGrid's ring and ColorPicker's knob. Hover and
+selection lay raise over it.
 
 ### Text and lines
 

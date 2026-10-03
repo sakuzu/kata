@@ -33,55 +33,57 @@
 <Example>
   <Case label="A head with the title and an action; groups stacked with gap 0; a list that reaches the edges; a Footer">
     <div class="frame">
-      <Panel side="panel" label="Page">
-        {#snippet head()}
-          <Toolbar title="Page" rule tail>
-            {#snippet end()}
-              <Button variant="ghost" icon aria-label="Close"><Icon name="x" /></Button>
-            {/snippet}
-          </Toolbar>
-        {/snippet}
-        <Stack gap={0}>
-          <SectionHeader label="General">
-            <Field label="Name" for="panel-name">
-              <TextInput id="panel-name" bind:value={name} />
-            </Field>
-          </SectionHeader>
-          <SectionHeader label="Paper" gap="md">
-            <Segmented
-              ariaLabel="Size"
-              bind:value={size}
-              options={[
-                { value: 'a4', label: 'A4' },
-                { value: 'a3', label: 'A3' },
-                { value: 'letter', label: 'Letter' },
-              ]}
-            />
-            <Toggle bind:checked={margins} label="Margins" between />
-          </SectionHeader>
-          <SectionHeader label="Pages" flush>
-            {#snippet actions()}
-              <Button variant="ghost" icon aria-label="Add a page"><Icon name="plus" /></Button>
-            {/snippet}
-            <List label="Pages">
-              {#each pages as p (p.id)}
-                <ListItem columns="minmax(0, 1fr)" sel={picked === p.id} onclick={() => (picked = p.id)}>
-                  <span>{p.name}</span>
-                </ListItem>
-              {/each}
-            </List>
-          </SectionHeader>
-          <Block>
-            <Text role="caption" muted>The content scrolls when it is taller than the panel.</Text>
-          </Block>
-        </Stack>
-        {#snippet foot()}
-          <Footer>
-            {#snippet cancel()}<Button>Reset</Button>{/snippet}
-            {#snippet primary()}<Button variant="primary">Apply</Button>{/snippet}
-          </Footer>
-        {/snippet}
-      </Panel>
+      <div class="side">
+        <Panel side="panel" label="Page">
+          {#snippet head()}
+            <Toolbar title="Page" rule tail>
+              {#snippet end()}
+                <Button variant="ghost" icon aria-label="Close"><Icon name="x" /></Button>
+              {/snippet}
+            </Toolbar>
+          {/snippet}
+          <Stack gap={0}>
+            <SectionHeader label="General">
+              <Field label="Name" for="panel-name">
+                <TextInput id="panel-name" bind:value={name} />
+              </Field>
+            </SectionHeader>
+            <SectionHeader label="Paper" gap="md">
+              <Segmented
+                ariaLabel="Size"
+                bind:value={size}
+                options={[
+                  { value: 'a4', label: 'A4' },
+                  { value: 'a3', label: 'A3' },
+                  { value: 'letter', label: 'Letter' },
+                ]}
+              />
+              <Toggle bind:checked={margins} label="Margins" between />
+            </SectionHeader>
+            <SectionHeader label="Pages" flush>
+              {#snippet actions()}
+                <Button variant="ghost" icon aria-label="Add a page"><Icon name="plus" /></Button>
+              {/snippet}
+              <List label="Pages">
+                {#each pages as p (p.id)}
+                  <ListItem columns="minmax(0, 1fr)" sel={picked === p.id} onclick={() => (picked = p.id)}>
+                    <span>{p.name}</span>
+                  </ListItem>
+                {/each}
+              </List>
+            </SectionHeader>
+            <Block>
+              <Text role="caption" muted>The content scrolls when it is taller than the panel.</Text>
+            </Block>
+          </Stack>
+          {#snippet foot()}
+            <Footer>
+              {#snippet cancel()}<Button>Reset</Button>{/snippet}
+              {#snippet primary()}<Button variant="primary">Apply</Button>{/snippet}
+            </Footer>
+          {/snippet}
+        </Panel>
+      </div>
     </div>
   </Case>
 </Example>
@@ -92,5 +94,13 @@
     display: flex;
     height: 34rem;
     background: var(--kata-color-ground);
+  }
+  /* The side the panel docks into draws the line between it and the ground, as Shell's side does */
+  .side {
+    display: flex;
+    flex: none;
+    min-height: 0;
+    max-width: 100%;
+    border-right: var(--kata-border-width) solid var(--kata-color-line-strong);
   }
 </style>
