@@ -9,6 +9,11 @@
   // and pad-sm at the sides. Enter commits and Escape restores. When the text is emptied, the
   // application decides the name that takes its place.
   //
+  // Resting (read, or the add action), it has no line and no surface, so it is text without an
+  // edge: the edge flags pass through it (data-pass), and at the edge of a container the room its
+  // box keeps above or below the ink is trimmed, so that the distance is measured from the text, as
+  // from Text at an edge. Edited, it keeps its box.
+  //
   // Three states:
   //   empty and editable    a text action, "+ placeholder"
   //   a value and editable  the text and a pencil; pressing it edits
@@ -133,31 +138,29 @@
   </span>
 {:else if !editable}
   {#if value !== ''}
-    <span
-      class="ie read"
-      class:title
-      class:multi={multiline}
-      data-role="box"
-      data-h={multiline ? undefined : 'button'}><span class="t clamp">{value}</span></span
-    >
+    <span class="ie read rest" class:title class:multi={multiline} data-role="box" data-pass>
+      <span class="lines"><span class="t clamp">{value}</span></span>
+    </span>
   {/if}
 {:else if value !== ''}
   <button
-    class="ie"
+    class="ie rest"
     class:title
     class:multi={multiline}
     type="button"
     aria-label={a11yLabel}
     onclick={start}
     data-role="box"
-    data-h={multiline ? undefined : 'button'}
+    data-pass
   >
-    <span class="t clamp">{value}</span>
-    <span class="pen"><Icon name="pencil" /></span>
+    <span class="lines">
+      <span class="t clamp">{value}</span>
+      <span class="pen"><Icon name="pencil" /></span>
+    </span>
   </button>
 {:else}
-  <button class="add" type="button" aria-label={a11yLabel} onclick={start} data-role="box" data-h="button">
-    <Icon name="plus" /><span class="t">{placeholder}</span>
+  <button class="add rest" type="button" aria-label={a11yLabel} onclick={start} data-role="box" data-pass>
+    <span class="lines"><span class="mark"><Icon name="plus" /></span><span class="t">{placeholder}</span></span>
   </button>
 {/if}
 
@@ -184,11 +187,64 @@
   .title {
     @include text(h2);
   }
-  // Text in a control, trimmed to its ink
+  // Resting (read, or the add action), the room the box keeps above and below the ink is trimmed
+  // at the edge of a container (the edge flags pass through it; they are 0 or 1): the box is
+  // shorter by that room on each side that touches an edge, and has no line there
+  .rest {
+    --kata-inline-edit-room: calc((#{box-h()} - 1em * var(--kata-ink)) / 2);
+    --kata-inline-edit-cut: calc(
+      var(--kata-inline-edit-room) * (var(--kata-at-start, 0) + var(--kata-at-end, 0))
+    );
+    height: calc(#{box-h()} - var(--kata-inline-edit-cut));
+    border-top-width: calc(#{bw()} * (1 - var(--kata-at-start, 0)));
+    border-bottom-width: calc(#{bw()} * (1 - var(--kata-at-end, 0)));
+  }
+  // The content of a resting form: the text, and the icons as high as its ink and centred on it.
+  // As the text of LinkAction, the text keeps its line box in a layout, centred in the box; inside
+  // a component that declares its height (a list item, a toolbar) it is text in a control, trimmed
+  // to its ink. At an edge the line is trimmed on that side and sits on that side of the shorter box
+  .lines {
+    display: flex;
+    align-items: center;
+    gap: gap(sm);
+    min-width: 0;
+  }
+  // The text gives the form its baseline (not the icon before it), so that a name beside it can
+  // stand on the same baseline (a Pair that is top)
+  .lines > .t {
+    align-self: baseline;
+  }
+  @container style(--kata-in-control: 1) {
+    .t {
+      @include trim;
+    }
+  }
+  @container style(--kata-at-start: 1) {
+    .lines {
+      align-self: flex-start;
+      align-items: flex-start;
+    }
+    .t {
+      @include trim-start;
+    }
+  }
+  @container style(--kata-at-end: 1) {
+    .lines {
+      align-self: flex-end;
+      align-items: flex-end;
+    }
+    .t {
+      @include trim-end;
+    }
+  }
+  @container style(--kata-at-start: 1) and style(--kata-at-end: 1) {
+    .t {
+      text-box-trim: trim-both;
+    }
+  }
   .t {
     display: block;
     min-width: 0;
-    @include trim;
   }
   .clamp {
     @include ellipsis;
@@ -203,9 +259,14 @@
     }
   }
   // The sign that the text can be changed: always faintly there, muted on hover
-  .pen {
+  .pen,
+  .mark {
     display: flex;
     flex: none;
+    align-items: center;
+    height: calc(1em * var(--kata-ink));
+  }
+  .pen {
     color: color(faint);
   }
   .read {
@@ -242,13 +303,35 @@
   }
   .multi:not(.editing) {
     display: block;
+    min-height: calc(#{box-h()} - var(--kata-inline-edit-cut));
+    .lines {
+      display: block;
+      height: auto;
+    }
     .clamp {
       display: inline;
     }
     .pen {
       display: inline-flex;
+      height: auto;
       vertical-align: middle;
       margin-left: pad(sm);
+    }
+  }
+  // At an edge, the line of several that touches it is trimmed, as Text at an edge
+  @container style(--kata-at-start: 1) {
+    .multi .lines {
+      @include trim-start;
+    }
+  }
+  @container style(--kata-at-end: 1) {
+    .multi .lines {
+      @include trim-end;
+    }
+  }
+  @container style(--kata-at-start: 1) and style(--kata-at-end: 1) {
+    .multi .lines {
+      text-box-trim: trim-both;
     }
   }
   .ie textarea {
@@ -261,8 +344,6 @@
   .add {
     display: inline-flex;
     align-items: center;
-    gap: gap(sm);
-    height: box-h();
     padding: 0;
     border: 0;
     background: none;
