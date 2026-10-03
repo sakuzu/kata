@@ -61,7 +61,7 @@
     icon?: boolean;
     /** The full width of its container */
     block?: boolean;
-    /** An action in progress: dimmed and not pressable */
+    /** An action in progress: the disabled look with a progress cursor, not pressable */
     busy?: boolean;
     disabled?: boolean;
     /** Selected (a tool in a toolbar) */
@@ -236,20 +236,9 @@
       border-color: color(solid-active);
     }
   }
-  // A disabled primary is not dimmed: it takes a surface of its own, so that it does not read as
-  // a darker primary. A busy one is dimmed as the others are
-  .primary:disabled:not(.busy) {
-    opacity: 1;
-    background: color(solid-disabled);
-    border-color: color(solid-disabled);
-    color: color(solid-disabled-text);
-  }
   // The hint on the fill keeps the fill's text color
   .btn.primary .kbd {
     color: color(on-solid);
-  }
-  .btn.primary:disabled:not(.busy) .kbd {
-    color: color(solid-disabled-text);
   }
   // The same size as the other buttons, with a transparent line
   .ghost {
@@ -298,6 +287,24 @@
   .busy {
     opacity: dim();
     cursor: progress;
+  }
+  // Disabled and busy are the same shape without hue; busy differs only in its cursor. A filled
+  // shape is not dimmed: it takes the disabled surface and its text. A link is not :disabled, so
+  // busy is written as well
+  .btn.primary:disabled,
+  .btn.primary.busy,
+  .btn.danger-fill:disabled,
+  .btn.danger-fill.busy {
+    opacity: 1;
+    background: color(solid-disabled);
+    border-color: color(solid-disabled);
+    color: color(solid-disabled-text);
+  }
+  .btn.primary:disabled .kbd,
+  .btn.primary.busy .kbd,
+  .btn.danger-fill:disabled .kbd,
+  .btn.danger-fill.busy .kbd {
+    color: color(solid-disabled-text);
   }
   // Selected: the stronger surface. The icon of a selected tool turns blue; text keeps its color
   .on {

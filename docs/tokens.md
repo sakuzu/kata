@@ -104,10 +104,15 @@ From the lowest to the highest: `ground` (the page), `panel`, `raise` and
 `raise-2` (translucent, laid over the panel for hover and selection),
 `fill` (an opaque surface of the same weight as raise-2) and `solid` (the
 primary action), with `solid-hover`, `solid-active` and `on-solid` for the
-text on it. A disabled primary action takes `solid-disabled` with
-`solid-disabled-text` instead of being dimmed: the fill's grey with muted
-text in the dark theme, and a paler blue with white text in the light
-one.
+text on it.
+
+Disabled is the same shape without hue. A filled shape (a primary or
+danger-fill button, a Fab, a switch, checkbox or radio that is on, the
+chosen option of a Segmented) takes `solid-disabled` with
+`solid-disabled-text` instead of being dimmed: `fill` with `muted` text,
+in both themes. A shape drawn with a line takes the outline's text and
+`line-strong`, dimmed. Busy uses the same tokens as disabled; only the
+cursor differs. Hover does not apply to a disabled control.
 
 `ground` and `panel` are the only independent surfaces: the page's and a
 component's. `surface` names the opaque surface an element sits on. It is

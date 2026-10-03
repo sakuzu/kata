@@ -85,8 +85,10 @@
       background: color(solid-active);
       transition: none;
     }
+    // A filled shape without hue, not dimmed (as a disabled primary Button)
     &:disabled {
-      opacity: dim();
+      background: color(solid-disabled);
+      color: color(solid-disabled-text);
       cursor: default;
     }
   }
