@@ -46,7 +46,11 @@ the scale says.
   at the bottom; a line of text right above or below a line is trimmed on
   that side. The distance from the edge to the ink is then exactly the
   padding, or the same above and below the line. A [Row](components/row.md)
-  at an edge trims all of its text, so that its items stay level.
+  at an edge trims all of its text, so that its items stay level: each of
+  its items that passes the edge on (a [Stack](components/stack.md), a
+  wrapper, another row) is at the row's edges, whatever its place in the
+  row. [Stats](components/stats.md) passes the edge to every
+  [Stat](components/stat.md) in the same way.
 - Where text aligns to a column. The cells of a
   [Table](components/table.md) and the names and values of a
   [Tcard](components/tcard.md) are trimmed, so that the columns line up by

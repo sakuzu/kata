@@ -17,7 +17,8 @@
  * side that touches the edge. A line ([data-role="rule"]) is a visible edge too, so the child next
  * to it raises the flag again; so is the line along the bottom of Tabs that draw their own
  * ([data-role="tabs"] with data-rule), for the child after it. A horizontal row ([data-edge-pass]) trims all of its text, so that
- * the items of one line stay level.
+ * the items of one line stay level: its items that pass the flags on (a stack, a pass-through
+ * wrapper, another row) take the row's flags whatever their place in it.
  */
 
 :where(:not(:first-child)) {
@@ -29,6 +30,11 @@
 :where([data-role]:not([data-role="stack"]):not([data-pass]):not([data-edge-pass])) {
   --kata-at-start: 0;
   --kata-at-end: 0;
+}
+/* The items of a row at an edge line up: each one that passes the flags on is at the row's edges */
+[data-edge-pass] > :where([data-role="stack"], [data-pass], [data-edge-pass], :not([data-role])) {
+  --kata-at-start: inherit;
+  --kata-at-end: inherit;
 }
 [data-role="rule"] + :where([data-role="stack"], [data-pass], [data-edge-pass], :not([data-role])),
 [data-role="tabs"]:where([data-rule]) + :where([data-role="stack"], [data-pass], [data-edge-pass], :not([data-role])) {
