@@ -1,1 +1,0 @@
-import{E as e,M as t,N as n,Z as r}from"./Stack-DOnYVuF0.js";import{t as i}from"./Section-BPYzuVjz.js";function a(a,o){i(a,{get title(){return o.title},get note(){return o.description},get status(){return o.status},gap:`lg`,children:(i,a)=>{var s=n(),c=r(s);e(c,()=>o.children),t(i,s)},$$slots:{default:!0}})}export{a as t};
