@@ -62,6 +62,8 @@ element inside the example is measured; a finding fails the audit.
 | overlap | The children of a layout do not overlap |
 | crush | Text is never squeezed narrower than two characters |
 | fixed-frame | A Shell or an embedded root is not the frame of fixed elements |
+| scroll-mark | A region that overflows shows a size-sm scrollbar on that axis |
+| thumb | The thumb of that scrollbar reaches 3:1 on the region's surface |
 
 Distances are measured from the edge of what is visible: the outline of a
 component with a line or a surface, a line, the inner edge of a
@@ -89,6 +91,16 @@ measured with a trimmed line placed before the text, and with a Japanese
 root it also takes the CJK ink above and below them, as a trimmed line
 does. The chevron of a Prose summary is drawn by the summary's own
 `::before` and is not measured.
+
+scroll-mark measures every element that overflows on an axis with
+`overflow` auto or scroll ([Regions that
+scroll](layout.md#regions-that-scroll)): the box less its borders and
+its client size on that axis is the track's thickness, within 1.5px, as
+the client size is whole pixels and the scrollbar snaps to them. A
+hidden scrollbar measures 0. thumb composes `thumb` over the surface of
+the region and its ancestors, as contrast does for text. The audit runs
+Chromium without Playwright's hidden scrollbars, and hides only the
+page's own scrollbar, so that the three widths are the content's.
 
 near measures a control with a description (a radio, a checkbox or a
 switch, which marks itself `data-control`) that another control

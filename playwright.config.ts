@@ -13,6 +13,8 @@ export default defineConfig({
   use: {
     baseURL: `http://localhost:${PORT}`,
     browserName: 'chromium',
+    // Playwright hides every scrollbar in a headless Chromium; kata's scrollbars are measured
+    launchOptions: { ignoreDefaultArgs: ['--hide-scrollbars'] },
   },
   webServer: {
     command: `vite preview --config examples/vite.config.mjs --port ${PORT} --strictPort`,

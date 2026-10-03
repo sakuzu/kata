@@ -8,7 +8,7 @@
   // line. The chosen option takes the solid surface; the outer line stays line-strong. The text is
   // trimmed to its ink and centred. Five options or more are a Select. The group is one control, so
   // its root is a box too. It does not wrap and does not shrink its padding: when it does not fit,
-  // it scrolls sideways without a scrollbar.
+  // it scrolls sideways and shows its scrollbar below the options.
   //
   //   <Segmented bind:value options={[{ value: 'grid', label: 'Grid' }, …]} ariaLabel="View" />
   //
@@ -65,10 +65,6 @@
     flex: none;
     max-width: 100%;
     overflow-x: auto;
-    scrollbar-width: none;
-    &::-webkit-scrollbar {
-      display: none;
-    }
   }
   // Each option is a control; from the second on, the line on its left is its neighbour's
   .opt {

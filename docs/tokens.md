@@ -153,8 +153,12 @@ is never carried by color alone.
 
 ### Other
 
-`focus` (the focus ring), `scrim` (the backdrop behind a modal) and
-`selection` (selected text).
+`focus` (the focus ring), `scrim` (the backdrop behind a modal),
+`selection` (selected text), and `thumb` and `thumb-hover` (the thumb of
+a scrollbar). `thumb` is text at the least alpha that reaches 3:1 on
+ground and panel and on raise and raise-2 laid over either;
+`thumb-hover` reaches 4.5:1 on them
+([Regions that scroll](layout.md#regions-that-scroll)).
 
 ## Lines and corners
 
@@ -234,4 +238,8 @@ nothing a component looks like.
 - Links are `blue-ink` and underlined on hover.
 - The focus ring shows for keyboard focus only, two lines wide in `focus`,
   outside the element.
+- Every element inside the body shows its scrollbar at all times, in
+  `thumb` on a transparent track of size-sm; the page's own scrollbar
+  stays the system's ([Regions that
+  scroll](layout.md#regions-that-scroll)).
 - `[hidden]` always hides.

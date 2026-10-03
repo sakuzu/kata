@@ -195,6 +195,10 @@
   --kata-color-faint: rgba(245, 245, 248, 0.48);
   --kata-color-line: rgba(245, 245, 248, 0.17);
   --kata-color-line-strong: rgba(245, 245, 248, 0.32);
+  /* The thumb of a scrollbar: text at the least alpha that reaches 3:1 on ground and panel and on
+   * raise and raise-2 laid over either; on hover, the least that reaches 4.5:1 on them */
+  --kata-color-thumb: rgba(245, 245, 248, 0.44);
+  --kata-color-thumb-hover: rgba(245, 245, 248, 0.64);
   /* Four hues in three roles: ink (text and lines, 7:1 on the panel and on raise), fill (a
    * surface) and on (text on the fill). Fills are the same in both themes; hover and active
    * lower the lightness by 0.05 and 0.10 in OKLCH */
@@ -248,6 +252,8 @@
   --kata-color-faint: rgba(29, 31, 32, 0.5);
   --kata-color-line: rgba(29, 31, 32, 0.16);
   --kata-color-line-strong: rgba(29, 31, 32, 0.32);
+  --kata-color-thumb: rgba(29, 31, 32, 0.51);
+  --kata-color-thumb-hover: rgba(29, 31, 32, 0.66);
   --kata-color-blue-ink: #0029b8;
   --kata-color-blue-fill: #204ec3;
   --kata-color-on-blue: #ffffff;

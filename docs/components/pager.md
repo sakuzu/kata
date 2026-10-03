@@ -26,7 +26,8 @@ Every item keeps its square: nothing in the row shrinks.
 The arrows are disabled at the ends. Nothing shows for a single page.
 It never wraps: when the pages do not fit in its width, the neighbours of
 the current page go (‹ 1 … 5 … 12 ›), and when even that does not fit,
-it scrolls sideways.
+it scrolls sideways and shows its scrollbar below the items, which adds
+to its height.
 The names come from the messages `pagination`, `previousPage`,
 `nextPage` and `page`.
 

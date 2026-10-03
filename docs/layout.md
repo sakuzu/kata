@@ -110,6 +110,28 @@ In script, `createNarrow` and `WIDTHS` measure the window in the same way,
 and the shell inside a Shell
 ([Helpers](components/README.md#helpers)).
 
+## Regions that scroll
+
+A region that scrolls shows its scrollbar at all times, on both axes,
+drawn in kata's colors, so that a list cut at the edge of its region
+still says that more follows. A scrollbar is never hidden.
+
+- The base CSS draws the scrollbar of every element inside the body:
+  the track is size-sm thick and transparent, without arrows and with
+  square ends; the thumb is `thumb`, size-xs thick in the middle of the
+  track, and fills the track in `thumb-hover` under the pointer. The
+  thumb reaches 3:1 on the ground and the panel.
+- The page's own scrollbar is the system's.
+- No room is kept for a scrollbar: when a region overflows, its content
+  narrows by the scrollbar.
+- A scrollbar never squeezes a control. Where a region's width or height
+  is set by its controls, the scrollbar adds to it: the column of a
+  [Drawbar](components/drawbar.md) grows wider by its scrollbar, and a
+  [Pager](components/pager.md), a [Table](components/table.md) or a
+  [Segmented](components/segmented.md) that scrolls sideways grows taller.
+- Firefox takes the thin scrollbar of the system in the thumb's color;
+  on macOS it follows the system's setting and may hide it.
+
 ## Embedding kata in a page you do not own
 
 kata usually owns the page: the tokens are defined on `:root`, the base

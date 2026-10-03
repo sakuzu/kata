@@ -123,6 +123,43 @@ a:hover {
   background: var(--kata-color-selection);
 }
 
+/*
+ * A region that scrolls shows its scrollbar at all times, on both axes, in kata's colors: the
+ * styled scrollbar of Chromium and Safari is never an overlay. The track is size-sm and
+ * transparent, without arrows; the thumb is drawn size-xs thick in its middle (a transparent
+ * border, with the background inside it) and fills the track on hover. The page's own scrollbar
+ * (the viewport's) stays the system's. No gutter is reserved: a region that overflows narrows its
+ * content by the scrollbar.
+ */
+body *::-webkit-scrollbar {
+  width: var(--kata-size-sm-rem);
+  height: var(--kata-size-sm-rem);
+  background: transparent;
+}
+body *::-webkit-scrollbar-thumb {
+  background: var(--kata-color-thumb);
+  background-clip: padding-box;
+  border: calc((var(--kata-size-sm-rem) - var(--kata-size-xs-rem)) / 2) solid transparent;
+}
+body *::-webkit-scrollbar-thumb:hover {
+  background: var(--kata-color-thumb-hover);
+  border-width: 0;
+}
+body *::-webkit-scrollbar-button {
+  display: none;
+}
+body *::-webkit-scrollbar-corner {
+  background: transparent;
+}
+/* Where the styled scrollbar is not supported (Firefox), the standard properties: thin, in the
+ * thumb's color. Set anywhere else, they would switch the styled scrollbar off */
+@supports not selector(::-webkit-scrollbar) {
+  body * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--kata-color-thumb) transparent;
+  }
+}
+
 [hidden] {
   /* biome-ignore lint/complexity/noImportantStyles: the attribute must win over component styles */
   display: none !important;

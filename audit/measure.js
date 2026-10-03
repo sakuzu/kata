@@ -47,6 +47,10 @@
 //   fixed-frame    a size container (a Shell's root) and an embedded root ([data-kata-root]) are not
 //                  the containing block of fixed elements, so that the tooltips, menus and popovers
 //                  inside them still place themselves against the window
+//   scroll-mark    a region that overflows on an axis (overflow auto or scroll) shows a scrollbar of
+//                  the track's thickness (size-sm) on that axis
+//   thumb          the thumb of that scrollbar (--kata-color-thumb) reaches 3:1 on the region's
+//                  surface
 //
 // data-kata-skip marks what a browser or another library draws; it is not measured.
 
@@ -457,22 +461,24 @@
     probe.remove();
     return c;
   }
+  /** The surface behind an element: the opaque and translucent surfaces of it and its ancestors,
+   * composed over the ground */
+  function surfaceOfEl(el, ground) {
+    const layers = [];
+    for (let a = el; a && a.nodeType === 1; a = a.parentElement) {
+      const c = parseColor(getComputedStyle(a).backgroundColor);
+      if (!c || c[3] <= 0) continue;
+      const alpha = c[3] * opacityProduct(a);
+      layers.push({ c, alpha });
+      if (alpha >= 0.999) break;
+    }
+    let out = [ground[0], ground[1], ground[2]];
+    for (let i = layers.length - 1; i >= 0; i--) out = mix(layers[i].c, layers[i].alpha, out);
+    return out;
+  }
   function contrast(root, bad) {
     const GROUND = tokenColor('--kata-color-ground');
-    // The surface behind an element: the opaque and translucent surfaces of its ancestors, composed
-    const bgOf = (el) => {
-      const layers = [];
-      for (let a = el; a && a.nodeType === 1; a = a.parentElement) {
-        const c = parseColor(getComputedStyle(a).backgroundColor);
-        if (!c || c[3] <= 0) continue;
-        const alpha = c[3] * opacityProduct(a);
-        layers.push({ c, alpha });
-        if (alpha >= 0.999) break;
-      }
-      let out = [GROUND[0], GROUND[1], GROUND[2]];
-      for (let i = layers.length - 1; i >= 0; i--) out = mix(layers[i].c, layers[i].alpha, out);
-      return out;
-    };
+    const bgOf = (el) => surfaceOfEl(el, GROUND);
     for (const el of [root, ...root.querySelectorAll('*')]) {
       if (el.tagName === 'SCRIPT' || el.tagName === 'STYLE' || el.tagName === 'OPTION') continue;
       if (el.tagName === 'svg' || el.closest('svg')) continue;
@@ -513,6 +519,51 @@
     }
     if (prev && prev !== document.body && typeof prev.focus === 'function')
       prev.focus({ preventScroll: true });
+  }
+
+  // ---- Scrolling --------------------------------------------------------------------------------
+
+  /**
+   * Every region that overflows on an axis (overflow auto or scroll) shows a scrollbar of the
+   * track's thickness (size-sm) on that axis, and its thumb reaches 3:1 on the region's surface.
+   * The thickness is the box less its borders and its client size; the client size is whole pixels
+   * and the scrollbar snaps to them, so it is within 1.5px of the track.
+   */
+  function scrollMark(root, bad) {
+    const GROUND = tokenColor('--kata-color-ground');
+    const track = pxOf('var(--kata-size-sm-rem)');
+    for (const el of [root, ...root.querySelectorAll('*')]) {
+      if (!visible(el) || skipped(el) || el.closest('svg')) continue;
+      const cs = getComputedStyle(el);
+      const x = /auto|scroll/.test(cs.overflowX) && el.scrollWidth > el.clientWidth;
+      const y = /auto|scroll/.test(cs.overflowY) && el.scrollHeight > el.clientHeight;
+      if (!x && !y) continue;
+      const r = el.getBoundingClientRect();
+      const px = (v) => Number.parseFloat(v) || 0;
+      const bars = {
+        y: r.width - px(cs.borderLeftWidth) - px(cs.borderRightWidth) - el.clientWidth,
+        x: r.height - px(cs.borderTopWidth) - px(cs.borderBottomWidth) - el.clientHeight,
+      };
+      for (const axis of ['x', 'y']) {
+        if (!(axis === 'x' ? x : y)) continue;
+        if (Math.abs(bars[axis] - track) > 1.5)
+          bad.push({
+            kind: 'scroll-mark',
+            el: label(el),
+            axis,
+            v: +bars[axis].toFixed(1),
+            want: +track.toFixed(1),
+          });
+      }
+      const thumb = parseColor(cs.getPropertyValue('--kata-color-thumb').trim());
+      if (!thumb) {
+        bad.push({ kind: 'thumb', el: label(el), v: 'no --kata-color-thumb' });
+        continue;
+      }
+      const bg = surfaceOfEl(el, GROUND);
+      const ratio = ratioOf(mix(thumb, thumb[3], bg), bg);
+      if (ratio < 3 - 0.05) bad.push({ kind: 'thumb', el: label(el), ratio: +ratio.toFixed(2) });
+    }
   }
 
   // ---- Lines ------------------------------------------------------------------------------------
@@ -1184,6 +1235,7 @@
       overlap(root, bad);
       crush(root, bad);
       fixedFrame(root, bad);
+      scrollMark(root, bad);
     }
     return { roots: roots.length, findings: bad };
   };

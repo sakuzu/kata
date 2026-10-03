@@ -26,7 +26,9 @@ line. The chosen option takes the solid surface while the outer line
 stays line-strong. A disabled option is dimmed; a chosen one takes the
 solid-disabled surface and its text instead, not dimmed. The text is
 trimmed to its ink. The group does not wrap and does not shrink its
-padding: when it does not fit, it scrolls sideways without a scrollbar.
+padding: when it does not fit, it scrolls sideways and shows its
+scrollbar below the options, which adds to its height
+([Regions that scroll](../layout.md#regions-that-scroll)).
 The focus ring is drawn inside an option.
 
 ## Example

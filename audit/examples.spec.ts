@@ -27,8 +27,12 @@ for (const name of names) {
     await page.setViewportSize({ width: WIDTHS[0], height: 1000 });
     await page.goto(`/${name}/`, { waitUntil: 'networkidle' });
     await page.evaluate(() => document.fonts.ready);
-    // Switch without transitions, so that no colour is measured halfway
-    await page.addStyleTag({ content: '*, *::before, *::after { transition: none !important; }' });
+    // Switch without transitions, so that no colour is measured halfway. The page's own scrollbar
+    // (the system's) takes no width on any system, so that the widths are the widths of the content
+    await page.addStyleTag({
+      content:
+        '*, *::before, *::after { transition: none !important; } html { scrollbar-width: none; }',
+    });
     await page.addScriptTag({ path: new URL('./measure.js', import.meta.url).pathname });
 
     // One line per finding, with the conditions under which it occurs
