@@ -1,12 +1,10 @@
 <script lang="ts">
   import {
     Block,
-    InlineEdit,
     NumberInput,
     Pair,
     Select,
     Stack,
-    Text,
     Textarea,
     TextInput,
   } from '@sakuzu/kata/svelte';
@@ -18,8 +16,6 @@
   let width = $state<number | null>(2);
   let note = $state('A note that runs over two lines, written by the person who drew it.');
   let kind = $state('line');
-  let description = $state('');
-  let about = $state('A hall for the weekly market.');
 </script>
 
 <Example>
@@ -49,24 +45,6 @@
       <Block>
         <Pair label="Note" top><Textarea bind:value={note} ariaLabel="Note" /></Pair>
       </Block>
-    </Surface>
-  </Case>
-  <Case label="top with InlineEdit at the edge of a Block: the name is level with the text">
-    <Surface width="28rem">
-      <Stack gap={0}>
-        <Block>
-          <Pair label="Description" top>
-            <InlineEdit bind:value={description} multiline placeholder="Add a description" onCommit={() => {}} />
-          </Pair>
-        </Block>
-        <Block><Text>The next block</Text></Block>
-        <Block>
-          <Pair label="Description" top>
-            <InlineEdit bind:value={about} multiline placeholder="Add a description" label="Description" onCommit={() => {}} />
-          </Pair>
-        </Block>
-        <Block><Text>The next block</Text></Block>
-      </Stack>
     </Surface>
   </Case>
   <Case label="Read: text to read; muted, mono with clamp, and a link as the name">

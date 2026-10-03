@@ -33,10 +33,6 @@ above the inputs uses [Field](field.md).
 
 The name column is 7.5rem wide, gap-sm from the value, and the name is
 muted, trimmed to its ink and level with the first line of the value.
-The name of a `top` pair stands on the baseline of the value's first
-line, and the pair passes the edge flags on to its value: an
-[InlineEdit](inline-edit.md) at rest is trimmed at the edge of a
-container, and the name follows it.
 An edit pair has the height of a button (`--kata-box`) and its control
 fills the column. A read pair, a pair with a note and a `top` pair take
 the height of their content; the note, a caption in the color of the

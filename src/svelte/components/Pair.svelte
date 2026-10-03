@@ -9,11 +9,10 @@
   //   edit (the default)  the value is a control; the height is a button's
   //   read                the value is text to read (a summary, the attributes of a thing); the
   //                       height follows the content and the pair is not a control
-  //   top                 the value has several lines (a Textarea); the name on its first line
+  //   top                 the value has several lines (a Textarea); aligned at the top
   //
   // The name is trimmed to its ink and level with the first line of the value (with a control,
-  // with the text inside it). A top pair passes the edge flags on to its value, so that text
-  // without an edge (an InlineEdit at rest) is trimmed at the edge of a container. Edit and read pairs are not mixed in one column. Pairs are gap-sm
+  // with the text inside it). Edit and read pairs are not mixed in one column. Pairs are gap-sm
   // apart in a Stack; a column of read pairs is a Kv. The pair owns the padding at its sides: the
   // inset its container declares (none inside a container with padding).
   //
@@ -72,7 +71,6 @@
   class:noted={!!note}
   data-role="pair"
   data-h={note ? undefined : h}
-  data-edge-pass={top ? '' : undefined}
 >
   {#if htmlFor}
     <label class="k" for={htmlFor} style:--kata-pair-depth={indent}>{label}</label>
@@ -167,12 +165,13 @@
     grid-column: 2;
     @include text(caption);
   }
-  // A value of several lines: the name stands on the baseline of the value's first line, the text
-  // inside a control or the text of an InlineEdit, which is trimmed at the edge of a container (the
-  // pair passes the edge flags on to it); so the name follows the same measure
+  // A value of several lines: the name sits at the centre of the first line of the control
   .top {
-    align-items: baseline;
+    align-items: start;
     height: auto;
+    .k {
+      padding-top: calc((#{box-h()} - 1em * var(--kata-ink)) / 2 + var(--kata-ink-over) * 1em);
+    }
   }
   .noted {
     height: auto;
