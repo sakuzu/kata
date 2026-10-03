@@ -94,12 +94,14 @@ describe('overflowEdges', () => {
     expect(el.hasAttribute('data-overflow-end')).toBe(true);
   });
 
-  it('is on the frame of a Table', () => {
+  // The scrollbar is the sign that a region scrolls; the attachment stays exported until the next
+  // major version, and no component uses it
+  it('is not on the frame of a Table', () => {
     const head = createRawSnippet(() => ({ render: () => '<th>Name</th>' }));
     const children = createRawSnippet(() => ({ render: () => '<tr><td>Report</td></tr>' }));
     const { container } = render(Table, { head, children });
     const wrap = container.querySelector<HTMLElement>('.wrap');
     expect(wrap).not.toBeNull();
-    expect(observers.some((o) => o.targets.includes(wrap as HTMLElement))).toBe(true);
+    expect(observers.some((o) => o.targets.includes(wrap as HTMLElement))).toBe(false);
   });
 });

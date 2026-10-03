@@ -7,6 +7,9 @@ import type { Attachment } from 'svelte/attachments';
 // or its content changes size, and writes in the next animation frame.
 //
 //   <div class="scroller" {@attach overflowEdges()}>…</div>
+//
+// It is no longer the sign that a region scrolls: every region shows its scrollbar (the base CSS),
+// and no component uses it. It stays exported until the next major version, which removes it.
 
 /** Marks the edges of a sideways scroller that have content beyond them */
 export function overflowEdges(): Attachment<HTMLElement> {

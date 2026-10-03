@@ -43,12 +43,14 @@ and md above and below. `rows` raises the least height of every row to a
 list item that holds a mark, a small button, a thumbnail or two lines,
 so that the rows line up. Cells have pad-sm at the sides, the outer
 columns pad-md; their text is trimmed to its ink and does not wrap, so a
-wide table scrolls sideways in its own frame, and a strong line marks
-the edge that still has columns beyond it. Controls in a cell are small
+wide table scrolls sideways in its own frame and shows its scrollbar
+below the rows, which adds to its height ([Regions that
+scroll](../layout.md#regions-that-scroll)). Controls in a cell are small
 buttons. Hover and selection show the raise surface; a selected row has
 a blue line of two at the left. With `fill` the headers stay at the top
 and with `sticky` the first column stays at the start, both on the
-surface the table sits on, while the others scroll under them.
+surface the table sits on, while the others scroll under them; the
+scrollbars of `fill` take their room from the rows.
 
 ## Example
 

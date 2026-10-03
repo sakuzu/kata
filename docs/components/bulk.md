@@ -23,8 +23,9 @@ It is as high as a toolbar, with pad-md at the sides, on the raise
 surface with a strong line. The count, the words and the actions are
 gap-sm apart and trimmed to their ink; the actions sit at the right end
 and are small buttons. When they do not fit, the bar scrolls sideways
-instead of wrapping, and a strong line marks the edge that still has
-actions beyond it.
+instead of wrapping and shows its scrollbar along its bottom, inside the
+height of a toolbar
+([Regions that scroll](../layout.md#regions-that-scroll)).
 
 ## Example
 

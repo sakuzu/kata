@@ -1,12 +1,11 @@
 <script lang="ts">
   import '../styles/components.css';
   import type { Snippet } from 'svelte';
-  import { overflowEdges } from '../lib/overflowEdges.js';
 
   // Bulk: the bar of actions on a selection: the number of selected items, a word for them, and the
   // actions at the right end. It is as high as a toolbar, with pad-md at the sides and small buttons
   // inside, on the raise surface with a strong line. When the actions do not fit, the bar scrolls
-  // sideways instead of wrapping, and a line marks the edge that has more.
+  // sideways instead of wrapping, and shows its scrollbar.
   //
   //   <Bulk count={n} label="selected">{#snippet actions()}<Button>Move</Button>{/snippet}</Bulk>
   let {
@@ -22,7 +21,7 @@
   } = $props();
 </script>
 
-<div class="bulk" data-role="bulk" data-h="toolbar" {@attach overflowEdges()}>
+<div class="bulk" data-role="bulk" data-h="toolbar">
   <span class="t n">{count}</span>
   <span class="t">{label}</span>
   <span class="sp"></span>
@@ -42,7 +41,6 @@
     background: color(raise);
     border: bw() solid color(line-strong);
     overflow-x: auto;
-    @include overflow-edges;
     @include text(body);
     @include scope-box(button-sm);
     > :global(*) {

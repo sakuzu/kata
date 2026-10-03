@@ -41,3 +41,29 @@ for (const [name, trigger] of [
     }).toPass({ timeout: 3000 });
   });
 }
+
+// Safari draws kata's scrollbar too, and at all times: the narrow Bulk, which scrolls sideways,
+// shows a scrollbar of the track's thickness (size-sm) without being scrolled or hovered.
+test('bulk: a bar that scrolls sideways shows its scrollbar', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 1000 });
+  await page.goto('/bulk/', { waitUntil: 'networkidle' });
+  const bars = page.locator('[data-role="bulk"]');
+  await expect(bars).toHaveCount(2);
+  const m = await bars.nth(1).evaluate((el) => {
+    const cs = getComputedStyle(el);
+    const probe = document.createElement('div');
+    probe.style.cssText =
+      'position:absolute;visibility:hidden;width:0;height:var(--kata-size-sm-rem)';
+    document.body.appendChild(probe);
+    const track = probe.getBoundingClientRect().height;
+    probe.remove();
+    const borders = Number.parseFloat(cs.borderTopWidth) + Number.parseFloat(cs.borderBottomWidth);
+    return {
+      track,
+      bar: el.getBoundingClientRect().height - borders - el.clientHeight,
+      scrolls: el.scrollWidth > el.clientWidth,
+    };
+  });
+  expect(m.scrolls, 'the bar scrolls sideways').toBe(true);
+  expect(Math.abs(m.bar - m.track), 'a scrollbar of the track').toBeLessThan(1.5);
+});

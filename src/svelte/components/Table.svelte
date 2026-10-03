@@ -1,7 +1,6 @@
 <script lang="ts">
   import '../styles/components.css';
   import type { Snippet } from 'svelte';
-  import { overflowEdges } from '../lib/overflowEdges.js';
 
   // Table: rows of values in aligned columns. The column headers are the body size in the heavy
   // weight, with a line under them and the height of a list item. A cell is at least as tall as a
@@ -49,7 +48,7 @@
   } = $props();
 </script>
 
-<div class="wrap" class:fill bind:this={el} {onscroll} data-role="table" {@attach overflowEdges()}>
+<div class="wrap" class:fill bind:this={el} {onscroll} data-role="table">
   <table class="table" class:dividers class:sticky data-role="table" data-rows={rows}>
     <thead><tr>{@render head()}</tr></thead>
     <tbody>{@render children()}</tbody>
@@ -59,11 +58,10 @@
 <style lang="scss">
   @use '../styles/kata' as *;
 
-  // A table wider than its frame scrolls sideways, and a line marks the edge that has more
+  // A table wider than its frame scrolls sideways and shows its scrollbar
   .wrap {
     min-width: 0;
     overflow-x: auto;
-    @include overflow-edges;
   }
   .fill {
     height: 100%;
