@@ -62,10 +62,14 @@
     align-items: baseline;
     gap: gap(sm);
     min-height: h(button-sm);
+    // The inset of the container, taken once: the content takes none
     padding-inline: inset();
     min-width: 0;
     cursor: pointer;
     @include text(body);
+    > * {
+      --kata-inset: 0px;
+    }
   }
   .between {
     justify-content: space-between;

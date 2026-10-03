@@ -75,6 +75,10 @@
     min-width: 0;
     padding-inline: var(--kata-inset, #{pad(md)});
     @include scope-box(button-sm);
+    // The comment takes the inset, so its content takes none
+    > * {
+      --kata-inset: 0px;
+    }
   }
   // The head: the avatar, then the name and the actions on the first line and the time on the
   // second, pad-md above and below. Its columns are the comment's, so the body lines up with the

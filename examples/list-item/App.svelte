@@ -1,12 +1,24 @@
 <script lang="ts">
   import Ellipsis from '@lucide/svelte/icons/ellipsis';
   import FileText from '@lucide/svelte/icons/file-text';
-  import { Button, Icon, List, ListItem, Stack, Text, Toggle } from '@sakuzu/kata/svelte';
+  import {
+    Button,
+    Checkbox,
+    Icon,
+    List,
+    ListItem,
+    Panel,
+    Stack,
+    Text,
+    Toggle,
+  } from '@sakuzu/kata/svelte';
   import Case from '../_shared/Case.svelte';
   import Example from '../_shared/Example.svelte';
   import Surface from '../_shared/Surface.svelte';
 
   let on = $state(true);
+  let snap = $state(true);
+  let shared = $state(false);
 </script>
 
 <Example>
@@ -41,6 +53,25 @@
         </ListItem>
       </List>
     </Surface>
+  </Case>
+  <Case label="In a panel, a Toggle (between) and a Checkbox among plain items: the names at the same x">
+    <Panel side="panel" fit label="Settings">
+      <List>
+        <ListItem columns="minmax(0, 1fr)" plain rule>
+          <span>Grid</span>
+        </ListItem>
+        <ListItem columns="minmax(0, 1fr)" plain rule>
+          <Toggle bind:checked={snap} label="Snap to grid" between />
+        </ListItem>
+        <ListItem columns="minmax(0, 1fr)" plain rule>
+          <Checkbox bind:checked={shared} label="Share with the team" />
+        </ListItem>
+        <ListItem columns="minmax(0, 1fr) auto" plain rule>
+          <span>Notifications</span>
+          <Toggle bind:checked={on} ariaLabel="Notifications" />
+        </ListItem>
+      </List>
+    </Panel>
   </Case>
   <Case label="A title and a caption (the item grows), and tail with an icon button">
     <Surface width="22.5rem">

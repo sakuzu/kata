@@ -102,9 +102,13 @@
     flex: none;
     height: box-h();
     // The pair owns the padding at its sides, so that the control never touches the container's
-    // edge: the inset of a container without padding, 0 inside one with padding
+    // edge: the inset of a container without padding, 0 inside one with padding. The pair takes
+    // the inset, so the control in it takes none
     padding-inline: inset();
     @include text(body);
+    > * {
+      --kata-inset: 0px;
+    }
   }
   // A read pair has no height; the name is level with the first line of the value
   .read {

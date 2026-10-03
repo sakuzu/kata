@@ -63,10 +63,14 @@
     align-items: center;
     gap: gap(sm);
     height: h(button-sm);
+    // The inset of the container, taken once: the content takes none
     padding-inline: inset();
     min-width: 0;
     cursor: pointer;
     @include text(body);
+    > * {
+      --kata-inset: 0px;
+    }
   }
   // The control has a fixed height, so the text is one line
   .t {

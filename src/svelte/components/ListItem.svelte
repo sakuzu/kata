@@ -119,7 +119,8 @@
     min-height: var(--kata-list-item-height, #{h(list-item)});
     position: relative;
     // The container decides the padding at the sides: md in one without padding, 0 in one with
-    // padding. Without a declaration the item keeps md
+    // padding. Without a declaration the item keeps md. The item takes the inset, so its content
+    // takes none
     padding-inline: var(--kata-inset, #{pad(md)});
     min-width: 0;
     width: 100%;
@@ -132,6 +133,7 @@
     @include row-content;
     > :global(*) {
       min-width: 0;
+      --kata-inset: 0px;
     }
     // Bare text in the item is text inside a control: trimmed to its ink, centred and one line
     > :global(:where(span, a, p):not([data-role]):not([data-h])) {

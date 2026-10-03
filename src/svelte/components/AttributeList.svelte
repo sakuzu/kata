@@ -205,7 +205,8 @@
     min-width: 0;
   }
   // One attribute: the name in the column of a Pair's name, the value, and the action at the end.
-  // The row owns the padding at its sides: the inset of its container.
+  // The row owns the padding at its sides: the inset of its container, so what is in it takes
+  // none.
   .row {
     display: grid;
     grid-template-columns: 7.5rem minmax(0, 1fr) auto;
@@ -215,6 +216,9 @@
     flex: none;
     height: box-h();
     padding-inline: inset();
+    > * {
+      --kata-inset: 0px;
+    }
   }
   .k,
   .v,

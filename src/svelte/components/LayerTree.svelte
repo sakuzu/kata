@@ -521,8 +521,10 @@
     flex: none;
     padding-left: calc(#{pad(md)} + var(--kata-tree-depth, 0) * #{pad(md)});
     padding-right: var(--kata-inset, #{pad(md)});
+    // The rows take the inset, so what is under them takes none
     > :global(*) {
       grid-column: 2;
+      --kata-inset: 0px;
     }
   }
   .subrows.marked {
