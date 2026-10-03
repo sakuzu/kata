@@ -13,6 +13,7 @@
 //   margin-top: off(h1);        the distance below a heading (inside Prose only)
 //   color: color(muted);        a color token
 //   @include trim;              text inside a control only
+//   @include seat(h(icon));     a mark beside text, centred on the ink of its first line
 //   @include narrow { … }       below 48rem (mid: below 64rem, tiny: below 24rem)
 
 @function fs($role) {
@@ -94,6 +95,22 @@
   text-box: none;
   padding-top: 0;
   padding-bottom: 0;
+}
+
+// The seat of a mark beside text that may wrap (an icon, a switch, a badge): a box of height $h
+// that centres the mark, with the baseline of a trimmed line centred in it. The layout around it
+// aligns by first baseline, so the mark is centred on the ink of the first line of the text. A
+// seat of height 0 hangs the mark without making the line taller. The seat's font size is that of
+// the text beside it.
+@mixin seat($h) {
+  display: inline-flex;
+  align-items: center;
+  flex: none;
+  height: $h;
+  &::before {
+    content: '\200b' / '';
+    @include trim;
+  }
 }
 
 // A type role: size, leading, tracking, the wrapping of its lines, and the weight of the roles that

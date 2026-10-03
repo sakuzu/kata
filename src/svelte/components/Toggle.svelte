@@ -73,17 +73,10 @@
   .indent {
     padding-left: pad(md);
   }
-  // The switch, centred in the height of a small button. An empty line of text, trimmed and centred
-  // as the text would be, gives the seat the baseline of a centred line
+  // The switch, centred in the height of a small button: a seat, whose baseline is that of a
+  // trimmed line centred in it
   .seat {
-    display: flex;
-    align-items: center;
-    flex: none;
-    height: h(button-sm);
-    &::before {
-      content: '\200b' / '';
-      @include trim;
-    }
+    @include seat(h(button-sm));
   }
   // The text, with about the room of the seat below its last line when it wraps (one line leaves
   // it inside the seat's height)

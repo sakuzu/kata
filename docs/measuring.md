@@ -66,6 +66,33 @@ The descenders still reach below the trimmed box, so trimmed text never
 clips its vertical overflow: a trimmed line that ends in an ellipsis is
 clipped sideways only.
 
+## A mark beside text
+
+A mark beside text that may wrap (an icon, a switch, a badge) is centred
+on the ink of the text's first line. It sits in a seat whose baseline is
+that of a trimmed line centred in it, and the layout aligns by first
+baseline. A seat of no height hangs the mark without making the line
+taller.
+
+```text
+  seat (height of the mark)          the text beside it
+  ┌──────────┐
+  │          │                       Cap height to baseline of the
+  │   mark   │ ─ ─ centre of ─ ─ ─   first line, wherever the text
+  │          │     the ink           wraps
+  └──────────┘                       second line
+```
+
+The seat is the `seat` mixin of the components' styles, and its font size
+is that of the text beside it. The ink is the one of the root's language,
+so with a Japanese root the mark is centred on the CJK ink, not on the
+cap height. Wherever the text wraps and wherever it is trimmed, the mark
+stays on its first line: a [Toggle](components/toggle.md), a
+[Banner](components/banner.md), a [Note](components/note.md), a
+[Markbox](components/markbox.md) in a [Row](components/row.md) with
+`align="first"`, the summary of a folded part in
+[Prose](components/prose.md), and the end of a [Text](components/text.md).
+
 ## Padding and gaps
 
 Every distance is one of two scales, and each property takes only one.
