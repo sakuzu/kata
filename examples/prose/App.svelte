@@ -49,5 +49,9 @@
       <summary>More options</summary>
       <p>A folded part opens when its summary is pressed.</p>
     </details>
+    <details>
+      <summary>What happens to the shapes of a layer when it is deleted</summary>
+      <p>A summary that wraps keeps its chevron on its first line.</p>
+    </details>
   </Prose>
 </Example>

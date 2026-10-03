@@ -28,6 +28,11 @@ scrolls sideways. The anchor of a heading, a link marked
 `data-role="heading-anchor"` inside it, shows only while the heading is
 hovered or holds the focus.
 
+The summary of a folded part is body text at the label weight after a
+chevron of the icon size, which turns down when the part is open. The
+chevron is centred on the ink of the summary's first line, so a summary
+that wraps keeps it there ([a mark beside text](../measuring.md#a-mark-beside-text)).
+
 ## Example
 
 [Prose](../../examples/prose/)

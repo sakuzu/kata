@@ -53,12 +53,15 @@
   }
   // A folded part: the summary is body text at the label weight after a chevron, which turns down
   // when the part is open. The chevron is the chevron-right icon at the icon size, drawn with a
-  // mask so that it takes the color of the text. A folded part is a block: pad-lg before it
+  // mask so that it takes the color of the text. It is centred on the ink of the first line of a
+  // summary that wraps: the summary aligns by baseline, and the chevron's box is a trimmed empty
+  // line with padding that makes it the icon's height and centres the ink in it (as the name of a
+  // Pair at the top). A folded part is a block: pad-lg before it
   .prose :global(summary) {
     @include text(body);
     font-weight: 600;
     display: flex;
-    align-items: center;
+    align-items: baseline;
     gap: gap(2xs);
     list-style: none;
     cursor: pointer;
@@ -66,10 +69,12 @@
       display: none;
     }
     &::before {
-      content: '';
+      content: '\200b' / '';
       flex: none;
       width: h(icon);
-      height: h(icon);
+      @include trim;
+      padding-block: calc((#{h(icon)} - 1em * var(--kata-ink)) / 2 + var(--kata-ink-over) * 1em)
+        calc((#{h(icon)} - 1em * var(--kata-ink)) / 2 + var(--kata-ink-under) * 1em);
       background: currentColor;
       mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m9 18 6-6-6-6'/%3E%3C/svg%3E")
         center / contain no-repeat;
