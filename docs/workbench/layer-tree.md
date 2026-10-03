@@ -113,6 +113,8 @@ before its children, such as a line of settings of that node. It is not
 a row: it spans the width of the tree, starts at the column of its
 row's name, and has no grip and no selection; a press in it
 neither selects nor starts a drag. Its distances are the application's.
+When the `row` snippet redraws a row, a subrow starts where the row's
+content starts.
 
 A press selects the row alone; Shift adds the rows from the last one
 pressed, and ⌘ or Ctrl adds or removes one row. `onselect` receives the

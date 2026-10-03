@@ -447,7 +447,12 @@
       <TreeRow {...rowProps(node, depth, parentHidden)}>{@render body(node)}</TreeRow>
     {/if}
     {#if subrows}
-      <div class="subrows" data-subrows style:--kata-tree-depth={depth}>
+      <div
+        class="subrows"
+        class:marked={!!node.icon && !row}
+        data-subrows
+        style:--kata-tree-depth={depth}
+      >
         {@render subrows(node)}
       </div>
     {/if}
@@ -505,7 +510,9 @@
     flex: none;
   }
   // What the application puts under a row: the width of the tree, indented as its row, with its
-  // content in the column of the row's name (after the chevron's place and gap-sm)
+  // content in the column of the row's name (after the chevron's place and gap-sm, and the mark
+  // and gap-sm when the row has one). A row the application redraws (row) starts its content
+  // where the row's content starts
   .subrows {
     display: grid;
     grid-template-columns: h(icon-button) minmax(0, 1fr);
@@ -516,6 +523,12 @@
     padding-right: var(--kata-inset, #{pad(md)});
     > :global(*) {
       grid-column: 2;
+    }
+  }
+  .subrows.marked {
+    grid-template-columns: h(icon-button) h(icon) minmax(0, 1fr);
+    > :global(*) {
+      grid-column: 3;
     }
   }
   // The input of a rename takes the width of the name
