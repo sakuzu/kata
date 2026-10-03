@@ -182,7 +182,7 @@
     // text ends with an ellipsis, so that it never reaches past the container's edge
     flex: 0 1 auto;
     max-width: 100%;
-    &:hover:not(:disabled) {
+    &:hover:not(:disabled):not(.busy) {
       background: color(raise);
       text-decoration: none;
     }
@@ -227,7 +227,7 @@
     background: color(solid);
     border-color: color(solid);
     color: color(on-solid);
-    &:hover:not(:disabled) {
+    &:hover:not(:disabled):not(.busy) {
       background: color(solid-hover);
       border-color: color(solid-hover);
     }
@@ -248,7 +248,7 @@
   .danger {
     color: color(red-ink);
     border-color: color(red-ink);
-    &:hover:not(:disabled) {
+    &:hover:not(:disabled):not(.busy) {
       background: color(red-wash);
     }
   }
@@ -257,7 +257,7 @@
     background: color(red-fill);
     border-color: color(red-fill);
     color: color(on-red);
-    &:hover:not(:disabled) {
+    &:hover:not(:disabled):not(.busy) {
       background: color(red-fill-hover);
       border-color: color(red-fill-hover);
     }
@@ -320,7 +320,7 @@
   .on.icon > :global(svg) {
     color: color(blue-ink);
   }
-  .ghost[data-tone='danger']:hover:not(:disabled) {
+  .ghost[data-tone='danger']:hover:not(:disabled):not(.busy) {
     color: color(red-ink);
   }
   // The trigger of an open menu keeps the hover surface

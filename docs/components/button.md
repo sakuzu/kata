@@ -52,7 +52,7 @@ pad-md and an icon is gap-sm from the text. An icon button is the square
 of a small button, wherever it is. The text is one line, trimmed to its
 ink; a button wider than its container shrinks and ends its text with an
 ellipsis. Hover shows the raise surface, pressing the stronger one; a
-disabled button takes no hover. Disabled is the same shape without hue:
+disabled or busy button takes no hover. Disabled is the same shape without hue:
 a filled button (primary, danger-fill) takes the solid-disabled surface
 and its text and is not dimmed; a button with a line (outline, danger)
 takes the outline's text and line, and a ghost button the outline's
