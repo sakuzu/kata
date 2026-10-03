@@ -74,6 +74,11 @@ describe('NativeSelect', () => {
     const select = getByRole('combobox', { name: 'Sort' }) as HTMLSelectElement;
     expect(select.options[0].textContent).toBe('Choose');
     expect(select.required).toBe(true);
+    // Without a value the placeholder is the selected option, and the control shows it
+    expect(select.value).toBe('');
+    expect(select.closest('label')?.querySelector('[aria-hidden="true"]')?.textContent).toBe(
+      'Choose',
+    );
     await fireEvent.change(select, { target: { value: 'size' } });
     expect(onchange).toHaveBeenCalledWith('size');
   });
