@@ -13,14 +13,15 @@ describe('Crumbs', () => {
     const last = getByRole('link', { name: 'Drafts' });
     expect(last.getAttribute('href')).toBe('/drafts');
     expect(container.querySelector('[aria-current]')).toBeNull();
-    // A chevron follows the last place too, for the title after the trail
-    expect(container.querySelectorAll('.sep')).toHaveLength(items.length);
+    // A chevron follows the last place too, for the title after the trail (the hidden copy that is
+    // measured has the same chevrons, and is not counted)
+    expect(container.querySelectorAll('nav > .sep')).toHaveLength(items.length);
     expect(container.querySelector('nav')?.lastElementChild?.matches('.sep.end')).toBe(true);
 
     // By default the last place is the current one, and not a link
     const other = render(Crumbs, { items, label: 'Trail' });
     expect(other.container.querySelector('a[href="/drafts"]')).toBeNull();
     expect(other.container.querySelector('[aria-current="page"]')?.textContent).toBe('Drafts');
-    expect(other.container.querySelectorAll('.sep')).toHaveLength(items.length - 1);
+    expect(other.container.querySelectorAll('nav > .sep')).toHaveLength(items.length - 1);
   });
 });

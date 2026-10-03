@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Block, Crumbs, Toolbar } from '@sakuzu/kata/svelte';
+  import { Block, Crumbs, Row, Text, Toolbar } from '@sakuzu/kata/svelte';
   import Case from '../_shared/Case.svelte';
   import Example from '../_shared/Example.svelte';
   import Surface from '../_shared/Surface.svelte';
@@ -59,5 +59,18 @@
       label="Location"
       current={false}
     />
+  </Case>
+  <Case label="current={false} with a long place and room to spare: no place ends with an ellipsis">
+    <Row gap="0">
+      <Crumbs
+        items={[
+          { label: "Layout Audit's Workspace", href: '#top' },
+          { label: 'Shared', href: '#top' },
+        ]}
+        label="Location"
+        current={false}
+      />
+      <Text role="caption">Spring layout</Text>
+    </Row>
   </Case>
 </Example>

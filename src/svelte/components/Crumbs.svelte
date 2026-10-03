@@ -60,11 +60,16 @@
     const read = () => {
       const gap = px(getComputedStyle(nav).columnGap);
       const least = LEAST * (px(getComputedStyle(document.documentElement).fontSize) || 16);
-      // The copy holds the places (.cp) at their own width up to 12rem and the chevrons (.cs)
-      const parts = [...c.children].map((el) => ({
-        place: el.matches('.cp'),
-        width: el.getBoundingClientRect().width,
-      }));
+      // The copy holds the places (.cp) at their own width up to 12rem and the chevrons (.sep), each
+      // with its margins (the chevron after the last place keeps gap-2xs after it)
+      const parts = [...c.children].map((el) => {
+        const cs = getComputedStyle(el);
+        return {
+          place: el.matches('.cp'),
+          width:
+            el.getBoundingClientRect().width + px(cs.marginInlineStart) + px(cs.marginInlineEnd),
+        };
+      });
       const places = parts.filter((p) => p.place);
       const last = places.at(-1);
       // Every place at its least width, the chevrons and the gaps
@@ -106,13 +111,13 @@
   bind:this={root}
   style:width={whole === undefined ? undefined : `${whole}px`}
 >
-  <!-- A hidden copy of the whole trail, to measure it -->
+  <!-- A hidden copy of the whole trail, to measure it: its chevrons are the trail's, margins and all -->
   <span class="copy" aria-hidden="true" data-kata-skip data-measure bind:this={copy}>
     {#each items as c, i (i)}
-      {#if i > 0}<span class="cs"><Icon name="chevron-right" /></span>{/if}
+      {#if i > 0}<span class="sep"><Icon name="chevron-right" /></span>{/if}
       <span class="cp">{c.label}</span>
     {/each}
-    {#if !current && items.length > 0}<span class="cs"><Icon name="chevron-right" /></span>{/if}
+    {#if !current && items.length > 0}<span class="sep end"><Icon name="chevron-right" /></span>{/if}
   </span>
   {#each items as c, i (i)}
     {#if shows(i)}
@@ -229,8 +234,5 @@
     display: block;
     max-width: 12rem;
     overflow-x: clip;
-  }
-  .cs {
-    display: inline-flex;
   }
 </style>

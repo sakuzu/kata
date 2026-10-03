@@ -3,6 +3,7 @@
   import Menu from '@lucide/svelte/icons/menu';
   import {
     Button,
+    Crumbs,
     Icon,
     InlineEdit,
     Kebab,
@@ -132,6 +133,27 @@
           <Button>Share</Button>
         {/if}
       {/snippet}
+    </Topbar>
+  </Case>
+  <Case label="A trail with a long place, followed by the title in the start (Crumbs current={false}); with room to spare no place ends with an ellipsis">
+    <Topbar brand="Sketchbook" brandHref="#top">
+      {#snippet start()}
+        <Crumbs
+          items={[
+            { label: "Layout Audit's Workspace", href: '#top' },
+            { label: 'Shared', href: '#top' },
+          ]}
+          label="Location"
+          current={false}
+        />
+        <InlineEdit
+          value={name}
+          placeholder="Name the drawing"
+          label="Name"
+          onCommit={(v) => (name = v)}
+        />
+      {/snippet}
+      {#snippet end()}<Button>Share</Button>{/snippet}
     </Topbar>
   </Case>
   <Case label="No brand: the crumbs start the bar">
