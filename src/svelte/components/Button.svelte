@@ -182,7 +182,7 @@
     // text ends with an ellipsis, so that it never reaches past the container's edge
     flex: 0 1 auto;
     max-width: 100%;
-    &:hover {
+    &:hover:not(:disabled) {
       background: color(raise);
       text-decoration: none;
     }
@@ -227,7 +227,7 @@
     background: color(solid);
     border-color: color(solid);
     color: color(on-solid);
-    &:hover {
+    &:hover:not(:disabled) {
       background: color(solid-hover);
       border-color: color(solid-hover);
     }
@@ -248,7 +248,7 @@
   .danger {
     color: color(red-ink);
     border-color: color(red-ink);
-    &:hover {
+    &:hover:not(:disabled) {
       background: color(red-wash);
     }
   }
@@ -257,7 +257,7 @@
     background: color(red-fill);
     border-color: color(red-fill);
     color: color(on-red);
-    &:hover {
+    &:hover:not(:disabled) {
       background: color(red-fill-hover);
       border-color: color(red-fill-hover);
     }
@@ -305,6 +305,13 @@
   .btn.danger-fill:disabled .kbd,
   .btn.danger-fill.busy .kbd {
     color: color(solid-disabled-text);
+  }
+  // A line shape takes the outline's text and line, dimmed
+  .btn.danger:disabled,
+  .btn.danger.busy {
+    color: color(text);
+    border-color: color(line-strong);
+    background: transparent;
   }
   // Selected: the stronger surface. The icon of a selected tool turns blue; text keeps its color
   .on {

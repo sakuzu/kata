@@ -123,11 +123,25 @@
     background: radial-gradient(circle closest-side, color(solid) 99%, transparent 100%) center /
       calc(#{h(icon)} - #{bw()} * 6) calc(#{h(icon)} - #{bw()} * 6) no-repeat;
   }
+  // Disabled is the same shape without hue: the text and an empty circle are dimmed; a chosen one
+  // is not dimmed, with the disabled surface for the circle and its text for the dot
   .disabled {
-    opacity: dim();
     cursor: default;
     .radio {
       cursor: default;
+    }
+    .line,
+    .desc,
+    .radio:not(:checked) {
+      opacity: dim();
+    }
+    .radio:checked {
+      border-color: color(solid-disabled);
+      background-image: radial-gradient(
+        circle closest-side,
+        color(solid-disabled-text) 99%,
+        transparent 100%
+      );
     }
   }
 </style>

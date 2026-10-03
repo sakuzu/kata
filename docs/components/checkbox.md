@@ -27,7 +27,9 @@ The control is as high as a small button, and the whole of it is
 pressed, text included. The box is a native checkbox, the square of an
 icon with one line; checked, it takes the solid surface and a check mark;
 indeterminate, the stronger raise surface without a mark. The text is
-gap-sm from the box, one line, trimmed to its ink. Disabled is dimmed.
+gap-sm from the box, one line, trimmed to its ink. Disabled, the text
+and an empty or partial box are dimmed; a checked box takes the
+solid-disabled surface with its text for the mark, not dimmed.
 
 ## Example
 

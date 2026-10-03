@@ -24,6 +24,8 @@
     <Row wrap>
       <Button disabled>Duplicate</Button>
       <Button variant="primary" disabled>Save</Button>
+      <Button variant="danger" disabled>Delete…</Button>
+      <Button variant="danger-fill" disabled>Delete</Button>
       <Button busy>Saving</Button>
       <Button variant="primary" busy>Running</Button>
     </Row>

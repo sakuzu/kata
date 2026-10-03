@@ -31,7 +31,9 @@ its line and a dot inside take the solid color. The text is gap-sm from
 the circle, one line, trimmed to its ink. A description is a caption in
 the column of the text, gap-xs below the first line, and so is a note,
 gap-xs below what is above it. In a [RadioGroup](radio-group.md) the
-radios stay stacked with gap 0. Disabled is dimmed.
+radios stay stacked with gap 0. Disabled, the text and an empty circle
+are dimmed; a chosen one takes the solid-disabled color for its line and
+its text color for the dot, not dimmed.
 
 ## Example
 
