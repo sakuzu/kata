@@ -19,6 +19,15 @@
       {/snippet}
     </PageHeader>
   </Case>
+  <Case label="A long title with a button beside it: the title is clipped, the button stays">
+    <PageHeader
+      title="A very long title that does not fit on one line of the page beside its button"
+    >
+      {#snippet titleEnd()}
+        <Button variant="ghost" icon aria-label="Rename"><Icon name="sticky-note" /></Button>
+      {/snippet}
+    </PageHeader>
+  </Case>
   <Case label="A long title is clipped to one line">
     <PageHeader
       title="A very long title that does not fit on one line of the page and ends with an ellipsis instead of wrapping"

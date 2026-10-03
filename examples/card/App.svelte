@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Button, Card, Grid, Row, Text } from '@sakuzu/kata/svelte';
+  import { Badge, Button, Card, Grid, Row, Text } from '@sakuzu/kata/svelte';
   import Case from '../_shared/Case.svelte';
   import Example from '../_shared/Example.svelte';
 </script>
@@ -17,6 +17,12 @@
         <Row><Button>Export…</Button></Row>
       </Card>
     </Grid>
+  </Case>
+  <Case label="A title with a Badge at its end: the Badge hangs into the padding">
+    <Card>
+      <Text role="h2">Team plan{#snippet end()}<Badge>Current</Badge>{/snippet}</Text>
+      <Text role="caption">Seven members, 20 GB of storage.</Text>
+    </Card>
   </Case>
   <Case label="gap md">
     <Card gap="md">

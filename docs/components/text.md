@@ -26,6 +26,7 @@ text written as HTML goes in a [Prose](prose.md).
 | `for` | | The labelled control, with `as="label"` |
 | `id` | | The element's id |
 | `children` | | The text |
+| `end` | | A mark at the end of the first line (a snippet) |
 
 ## Contract
 
@@ -35,6 +36,20 @@ to its ink in three places only: inside a component that declares its
 height (and there it stays on one line), at the inner edge of a container,
 and next to a line. A link made with `as="a"` keeps the color of the text
 around it and is underlined on hover.
+
+`end` puts a mark at the end of the text's first line: a
+[Badge](badge.md) beside a title, or a borderless icon button. The text
+and the end sit in one line, aligned by their first baseline, gap-sm
+apart. The end is a seat of no height, so the mark is centred on the ink
+of the first line and hangs without making the line taller
+([a mark beside text](../measuring.md#a-mark-beside-text)). At the edge of
+a container the mark hangs into the padding, and the line keeps the
+height of its ink. The text wraps its own words; the end does not move
+to a line of its own.
+
+```svelte
+<Text role="h2">Team plan{#snippet end()}<Badge>Current</Badge>{/snippet}</Text>
+```
 
 ## Example
 

@@ -14,6 +14,13 @@
   //   <Text role="prose">A paragraph to read</Text>        a p
   //   <Text role="caption" mono clamp>name@example.com</Text>
   //   <Text as="a" href="/files/1" clamp>A name</Text>     a link that keeps the color around it
+  //
+  // end puts a mark at the end of the text's first line (a Badge beside a title, an icon button).
+  // The text and the end sit in one line aligned by their first baseline; the end is a seat of
+  // height 0, so the mark is centred on the ink of the first line and hangs without making the
+  // line taller. The text wraps its own words; the end does not move to a line of its own.
+  //
+  //   <Text role="h2">Team plan{#snippet end()}<Badge>Current</Badge>{/snippet}</Text>
   type Role = 'num' | 'title' | 'h1' | 'h2' | 'prose' | 'body' | 'caption' | 'label' | 'glyph';
   let {
     role = 'body',
@@ -28,6 +35,7 @@
     for: htmlFor,
     href,
     children,
+    end,
   }: {
     /** The type role (default body) */
     role?: Role;
@@ -51,6 +59,8 @@
     /** The target, with as="a" */
     href?: string;
     children: Snippet;
+    /** A mark at the end of the first line (a Badge, an icon button), centred on its ink */
+    end?: Snippet;
   } = $props();
   const tag = $derived(
     as ??
@@ -81,23 +91,35 @@
   };
 </script>
 
-<svelte:element
-  this={tag}
-  class="kata-text {role}"
-  class:clamp
-  class:clamp2={lines === 2}
-  class:wrap
-  class:muted
-  class:mono
-  class:tabular
-  data-role={dataRole}
-  {id}
-  for={tag === 'label' ? htmlFor : undefined}
-  href={tag === 'a' ? href : undefined}
-  use:clampTipIf={clamp}
->
-  {@render children()}
-</svelte:element>
+{#snippet text()}
+  <svelte:element
+    this={tag}
+    class="kata-text {role}"
+    class:clamp
+    class:clamp2={lines === 2}
+    class:wrap
+    class:muted
+    class:mono
+    class:tabular
+    data-role={dataRole}
+    {id}
+    for={tag === 'label' ? htmlFor : undefined}
+    href={tag === 'a' ? href : undefined}
+    use:clampTipIf={clamp}
+  >
+    {@render children()}
+  </svelte:element>
+{/snippet}
+
+{#if end}
+  <!-- A row of the text and its end: it passes the edge flags to the text, as a Row does -->
+  <div class="ended" data-edge-pass>
+    {@render text()}
+    <span class="end end-{role}">{@render end()}</span>
+  </div>
+{:else}
+  {@render text()}
+{/if}
 
 <style lang="scss">
   @use '../styles/kata' as *;
@@ -163,6 +185,27 @@
   }
   .tabular {
     font-variant-numeric: tabular-nums;
+  }
+  // The text and its end, on their first baseline. The text shrinks and wraps its own words; the
+  // end keeps its size and stays on the first line
+  .ended {
+    display: flex;
+    align-items: baseline;
+    gap: gap(sm);
+    min-width: 0;
+    > .kata-text {
+      flex: 0 1 auto;
+    }
+  }
+  // A seat of height 0 at the size of the text, so the mark hangs centred on the ink of the first
+  // line without making it taller
+  .end {
+    @include seat(0);
+  }
+  @each $role in num, title, h1, h2, body, prose, caption, label, glyph {
+    .end-#{$role} {
+      font-size: fs($role);
+    }
   }
   .muted {
     color: color(muted);

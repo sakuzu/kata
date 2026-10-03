@@ -22,10 +22,10 @@ The head of a part of the page is a [Section](section.md).
 PageHeader is text and has no height of its own: the trail (caption,
 muted) is gap-md above the title, and the note (caption) gap-xs below it.
 The title stays on one line and ends with an ellipsis when it does not
-fit; the full text shows on hover. The button of `titleEnd` takes width
-but no height: it overlaps the centre of the title's ink, so that the
-title's line is as tall with it as without it. The Page holds the distance to the
-content.
+fit; the full text shows on hover. The button of `titleEnd` is the end
+of the title's [Text](text.md): it takes width but no height and is
+centred on the ink of the title, so that the title's line is as tall
+with it as without it. The Page holds the distance to the content.
 
 ## Example
 
