@@ -392,7 +392,7 @@ describe('Shell', () => {
       expect(ondockclose).not.toHaveBeenCalled();
     });
 
-    it('does not close a sheet that rests at its lowest height', async () => {
+    it('does not close a sheet that rests at its lowest height, and hides it under the dock', async () => {
       const { container, rerender } = render(Shell, {
         ...regions,
         narrow: true,
@@ -410,6 +410,11 @@ describe('Shell', () => {
       await tick();
       expect(container.querySelector('[data-sheet="dock"]')).not.toBeNull();
       expect(container.querySelector('[data-sheet="right"]')).toBeNull();
+      // While the dock's sheet is open the resting sheet is not shown; it comes back after
+      expect(left()).toBeNull();
+      await rerender({ dock: undefined });
+      await tick();
+      expect(container.querySelector('[data-sheet="dock"]')).toBeNull();
       expect(left()?.getAttribute('data-stage')).toBe('peek');
     });
   });
