@@ -6,16 +6,17 @@
   import List from './List.svelte';
   import ListItem from './ListItem.svelte';
   import Modal from './Modal.svelte';
-  import Section from './Section.svelte';
+  import SectionHeader from './SectionHeader.svelte';
   import Stack from './Stack.svelte';
   import Text from './Text.svelte';
 
   // ShortcutsModal: the list of keyboard shortcuts, in a Modal. One row for each shortcut: what it
   // does on the left, the key on the right, written as the platform writes it (formatShortcut), or
   // the keys of display joined with " / ". A hidden shortcut is not listed, and aliases are not
-  // shown. Shortcuts without a group come first, without a heading; then one Section for each
-  // group, in the order of groups, then in the order the groups first appear. run, when and
-  // aliases are not read.
+  // shown. Shortcuts without a group come first, without a heading; then one SectionHeader for
+  // each group, in the order of groups, then in the order the groups first appear. The rows are
+  // list items, which hold their own padding, so the Modal's body is flush and the groups are
+  // titled as in a panel. run, when and aliases are not read.
   // A Shell opens it with the help key; an application can also open it from a menu.
   //
   //   <ShortcutsModal bind:open {shortcuts} />
@@ -71,11 +72,11 @@
   </List>
 {/snippet}
 
-<Modal bind:open title={title ?? getMessages().keyboardShortcuts} {inline} {onclose}>
+<Modal bind:open title={title ?? getMessages().keyboardShortcuts} {inline} {onclose} flush>
   <Stack gap={0}>
     {#if loose.length > 0}{@render rows(loose)}{/if}
     {#each groups as [group, list] (group)}
-      <Section title={group} flush>{@render rows(list)}</Section>
+      <SectionHeader label={group} flush>{@render rows(list)}</SectionHeader>
     {/each}
   </Stack>
 </Modal>

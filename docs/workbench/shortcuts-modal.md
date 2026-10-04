@@ -28,10 +28,12 @@ are not read.
 
 ## Contract
 
-A [Modal](../components/modal.md) of the md width. The shortcuts without
+A [Modal](../components/modal.md) of the md width, flush, since its
+rows hold their own padding. The shortcuts without
 a group come first, as one [List](../components/list.md) without a
-heading; then each group is a [Section](../components/section.md) with
-the group as its title, in the order of `groups` and then in the order
+heading; then each group is a
+[SectionHeader](../components/section-header.md) with flush content and
+the group as its name, in the order of `groups` and then in the order
 the groups first appear. Each shortcut is a
 [ListItem](../components/list-item.md) that is only read, with a line
 under it: the label on the left, clipped to one line, and the key on the

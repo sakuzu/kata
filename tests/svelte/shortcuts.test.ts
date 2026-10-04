@@ -103,7 +103,7 @@ describe('Shortcut', () => {
       { key: 'escape', label: 'Clear' },
     ];
     const headings = (el: HTMLElement) =>
-      [...el.querySelectorAll('[data-role="section"] h2')].map((h) => h.textContent);
+      [...el.querySelectorAll('[data-role="section-head"] > span')].map((h) => h.textContent);
     const plain = render(ShortcutsModal, { inline: true, mac: true, shortcuts });
     expect(headings(plain.container)).toEqual(['Tools', 'Edit', 'View']);
     plain.unmount();

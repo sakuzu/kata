@@ -547,7 +547,7 @@ describe('ShortcutsModal', () => {
         { key: 'l', label: 'Line', group: 'Tools' },
       ],
     });
-    const titles = [...container.querySelectorAll('[data-role="section"] h2')].map(
+    const titles = [...container.querySelectorAll('[data-role="section-head"] > span')].map(
       (h) => h.textContent,
     );
     expect(titles).toEqual(['Tools', 'Edit']);
