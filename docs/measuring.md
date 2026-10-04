@@ -60,7 +60,9 @@ the scale says.
   padding, or the same above and below the line. This holds for every
   line of text, whichever component draws it. A component without a line
   or a surface of its own passes the edge on to what it holds, and the
-  things it places side by side are all at that edge. A
+  things it places side by side are all at that edge. The line that is
+  trimmed is marked on the element that holds the line (`data-ink`),
+  never on a wrapper that bundles lines, which only passes the edge on. A
   [Row](components/row.md) at an edge trims all of its text, so that its
   items stay level: each of its items that passes the edge on (a
   [Stack](components/stack.md), a wrapper, another row) is at the row's

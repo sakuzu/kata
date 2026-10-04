@@ -28,12 +28,14 @@
       </Surface>
     </Stack>
   </Case>
-  <Case label="Several lines in a Stack, and floating (the panel surface)">
+  <Case label="Several lines in body, and floating (the panel surface)">
     <Banner tone="info" floating>
-      <Stack gap="xs">
-        <Text role="label">3 people are editing</Text>
-        <Text role="caption" muted>Their changes appear as they type.</Text>
-      </Stack>
+      {#snippet body()}
+        <Stack gap="xs">
+          <Text role="label">3 people are editing</Text>
+          <Text role="caption" muted>Their changes appear as they type.</Text>
+        </Stack>
+      {/snippet}
     </Banner>
   </Case>
 </Example>

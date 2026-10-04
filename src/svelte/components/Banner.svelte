@@ -8,15 +8,19 @@
   // blue, warn yellow, error red, ok green) and so does its icon; the padding is pad-md. The icon
   // sits in a seat and is centred on the ink of the first line of the text. An action (act) sits
   // at the right end, on the baseline of the first line; when it does not fit beside the text, it
-  // moves below it. A notice of several lines puts them in a Stack. floating gives it the panel surface,
-  // for a notice over the stage; the application places it.
+  // moves below it. children is the text of one line, trimmed at the edges; a notice of several
+  // lines passes them in body (a Stack of Texts), which only passes the edge on to the lines it
+  // holds. floating gives it the panel surface, for a notice over the stage; the application
+  // places it.
   //
   //   <Banner tone="warn">The trial ends in 3 days{#snippet act()}<Button>Renew</Button>{/snippet}</Banner>
+  //   <Banner tone="info">{#snippet body()}<Stack gap="xs">…</Stack>{/snippet}</Banner>
   let {
     tone,
     floating = false,
     label,
     children,
+    body,
     act,
   }: {
     tone: 'info' | 'warn' | 'error' | 'ok';
@@ -24,7 +28,10 @@
     floating?: boolean;
     /** The accessible name of the notice, when it is referred to by name */
     label?: string;
-    children: Snippet;
+    /** The text, one line that may wrap */
+    children?: Snippet;
+    /** Several lines instead of the text (a Stack of Texts) */
+    body?: Snippet;
     /** An action at the right end */
     act?: Snippet;
   } = $props();
@@ -47,8 +54,13 @@
 >
   <div class="line" data-edge-pass>
     <span class="mark"><Icon name={MARK[tone]} /></span>
-    <!-- A div, since the text can be a Stack of several lines -->
-    <div class="text" data-ink>{@render children()}</div>
+    <!-- The text holds its line and is trimmed at the edges; a body of several lines only passes the
+         edge on to them -->
+    {#if body}
+      <div class="text">{@render body()}</div>
+    {:else}
+      <div class="text" data-ink>{@render children?.()}</div>
+    {/if}
   </div>
   {#if act}<div class="act">{@render act()}</div>{/if}
 </div>

@@ -18,13 +18,16 @@ error, a state of the document. A remark without a line is a
 | `act` | | An action at the right end (a snippet) |
 | `floating` | `false` | The panel surface, for a notice over the stage |
 | `label` | | The accessible name, when it is referred to by name |
-| `children` | required | The text, or a Stack of several lines |
+| `children` | | The text, one line that may wrap |
+| `body` | | Several lines instead of the text (a snippet: a Stack of Texts) |
 
 ## Contract
 
 Its line and its icon take the color of the tone (blue, yellow, red,
 green); it has pad-md inside, the icon gap-sm from the text, centred on
-the ink of the first line. The action sits at the right end,
+the ink of the first line. The text is trimmed to its ink at the edges;
+`body` holds several lines and only passes the edges on to them, so each
+line is trimmed once. The action sits at the right end,
 gap-sm from the text, on the baseline of its first line; when it does
 not fit beside the text it moves below it, and shrinks to the container
 with an ellipsis. Its role is
