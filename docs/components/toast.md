@@ -22,7 +22,10 @@ is gone is a [Banner](banner.md).
 
 It has the panel color, a strong line (red for an error), pad-md
 inside and the width of a toast (`--kata-width-toast`), never wider
-than its place. The icon takes the color of the tone; the icon, the
+than its place. The icon takes the color of the tone and sits in a
+seat, centred on the ink of the first line of the text however it
+wraps ([a mark beside text](../measuring.md#a-mark-beside-text)); the
+icon, the
 text and the action are gap-sm apart, and the action is a small button
 at the right end that moves below the text when it does not fit. Its
 role is `alert` for an error and `status` otherwise.

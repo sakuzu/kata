@@ -31,8 +31,10 @@
 </script>
 
 <div class="toast {tone}" data-inset data-edge-pass data-role="toast" role={tone === 'error' ? 'alert' : 'status'}>
-  <span class="mark"><Icon name={MARK[tone]} /></span>
-  <p class="text" data-ink>{@render children()}</p>
+  <div class="line" data-edge-pass>
+    <span class="mark"><Icon name={MARK[tone]} /></span>
+    <p class="text" data-ink>{@render children()}</p>
+  </div>
   {#if act}<div class="act">{@render act()}</div>{/if}
 </div>
 
@@ -54,13 +56,23 @@
     @include text(body);
     @include scope-box(button-sm);
   }
-  .mark {
+  // The icon and the text stay together, on their first baseline; only the action moves to the
+  // next line. The line and the action are placed side by side, so both are at the edges of the
+  // toast (data-edge-pass)
+  .line {
     display: flex;
-    align-items: center;
-    flex: none;
+    align-items: baseline;
+    gap: gap(sm);
+    flex: 1 1 12em;
+    min-width: 0;
+  }
+  // The icon's seat: the icon's height, with the baseline of a trimmed line centred in it, so the
+  // icon is centred on the ink of the first line of the text, wherever the text wraps
+  .mark {
+    @include seat(h(icon));
   }
   .text {
-    flex: 1 1 12em;
+    flex: 1 1 auto;
     min-width: 0;
     margin: 0;
   }

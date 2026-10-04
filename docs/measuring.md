@@ -130,7 +130,8 @@ is that of the text beside it. The ink is the one of the root's language,
 so with a Japanese root the mark is centred on the CJK ink, not on the
 cap height. Wherever the text wraps and wherever it is trimmed, the mark
 stays on its first line: a [Toggle](components/toggle.md), a
-[Banner](components/banner.md), a [Note](components/note.md), a
+[Banner](components/banner.md), a [Toast](components/toast.md), a
+[Note](components/note.md), a
 [Markbox](components/markbox.md) in a [Row](components/row.md) with
 `align="first"`, the summary of a folded part in
 [Prose](components/prose.md), and the end of a [Text](components/text.md).

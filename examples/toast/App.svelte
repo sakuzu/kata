@@ -13,6 +13,9 @@
       <Toast tone="ok">Saved.</Toast>
     </Stack>
   </Case>
+  <Case label="A text of two lines: the icon is centred on the ink of the first line">
+    <Toast tone="error">The file could not be read: the server closed the connection before it arrived.</Toast>
+  </Case>
   <Case label="One action at the right end">
     <Toast tone="ok">
       Moved 4 items to the bin.
