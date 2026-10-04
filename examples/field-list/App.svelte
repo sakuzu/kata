@@ -118,7 +118,10 @@
         <InspectorSection title="Style">
           <FieldList {fields} onchange={set}>
             {#snippet field(spec)}
-              <Swatch shape="dot" color={String(spec.value)} />
+              <Button trailing="chevron-down" clamp mono aria-label={spec.label}>
+                {#snippet mark()}<Swatch shape="dot" color={String(spec.value)} />{/snippet}
+                {String(spec.value)}
+              </Button>
             {/snippet}
           </FieldList>
         </InspectorSection>
