@@ -47,8 +47,7 @@
 //   near           the description of a control is nearer its own label than the next control's
 //   edge           in a container with padding, the first and the last visible thing sit exactly
 //                  the padding from its inner edge; the bottom is measured only where the last
-//                  child reaches the padding (a cell of a Grid may be taller than its content). Off
-//                  unless the audit is asked for it (kataAudit(selector, { edge: true }))
+//                  child reaches the padding (a cell of a Grid may be taller than its content)
 //   overlap        the children of a layout do not overlap
 //   crush          text is never squeezed into a column narrower than two characters
 //   fixed-frame    a size container (a Shell's root) and an embedded root ([data-kata-root]) are not
@@ -1348,7 +1347,7 @@
     }
   }
 
-  window.kataAudit = (rootSelector = '[data-audit]', options = {}) => {
+  window.kataAudit = (rootSelector = '[data-audit]') => {
     const bad = [];
     const roots = [...document.querySelectorAll(rootSelector)];
     for (const root of roots) {
@@ -1372,7 +1371,7 @@
       readRow(root, bad);
       firstLine(root, bad);
       near(root, bad);
-      if (options.edge) edge(root, bad);
+      edge(root, bad);
       overlap(root, bad);
       crush(root, bad);
       fixedFrame(root, bad);

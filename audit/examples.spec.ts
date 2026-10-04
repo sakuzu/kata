@@ -17,8 +17,6 @@ const WIDTHS = [1440, 768, 390];
 const SCALES = ['', 'max'];
 const MODES = ['dark', 'light'];
 const LANGS = ['en', 'ja'];
-// The edge check is not counted yet; KATA_EDGE=1 runs it
-const EDGE = process.env.KATA_EDGE === '1';
 
 type Finding = { kind: string; el: string; [key: string]: unknown };
 
@@ -59,17 +57,12 @@ for (const name of names) {
             await page.evaluate(
               () => new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r))),
             );
-            const { roots, findings } = await page.evaluate(
-              (edge) =>
-                (
-                  window as unknown as {
-                    kataAudit: (
-                      selector: string,
-                      options: { edge: boolean },
-                    ) => { roots: number; findings: Finding[] };
-                  }
-                ).kataAudit('[data-audit]', { edge }),
-              EDGE,
+            const { roots, findings } = await page.evaluate(() =>
+              (
+                window as unknown as {
+                  kataAudit: () => { roots: number; findings: Finding[] };
+                }
+              ).kataAudit(),
             );
             expect(roots, 'the page has a [data-audit] root').toBeGreaterThan(0);
             for (const e of errors.splice(0)) findings.push({ kind: 'page-error', el: e });
