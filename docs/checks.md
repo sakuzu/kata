@@ -38,14 +38,14 @@ element inside the example is measured; a finding fails the audit.
 | margin | Outer margins appear only in Prose and Block, never negative |
 | type | Font sizes are type roles; line heights are a step of the scale |
 | border | Borders are 0, 1 or 2px and solid, so no border of the browser |
-| height | An element with `data-h` has the height of that token |
+| height | An element with `data-h` has that height (in its reach, if any) |
 | trim | Text is trimmed in a control, at a container's edge or at a line |
 | trim-clip | Trimmed text keeps its vertical overflow, so no ink is cut |
 | cursor | What can be pressed shows the pointer |
 | contrast | Text reaches 7:1 on its surface (4.5:1 when disabled or dimmed) |
 | focus-halo | A text field shows a 2px ring on focus |
 | double-rule | No two lines run along one edge |
-| double-inset | A container with padding never sits in another one |
+| double-inset | No padded container or padded item sits in a padded container |
 | bundle-edge | Text in an unpadded container or surface keeps pad-md |
 | inner-gap | In a padded container, neighbours are no further than the edge |
 | box-touch | A control never touches the padded edge of its container |
@@ -69,8 +69,12 @@ element inside the example is measured; a finding fails the audit.
 Distances are measured from the edge of what is visible: the outline of a
 component with a line or a surface, a line, the inner edge of a
 container, the ink of text, the square of an icon (not one that hangs
-from a seat of no height), or the outside of the scrollbar of a region
-that scrolls, on the side the scrollbar runs along. A line along one
+from a seat of no height), the box of a cell of a set that shows which
+one is chosen (`aria-pressed`, `role="radio"`, or `aria-current` on the
+square of an icon button), or the outside of the scrollbar of a region
+that scrolls, on the side the scrollbar runs along. A control without a
+line or a surface is measured as what it shows; its reach takes no
+room. A line along one
 side of a component only
 is an edge on that side only; from the other side the distance runs to
 what is inside it (the text of tabs with a line along their bottom). An
@@ -80,7 +84,8 @@ library) is not measured.
 head-gap allows two exceptions. Flush content under a head with an
 action keeps pad-md above it, so that the action that hangs below the
 head does not reach the first row, and its distance from the head may
-grow by that padding and the action's overhang. Flush content without
+grow by that padding and the action's overhang (its box, or the reach of
+a control without a line or a surface). Flush content without
 an action keeps gap-xs above it, and its distance may grow by that gap.
 head-near allows the first group to lie further from its head by the
 action's overhang, and the second by the gap-xs.
@@ -124,5 +129,12 @@ above its inner bottom edge, within 0.06px. A Grid gives the cells of a
 row one height, so a container in a cell may end below its content: the
 bottom is measured only where the box of its last child reaches the
 padding. A container that scrolls is measured at the ends of what it
-scrolls. The check is not counted yet; `KATA_EDGE=1 npm run audit` runs
-it.
+scrolls.
+
+height measures a control without a line or a surface (the `reach`
+mixin) by its reach, the `::before` that carries its hit area, hover
+surface and focus ring. double-inset also measures an item that keeps its
+own padding above and below (a list item, a comment): no container with
+padding holds it without a line or a surface between them. The edge of
+such an item is an edge for trim too: the last line of the body of a
+comment is trimmed at its padding.

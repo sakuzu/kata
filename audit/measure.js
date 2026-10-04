@@ -9,10 +9,11 @@
 //   type           font sizes are the sizes of the type roles; line heights are the half step, the
 //                  whole step or 1, times the font size
 //   border         each border is 0, 1 or 2px and solid (a border left by the user agent fails)
-//   height         an element that declares data-h has the height of that token
+//   height         an element that declares data-h has the height of that token; a control
+//                  without a line or a surface (the reach mixin) has it in its reach (::before)
 //   trim           text is trimmed to its ink only inside a control ([data-h], a mark, a pair,
-//                  a section head, a table cell), at the inner edge of a container or a section, and
-//                  next to a line
+//                  a section head, a table cell), at the inner edge of a container or a section, at
+//                  the edge of an item that keeps its own padding (a comment), and next to a line
 //   trim-clip      trimmed text keeps its vertical overflow visible (or clips it with a clip margin
 //                  of at least 0.3em), so the descenders and the top of CJK ink are never cut
 //   cursor         everything that can be pressed shows the pointer
@@ -20,7 +21,8 @@
 //                  data-dim)
 //   focus-halo     text fields show a 2px ring on focus and keep their surface
 //   double-rule    no two lines run along one edge
-//   double-inset   a container with padding never sits directly in another one
+//   double-inset   a container with padding, or an item that keeps its own padding above and
+//                  below (a list item, a comment), never sits directly in a container with padding
 //   bundle-edge    text inside a container without padding (one that declares a non-zero inset for
 //                  its items: a Panel's content, a drawer, a flush group; or a surface of the
 //                  examples, data-role="surface") that no component with padding of its own holds is
@@ -191,12 +193,28 @@
   }
   const LEAF =
     'img, svg, input, textarea, select, [data-role="mark"], [data-role="swatch"], [data-role="markbox"], [data-role="avatar"], [data-role="progress"], [data-role="bar"], [data-role="switch"]';
+  // A cell of a set that shows which one is chosen: pressed or not (a glyph, a tool), a radio (a
+  // color), or the square of a page that may be the current one. Other things that are current (a
+  // tab, a crumb, a row) are measured as what they show
+  // An item that keeps its own padding above and below: its padding is the distance to the edge
+  const PADDED_ITEM = '[data-role="list-item"], [data-role="comment"]';
+  const CELL = '[aria-pressed], [role="radio"], [aria-current][data-h="icon-button"]';
   /** Whether an element shows a scrollbar along its bottom (it scrolls sideways) */
   function sideBar(el, cs) {
     if (!/^(auto|scroll)$/.test(cs.overflowX)) return false;
     const borders =
       (Number.parseFloat(cs.borderTopWidth) || 0) + (Number.parseFloat(cs.borderBottomWidth) || 0);
     return el.getBoundingClientRect().height - borders - el.clientHeight > 0.5;
+  }
+  /**
+   * The reach of a control without a line or a surface (the reach mixin): its ::before, absolutely
+   * placed under its content, which carries the hit area, the hover surface and the focus ring
+   */
+  function reachOf(el) {
+    const b = getComputedStyle(el, '::before');
+    if (b.content === 'none' || b.position !== 'absolute' || b.zIndex !== '-1') return null;
+    if (getComputedStyle(el).isolation !== 'isolate') return null;
+    return { height: Number.parseFloat(b.height) };
   }
   /** Whether an icon hangs from a seat of no height (the end of a Text), within four levels */
   function hangs(svg) {
@@ -234,7 +252,8 @@
         (lineBottom && side !== 'start');
       const stateSurface =
         n.matches('[data-role="list-item"], [data-role="menu-item"]') && !lineTop && !lineBottom;
-      if (n.matches(LEAF) || (painted && !stateSurface)) {
+      // A cell of a set that shows which one is chosen is its box, chosen or not
+      if (n.matches(LEAF) || n.matches(CELL) || (painted && !stateSurface)) {
         out.push({ el: n, box: true });
         return;
       }
@@ -397,7 +416,8 @@
           declared === 'button' && el.parentElement
             ? pxOf('var(--kata-box, var(--kata-height-button))', el.parentElement)
             : H[declared];
-        const r = el.getBoundingClientRect();
+        // A control without a line or a surface (the reach mixin) is measured by its reach
+        const r = reachOf(el) ?? el.getBoundingClientRect();
         // The height of a row and of a footer is a minimum: it grows with its content
         const grows =
           /^(list-item|list-item-two|list-item-mark|list-item-lg|thumbnail-row|footer)$/.test(
@@ -419,7 +439,7 @@
         trim &&
         trim !== 'none' &&
         !el.closest(
-          '[data-h], [data-role="mark"], [data-role="switch"], [data-role="pair"], [data-role="section-head"], td, th, dt, dd',
+          '[data-h], [data-role="mark"], [data-role="switch"], [data-role="pair"], [data-role="section-head"], [data-role="comment"], td, th, dt, dd',
         ) &&
         !el.parentElement?.closest('[data-inset], [data-role="section"], [data-page]') &&
         !nearRule(el)
@@ -728,8 +748,14 @@
 
   // ---- Containers -------------------------------------------------------------------------------
 
+  // A container with padding, and an item that keeps its own padding above and below (a list
+  // item, a comment), never sits directly in a container with padding: a line or a surface comes
+  // between them
   function doubleInset(root, bad) {
-    for (const el of root.querySelectorAll('[data-inset]')) {
+    const items = [...root.querySelectorAll(`[data-inset], ${PADDED_ITEM}`)].filter(
+      (el) => el.matches('[data-inset]') || !el.parentElement?.closest(PADDED_ITEM),
+    );
+    for (const el of items) {
       if (!visible(el) || skipped(el) || surfaceOf(el)) continue;
       let wall = false;
       for (let up = el.parentElement; up && up !== root.parentElement; up = up.parentElement) {
@@ -898,15 +924,21 @@
 
   // ---- Heads ------------------------------------------------------------------------------------
 
-  // How far the action of a flush group's head hangs below the head (0 for any other group)
+  // How far the action of a flush group's head hangs below the head (0 for any other group): its
+  // box, or the reach of a control without a line or a surface, which takes no room but is pressed
   function actionOverhang(group, head) {
     if (!group.matches('.flush.acted')) return 0;
     const action = head.children[1];
     if (!action) return 0;
     const bottom = head.getBoundingClientRect().bottom;
+    const lowest = (c) => {
+      const r = c.getBoundingClientRect();
+      const reach = reachOf(c);
+      return reach ? Math.max(r.bottom, (r.top + r.bottom) / 2 + reach.height / 2) : r.bottom;
+    };
     return Math.max(
       0,
-      ...[...action.children].map((c) => c.getBoundingClientRect().bottom - bottom),
+      ...[...action.querySelectorAll('*')].filter(visible).map((c) => lowest(c) - bottom),
     );
   }
   function headGap(root, bad) {
