@@ -28,14 +28,18 @@ A name entered in a form is a [TextInput](text-input.md) in a
 
 ## Contract
 
-Read, it is a control without a line, of the height its container
-declares and without padding at the sides, so its edge lines up with the
-text around it; hover shows the raise surface and turns the faint pencil
-muted. Edited, it is a control with a blue-ink line and pad-sm at the
-sides. The text of one line is trimmed to its ink and ends with an
-ellipsis; several lines wrap, and the first line sits where a one-line
-control puts its text. The empty action is blue-ink, underlined on hover.
-Escape does not reach a panel or a modal around it.
+Read, it is a control without a line or a surface: it is laid out as
+its text and the pencil, as text is (its line box in a layout, trimmed
+at the edge of a container and inside a control), without padding, so
+its edge lines up with the text around it. The area that is pressed and
+the raise surface that hover shows reach the control's height around it
+without taking room, and hover turns the faint pencil muted. Edited, it
+is a control with a blue-ink line and pad-sm at the sides, of the height
+its container declares, so entering the edit makes it taller. The text
+of one line ends with an ellipsis; several lines wrap, with the pencil
+centred on the ink of the first line. The empty action is blue-ink,
+underlined on hover, laid out as LinkAction is. Escape does not reach a
+panel or a modal around it.
 
 ## Example
 

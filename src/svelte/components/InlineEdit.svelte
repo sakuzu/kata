@@ -3,11 +3,13 @@
   import { tick, untrack } from 'svelte';
   import Icon from './Icon.svelte';
 
-  // InlineEdit: text that is changed where it stands. Read, it is a control without a line (the
-  // height its container declares, no padding at the sides, so its edge lines up with the text
-  // around it), with a surface and a pencil on hover. Edited, it becomes a control with a blue line
-  // and pad-sm at the sides. Enter commits and Escape restores. When the text is emptied, the
-  // application decides the name that takes its place.
+  // InlineEdit: text that is changed where it stands. Read, it is a control without a line or a
+  // surface: it is laid out as its text and the pencil, as text is (trimmed at an edge, and inside
+  // a control), with no padding, so its edge lines up with the text around it; its hit area and
+  // the surface it shows on hover reach the control's height around it without taking room (the
+  // reach mixin). Edited, it becomes a control with a blue line and pad-sm at the sides, the
+  // height its container declares, so entering the edit makes it taller. Enter commits and Escape
+  // restores. When the text is emptied, the application decides the name that takes its place.
   //
   // Three states:
   //   empty and editable    a text action, "+ placeholder"
@@ -138,7 +140,7 @@
       class:title
       class:multi={multiline}
       data-role="box"
-      data-h={multiline ? undefined : 'button'}><span class="t clamp">{value}</span></span
+      data-edge-pass><span class="t clamp" data-ink>{value}</span></span
     >
   {/if}
 {:else if value !== ''}
@@ -150,44 +152,51 @@
     aria-label={a11yLabel}
     onclick={start}
     data-role="box"
-    data-h={multiline ? undefined : 'button'}
+    data-edge-pass
   >
-    <span class="t clamp">{value}</span>
+    <span class="t clamp" data-ink>{value}</span>
     <span class="pen"><Icon name="pencil" /></span>
   </button>
 {:else}
-  <button class="add" type="button" aria-label={a11yLabel} onclick={start} data-role="box" data-h="button">
-    <Icon name="plus" /><span class="t">{placeholder}</span>
+  <button class="add" type="button" aria-label={a11yLabel} onclick={start} data-role="box" data-edge-pass>
+    <Icon name="plus" /><span class="t" data-ink>{placeholder}</span>
   </button>
 {/if}
 
 <style lang="scss">
   @use '../styles/kata' as *;
 
-  // Read: the height its container declares, no padding at the sides, a transparent line. The
-  // area that is pressed and the hover surface are this box.
   .ie {
-    display: inline-flex;
     align-items: center;
     gap: gap(sm);
-    height: box-h();
     max-width: 100%;
+    min-width: 0;
     padding: 0;
-    border: bw() solid transparent;
+    border: 0;
     background: none;
     color: inherit;
     @include text(body);
     text-align: start;
     cursor: text;
-    min-width: 0;
+  }
+  // Read: a control without a line or a surface, laid out as its text and the pencil. It is a
+  // block of its own, never a glyph on a line of text, and as wide as what it shows; the area that
+  // is pressed and the hover surface are its reach
+  .ie:not(.editing) {
+    display: flex;
+    width: fit-content;
+    @include reach;
   }
   .title {
     @include text(h2);
   }
-  // Text in a control, trimmed to its ink
+  // Text: its line box in a layout, trimmed at an edge (data-ink), and trimmed to its ink inside a
+  // control
   .t {
     display: block;
     min-width: 0;
+  }
+  :global([data-h]) .t {
     @include trim;
   }
   .clamp {
@@ -195,7 +204,7 @@
   }
   button.ie {
     cursor: pointer;
-    &:hover {
+    &:hover::before {
       background: color(raise);
     }
     &:hover .pen {
@@ -211,9 +220,11 @@
   .read {
     cursor: default;
   }
-  // Edited: a blue line, pad-sm at the sides
+  // Edited: a control with a blue line, pad-sm at the sides, the height its container declares
   .editing {
-    border-color: color(blue-ink);
+    display: inline-flex;
+    height: box-h();
+    border: bw() solid color(blue-ink);
     padding-inline: pad(sm);
   }
   .ie input,
@@ -223,33 +234,30 @@
     width: 100%;
     align-self: stretch;
   }
-  // Several lines wrap and show the whole text. The box grows with it, and the padding above and
-  // below puts the first line where a one-line control puts its text.
+  // Several lines wrap and show the whole text. Read, the pencil is a mark beside text that may
+  // wrap: it hangs from a seat of no height, centred on the ink of the first line, as the end of a
+  // Text does
   .multi {
+    white-space: normal;
+  }
+  .multi:not(.editing) {
+    align-items: first baseline;
+    .clamp {
+      white-space: pre-wrap;
+      overflow: visible;
+      text-overflow: clip;
+    }
+    .pen {
+      @include seat(0);
+    }
+  }
+  // Edited, the box grows with the text, and the padding above and below puts the first line where
+  // a one-line control puts its text
+  .multi.editing {
     --kata-inline-edit-pad: calc((#{box-h()} - #{bw()} * 2 - #{fs(body)} * #{lh(body)}) / 2);
     height: auto;
     min-height: box-h();
     align-items: flex-start;
-    white-space: normal;
-  }
-  // Read, several lines are text that wraps, not trimmed
-  .multi .clamp {
-    @include untrim;
-    white-space: pre-wrap;
-    overflow: visible;
-    text-overflow: clip;
-    padding-block: var(--kata-inline-edit-pad);
-  }
-  .multi:not(.editing) {
-    display: block;
-    .clamp {
-      display: inline;
-    }
-    .pen {
-      display: inline-flex;
-      vertical-align: middle;
-      margin-left: pad(sm);
-    }
   }
   .ie textarea {
     resize: none;
@@ -259,18 +267,23 @@
   }
   // The action when empty: text only, like LinkAction
   .add {
-    display: inline-flex;
+    display: flex;
+    width: fit-content;
+    max-width: 100%;
     align-items: center;
     gap: gap(sm);
-    height: box-h();
     padding: 0;
     border: 0;
     background: none;
     color: color(blue-ink);
     @include text(body);
     cursor: pointer;
+    @include reach;
     &:hover {
       text-decoration: underline;
+    }
+    > :global(svg) {
+      flex: none;
     }
   }
 </style>
