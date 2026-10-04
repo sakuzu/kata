@@ -29,6 +29,13 @@ paragraph at the end of a row takes the rest of the width. At the edge of
 a container all the text in a row is trimmed to its ink, so that the items
 of one line stay level.
 
+A row that centres its items (the default `align`) centres them on their
+ink. Its own height is what meets the edge, so at either edge its text is
+trimmed on both sides, never on one: a text action beside a button sits on
+the button's ink, wherever the row is in its container
+([text and its ink](../measuring.md#text-and-its-ink)). With another
+`align`, the text is trimmed on the side at the edge only.
+
 `align="first"` aligns the items by their first baseline. A mark in a
 [Markbox](markbox.md) then stays centred on the ink of the first line of
 the text beside it, however many lines the text wraps to

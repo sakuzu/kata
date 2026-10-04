@@ -29,7 +29,10 @@
  * raises the flag again; so is the line along the bottom of Tabs that draw their own
  * ([data-role="tabs"] with data-rule), for the child after it. A row that places things side by
  * side ([data-edge-pass]) trims all of its text, so that the items of one line stay level: each of
- * its items that passes the flags on takes the row's flags whatever its place in it.
+ * its items that passes the flags on takes the row's flags whatever its place in it. A row that
+ * centres its items ([data-align="center"]) centres them on their ink, so it trims its text on both
+ * sides or on neither: at either edge, its items take both flags and its own lines are trimmed on
+ * both sides. A stack (a Block of lines, a Pair, a Stat) trims only the side at the edge.
  */
 
 :where(:not(:first-child)) {
@@ -46,6 +49,13 @@
 [data-edge-pass] > :where(:not([data-h], [data-inset], [data-outline])) {
   --kata-at-start: inherit;
   --kata-at-end: inherit;
+}
+/* A row that centres its items is at both of its edges when it is at either one */
+@container style(--kata-at-start: 1) or style(--kata-at-end: 1) {
+  [data-edge-pass][data-align="center"] > :where(:not([data-h], [data-inset], [data-outline])) {
+    --kata-at-start: 1;
+    --kata-at-end: 1;
+  }
 }
 [data-role="rule"] + :where(:not([data-h], [data-inset], [data-outline])),
 [data-role="tabs"]:where([data-rule]) + :where(:not([data-h], [data-inset], [data-outline])) {
@@ -123,6 +133,14 @@
   :where([data-ink]):first-child:last-child,
   [data-edge-pass] > :where([data-ink]) {
     text-box-trim: trim-both;
+  }
+}
+/* The lines of a row that centres its items, at either edge: both sides */
+@container style(--kata-at-start: 1) or style(--kata-at-end: 1) {
+  [data-edge-pass][data-align="center"] > :where([data-ink]) {
+    text-box: trim-both cap alphabetic;
+    padding-top: var(--kata-edge-top);
+    padding-bottom: var(--kata-edge-bottom);
   }
 }
 

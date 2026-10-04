@@ -1,8 +1,19 @@
 <script lang="ts">
-  import { Button, Icon, Kbd, Markbox, Row, Stack, Text } from '@sakuzu/kata/svelte';
+  import {
+    Block,
+    Button,
+    Icon,
+    Kbd,
+    LinkAction,
+    Markbox,
+    Row,
+    Stack,
+    Text,
+  } from '@sakuzu/kata/svelte';
   import Case from '../_shared/Case.svelte';
   import Example from '../_shared/Example.svelte';
   import Frame from '../_shared/Frame.svelte';
+  import Surface from '../_shared/Surface.svelte';
 
   const keys = ['⌘K', '⌘P', '⌘S', '⌘Z', '⇧⌘Z', '⌘C', '⌘V', '⌘X', '⌘A', '⌘F'];
 </script>
@@ -52,5 +63,18 @@
       <Kbd>⌘K</Kbd>
       <Text>A long sentence beside a mark wraps inside the width that is left, while the mark keeps its own size.</Text>
     </Row>
+  </Case>
+  <Case label="at an edge: a button and a text action, centred on their ink">
+    <Surface width="30rem">
+      <Block>
+        <Stack gap="sm">
+          <Row wrap>
+            <Button variant="primary">Invite a member</Button>
+            <LinkAction href="#seat">Invite with a seat</LinkAction>
+          </Row>
+          <Text role="caption">An invitation expires after seven days.</Text>
+        </Stack>
+      </Block>
+    </Surface>
   </Case>
 </Example>
