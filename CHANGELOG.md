@@ -6,6 +6,16 @@ follows semantic versioning.
 
 ## [Unreleased]
 
+## [1.9.2] - 2026-10-04
+
+A mark before a line of text sits in a seat (#74).
+
+- Fixed: the icon of InlineEdit's add row, of LinkAction (and its
+  external arrow), of a Button's leading icon and mark, and of a Toast
+  sits in a seat, so the row's first baseline is the text's: a Pair
+  `top` name lines up with an empty InlineEdit, and a Toast whose text
+  wraps keeps its icon on the first line.
+
 ## [1.9.1] - 2026-10-04
 
 Two gaps of 1.9.0 found by an application (#72).
@@ -586,6 +596,7 @@ them to the rules.
   of drawing out of kata; `npm run check:package` runs publint and Are
   the Types Wrong on the package.
 
+[1.9.2]: https://github.com/sakuzu/kata/compare/v1.9.1...v1.9.2
 [1.9.1]: https://github.com/sakuzu/kata/compare/v1.9.0...v1.9.1
 [1.9.0]: https://github.com/sakuzu/kata/compare/v1.8.1...v1.9.0
 [1.8.1]: https://github.com/sakuzu/kata/compare/v1.8.0...v1.8.1
