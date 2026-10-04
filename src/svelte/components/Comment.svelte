@@ -5,17 +5,18 @@
   import Text from './Text.svelte';
 
   // Comment: one message of a conversation. Its head is a list item that is not pressed, whose
-  // height comes from its content, with pad-md above and below: the person's Avatar (the small one) in the first column, centred on
-  // the first line; the first line holds the name (one line with an ellipsis) and the actions at
-  // the right end, the second line the time (caption), with "(edited)" or the application's own
+  // height comes from its content, with pad-md above and below: the person's Avatar (the small
+  // one) in the first column, in a seat centred on the ink of the first line; the first line holds
+  // the name (one line with an ellipsis) and the actions at the right end, as tall as the taller of
+  // them, the second line the time (caption), with "(edited)" or the application's own
   // note after it. The name and the time never share a line, so that neither is cut in a narrow
-  // column. The body follows below, in the name's column, as text that is not trimmed, with pad-md
-  // below.
+  // column. The body follows below, in the name's column, as text, with pad-md below; that padding
+  // is the comment's edge, so its last line is trimmed there.
   // color gives the Avatar the person's color, as in a Presence.
   //
-  // The distance between comments belongs to the Stack or the Thread they are in. At the sides it
-  // follows the list items: pad-md in a container without padding, none in a container with
-  // padding.
+  // The distance between comments belongs to the Stack or the Thread they are in. Its padding
+  // above and below is the distance to the edge, so it sits in a container without padding, as a
+  // list item does, with pad-md at the sides.
   //
   //   <Comment name="Sam Taylor" initial="ST" time="3 minutes ago">
   //     {#snippet actions()}<Button variant="ghost" icon aria-label="Actions">…</Button>{/snippet}
@@ -91,33 +92,37 @@
     grid-column: 1 / 3;
     display: grid;
     grid-template-columns: subgrid;
-    align-items: start;
+    // The avatar's seat and the first line align by their first baseline
+    align-items: baseline;
     min-height: var(--kata-list-item-height, #{h(list-item)});
     min-width: 0;
     padding-block: pad(md);
     @include text(body);
   }
-  // The avatar is centred on the first line
+  // The avatar's seat: the avatar's height, with the baseline of a trimmed line centred in it, so
+  // the avatar is centred on the ink of the first line
   .who {
-    display: flex;
-    align-items: center;
-    height: h(icon-button);
+    @include seat(h(badge));
   }
+  // The name and the time are a title and its caption: gap-sm apart, both trimmed
   .main {
     display: grid;
+    row-gap: gap(sm);
     min-width: 0;
   }
-  // The first line has the height of an icon button; the name shrinks, the actions keep their size
+  // The first line: the name takes the room the actions leave, and the actions keep their size;
+  // when they do not fit beside the name, they move below it as a whole
   .line {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
     gap: gap(sm);
     min-width: 0;
-    min-height: h(icon-button);
   }
   .name {
     display: flex;
+    flex: 1 1 0;
     min-width: 0;
     > :global(*) {
       min-width: 0;
@@ -128,15 +133,18 @@
     align-items: center;
     gap: 0;
     flex: none;
+    margin-left: auto;
   }
   .time {
     display: flex;
     min-width: 0;
   }
-  // The body, with pad-md below, the lower half of the rhythm of list items
+  // The body, with pad-md below, the lower half of the rhythm of list items. That padding is the
+  // comment's edge, so the last line of the body is trimmed there
   .body {
     grid-column: 2;
     min-width: 0;
     padding-bottom: pad(md);
+    @include edge(0, 1);
   }
 </style>

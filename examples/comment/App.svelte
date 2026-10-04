@@ -1,6 +1,6 @@
 <script lang="ts">
   import Ellipsis from '@lucide/svelte/icons/ellipsis';
-  import { Block, Button, Comment, Icon, Stack, Text } from '@sakuzu/kata/svelte';
+  import { Button, Comment, CommentList, Icon, Stack, Text } from '@sakuzu/kata/svelte';
   import Case from '../_shared/Case.svelte';
   import Example from '../_shared/Example.svelte';
   import Surface from '../_shared/Surface.svelte';
@@ -22,13 +22,18 @@
       </Stack>
     </Surface>
   </Case>
-  <Case label="In a block with padding: no padding at the sides">
+  <Case label="In a CommentList: a name that does not fit ends with an ellipsis">
     <Surface width="22.5rem">
-      <Block>
-        <Comment name="A person with a very long name that does not fit" initial="AP" time="Yesterday">
-          <Text wrap>The name ends with an ellipsis; the time keeps its own line.</Text>
-        </Comment>
-      </Block>
+      <CommentList
+        threads={[
+          {
+            id: 'long',
+            author: { name: 'A person with a very long name that does not fit', initial: 'AP' },
+            when: 'Yesterday',
+            body: 'The name ends with an ellipsis; the time keeps its own line.',
+          },
+        ]}
+      />
     </Surface>
   </Case>
 </Example>
