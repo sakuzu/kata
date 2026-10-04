@@ -3,6 +3,7 @@
   import type { Snippet } from 'svelte';
   import { tick, untrack } from 'svelte';
   import { follow, placeBelow, placeBeside } from '../lib/place.js';
+  import { hitRect } from '../lib/tipPlace.js';
 
   // Dropdown: a place that opens below a trigger, for a menu or a small picker. It is a popover, so
   // it shows in the top layer, above everything, also when it opens from inside a modal or a panel.
@@ -96,7 +97,9 @@
 
   function place() {
     if (!anchor || !panelEl) return;
-    const r = anchor.getBoundingClientRect();
+    // A borderless icon button is pressed in the square of a small button, larger than its icon,
+    // and the place opens outside that square
+    const r = role === 'icon-button' ? hitRect(anchor, role) : anchor.getBoundingClientRect();
     // Inside a bar, the place opens from the bar's edge, so that it does not cover the bar's line;
     // the sides stay the trigger's
     const bar = anchor.closest('[role="toolbar"], [data-role="toolbar"]');

@@ -16,7 +16,11 @@
   // danger (a red line) and danger-fill (the primary action of a confirmation). An icon button has
   // no text: icon and an aria-label, and it is a square small button. block is for the primary
   // action of a one-column form. The area that is pressed, the hover surface, the line and the
-  // focus ring are all this control's own.
+  // focus ring are all this control's own. A ghost button without a pressed state (neither on nor
+  // aria-pressed nor aria-current; a close button, a menu's trigger, a chevron that opens) has no
+  // line or surface at rest: it is laid out as its icon, and the area that is pressed, the hover
+  // surface and the focus ring reach the control's height around it without taking room (the
+  // reach mixin). A ghost button that shows whether it is chosen (a tool, a page) keeps its box.
   //
   //   <Button variant="primary" onclick={save}>Save</Button>
   //   <Button leading="plus">New document</Button>          an icon before the text
@@ -37,7 +41,7 @@
     block = false,
     busy = false,
     disabled = false,
-    on = false,
+    on,
     tone,
     leading,
     trailing,
@@ -102,6 +106,13 @@
   // A full-width button with a trailing icon is a chooser: the text on the left, the icon at the
   // right end
   const spread = $derived(block && !!trailing);
+  // A ghost button that never shows a pressed state is laid out as what it shows
+  const reach = $derived(
+    variant === 'ghost' &&
+      on === undefined &&
+      rest['aria-pressed' as keyof typeof rest] === undefined &&
+      rest['aria-current' as keyof typeof rest] === undefined,
+  );
 </script>
 
 {#snippet inner()}
@@ -127,6 +138,7 @@
       class:spread
       class:busy
       class:on
+      class:reach
       class:badged
       data-tone={tone}
       data-role="box"
@@ -148,6 +160,7 @@
       class:spread
       class:busy
       class:on
+      class:reach
       class:badged
       data-tone={tone}
       data-role="box"
@@ -164,7 +177,7 @@
 {/snippet}
 
 {#if tipText}
-  <Tooltip text={tipText} {shortcut} role="box" {keep}>{@render control()}</Tooltip>
+  <Tooltip text={tipText} {shortcut} role={reach ? 'icon-button' : 'box'} {keep}>{@render control()}</Tooltip>
 {:else}
   {@render control()}
 {/if}
@@ -182,11 +195,11 @@
     // text ends with an ellipsis, so that it never reaches past the container's edge
     flex: 0 1 auto;
     max-width: 100%;
-    &:hover:not(:disabled):not(.busy) {
+    &:hover:not(:disabled):not(.busy):not(.reach) {
       background: color(raise);
       text-decoration: none;
     }
-    &:active {
+    &:active:not(.reach) {
       background: color(raise-2);
       transition: none;
     }
@@ -324,7 +337,27 @@
     color: color(red-ink);
   }
   // The trigger of an open menu keeps the hover surface
-  .btn[aria-expanded='true'][aria-haspopup] {
+  .btn[aria-expanded='true'][aria-haspopup]:not(.reach) {
     background: color(raise);
+  }
+  // A ghost button without a pressed state: its box is its icon (or its text), with no line and no
+  // padding; the reach carries the hover surface, the surface of an open menu's trigger and the
+  // focus ring
+  .reach {
+    height: auto;
+    padding-inline: 0;
+    border: 0;
+    @include reach;
+    &:hover:not(:disabled):not(.busy)::before,
+    &[aria-expanded='true'][aria-haspopup]::before {
+      background: color(raise);
+    }
+    &:active::before {
+      background: color(raise-2);
+      transition: none;
+    }
+  }
+  .icon.reach {
+    height: h(icon);
   }
 </style>
