@@ -6,6 +6,47 @@ follows semantic versioning.
 
 ## [Unreleased]
 
+## [1.9.0] - 2026-10-04
+
+The edges of a container, measured from what is seen (#59): text that a
+component draws, a control without a line or a surface, a mark outside
+a sentence, and the audit's new `edge` check. The principle for
+controls without a line or a surface changes.
+
+- Changed: principle 3. A control without a line or a surface (an
+  InlineEdit at rest, a text action, a ghost button without a pressed
+  state) is laid out as what it shows, its text or its icon, and draws
+  its hit area, hover surface and focus ring as one shape of the
+  control's height, centred on it, that takes no room (the `reach`
+  mixin). Stacked fields are as far apart as text, a field at an edge
+  is pad from it, and an InlineEdit grows when it enters editing. A row
+  with a ghost button is as tall as its text (#59, #63).
+- Changed: every line of text is trimmed at an edge, whichever
+  component draws it. A line carries `data-ink`; a component without a
+  line or a surface passes the edge on, and only `[data-h]`,
+  `[data-inset]` and `[data-outline]` (a component with a line or a
+  surface) stop it. `data-pass` is gone. An application's own element
+  that relied on a `data-role` for the trim takes `data-ink` (#59).
+- Changed: an icon's edge is the square it is drawn in, so a one-line
+  Banner or Toast is 50.0 tall instead of 59.88 (#59).
+- Changed: a mark outside a sentence (Swatch, Avatar, Badge, Spinner's
+  seat) is laid out as a box, so a container holding it alone is as tall
+  as the mark (#59).
+- Added: `Banner body`, a snippet for content of several lines; the
+  children of a Banner are one line of text. A Banner that held a Stack
+  in its children moves it to `body` (#59).
+- Changed: an item with its own padding above and below (a ListItem, a
+  Comment) sits in a container without padding; ShortcutsModal is
+  flush, and Comment no longer reserves an icon button's height (#59).
+- Fixed: a Japanese Note at the edge of a Block is as far from it as
+  other text (#59).
+- Checks: the `edge` check (the first and last visible things of a
+  container with padding sit exactly pad from its inner edge) runs on
+  every example; the audit counts an icon as a visible thing, a chosen
+  cell by its box, a scrollbar by its outside, and measures a `reach`
+  control by its shape. The lint allows a pseudo-element moved by a
+  negative translate only inside `reach` (#59).
+
 ## [1.8.1] - 2026-10-04
 
 A fix found by an application. Nothing changes incompatibly.
@@ -526,6 +567,7 @@ them to the rules.
   of drawing out of kata; `npm run check:package` runs publint and Are
   the Types Wrong on the package.
 
+[1.9.0]: https://github.com/sakuzu/kata/compare/v1.8.1...v1.9.0
 [1.8.1]: https://github.com/sakuzu/kata/compare/v1.8.0...v1.8.1
 [1.8.0]: https://github.com/sakuzu/kata/compare/v1.7.0...v1.8.0
 [1.7.0]: https://github.com/sakuzu/kata/compare/v1.6.2...v1.7.0
