@@ -7,7 +7,7 @@
   // h2 on one line with an ellipsis, the actions sit at the right end. When the last action is an
   // icon button, tail makes the padding on the right pad-sm, so the icon's strokes line up with the
   // edge of the content below. two lets a title with a second line grow, with pad-md above and
-  // below. Without a title the children are free. Tabs inside a Toolbar take its height and meet
+  // below: it is a container with padding, and its text is trimmed at its edges. Without a title the children are free. Tabs inside a Toolbar take its height and meet
   // its line on their own.
   //
   //   <Toolbar title="Contents" rule tail>
@@ -49,6 +49,8 @@
   class:two
   data-role="toolbar"
   data-h={two ? undefined : 'toolbar'}
+  data-inset={two ? '' : undefined}
+  data-edge-pass={two ? '' : undefined}
 >
   {@render start?.()}
   {#if title}<h2 class="title" id={titleId}>{title}</h2>{/if}
@@ -77,12 +79,17 @@
   .tail {
     padding-inline-end: pad(sm);
   }
-  // A title with a second line: the height follows the content, pad-md above and below
+  // A title with a second line: a container with padding (data-inset). The height follows the
+  // content, pad-md above and below; the items side by side are all at its edges (data-edge-pass),
+  // so the first line of the title and the last line under it are trimmed there, and a control
+  // without a line or a surface inside reaches into the padding
   .two {
     height: auto;
     min-height: h(toolbar);
     padding-block: pad(md);
     align-items: flex-start;
+    --kata-inset: 0px;
+    @include edge(1, 1);
   }
   .two .title {
     white-space: normal;

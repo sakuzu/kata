@@ -41,7 +41,7 @@ element inside the example is measured; a finding fails the audit.
 | margin | Outer margins appear only in Prose and Block, never negative |
 | type | Font sizes are type roles; line heights are a step of the scale |
 | border | Borders are 0, 1 or 2px and solid, so no border of the browser |
-| height | An element with `data-h` has that height (in its reach, if any) |
+| height | An element with `data-h` has that height (a reach: its parent's) |
 | trim | Text is trimmed in a control, at a container's edge or at a line |
 | trim-clip | Trimmed text keeps its vertical overflow, so no ink is cut |
 | cursor | What can be pressed shows the pointer |
@@ -136,8 +136,10 @@ scrolls.
 
 height measures a control without a line or a surface (the `reach`
 mixin) by its reach, the `::before` that carries its hit area, hover
-surface and focus ring. double-inset also measures an item that keeps its
-own padding above and below (a list item, a comment): no container with
-padding holds it without a line or a surface between them. The edge of
-such an item is an edge for trim too: the last line of the body of a
-comment is trimmed at its padding.
+surface and focus ring, against the reach its parent gives it
+(`--kata-reach`, a small button's by default) rather than its `data-h`.
+double-inset also measures an item that keeps its own padding above and
+below (a list item, a comment): no container with padding holds it
+without a line or a surface between them. The edge of such an item is an
+edge for trim too: the last line of the body of a comment is trimmed at
+its padding.

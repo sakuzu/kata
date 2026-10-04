@@ -17,6 +17,11 @@
  *   --kata-reach                     the height of the hit area of a control without a line or a
  *                                    surface: a row that declares its height ([data-h]) sets the
  *                                    height of its controls, a container with padding resets it
+ *   --kata-hold                      raised by a component with a line or a surface of its own
+ *                                    ([data-outline]), lowered by a component that declares its
+ *                                    height or its padding ([data-h], [data-inset]): a control
+ *                                    without a line or a surface whose parent holds it is laid
+ *                                    out at its reach, so that a line never cuts the reach
  *
  * A line of text that is trimmed at an edge carries data-ink (Text, and the element that holds the
  * line of a component). It reads its parent's flags with a style query and trims the side that
@@ -64,6 +69,15 @@
 }
 :where([data-inset]) {
   --kata-reach: initial;
+}
+/* A component with a line or a surface holds the reach of the controls it holds directly (through
+ * wrappers that are not components of their own); a row that declares its height and a container
+ * with padding hold it already, with their height and their padding */
+:where([data-outline]) {
+  --kata-hold: 1;
+}
+:where([data-h], [data-inset]) {
+  --kata-hold: 0;
 }
 
 @container style(--kata-at-start: 1) {

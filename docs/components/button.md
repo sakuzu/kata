@@ -62,12 +62,14 @@ not to the button. The area that is pressed, the hover surface, the line
 and the focus ring all belong to the button. A ghost button without a
 pressed state (neither `on` nor `aria-pressed` nor `aria-current`: a
 close button, the trigger of a menu, a chevron that opens) has no line or
-surface at rest: it is laid out as its icon, and the area that is
-pressed, the hover surface and the focus ring reach the control's height
-around it without taking room. A ghost button that shows whether it is
-chosen (a tool, a page) keeps its box. An icon button shows its
-`aria-label` in a [Tooltip](tooltip.md), with `shortcut` as the key
-hint; a text button shows one only when `tip` is given.
+surface at rest: its height is its icon or its text and its width stays
+the button's (the square of an icon button, the padding at the sides of
+a text button), and the area that is pressed, the hover surface and the
+focus ring reach the control's height around it without taking room. A
+ghost button that shows whether it is chosen (a tool, a page) keeps its
+box. An icon button shows its `aria-label` in a [Tooltip](tooltip.md),
+with `shortcut` as the key hint; a text button shows one only when `tip`
+is given.
 
 ## Example
 

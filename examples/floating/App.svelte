@@ -1,6 +1,7 @@
 <script lang="ts">
   import List from '@lucide/svelte/icons/list';
-  import { Block, Button, Floating, Icon, SearchInput, Text } from '@sakuzu/kata/svelte';
+  import Moon from '@lucide/svelte/icons/moon';
+  import { Block, Button, Floating, Icon, Row, SearchInput, Text } from '@sakuzu/kata/svelte';
   import Case from '../_shared/Case.svelte';
   import Example from '../_shared/Example.svelte';
 
@@ -25,6 +26,23 @@
       </Floating>
     </div>
   </Case>
+  <Case label="A ghost button alone in a Floating, and a bar of ghost text buttons: the Floating holds their reach">
+    <div class="frame short">
+      <Floating top="md" left="md">
+        <Button variant="ghost" icon aria-label="Switch to dark"><Icon name={Moon} /></Button>
+      </Floating>
+      <Floating top="md" right="md">
+        <Button variant="ghost" aria-expanded="false">Actions</Button>
+      </Floating>
+      <Floating bottom="md" left="md">
+        <Row gap="0">
+          <Button variant="ghost">Draw</Button>
+          <Button variant="ghost">Measure</Button>
+          <Button variant="ghost">Export</Button>
+        </Row>
+      </Floating>
+    </div>
+  </Case>
   <Case label="With no side given, it stands in the flow and fills its place">
     <div class="place">
       <Floating>
@@ -43,6 +61,9 @@
     overflow: hidden;
     background: var(--kata-color-ground);
     border: var(--kata-border-width) solid var(--kata-color-line);
+  }
+  .frame.short {
+    height: 10rem;
   }
   /* Two Floatings that would overlap are the application's to place: the search leaves the top
      right corner to the button, the frame less the three gaps, the button and the lines and the

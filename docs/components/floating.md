@@ -33,7 +33,12 @@ Floatings that would overlap are the application's layout to solve. With
 no side given it stands in the flow, fills its place and stacks its
 content in a column, so that text wraps inside the frame. It has no
 padding: list items hold their own, and text goes in a
-[Block](block.md).
+[Block](block.md). A control without a line or a surface placed directly
+in it (a ghost button, alone or in a [Row](row.md) as a bar) is laid out
+at its reach, the height of a small button, and keeps its width, so the
+Floating holds its whole hit area and its line never cuts it. In a
+browser without container style queries (Firefox before 151) the hit
+area reaches across the line instead; it is still pressed as a whole.
 
 ## Example
 

@@ -18,9 +18,9 @@
   // action of a one-column form. The area that is pressed, the hover surface, the line and the
   // focus ring are all this control's own. A ghost button without a pressed state (neither on nor
   // aria-pressed nor aria-current; a close button, a menu's trigger, a chevron that opens) has no
-  // line or surface at rest: it is laid out as its icon, and the area that is pressed, the hover
-  // surface and the focus ring reach the control's height around it without taking room (the
-  // reach mixin). A ghost button that shows whether it is chosen (a tool, a page) keeps its box.
+  // line or surface at rest: its height is its icon (or its text) and its width the button's, and
+  // the area that is pressed, the hover surface and the focus ring reach the control's height
+  // around it without taking room (the reach mixin). A ghost button that shows whether it is chosen (a tool, a page) keeps its box.
   //
   //   <Button variant="primary" onclick={save}>Save</Button>
   //   <Button leading="plus">New document</Button>          an icon before the text
@@ -340,13 +340,13 @@
   .btn[aria-expanded='true'][aria-haspopup]:not(.reach) {
     background: color(raise);
   }
-  // A ghost button without a pressed state: its box is its icon (or its text), with no line and no
-  // padding; the reach carries the hover surface, the surface of an open menu's trigger and the
-  // focus ring
+  // A ghost button without a pressed state: its height is its icon (or its text), with no line
+  // above or below; its width stays the button's (the square of an icon button, the padding at the
+  // sides of a text button); the reach carries the hover surface, the surface of an open menu's
+  // trigger and the focus ring
   .reach {
     height: auto;
-    padding-inline: 0;
-    border: 0;
+    border-block: 0;
     @include reach;
     &:hover:not(:disabled):not(.busy)::before,
     &[aria-expanded='true'][aria-haspopup]::before {

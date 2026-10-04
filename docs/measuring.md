@@ -11,9 +11,18 @@ Eight things have an edge.
 
 - A component with a line or a surface: the outside of its outline.
 - A control without a line or a surface (an InlineEdit at rest, a
-  LinkAction, a ghost icon button that is not pressed): its text or its
-  icon, laid out and trimmed as text. Its hit area, hover surface and
-  focus ring reach the control's height around it without taking room.
+  LinkAction, a ghost button that is not pressed): its text or its icon,
+  laid out and trimmed as text. Only its height is what it shows; its
+  width stays the control's (the square of an icon button, the padding at
+  the sides of a text button). Its hit area, hover surface and focus ring
+  reach the control's height (its reach) around it without taking room.
+  A line never cuts the reach: directly inside a component with a line
+  or a surface (a [Floating](components/floating.md) used as a bar, with
+  nothing between them that declares a height or padding of its own), the
+  control is laid out at its reach, so that the component holds the whole
+  shape. A browser without container style queries (Firefox before 151)
+  does not lay it out so: the shape reaches across the line there, and is
+  still pressed and shown on hover as a whole.
 - The cells of a set that shows which one is chosen (the glyphs of a
   [Glyphs](components/glyphs.md), the pages of a
   [Pager](components/pager.md), the colors of a

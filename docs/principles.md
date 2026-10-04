@@ -30,7 +30,11 @@ hover surface, border and focus ring are all drawn on that one shape;
 nothing is drawn outside it. A control without a line or a surface is laid
 out as what it shows, and draws its hit area, hover surface and focus ring
 as one shape of the control's height, centred on it, that takes no room.
-There are no negative margins.
+Only its height is what it shows: its width stays the control's (an icon
+button keeps its square, a text button its padding at the sides), so the
+shape is the control's width by its reach. A line never cuts that shape:
+directly inside a component with a line or a surface, the control is laid
+out at its reach. There are no negative margins.
 
 ### 4. Height comes from content
 

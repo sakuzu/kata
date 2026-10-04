@@ -32,8 +32,12 @@ inside are small buttons. The title is h2, trimmed to its ink, on one
 line with an ellipsis; nothing inside wraps. The actions sit at the right
 end, icon buttons side by side. With `tail` the padding on the right is
 pad-sm, so the icon's strokes line up with the content below. With `two`
-the height follows the content, with pad-md above and below. It keeps
-its height in a vertical flex.
+it is a container with padding: the height follows the content, with
+pad-md above and below, and the items side by side are all at its edges,
+so the first line of the title and the last line under it are trimmed
+there and their ink is pad-md from the edge. A control without a line or
+a surface inside reaches into that padding. It keeps its height in a
+vertical flex.
 
 ## Example
 

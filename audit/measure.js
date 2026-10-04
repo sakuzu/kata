@@ -410,13 +410,17 @@
 
       const declared = el.getAttribute('data-h');
       if (declared) {
-        // A button takes the height its container declares (--kata-box)
+        // A control without a line or a surface (the reach mixin) is measured by its reach, the
+        // height its parent gives it (--kata-reach, a small button's by default). A button takes
+        // the height its container declares (--kata-box)
+        const reach = reachOf(el);
         const want =
-          declared === 'button' && el.parentElement
-            ? pxOf('var(--kata-box, var(--kata-height-button))', el.parentElement)
-            : H[declared];
-        // A control without a line or a surface (the reach mixin) is measured by its reach
-        const r = reachOf(el) ?? el.getBoundingClientRect();
+          reach && el.parentElement
+            ? pxOf('var(--kata-reach, var(--kata-height-button-sm))', el.parentElement)
+            : declared === 'button' && el.parentElement
+              ? pxOf('var(--kata-box, var(--kata-height-button))', el.parentElement)
+              : H[declared];
+        const r = reach ?? el.getBoundingClientRect();
         // The height of a row and of a footer is a minimum: it grows with its content
         const grows =
           /^(list-item|list-item-two|list-item-mark|list-item-lg|thumbnail-row|footer)$/.test(

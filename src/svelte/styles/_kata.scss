@@ -202,16 +202,22 @@
     color 0.12s ease;
 }
 
-// A control without a line or a surface (an InlineEdit at rest, a LinkAction, a ghost icon button
-// that is not pressed). Its box is what it shows: the line box of its text, trimmed where text is,
-// or the square of its icon. Its hit area, hover surface and focus ring are one shape, ::before, of
+// A control without a line or a surface (an InlineEdit at rest, a LinkAction, a ghost button that
+// is not pressed). Only its block size is what it shows: the line box of its text, trimmed where
+// text is, or its icon; its inline size stays the control's (a button keeps its square or its
+// padding at the sides). Its hit area, hover surface and focus ring are one shape, ::before, of
 // the control's height (--kata-reach: a small button's, or the height a [data-h] row declares; a
 // container with padding resets it; never less than the box, for text that wraps), centred on the
 // box and as wide as it, drawn under the content and taking no room. The control paints the
-// shape's background on hover.
+// shape's background on hover. A line never cuts the reach: directly inside a component with a
+// line or a surface (--kata-hold, components.css) the control is laid out at its reach, so that
+// the component holds the whole shape.
 @mixin reach {
   position: relative;
   isolation: isolate;
+  @container style(--kata-hold: 1) {
+    min-height: var(--kata-reach, #{h(button-sm)});
+  }
   &::before {
     content: '';
     position: absolute;
