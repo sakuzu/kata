@@ -11,7 +11,7 @@
   let { children }: { children: Snippet } = $props();
 </script>
 
-<div class="indent" data-role="indent" data-pass>
+<div class="indent" data-role="indent">
   <span class="column" aria-hidden="true"></span>
   <div class="body">{@render children()}</div>
 </div>

@@ -49,9 +49,9 @@
         <h2 class="title">{title}</h2>
         {#if status}<span class="status">{status}</span>{/if}
       </div>
-      {#if note}<p class="note" data-role="caption">{note}</p>{/if}
+      {#if note}<p class="note" data-role="caption" data-ink>{note}</p>{/if}
     </Stack>
-    <div class="body" data-pass>
+    <div class="body">
       <Stack {gap}>{@render children()}</Stack>
     </div>
   </Stack>

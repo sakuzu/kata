@@ -84,7 +84,7 @@
   {:else}
     <div class="row">{@render children()}</div>
   {/if}
-  {#if note}<span class="note">{note}</span>{/if}
+  {#if note}<span class="note" data-ink>{note}</span>{/if}
 </div>
 
 <style lang="scss">

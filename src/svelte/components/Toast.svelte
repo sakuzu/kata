@@ -30,9 +30,9 @@
   };
 </script>
 
-<div class="toast {tone}" data-inset data-role="toast" role={tone === 'error' ? 'alert' : 'status'}>
+<div class="toast {tone}" data-inset data-edge-pass data-role="toast" role={tone === 'error' ? 'alert' : 'status'}>
   <span class="mark"><Icon name={MARK[tone]} /></span>
-  <p class="text">{@render children()}</p>
+  <p class="text" data-ink>{@render children()}</p>
   {#if act}<div class="act">{@render act()}</div>{/if}
 </div>
 

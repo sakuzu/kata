@@ -67,7 +67,8 @@ element inside the example is measured; a finding fails the audit.
 
 Distances are measured from the edge of what is visible: the outline of a
 component with a line or a surface, a line, the inner edge of a
-container, or the ink of text. A line along one side of a component only
+container, the ink of text, or the square of an icon (not one that hangs
+from a seat of no height). A line along one side of a component only
 is an edge on that side only; from the other side the distance runs to
 what is inside it (the text of tabs with a line along their bottom). An
 element marked `data-kata-skip` (drawn by the browser or by another

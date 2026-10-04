@@ -3,8 +3,8 @@
 
   // Spinner: a short wait. Three dots that pulse; nothing turns or blinks. It has no color or
   // size of its own: it follows the text around it. The dots are an icon ÷ φ² square, gap-2xs
-  // apart, gap-sm from the label; the label is text that is not trimmed. With reduced motion the
-  // dots rest at three strengths.
+  // apart, gap-sm from the label; the label is text, trimmed only at the edge of a container. With
+  // reduced motion the dots rest at three strengths.
   //
   //   <Spinner />   <Spinner label="Saving" />
   let {
@@ -17,7 +17,7 @@
 
 <span class="seat" data-role="spinner" data-edge-pass role="status"
   ><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span
-  >{#if label}<span class="t">{label}</span>{/if}</span
+  >{#if label}<span class="t" data-ink>{label}</span>{/if}</span
 >
 
 <style lang="scss">

@@ -30,7 +30,7 @@
   } = $props();
 </script>
 
-<div class="note {tone ?? ''}" class:ico={!!icon} data-role="caption">
+<div class="note {tone ?? ''}" class:ico={!!icon} data-role="caption" data-ink>
   {#if icon}<span class="mark"><Icon name={icon} /></span>{/if}
   {#if clamp}
     <p class="text clamp" use:clampTip>{@render children()}</p>

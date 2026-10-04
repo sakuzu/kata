@@ -191,6 +191,7 @@
   class="drawbar"
   class:column
   data-role="drawbar"
+  data-outline
   role="toolbar"
   aria-label={label}
   aria-orientation={column ? 'vertical' : undefined}

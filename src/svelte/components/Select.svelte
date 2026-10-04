@@ -168,6 +168,7 @@
     bind:this={listEl}
     id={listId}
     class="list"
+    data-outline
     class:placed
     role="listbox"
     tabindex="-1"

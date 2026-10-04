@@ -30,13 +30,13 @@
   const noteId = $derived(htmlFor ? `${htmlFor}-note` : undefined);
 </script>
 
-<div class="field" class:err={!!error} data-role="field" data-pass style:max-width={width}>
-  <label class="label" for={htmlFor}>{label}</label>
+<div class="field" class:err={!!error} data-role="field" style:max-width={width}>
+  <label class="label" for={htmlFor} data-ink>{label}</label>
   <div class="box">{@render children()}</div>
   {#if error}
-    <span class="note error" data-role="caption" id={noteId}>{error}</span>
+    <span class="note error" data-role="caption" data-ink id={noteId}>{error}</span>
   {:else if note}
-    <span class="note" data-role="caption" id={noteId}>{note}</span>
+    <span class="note" data-role="caption" data-ink id={noteId}>{note}</span>
   {/if}
 </div>
 

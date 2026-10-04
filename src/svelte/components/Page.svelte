@@ -41,7 +41,7 @@
 >
   <Stack gap={0}>
     {#if head}{@render head()}{/if}
-    <div class="body" class:flush data-pass>
+    <div class="body" class:flush>
       <Stack gap="lg">{@render children()}</Stack>
     </div>
   </Stack>

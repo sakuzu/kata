@@ -48,7 +48,7 @@
   } = $props();
 </script>
 
-<div class="wrap" class:fill bind:this={el} {onscroll} data-role="table">
+<div class="wrap" class:fill bind:this={el} {onscroll} data-role="table" data-outline>
   <table class="table" class:dividers class:sticky data-role="table" data-rows={rows}>
     <thead><tr>{@render head()}</tr></thead>
     <tbody>{@render children()}</tbody>

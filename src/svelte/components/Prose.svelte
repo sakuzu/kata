@@ -17,7 +17,7 @@
   let { children }: { children: Snippet } = $props();
 </script>
 
-<div class="prose" data-role="prose" data-pass>{@render children()}</div>
+<div class="prose" data-role="prose" data-ink>{@render children()}</div>
 
 <style lang="scss">
   @use '../styles/kata' as *;

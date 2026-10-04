@@ -39,7 +39,7 @@
 </script>
 
 <div class="bar" data-inset data-role="filter-bar" role="group" aria-label={getMessages().filters}>
-  <div class="lead">
+  <div class="lead" data-edge-pass>
     <Icon name="funnel" tone="muted" />
     <Text role="caption">{sentence}</Text>
   </div>

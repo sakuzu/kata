@@ -10,8 +10,8 @@
   //
   // The picture reaches the edges (no padding), so it goes in thumb; the title and the details go
   // in children. Only the body has padding (pad-md); its content is a Stack gap 0 (a title and a
-  // caption are text that is not trimmed). Actions sit at the top right of the body, above the
-  // area that is pressed; below 24rem they move over the top right of the picture.
+  // caption are text, trimmed at the body's edges only). Actions sit at the top right of the body,
+  // above the area that is pressed; below 24rem they move over the top right of the picture.
   //
   //   <Gtile href="/documents/1" label="Riverside plan">
   //     {#snippet thumb()}<Thumbnail size="full" src={url} />{/snippet}
@@ -43,14 +43,14 @@
 
 <!-- The root is a container. The element that is pressed covers the whole tile, and the actions
      sit above it, so that nothing pressable is inside something pressable -->
-<div class="gtile" class:sel data-role="card">
+<div class="gtile" class:sel data-role="card" data-outline>
   {#if href}
     <a class="press" {href} {onclick} aria-label={label}></a>
   {:else}
     <button type="button" class="press" {onclick} aria-label={label}></button>
   {/if}
   {#if thumb}<span class="thumbseat">{@render thumb()}</span>{/if}
-  <span class="body" data-inset>
+  <span class="body" data-inset data-edge-pass>
     <span class="main"><Stack gap={0}>{@render children()}</Stack></span>
     {#if actions}<span class="actions">{@render actions()}</span>{/if}
   </span>

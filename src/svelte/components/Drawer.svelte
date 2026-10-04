@@ -45,13 +45,13 @@
 <svelte:window onkeydowncapture={onKeyDown} />
 
 {#if inline}
-  <aside class="drawer" data-inline aria-label={label} data-role="panel">
+  <aside class="drawer" data-inline aria-label={label} data-role="panel" data-outline>
     {@render children()}
   </aside>
 {:else if open}
   <!-- The scrim is a button that closes the drawer -->
   <button class="scrim" type="button" aria-label={getMessages().close} onclick={close}></button>
-  <aside class="drawer" aria-label={label} data-role="panel">
+  <aside class="drawer" aria-label={label} data-role="panel" data-outline>
     {@render children()}
   </aside>
 {/if}

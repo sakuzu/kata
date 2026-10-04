@@ -107,6 +107,7 @@
 <nav
   class="crumbs"
   data-role="crumbs"
+  data-edge-pass
   aria-label={label}
   bind:this={root}
   style:width={whole === undefined ? undefined : `${whole}px`}
@@ -125,6 +126,7 @@
       {#if c.href && !isCurrent(i)}
         <a
           class="t"
+          data-ink
           class:least={short[i] === false}
           class:own={short[i]}
           href={c.href}
@@ -134,6 +136,7 @@
       {:else if c.onclick && !isCurrent(i)}
         <button
           class="t"
+          data-ink
           class:least={short[i] === false}
           class:own={short[i]}
           type="button"
@@ -143,6 +146,7 @@
       {:else}
         <span
           class="t"
+          data-ink
           class:least={short[i] === false}
           class:own={short[i]}
           aria-current={isCurrent(i) ? 'page' : undefined}

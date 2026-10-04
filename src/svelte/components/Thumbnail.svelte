@@ -36,6 +36,7 @@
   class="thumbnail"
   class:full
   data-role="mark"
+  data-outline
   data-kata-tall={full ? undefined : ''}
   style:--kata-thumbnail-width={full ? null : size}
 >

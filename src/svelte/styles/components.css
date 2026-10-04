@@ -7,18 +7,21 @@
  * inherit through the tree:
  *
  *   --kata-at-start / --kata-at-end  raised by a container with padding on its content; lowered
- *                                    on every child that is not first or last; stopped by every
- *                                    component with an outline of its own (a [data-role] other
- *                                    than a stack or a pass-through wrapper)
+ *                                    on every child that is not first or last; stopped only by a
+ *                                    component with a line or a surface of its own, which declares
+ *                                    so: [data-h] (a control), [data-inset] (a container with
+ *                                    padding) or [data-outline] (any other). Everything else
+ *                                    passes them on to what it holds
  *   --kata-in-control                raised by a component that declares its height ([data-h]),
  *                                    lowered by a container with padding ([data-inset])
  *
- * Edge text (Text, a paragraph, Prose) reads its parent's flags with a style query and trims the
- * side that touches the edge. A line ([data-role="rule"]) is a visible edge too, so the child next
- * to it raises the flag again; so is the line along the bottom of Tabs that draw their own
- * ([data-role="tabs"] with data-rule), for the child after it. A horizontal row ([data-edge-pass]) trims all of its text, so that
- * the items of one line stay level: its items that pass the flags on (a stack, a pass-through
- * wrapper, another row) take the row's flags whatever their place in it.
+ * A line of text that is trimmed at an edge carries data-ink (Text, and the element that holds the
+ * line of a component). It reads its parent's flags with a style query and trims the side that
+ * touches the edge. A line ([data-role="rule"]) is a visible edge too, so the child next to it
+ * raises the flag again; so is the line along the bottom of Tabs that draw their own
+ * ([data-role="tabs"] with data-rule), for the child after it. A row that places things side by
+ * side ([data-edge-pass]) trims all of its text, so that the items of one line stay level: each of
+ * its items that passes the flags on takes the row's flags whatever its place in it.
  */
 
 :where(:not(:first-child)) {
@@ -27,20 +30,20 @@
 :where(:not(:last-child)) {
   --kata-at-end: 0;
 }
-:where([data-role]:not([data-role="stack"]):not([data-pass]):not([data-edge-pass])) {
+:where([data-h], [data-inset], [data-outline]) {
   --kata-at-start: 0;
   --kata-at-end: 0;
 }
 /* The items of a row at an edge line up: each one that passes the flags on is at the row's edges */
-[data-edge-pass] > :where([data-role="stack"], [data-pass], [data-edge-pass], :not([data-role])) {
+[data-edge-pass] > :where(:not([data-h], [data-inset], [data-outline])) {
   --kata-at-start: inherit;
   --kata-at-end: inherit;
 }
-[data-role="rule"] + :where([data-role="stack"], [data-pass], [data-edge-pass], :not([data-role])),
-[data-role="tabs"]:where([data-rule]) + :where([data-role="stack"], [data-pass], [data-edge-pass], :not([data-role])) {
+[data-role="rule"] + :where(:not([data-h], [data-inset], [data-outline])),
+[data-role="tabs"]:where([data-rule]) + :where(:not([data-h], [data-inset], [data-outline])) {
   --kata-at-start: 1;
 }
-:where([data-role="stack"], [data-pass], [data-edge-pass], :not([data-role])):has(+ [data-role="rule"]) {
+:where(:not([data-h], [data-inset], [data-outline])):has(+ [data-role="rule"]) {
   --kata-at-end: 1;
 }
 
@@ -52,27 +55,27 @@
 }
 
 @container style(--kata-at-start: 1) {
-  :where(.kata-text, [data-role="caption"], [data-role="p"], [data-role="prose"], [data-role="value"], [data-role="field"] > label):first-child,
-  [data-edge-pass] > :where(.kata-text, [data-role="caption"], [data-role="p"], [data-role="prose"], [data-role="value"], [data-role="field"] > label) {
+  :where([data-ink]):first-child,
+  [data-edge-pass] > :where([data-ink]) {
     text-box: trim-start cap alphabetic;
     padding-top: var(--kata-edge-top);
   }
 }
 @container style(--kata-at-end: 1) {
-  :where(.kata-text, [data-role="caption"], [data-role="p"], [data-role="prose"], [data-role="value"], [data-role="field"] > label):last-child,
-  [data-edge-pass] > :where(.kata-text, [data-role="caption"], [data-role="p"], [data-role="prose"], [data-role="value"], [data-role="field"] > label) {
+  :where([data-ink]):last-child,
+  [data-edge-pass] > :where([data-ink]) {
     text-box: trim-end cap alphabetic;
     padding-bottom: var(--kata-edge-bottom);
   }
 }
 
 /* Text directly next to a line */
-[data-role="rule"] + :where(.kata-text, [data-role="caption"], [data-role="p"], [data-role="prose"], [data-role="value"], [data-role="field"] > label),
-[data-role="tabs"]:where([data-rule]) + :where(.kata-text, [data-role="caption"], [data-role="p"], [data-role="prose"], [data-role="value"], [data-role="field"] > label) {
+[data-role="rule"] + :where([data-ink]),
+[data-role="tabs"]:where([data-rule]) + :where([data-ink]) {
   text-box: trim-start cap alphabetic;
   padding-top: var(--kata-edge-top);
 }
-:where(.kata-text, [data-role="caption"], [data-role="p"], [data-role="prose"], [data-role="value"], [data-role="field"] > label):has(+ [data-role="rule"]) {
+:where([data-ink]):has(+ [data-role="rule"]) {
   text-box: trim-end cap alphabetic;
   padding-bottom: var(--kata-edge-bottom);
 }
@@ -80,19 +83,19 @@
 /* Text next to a line that is also at the edge of its container, and text alone in a container:
  * both sides. text-box-trim is one property, so trim-both comes last. */
 @container style(--kata-at-end: 1) {
-  [data-role="rule"] + :where(.kata-text, [data-role="caption"], [data-role="p"], [data-role="prose"], [data-role="value"], [data-role="field"] > label):last-child,
-  [data-role="tabs"]:where([data-rule]) + :where(.kata-text, [data-role="caption"], [data-role="p"], [data-role="prose"], [data-role="value"], [data-role="field"] > label):last-child {
+  [data-role="rule"] + :where([data-ink]):last-child,
+  [data-role="tabs"]:where([data-rule]) + :where([data-ink]):last-child {
     text-box-trim: trim-both;
   }
 }
 @container style(--kata-at-start: 1) {
-  :where(.kata-text, [data-role="caption"], [data-role="p"], [data-role="prose"], [data-role="value"], [data-role="field"] > label):first-child:has(+ [data-role="rule"]) {
+  :where([data-ink]):first-child:has(+ [data-role="rule"]) {
     text-box-trim: trim-both;
   }
 }
 @container style(--kata-at-start: 1) and style(--kata-at-end: 1) {
-  :where(.kata-text, [data-role="caption"], [data-role="p"], [data-role="prose"], [data-role="value"], [data-role="field"] > label):first-child:last-child,
-  [data-edge-pass] > :where(.kata-text, [data-role="caption"], [data-role="p"], [data-role="prose"], [data-role="value"], [data-role="field"] > label) {
+  :where([data-ink]):first-child:last-child,
+  [data-edge-pass] > :where([data-ink]) {
     text-box-trim: trim-both;
   }
 }

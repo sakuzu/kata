@@ -62,7 +62,7 @@
         >{/if}
     </span>
   </div>
-  <div class="body" data-pass>{@render children()}</div>
+  <div class="body">{@render children()}</div>
 </article>
 
 <style lang="scss">
@@ -75,6 +75,9 @@
     min-width: 0;
     padding-inline: var(--kata-inset, #{pad(md)});
     @include scope-box(button-sm);
+    // Its own padding above and below is the distance to the edge, so nothing inside it is at the
+    // edge of what holds it (a list item stops the flags by its height)
+    @include edge(0, 0);
     // The comment takes the inset, so its content takes none
     > * {
       --kata-inset: 0px;

@@ -169,6 +169,7 @@
   data-sheet={name}
   aria-label={label}
   data-role="panel"
+  data-outline
   bind:this={el}
   style:z-index={z}
   style:height={dragH !== null ? `${dragH}px` : undefined}

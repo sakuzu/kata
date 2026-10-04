@@ -54,6 +54,7 @@
   class="floating"
   class:flow={top === undefined && right === undefined && bottom === undefined && left === undefined}
   data-role="floating"
+  data-outline
   style:top={at(top)}
   style:right={at(right)}
   style:bottom={at(bottom)}

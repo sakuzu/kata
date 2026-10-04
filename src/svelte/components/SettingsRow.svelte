@@ -42,7 +42,6 @@
   class="settings-row"
   class:sized={!!width}
   data-role="settings-row"
-  data-pass
   role="group"
   aria-labelledby="{id}-label"
   aria-describedby={description ? `${id}-description` : undefined}
@@ -55,7 +54,7 @@
       <span class="label" id="{id}-label">{label}</span>
     {/if}
     {#if description}
-      <span class="description" data-role="caption" id="{id}-description">{description}</span>
+      <span class="description" data-role="caption" data-ink id="{id}-description">{description}</span>
     {/if}
   </div>
   <div class="control">

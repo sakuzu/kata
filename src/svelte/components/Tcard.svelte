@@ -42,6 +42,7 @@
   class:placed={y !== undefined}
   style:transform={y === undefined ? undefined : `translateY(${y}px)`}
   data-role="table"
+  data-outline
   {...rest}
 >
   <dl class="tcard">{@render children()}</dl>

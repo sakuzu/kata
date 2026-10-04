@@ -8,7 +8,8 @@
   // State: what a place shows when it is empty, loading or has failed: one sentence and at most
   // one note, at the start, and one action at the end (as in Actions); no picture and no heading.
   // No padding: the padding of the container it sits in applies. The sentence and the note are
-  // not trimmed; sentence, note and action are gap-sm apart. A failure is a red sentence.
+  // trimmed only at the edge of the container; sentence, note and action are gap-sm apart. A
+  // failure is a red sentence.
   //
   //   <State text="Nothing is here yet." note="Drop a file, or…">
   //     {#snippet actions()}<Button>Add a file</Button>{/snippet}
@@ -34,14 +35,14 @@
   } = $props();
 </script>
 
-<div class="state" data-role="state" data-pass>
+<div class="state" data-role="state">
   <Stack gap="sm">
     {#if loading}
       <Spinner label={text} />
     {:else}
-      <p class="t" class:error={tone === 'error'} data-role="p">{text}</p>
+      <p class="t" class:error={tone === 'error'} data-role="p" data-ink>{text}</p>
     {/if}
-    {#if note}<span class="note" data-role="caption">{note}</span>{/if}
+    {#if note}<span class="note" data-role="caption" data-ink>{note}</span>{/if}
     {#if actions}<Actions primary={actions} />{/if}
   </Stack>
 </div>

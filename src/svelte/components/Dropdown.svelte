@@ -221,6 +221,7 @@
   <div
     class="seat"
     class:menu={!bare}
+    data-outline={bare ? undefined : ''}
     class:placed
     popover={canPopover ? 'manual' : undefined}
     bind:this={panelEl}

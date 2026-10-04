@@ -24,9 +24,10 @@ which shows a [Spinner](spinner.md) with the sentence.
 
 No padding: the padding of its container applies. The sentence (body,
 in the text color, red-ink for a failure) and the note (a muted
-caption) are at the start and not trimmed; the action is at the end of
-its row, as in [Actions](actions.md), with a button's height. The three
-are gap-sm apart. It has no picture and no heading.
+caption) are at the start, trimmed only at the edge of the container;
+the action is at the end of its row, as in [Actions](actions.md), with a
+button's height. The three are gap-sm apart. It has no picture and no
+heading.
 
 ## Example
 

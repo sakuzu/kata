@@ -97,6 +97,7 @@
   class:fit
   class:grip={resizable}
   data-role="panel"
+  data-outline
   aria-label={label}
   bind:this={el}
   bind:clientHeight={nowH}

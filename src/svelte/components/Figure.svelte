@@ -24,6 +24,7 @@
 <div
   class="figure"
   data-role="figure"
+  data-outline
   role={label ? 'img' : undefined}
   aria-label={label}
   style:height

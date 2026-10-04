@@ -134,7 +134,7 @@
             </button>
           {/snippet}
           {#snippet panel()}
-            <div class="roster" data-role="menu">{@render rosterBody()}</div>
+            <div class="roster" data-role="menu" data-outline>{@render rosterBody()}</div>
           {/snippet}
         </Dropdown>
       </span>

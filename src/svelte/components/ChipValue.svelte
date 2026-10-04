@@ -55,6 +55,7 @@
     class="chip-value"
     class:rows
     data-role="floating"
+    data-outline
     aria-label={label}
     {onclick}
     style:top={at(top)}
@@ -69,6 +70,7 @@
     class="chip-value"
     class:rows
     data-role="floating"
+    data-outline
     style:top={at(top)}
     style:right={at(right)}
     style:bottom={at(bottom)}

@@ -17,7 +17,7 @@
   } = $props();
 </script>
 
-<div class="veil" data-role="veil" aria-busy={busy || undefined}>
+<div class="veil" data-role="veil" data-outline aria-busy={busy || undefined}>
   {@render children()}
 </div>
 

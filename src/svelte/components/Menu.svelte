@@ -22,7 +22,7 @@
   } = $props();
 </script>
 
-<div class="menu" data-role="menu" data-rows={rows}>{@render children()}</div>
+<div class="menu" data-role="menu" data-outline data-rows={rows}>{@render children()}</div>
 
 <style lang="scss">
   @use '../styles/kata' as *;

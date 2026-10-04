@@ -6,7 +6,7 @@
   // Stat: a figure (num) with its name (caption) below it. Between the two nothing is trimmed, so
   // they sit with no gap: the line heights are the distance. Like Text, a Stat at an edge (the
   // inner edge of a container, or a line) trims the line that touches it: the top of the figure,
-  // the bottom of the name. The edge flags pass through it (data-pass). Figures have equal widths.
+  // the bottom of the name. The edge flags pass through it. Figures have equal widths.
   // Stats sets several side by side.
   //
   //   <Stat label="Documents" value="128" />
@@ -24,7 +24,7 @@
   } = $props();
 </script>
 
-<div class="stat" data-role="stat" data-pass>
+<div class="stat" data-role="stat">
   <span class="v">{value}</span>
   <span class="k">{#if icon}<Icon name={icon} />{/if}<span class="t">{label}</span></span>
 </div>

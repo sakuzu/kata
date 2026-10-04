@@ -36,7 +36,7 @@
 </script>
 
 {#snippet inner()}
-  {#if icon}<Icon name={icon} />{/if}<span class="t">{@render children()}</span>{#if external}<Icon
+  {#if icon}<Icon name={icon} />{/if}<span class="t" data-ink>{@render children()}</span>{#if external}<Icon
       name="arrow-up-right"
     />{/if}
 {/snippet}

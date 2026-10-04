@@ -28,9 +28,9 @@
 </script>
 
 {#if clamp}
-  <span class="v clamp" class:mono class:muted data-role="value" use:clampTip>{value}</span>
+  <span class="v clamp" class:mono class:muted data-role="value" data-ink use:clampTip>{value}</span>
 {:else}
-  <span class="v" class:mono class:muted data-role="value">{value}</span>
+  <span class="v" class:mono class:muted data-role="value" data-ink>{value}</span>
 {/if}
 
 <style lang="scss">

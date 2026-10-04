@@ -145,7 +145,8 @@
 
 // The edge flags. A container raises --kata-at-start and --kata-at-end on its content; the global
 // rules in components.css lower them on children that are not first or last, stop them at every
-// component with an outline of its own, and trim the text that sits at a raised edge.
+// component with a line or a surface of its own ([data-h], [data-inset], [data-outline]), and trim
+// the line of text (data-ink) that sits at a raised edge.
 @mixin edge($start: 1, $end: 1) {
   --kata-at-start: #{$start};
   --kata-at-end: #{$end};

@@ -200,6 +200,7 @@
     class="modal {size}"
     class:confirm
     data-role="modal"
+    data-outline
     data-inline
     aria-labelledby={titleId}
     role={confirm ? 'alertdialog' : 'dialog'}
@@ -213,6 +214,7 @@
     class:confirm
     class:full
     data-role="modal"
+    data-outline
     aria-labelledby={titleId}
     aria-modal="true"
     role={confirm ? 'alertdialog' : 'dialog'}

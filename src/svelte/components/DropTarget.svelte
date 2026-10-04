@@ -22,7 +22,7 @@
   } = $props();
 </script>
 
-<div class="drop" data-inset class:over data-role="drop">
+<div class="drop" data-inset data-edge-pass class:over data-role="drop">
   {@render children()}
 </div>
 

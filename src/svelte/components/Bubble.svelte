@@ -30,7 +30,7 @@
   } = $props();
 </script>
 
-<div class="pop" class:tall={!!foot} data-role="popover">
+<div class="pop" class:tall={!!foot} data-role="popover" data-outline>
   <div class="body" class:flush data-inset={flush ? undefined : true}>
     <Stack gap={flush ? 0 : gap}>{@render children()}</Stack>
   </div>

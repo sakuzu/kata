@@ -45,10 +45,10 @@
   role={tone === 'error' ? 'alert' : 'status'}
   aria-label={label}
 >
-  <div class="line">
+  <div class="line" data-edge-pass>
     <span class="mark"><Icon name={MARK[tone]} /></span>
     <!-- A div, since the text can be a Stack of several lines -->
-    <div class="text">{@render children()}</div>
+    <div class="text" data-ink>{@render children()}</div>
   </div>
   {#if act}<div class="act">{@render act()}</div>{/if}
 </div>

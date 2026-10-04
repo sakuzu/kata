@@ -48,6 +48,7 @@
     aria-pressed={active}
     {onclick}
     data-role="floating"
+    data-outline
   >
     <span class="in">{@render children()}</span>
     {#if more}<span class="more">{more}</span>{/if}
@@ -60,6 +61,7 @@
     role={label ? 'img' : undefined}
     aria-label={label}
     data-role="floating"
+    data-outline
   >
     <span class="in">{@render children()}</span>
     {#if more}<span class="more">{more}</span>{/if}

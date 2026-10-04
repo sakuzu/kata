@@ -134,6 +134,7 @@
     class:mono
     class:tabular
     data-role={dataRole}
+    data-ink
     {id}
     for={tag === 'label' ? htmlFor : undefined}
     href={tag === 'a' ? href : undefined}

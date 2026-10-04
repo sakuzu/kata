@@ -187,15 +187,29 @@
   }
   const LEAF =
     'img, svg, input, textarea, select, [data-role="mark"], [data-role="swatch"], [data-role="markbox"], [data-role="avatar"], [data-role="progress"], [data-role="bar"], [data-role="switch"]';
+  /** Whether an icon hangs from a seat of no height (the end of a Text), within four levels */
+  function hangs(svg) {
+    let p = svg.parentElement;
+    for (let i = 0; i < 4 && p; i++, p = p.parentElement)
+      if (isSeat(p)) return p.getBoundingClientRect().height === 0;
+    return false;
+  }
   /**
    * The visible things inside an element: outlines with a border or a surface (the hover surface
-   * of a list item is a state and does not count), leaves, and lines of text. Seen from one side
-   * (start: from above, end: from below), a line along the other side only is not an edge on
-   * this side, so the element is looked into instead (tabs with a line along their bottom).
+   * of a list item is a state and does not count), leaves (an icon among them), and lines of text.
+   * Seen from one side (start: from above, end: from below), a line along the other side only is
+   * not an edge on this side, so the element is looked into instead (tabs with a line along their
+   * bottom).
    */
   function inkCandidates(el, side) {
     const out = [];
     const walk = (n) => {
+      // An icon is the square it is drawn in, unless it hangs from a seat of no height, where it
+      // has no edge of its own
+      if (n instanceof SVGSVGElement) {
+        if (visible(n) && !hangs(n)) out.push({ el: n, box: true });
+        return;
+      }
       if (!(n instanceof HTMLElement) || !visible(n)) return;
       const cs = getComputedStyle(n);
       const lineTop = Number.parseFloat(cs.borderTopWidth) > 0 && shownColor(cs.borderTopColor);
@@ -213,7 +227,9 @@
         out.push({ el: n, box: true });
         return;
       }
-      const kids = [...n.children].filter((k) => k instanceof HTMLElement && visible(k));
+      const kids = [...n.children].filter(
+        (k) => (k instanceof HTMLElement || k instanceof SVGSVGElement) && visible(k),
+      );
       const ownText = [...n.childNodes].some((c) => c.nodeType === 3 && c.textContent.trim());
       if (ownText || !kids.length) {
         if (n.textContent.trim()) out.push({ el: n, box: false });

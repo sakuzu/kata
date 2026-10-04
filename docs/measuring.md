@@ -7,13 +7,15 @@ examples by the same rules.
 
 ## The visible edge
 
-Four things have an edge.
+Five things have an edge.
 
 - A component with a line or a surface: the outside of its outline.
 - A line (a [Divider](components/divider.md), or the line a section draws
   along its top).
 - A container with padding: the inside of its border.
 - Text: its ink, from the top of the capitals to the baseline.
+- An icon: the square it is drawn in, the size of an icon. An icon that
+  hangs from a seat of no height has no edge of its own.
 
 Anything else, such as the box of a layout or a wrapper, has no edge of its
 own; a distance to it runs to the first visible thing inside it.
@@ -45,12 +47,15 @@ the scale says.
   text in a container with padding is trimmed at the top and the last one
   at the bottom; a line of text right above or below a line is trimmed on
   that side. The distance from the edge to the ink is then exactly the
-  padding, or the same above and below the line. A [Row](components/row.md)
-  at an edge trims all of its text, so that its items stay level: each of
-  its items that passes the edge on (a [Stack](components/stack.md), a
-  wrapper, another row) is at the row's edges, whatever its place in the
-  row. [Stats](components/stats.md) passes the edge to every
-  [Stat](components/stat.md) in the same way.
+  padding, or the same above and below the line. This holds for every
+  line of text, whichever component draws it. A component without a line
+  or a surface of its own passes the edge on to what it holds, and the
+  things it places side by side are all at that edge. A
+  [Row](components/row.md) at an edge trims all of its text, so that its
+  items stay level: each of its items that passes the edge on (a
+  [Stack](components/stack.md), a wrapper, another row) is at the row's
+  edges, whatever its place in the row. [Stats](components/stats.md)
+  passes the edge to every [Stat](components/stat.md) in the same way.
 - Where text aligns to a column. The cells of a
   [Table](components/table.md) and the names and values of a
   [Tcard](components/tcard.md) are trimmed, so that the columns line up by
