@@ -1,1 +1,0 @@
-import{K as e,M as t,P as n,T as r,X as i,mt as a,v as o}from"./Stack-CwXppjwL.js";var s=n(`<div class="surface" data-role="surface"><!></div>`);function c(n,c){var l=s();let u;var d=i(l);r(d,()=>c.children),a(l),e(()=>u=o(l,``,u,{"max-width":c.width})),t(n,l)}export{c as t};

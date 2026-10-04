@@ -1,0 +1,1 @@
+import{K as e,M as t,P as n,T as r,X as i,mt as a,n as o,y as s}from"./Stack-BpSwsJLb.js";var c=n(`<span data-role="markbox" data-h="icon"><!></span>`);function l(n,l){let u=o(l,`glyph`,3,!1);var d=c();let f;var p=i(d);r(p,()=>l.children),a(d),e(()=>f=s(d,1,`markbox svelte-1ies92c`,null,f,{glyph:u()})),t(n,d)}export{l as t};

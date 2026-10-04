@@ -1,1 +1,0 @@
-import{M as e,P as t,T as n,X as r,mt as i}from"./Stack-CwXppjwL.js";var a=t(`<div class="head svelte-1enedqr" data-role="list-item" data-h="list-item"><span class="label svelte-1enedqr"><!></span></div>`);function o(t,o){var s=a(),c=r(s),l=r(c);n(l,()=>o.children),i(c),i(s),e(t,s)}export{o as t};
