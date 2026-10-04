@@ -30,19 +30,20 @@
   } = $props();
 </script>
 
-<div class="note {tone ?? ''}" class:ico={!!icon} data-role="caption" data-ink>
+<div class="note {tone ?? ''}" class:ico={!!icon} data-role="caption" data-edge-pass={icon ? '' : undefined}>
   {#if icon}<span class="mark"><Icon name={icon} /></span>{/if}
   {#if clamp}
-    <p class="text clamp" use:clampTip>{@render children()}</p>
+    <p class="text clamp" data-ink use:clampTip>{@render children()}</p>
   {:else}
-    <p class="text">{@render children()}</p>
+    <p class="text" data-ink>{@render children()}</p>
   {/if}
 </div>
 
 <style lang="scss">
   @use '../styles/kata' as *;
 
-  // Without an icon it is a block, so that the trim at the edge of a container reaches its text
+  // It passes the edge of a container on to its text, which is trimmed there (with an icon, the
+  // icon and the text are a row at that edge)
   .note {
     display: block;
     min-width: 0;
