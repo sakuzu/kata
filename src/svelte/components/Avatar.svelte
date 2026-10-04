@@ -25,8 +25,9 @@
 <style lang="scss">
   @use '../styles/kata' as *;
 
+  // A mark is a box of its own, laid out as a block, never as a glyph on a line of text
   .avatar {
-    display: inline-flex;
+    display: flex;
     align-items: center;
     justify-content: center;
     width: h(button-sm);

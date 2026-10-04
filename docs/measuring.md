@@ -81,6 +81,13 @@ clipped sideways only.
 
 ## A mark beside text
 
+A mark is a box of its own. Outside a sentence it is laid out as a
+block, never as a glyph on a line of text, so a container that holds it
+alone is as tall as the mark: a [Swatch](components/swatch.md), an
+[Avatar](components/avatar.md), a [Badge](components/badge.md) and the
+dots of a [Spinner](components/spinner.md). A [Kbd](components/kbd.md)
+inside a sentence stays on its line.
+
 A mark beside text that may wrap (an icon, a switch, a badge) is centred
 on the ink of the text's first line. It sits in a seat whose baseline is
 that of a trimmed line centred in it, and the layout aligns by first

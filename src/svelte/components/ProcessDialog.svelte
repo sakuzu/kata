@@ -91,7 +91,7 @@
 <Modal {open} {title} {size} {inline} {onclose} cancel={cancelAction} primary={runAction}>
   {#if running}
     <Stack gap="sm">
-      <div aria-live="polite"><Spinner label={runningText ?? words.running} /></div>
+      <div class="live" aria-live="polite"><Spinner label={runningText ?? words.running} /></div>
       <Progress value={progress} label={runningText ?? words.running} />
     </Stack>
   {:else}
@@ -100,3 +100,10 @@
     {#if children}<Stack gap="lg">{@render children()}</Stack>{/if}
   {/if}
 </Modal>
+
+<style lang="scss">
+  // The Spinner is a mark of its own, so the region that announces it lays it out as a block
+  .live {
+    display: flex;
+  }
+</style>

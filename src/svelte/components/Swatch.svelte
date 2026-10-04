@@ -53,8 +53,9 @@
 <style lang="scss">
   @use '../styles/kata' as *;
 
+  // A mark is a box of its own, laid out as a block, never as a glyph on a line of text
   .swatch {
-    display: inline-block;
+    display: block;
     width: h(icon);
     height: h(icon);
     background: var(--kata-swatch-color);

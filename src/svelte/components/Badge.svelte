@@ -31,8 +31,12 @@
 <style lang="scss">
   @use '../styles/kata' as *;
 
+  // A mark is a box of its own, laid out as a block as wide as its label (never wider than its
+  // place), never as a glyph on a line of text
   .pill {
-    display: inline-flex;
+    display: flex;
+    width: fit-content;
+    max-width: 100%;
     align-items: center;
     height: h(badge);
     padding-inline: pad(sm);
