@@ -1,1 +1,0 @@
-import{M as e,P as t,T as n,X as r,mt as i,v as a}from"./Stack-CI1EqVZG.js";var o=t(`<div><!></div>`);function s(t,s){var c=o();a(c,``,{},{"--kata-box":`var(--kata-height-button-sm)`});var l=r(c);n(l,()=>s.children),i(c),e(t,c)}export{s as t};

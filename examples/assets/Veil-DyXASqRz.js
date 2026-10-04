@@ -1,1 +1,0 @@
-import{K as e,M as t,P as n,T as r,X as i,mt as a,n as o,p as s}from"./Stack-CI1EqVZG.js";var c=n(`<div class="veil svelte-5uuazi" data-role="veil"><!></div>`);function l(n,l){let u=o(l,`busy`,3,!1);var d=c(),f=i(d);r(f,()=>l.children),a(d),e(()=>s(d,`aria-busy`,u()||void 0)),t(n,d)}export{l as t};

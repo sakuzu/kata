@@ -1,1 +1,0 @@
-import{K as e,M as t,P as n,T as r,X as i,mt as a,y as o}from"./Stack-CI1EqVZG.js";var s=n(`<span data-role="mark" data-h="badge"><span class="t svelte-1k4hygu"><!></span></span>`);function c(n,c){var l=s(),u=i(l),d=i(u);r(d,()=>c.children),a(u),a(l),e(()=>o(l,1,`tag ${c.tone??``??``}`,`svelte-1k4hygu`)),t(n,l)}export{c as t};
