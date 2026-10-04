@@ -59,6 +59,7 @@ element inside the example is measured; a finding fails the audit.
 | read-row | A list item that is only read has a line or a surface |
 | first-line | A mark in a seat is centred on the ink of the first line |
 | near | A control's description is nearer its label than the next one's |
+| edge | The first and last things are pad from a padded container's edge |
 | overlap | The children of a layout do not overlap |
 | crush | Text is never squeezed narrower than two characters |
 | fixed-frame | A Shell or an embedded root is not the frame of fixed elements |
@@ -67,8 +68,10 @@ element inside the example is measured; a finding fails the audit.
 
 Distances are measured from the edge of what is visible: the outline of a
 component with a line or a surface, a line, the inner edge of a
-container, the ink of text, or the square of an icon (not one that hangs
-from a seat of no height). A line along one side of a component only
+container, the ink of text, the square of an icon (not one that hangs
+from a seat of no height), or the outside of the scrollbar of a region
+that scrolls, on the side the scrollbar runs along. A line along one
+side of a component only
 is an edge on that side only; from the other side the distance runs to
 what is inside it (the text of tabs with a line along their bottom). An
 element marked `data-kata-skip` (drawn by the browser or by another
@@ -114,3 +117,12 @@ switch, which marks itself `data-control`) that another control
 follows: the distance from the ink of its label to the ink of its
 description is less than the distance from the ink of its last line to
 the ink of the next control's label.
+
+edge measures every container with padding: the first visible thing in
+it is its padding below its inner top edge, and the last one its padding
+above its inner bottom edge, within 0.06px. A Grid gives the cells of a
+row one height, so a container in a cell may end below its content: the
+bottom is measured only where the box of its last child reaches the
+padding. A container that scrolls is measured at the ends of what it
+scrolls. The check is not counted yet; `KATA_EDGE=1 npm run audit` runs
+it.

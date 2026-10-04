@@ -43,6 +43,10 @@
 //                  (the cap height, and the CJK ink outside it by the root's language); a seat on
 //                  a line of its own under its text (data-under) is not measured
 //   near           the description of a control is nearer its own label than the next control's
+//   edge           in a container with padding, the first and the last visible thing sit exactly
+//                  the padding from its inner edge; the bottom is measured only where the last
+//                  child reaches the padding (a cell of a Grid may be taller than its content). Off
+//                  unless the audit is asked for it (kataAudit(selector, { edge: true }))
 //   overlap        the children of a layout do not overlap
 //   crush          text is never squeezed into a column narrower than two characters
 //   fixed-frame    a size container (a Shell's root) and an embedded root ([data-kata-root]) are not
@@ -187,6 +191,13 @@
   }
   const LEAF =
     'img, svg, input, textarea, select, [data-role="mark"], [data-role="swatch"], [data-role="markbox"], [data-role="avatar"], [data-role="progress"], [data-role="bar"], [data-role="switch"]';
+  /** Whether an element shows a scrollbar along its bottom (it scrolls sideways) */
+  function sideBar(el, cs) {
+    if (!/^(auto|scroll)$/.test(cs.overflowX)) return false;
+    const borders =
+      (Number.parseFloat(cs.borderTopWidth) || 0) + (Number.parseFloat(cs.borderBottomWidth) || 0);
+    return el.getBoundingClientRect().height - borders - el.clientHeight > 0.5;
+  }
   /** Whether an icon hangs from a seat of no height (the end of a Text), within four levels */
   function hangs(svg) {
     let p = svg.parentElement;
@@ -224,6 +235,12 @@
       const stateSurface =
         n.matches('[data-role="list-item"], [data-role="menu-item"]') && !lineTop && !lineBottom;
       if (n.matches(LEAF) || (painted && !stateSurface)) {
+        out.push({ el: n, box: true });
+        return;
+      }
+      // A region that scrolls sideways has its scrollbar along its bottom: seen from below, its
+      // edge is the outside of the scrollbar
+      if (side === 'end' && sideBar(n, cs)) {
         out.push({ el: n, box: true });
         return;
       }
@@ -1171,6 +1188,75 @@
     }
   }
 
+  // ---- Edges ------------------------------------------------------------------------------------
+
+  // In a container with padding, the first and the last visible thing sit exactly its padding from
+  // its inner edge. A container that scrolls is measured at the ends of what it scrolls. A Grid
+  // gives the cells of a row one height, so a container in a cell may end below its content: the
+  // bottom is measured only where the box of the last child reaches the padding.
+  function edge(root, bad) {
+    const TOL = 0.06 * (rootPx() / 16);
+    for (const box of root.querySelectorAll('[data-inset]')) {
+      if (!visible(box) || skipped(box)) continue;
+      const cs = getComputedStyle(box);
+      const padTop = Number.parseFloat(cs.paddingTop) || 0;
+      const padBottom = Number.parseFloat(cs.paddingBottom) || 0;
+      if (!(padTop > 0) && !(padBottom > 0)) continue;
+      const kids = [...box.children].filter((k) => visible(k) && inFlow(k) && !skipped(k));
+      if (!kids.length) continue;
+      // The first and the last visible thing, and where it is
+      let top = null;
+      let bottom = null;
+      for (const k of kids) {
+        for (const t of inkCandidates(k, 'start')) {
+          const v = t.el.getBoundingClientRect().top + (t.box ? 0 : capPad(t.el, 'start'));
+          if (top === null || v < top.v) top = { v, el: t.el };
+        }
+        for (const t of inkCandidates(k, 'end')) {
+          const v = t.el.getBoundingClientRect().bottom - (t.box ? 0 : capPad(t.el, 'end'));
+          if (bottom === null || v > bottom.v) bottom = { v, el: t.el };
+        }
+      }
+      if (top === null || bottom === null) continue;
+      const r = box.getBoundingClientRect();
+      const inner = r.top + (Number.parseFloat(cs.borderTopWidth) || 0);
+      // The end of the last child's box, with its margin. A container that scrolls ends its
+      // content the padding below it (scrollHeight is rounded to whole pixels)
+      const lastBox = Math.max(
+        ...kids.map(
+          (k) =>
+            k.getBoundingClientRect().bottom +
+            (Number.parseFloat(getComputedStyle(k).marginBottom) || 0),
+        ),
+      );
+      const scrolls = /^(auto|scroll)$/.test(cs.overflowY);
+      const end = scrolls
+        ? lastBox + padBottom
+        : r.bottom - (Number.parseFloat(cs.borderBottomWidth) || 0);
+      const reaches = end - padBottom - lastBox <= TOL;
+      const above = top.v - inner;
+      const below = end - bottom.v;
+      if (padTop > 0 && Math.abs(above - padTop) > TOL)
+        bad.push({
+          kind: 'edge',
+          el: label(box),
+          side: 'top',
+          at: label(top.el),
+          v: +above.toFixed(2),
+          want: +padTop.toFixed(2),
+        });
+      if (padBottom > 0 && reaches && Math.abs(below - padBottom) > TOL)
+        bad.push({
+          kind: 'edge',
+          el: label(box),
+          side: 'bottom',
+          at: label(bottom.el),
+          v: +below.toFixed(2),
+          want: +padBottom.toFixed(2),
+        });
+    }
+  }
+
   // ---- Layout -----------------------------------------------------------------------------------
 
   function overlap(root, bad) {
@@ -1230,7 +1316,7 @@
     }
   }
 
-  window.kataAudit = (rootSelector = '[data-audit]') => {
+  window.kataAudit = (rootSelector = '[data-audit]', options = {}) => {
     const bad = [];
     const roots = [...document.querySelectorAll(rootSelector)];
     for (const root of roots) {
@@ -1254,6 +1340,7 @@
       readRow(root, bad);
       firstLine(root, bad);
       near(root, bad);
+      if (options.edge) edge(root, bad);
       overlap(root, bad);
       crush(root, bad);
       fixedFrame(root, bad);

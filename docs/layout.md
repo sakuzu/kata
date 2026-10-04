@@ -38,6 +38,9 @@ Four layouts place things. None of them has a line, a surface or padding.
 | [Grid](components/grid.md) | in 2, 3 or 4 columns | `cols`, `gap` |
 | [Split](components/split.md) | a side column and a main one | `width` |
 
+A Grid gives the cells of a row one height. A container in a cell keeps
+its padding at the top, and the room left goes below its content.
+
 In a Row, text shrinks and wraps within its own width while icons, marks
 and controls keep theirs; a row of controls that may not fit takes `wrap`
 and moves whole items to the next line. A mark beside text that may wrap

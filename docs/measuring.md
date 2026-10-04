@@ -7,7 +7,7 @@ examples by the same rules.
 
 ## The visible edge
 
-Five things have an edge.
+Six things have an edge.
 
 - A component with a line or a surface: the outside of its outline.
 - A line (a [Divider](components/divider.md), or the line a section draws
@@ -16,6 +16,8 @@ Five things have an edge.
 - Text: its ink, from the top of the capitals to the baseline.
 - An icon: the square it is drawn in, the size of an icon. An icon that
   hangs from a seat of no height has no edge of its own.
+- A region that scrolls: the outside of its scrollbar, on the side the
+  scrollbar runs along.
 
 Anything else, such as the box of a layout or a wrapper, has no edge of its
 own; a distance to it runs to the first visible thing inside it.
