@@ -1,1 +1,0 @@
-import{M as e,P as t}from"./Stack-BpSwsJLb.js";var n=t(`<div class="sep svelte-fjeccq" data-role="rule" role="separator"></div>`);function r(t){var r=n();e(t,r)}export{r as t};
