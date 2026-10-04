@@ -5,12 +5,14 @@
   import Icon from './Icon.svelte';
 
   // LinkAction: an action that is text only, for an action that does not call for a control with a
-  // line ("Add a description", "Show all"). In a layout its height is the line box of its text, so
-  // it is measured like the text around it; the area that is pressed reaches the square of an icon
-  // button above and below it. No padding at the sides, so its edge lines up with the text around
-  // it. The color is blue-ink, underlined on hover. In a sentence (inside a Text) it takes the size
-  // and the line height of the text around it. An action that opens a modal or changes the screen
-  // is a Button.
+  // line ("Add a description", "Show all"). It is a control without a line or a surface: it is laid
+  // out as the text and the icons it shows, as text is (its line box in a layout, trimmed at an
+  // edge and inside a control), and the area that is pressed reaches the control's height around
+  // it without taking room (the reach mixin). Outside a sentence it is a block of its own, as wide
+  // as what it shows. No padding at the sides, so its edge lines up with the text around it. The
+  // color is blue-ink, underlined on hover. In a sentence (inside a Text) it stays on the line and
+  // takes the size and the line height of the text around it. An action that opens a modal or
+  // changes the screen is a Button.
   //
   //   <LinkAction icon="plus" onclick={add}>Add a description</LinkAction>
   //   <LinkAction href={url} external>Terms of use</LinkAction>      opens in a new tab
@@ -45,23 +47,25 @@
   <a
     class="link"
     data-role="box"
+    data-edge-pass
     {href}
     target={external ? '_blank' : undefined}
     rel={external ? 'noreferrer' : undefined}
     {onclick}>{@render inner()}</a
   >
 {:else}
-  <button type="button" class="link" data-role="box" {disabled} {onclick}>{@render inner()}</button>
+  <button type="button" class="link" data-role="box" data-edge-pass {disabled} {onclick}>{@render inner()}</button>
 {/if}
 
 <style lang="scss">
   @use '../styles/kata' as *;
 
   .link {
-    display: inline-flex;
+    display: flex;
+    width: fit-content;
+    max-width: 100%;
     align-items: center;
     gap: gap(sm);
-    position: relative;
     padding: 0;
     border: 0;
     background: none;
@@ -74,15 +78,8 @@
     &:hover {
       text-decoration: underline;
     }
-    // The area that is pressed reaches the height of an icon button; the layout keeps the text's
-    &::after {
-      content: '';
-      position: absolute;
-      inset-inline: 0;
-      top: 50%;
-      height: h(icon-button);
-      translate: 0 -50%;
-    }
+    // The area that is pressed reaches the control's height; the layout keeps the text's
+    @include reach;
     // Disabled dims the text color (the dimmed blue would fall below 4.5:1)
     &:disabled {
       color: color(text);
@@ -95,8 +92,9 @@
     }
   }
   // In a sentence (inside a Text) it takes the size and the line height of the text around it, and
-  // stays inline
+  // stays on the line
   :global(.kata-text) .link {
+    display: inline-flex;
     font-size: inherit;
     line-height: inherit;
   }
