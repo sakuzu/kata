@@ -6,6 +6,14 @@ follows semantic versioning.
 
 ## [Unreleased]
 
+## [1.9.3] - 2026-10-04
+
+- Fixed: a Row that centres its items centres them on their ink. At
+  either edge its lines of text are trimmed at both ends, away from the
+  edges at neither, so a text action beside a Button sits on the
+  button's ink (it was trimmed at one end and 3px off). Stacks (a Block
+  of lines, Stats, a Pair) keep their trim at the edge side only (#76).
+
 ## [1.9.2] - 2026-10-04
 
 A mark before a line of text sits in a seat (#74).
@@ -596,6 +604,7 @@ them to the rules.
   of drawing out of kata; `npm run check:package` runs publint and Are
   the Types Wrong on the package.
 
+[1.9.3]: https://github.com/sakuzu/kata/compare/v1.9.2...v1.9.3
 [1.9.2]: https://github.com/sakuzu/kata/compare/v1.9.1...v1.9.2
 [1.9.1]: https://github.com/sakuzu/kata/compare/v1.9.0...v1.9.1
 [1.9.0]: https://github.com/sakuzu/kata/compare/v1.8.1...v1.9.0
