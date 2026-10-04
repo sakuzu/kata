@@ -38,8 +38,11 @@ is a control with a blue-ink line and pad-sm at the sides, of the height
 its container declares, so entering the edit makes it taller. The text
 of one line ends with an ellipsis; several lines wrap, with the pencil
 centred on the ink of the first line. The empty action is blue-ink,
-underlined on hover, laid out as LinkAction is. Escape does not reach a
-panel or a modal around it.
+underlined on hover, laid out as LinkAction is: its + sits in a seat,
+centred on the ink of the text, so its first baseline is the text's and
+a `top` [Pair](pair.md) sets its name level with the text
+([a mark beside text](../measuring.md#a-mark-beside-text)). Escape does
+not reach a panel or a modal around it.
 
 ## Example
 

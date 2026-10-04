@@ -138,6 +138,17 @@ The end of a Text moves to a line of its own when the text cannot keep
 four of its characters beside it, and there its seat has the height of
 its mark.
 
+A mark beside a line of text that does not wrap sits in a seat too, so
+the first baseline of the row is the text's, not the bottom of the
+mark. A layout that aligns by first baseline (a `top`
+[Pair](components/pair.md), the action of a Banner, a Row with
+`align="first"`, a sentence) then places the row by its text: the + of
+the add action of an [InlineEdit](components/inline-edit.md), the icons
+of a [LinkAction](components/link-action.md), and the leading icon or
+the mark of a [Button](components/button.md). Where the text keeps its
+line box, the seat and the text are a line that aligns by baseline,
+centred in the control.
+
 ## Padding and gaps
 
 Every distance is one of two scales, and each property takes only one.

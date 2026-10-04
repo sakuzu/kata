@@ -38,9 +38,11 @@
 </script>
 
 {#snippet inner()}
-  {#if icon}<Icon name={icon} />{/if}<span class="t" data-ink>{@render children()}</span>{#if external}<Icon
-      name="arrow-up-right"
-    />{/if}
+  <span class="line" data-edge-pass
+    >{#if icon}<span class="mark"><Icon name={icon} /></span>{/if}<span class="t" data-ink
+      >{@render children()}</span
+    >{#if external}<span class="mark"><Icon name="arrow-up-right" /></span>{/if}</span
+  >
 {/snippet}
 
 {#if href}
@@ -65,7 +67,6 @@
     width: fit-content;
     max-width: 100%;
     align-items: center;
-    gap: gap(sm);
     padding: 0;
     border: 0;
     background: none;
@@ -87,9 +88,18 @@
       cursor: default;
       text-decoration: none;
     }
-    > :global(svg) {
-      flex: none;
-    }
+  }
+  // An icon is a mark beside a line of text: it sits in a seat, and the line aligns by its first
+  // baseline, so the action's first baseline is the text's and the icon is centred on its ink. The
+  // line is centred in the action, which may be laid out at its reach
+  .line {
+    display: flex;
+    align-items: baseline;
+    gap: gap(sm);
+    min-width: 0;
+  }
+  .mark {
+    @include seat(h(icon));
   }
   // In a sentence (inside a Text) it takes the size and the line height of the text around it, and
   // stays on the line

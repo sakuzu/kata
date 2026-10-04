@@ -20,6 +20,7 @@
   let description = $state(
     'The east bank, from the bridge to the weir.\nDrawn from the survey of May.',
   );
+  let empty = $state('');
 </script>
 
 <Example>
@@ -56,6 +57,15 @@
       <Block>
         <Pair label="Description" top>
           <InlineEdit bind:value={description} multiline placeholder="Add a description" label="Description" onCommit={() => {}} />
+        </Pair>
+      </Block>
+    </Surface>
+  </Case>
+  <Case label="top: an InlineEdit with no value (the add action)">
+    <Surface width="28rem">
+      <Block>
+        <Pair label="Description" top>
+          <InlineEdit bind:value={empty} multiline placeholder="Add a description" label="Description" onCommit={() => {}} />
         </Pair>
       </Block>
     </Surface>

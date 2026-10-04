@@ -159,7 +159,9 @@
   </button>
 {:else}
   <button class="add" type="button" aria-label={a11yLabel} onclick={start} data-role="box" data-edge-pass>
-    <Icon name="plus" /><span class="t" data-ink>{placeholder}</span>
+    <span class="line" data-edge-pass
+      ><span class="mark"><Icon name="plus" /></span><span class="t" data-ink>{placeholder}</span></span
+    >
   </button>
 {/if}
 
@@ -271,7 +273,6 @@
     width: fit-content;
     max-width: 100%;
     align-items: center;
-    gap: gap(sm);
     padding: 0;
     border: 0;
     background: none;
@@ -282,8 +283,17 @@
     &:hover {
       text-decoration: underline;
     }
-    > :global(svg) {
-      flex: none;
-    }
+  }
+  // The + is a mark beside a line of text: it sits in a seat, and the line aligns by its first
+  // baseline, so the action's first baseline is the text's and the + is centred on its ink. The
+  // line is centred in the action, which may be laid out at its reach
+  .line {
+    display: flex;
+    align-items: baseline;
+    gap: gap(sm);
+    min-width: 0;
+  }
+  .mark {
+    @include seat(h(icon));
   }
 </style>

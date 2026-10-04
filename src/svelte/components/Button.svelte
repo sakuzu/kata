@@ -116,7 +116,10 @@
 </script>
 
 {#snippet inner()}
-  {#if icon}{@render children()}{:else}{#if leading}<Icon name={leading} />{:else if mark}{@render mark()}{/if}<span
+  {#if icon}{@render children()}{:else}{#if leading}<span class="mark" class:mono><Icon name={leading} /></span>{:else if mark}<span
+        class="mark"
+        class:mono>{@render mark()}</span
+      >{/if}<span
       class="t"
       class:clamp
       class:mono>{@render children()}</span
@@ -210,6 +213,13 @@
     > :global(svg) {
       flex: none;
     }
+    // A mark before the text (the leading icon, or a mark) is a mark beside a line of text: it sits
+    // in a seat, so the button's first baseline is the text's (an action on the baseline of a
+    // Banner's text). The seat and the text are both trimmed lines centred in the button, so the
+    // mark stays centred on the ink of the text; the seat's line is in the text's font
+    .mark {
+      @include seat(h(icon));
+    }
     // The text is trimmed to its ink and centred; it is one line
     .t {
       display: block;
@@ -217,7 +227,8 @@
       @include trim;
       @include ellipsis;
     }
-    .t.mono {
+    .t.mono,
+    .mark.mono {
       font-family: var(--kata-font-mono);
     }
     .kbd {
