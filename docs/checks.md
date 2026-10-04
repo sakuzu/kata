@@ -19,7 +19,10 @@ repository ([CONTRIBUTING](../CONTRIBUTING.md) lists them).
   line, and so does the summary of Prose, which seats its chevron.
 - No negative distance, no outer margin on a component's root (the
   layouts, Icon and Prose aside), no `@media` for a width and no `:has()`
-  other than the next sibling.
+  other than the next sibling. A pseudo-element is moved by a negative
+  translate only inside the `reach` mixin, which centres the hit area of
+  a control without a line or a surface on it; an element centred on a
+  point and an animation are not counted.
 - Every custom property a component reads is defined.
 - Every component is exported, has an example and has a page here or in
   the [Workbench](workbench/README.md) chapter.

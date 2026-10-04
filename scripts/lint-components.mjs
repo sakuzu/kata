@@ -9,7 +9,9 @@
 //                kata-allow-pad-gap is the one place where the other scale is meant
 //   trim         only the components that hold text in a control, at an edge or in a column trim
 //                text (text-box, or the trim mixins)
-//   negative     no negative distance (margin, inset, top, right, bottom, left)
+//   negative     no negative distance (margin, inset, top, right, bottom, left); a pseudo-element
+//                is moved by a negative translate only inside the reach mixin (the hit area of a
+//                control without a line or a surface, centred on it)
 //   has          a component never looks at its content with :has(); only :has(+ …), the next
 //                sibling, is allowed
 //   media        no @media for widths; the widths are the container queries of the mixins
@@ -161,11 +163,50 @@ function styleOf(file, source) {
 const files = walk(SRC).filter((f) => /\.(svelte|scss|css|ts)$/.test(f));
 const components = files.filter((f) => f.includes('/components/') && f.endsWith('.svelte'));
 
+// A pseudo-element moved by a negative translate reaches past the edge of what draws it; only the
+// reach mixin does so, to centre the hit area on its control. The selectors that hold a declaration
+// are followed by the braces around it.
+/** @param {string} file @param {string} css @param {number} offset */
+function pseudoTranslate(file, css, offset) {
+  /** @type {string[]} */
+  const stack = [];
+  let head = '';
+  css.split('\n').forEach((raw, i) => {
+    const text = raw.replace(/\/\/.*$/, '').replace(/\/\*.*?\*\//g, '');
+    for (const ch of text) {
+      if (ch === '{') {
+        stack.push(head.trim());
+        head = '';
+      } else if (ch === '}') {
+        stack.pop();
+        head = '';
+      } else if (ch === ';') head = '';
+      else head += ch;
+    }
+    const decl = text.match(/^\s*(translate|transform)\s*:\s*(.+?);?\s*$/);
+    if (!decl) return;
+    const negative =
+      decl[1] === 'translate'
+        ? /(^|\s)-(?!-)|\*\s*-1\b/.test(decl[2])
+        : /translate[XYZ3d]*\(([^)]*[\s,])?-(?!-)/.test(decl[2]);
+    const pseudo = stack.some((sel) => /::?(before|after)\b/.test(sel));
+    const inReach = stack.some((sel) => /^@mixin\s+reach\b/.test(sel));
+    if (negative && pseudo && !inReach)
+      report(file, i + 1 + offset, `${decl[1]}: ${decl[2]} moves a pseudo-element past the edge`);
+  });
+}
+pseudoTranslate(
+  join(SRC, 'styles/_kata.scss'),
+  readFileSync(join(SRC, 'styles/_kata.scss'), 'utf8'),
+  0,
+);
+
 // ---- Rules on each component's style ----
 for (const file of components) {
   const name = basename(file, '.svelte');
   const source = readFileSync(file, 'utf8');
   const { css, offset } = styleOf(file, source);
+  pseudoTranslate(file, css, offset);
   const lines = css.split('\n');
   lines.forEach((raw, i) => {
     const line = i + 1 + offset;
