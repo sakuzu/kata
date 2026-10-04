@@ -15,6 +15,7 @@
 //   @include surface(panel);    a component's own surface (covers inside paint color(surface))
 //   @include trim;              text inside a control only
 //   @include seat(h(icon));     a mark beside text, centred on the ink of its first line
+//   @include reach;             a control without a line or a surface: its reach takes no room
 //   @include narrow { … }       below 48rem (mid: below 64rem, tiny: below 24rem)
 
 @function fs($role) {
@@ -199,6 +200,35 @@
     background-color 0.12s ease,
     border-color 0.12s ease,
     color 0.12s ease;
+}
+
+// A control without a line or a surface (an InlineEdit at rest, a LinkAction, a ghost icon button
+// that is not pressed). Its box is what it shows: the line box of its text, trimmed where text is,
+// or the square of its icon. Its hit area, hover surface and focus ring are one shape, ::before, of
+// the control's height (--kata-reach: a small button's, or the height a [data-h] row declares; a
+// container with padding resets it; never less than the box, for text that wraps), centred on the
+// box and as wide as it, drawn under the content and taking no room. The control paints the
+// shape's background on hover.
+@mixin reach {
+  position: relative;
+  isolation: isolate;
+  &::before {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    top: 50%;
+    height: max(100%, var(--kata-reach, #{h(button-sm)}));
+    translate: 0 -50%;
+    z-index: -1;
+    transition: background-color 0.12s ease;
+  }
+  &:focus-visible {
+    outline: none;
+  }
+  &:focus-visible::before {
+    outline: 2px solid color(focus);
+    outline-offset: 2px;
+  }
 }
 
 // A bare input, select or textarea inside a control: no border, no surface and no ring of its own.
