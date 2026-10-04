@@ -6,6 +6,25 @@ follows semantic versioning.
 
 ## [Unreleased]
 
+## [1.9.1] - 2026-10-04
+
+Two gaps of 1.9.0 found by an application (#72).
+
+- Fixed: a `reach` control collapses only its block size; its inline
+  size stays the control's (an icon button keeps its square width, a
+  text button its inline padding), so the hover surface is the button's
+  width. A line never cuts a reach: a reach control directly inside a
+  component with a line or a surface (a Floating used as a bar) is laid
+  out at its reach, so the component holds the whole hit area. In
+  browsers without container style queries (Firefox before 151) such a
+  reach is drawn across the line; pressing and hover are kept.
+- Fixed: Toolbar `two` declares its padding as an inset, so its first
+  and last lines are trimmed at its edges (the head is 12.61 lower).
+- Fixed: Pair `top` aligns its name with the first baseline of its
+  value, and passes the edge to the name and the value side by side, so
+  with an InlineEdit at rest both are md from the edge.
+- Checks: the `height` check measures a reach control by its reach.
+
 ## [1.9.0] - 2026-10-04
 
 The edges of a container, measured from what is seen (#59): text that a
@@ -567,6 +586,7 @@ them to the rules.
   of drawing out of kata; `npm run check:package` runs publint and Are
   the Types Wrong on the package.
 
+[1.9.1]: https://github.com/sakuzu/kata/compare/v1.9.0...v1.9.1
 [1.9.0]: https://github.com/sakuzu/kata/compare/v1.8.1...v1.9.0
 [1.8.1]: https://github.com/sakuzu/kata/compare/v1.8.0...v1.8.1
 [1.8.0]: https://github.com/sakuzu/kata/compare/v1.7.0...v1.8.0
