@@ -27,6 +27,11 @@ A container with padding never sits directly in another one without a
 line or a surface between them: a Block inside a Block would add the two
 paddings. Put the content straight in the outer one.
 
+An item that keeps its own padding above and below (a ListItem, a
+Comment, a TreeRow) sits in a container without padding, where its
+padding is the distance to the edge; a container with padding never holds
+one directly.
+
 ## Stacks and rows
 
 Four layouts place things. None of them has a line, a surface or padding.

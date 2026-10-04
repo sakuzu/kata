@@ -25,9 +25,12 @@ is trimmed, so that the visible ink sits exactly where the scale says.
 
 ### 3. A control is one shape
 
-A control has its own padding, and its hit area, hover surface, border and
-focus ring are all drawn on that one shape. Nothing is drawn outside it: no
-negative margins, no pseudo-elements that reach past the edge.
+A control with a line or a surface has its own padding, and its hit area,
+hover surface, border and focus ring are all drawn on that one shape;
+nothing is drawn outside it. A control without a line or a surface is laid
+out as what it shows, and draws its hit area, hover surface and focus ring
+as one shape of the control's height, centred on it, that takes no room.
+There are no negative margins.
 
 ### 4. Height comes from content
 

@@ -7,9 +7,17 @@ examples by the same rules.
 
 ## The visible edge
 
-Six things have an edge.
+Eight things have an edge.
 
 - A component with a line or a surface: the outside of its outline.
+- A control without a line or a surface (an InlineEdit at rest, a
+  LinkAction, a ghost icon button that is not pressed): its text or its
+  icon, laid out and trimmed as text. Its hit area, hover surface and
+  focus ring reach the control's height around it without taking room.
+- The cells of a set that shows which one is chosen (the glyphs of a
+  [Glyphs](components/glyphs.md), the pages of a
+  [Pager](components/pager.md), the colors of a
+  [ColorGrid](components/color-grid.md)): each cell's box, chosen or not.
 - A line (a [Divider](components/divider.md), or the line a section draws
   along its top).
 - A container with padding: the inside of its border.
