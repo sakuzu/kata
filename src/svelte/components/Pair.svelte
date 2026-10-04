@@ -9,12 +9,15 @@
   //   edit (the default)  the value is a control; the height is a button's
   //   read                the value is text to read (a summary, the attributes of a thing); the
   //                       height follows the content and the pair is not a control
-  //   top                 the value has several lines (a Textarea); aligned at the top
+  //   top                 the value has several lines (a Textarea, an InlineEdit of several
+  //                       lines); the name is level with its first line
   //
   // The name is trimmed to its ink and level with the first line of the value (with a control,
-  // with the text inside it). Edit and read pairs are not mixed in one column. Pairs are gap-sm
-  // apart in a Stack; a column of read pairs is a Kv. The pair owns the padding at its sides: the
-  // inset its container declares (none inside a container with padding).
+  // with the text inside it). The name and the value are side by side, so both are at the edge
+  // the pair is at (data-edge-pass): a value of text is trimmed there as the name is. Edit and
+  // read pairs are not mixed in one column. Pairs are gap-sm apart in a Stack; a column of read
+  // pairs is a Kv. The pair owns the padding at its sides: the inset its container declares (none
+  // inside a container with padding).
   //
   //   <Pair label="Line width"><NumberInput bind:value unit="px" /></Pair>
   //   <Pair read label="Length">13.1 km</Pair>
@@ -61,6 +64,9 @@
   $effect(tiny.start);
   // A read pair has no line and no surface: it is not a control, so it declares no height
   const h = $derived(top || tiny.current || read ? undefined : 'button');
+  // The name and the value side by side: not when the name sits above the value, nor with a note
+  // under the value
+  const side = $derived(!note && !tiny.current);
 </script>
 
 <div
@@ -71,6 +77,7 @@
   class:noted={!!note}
   data-role="pair"
   data-h={note ? undefined : h}
+  data-edge-pass={side ? '' : undefined}
 >
   {#if htmlFor}
     <label class="k" for={htmlFor} style:--kata-pair-depth={indent}>{label}</label>
@@ -169,13 +176,10 @@
     grid-column: 2;
     @include text(caption);
   }
-  // A value of several lines: the name sits at the centre of the first line of the control
+  // A value of several lines: the name is level with its first line (its first baseline)
   .top {
-    align-items: start;
+    align-items: first baseline;
     height: auto;
-    .k {
-      padding-top: calc((#{box-h()} - 1em * var(--kata-ink)) / 2 + var(--kata-ink-over) * 1em);
-    }
   }
   .noted {
     height: auto;

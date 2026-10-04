@@ -67,7 +67,8 @@ the scale says.
   items stay level: each of its items that passes the edge on (a
   [Stack](components/stack.md), a wrapper, another row) is at the row's
   edges, whatever its place in the row. [Stats](components/stats.md)
-  passes the edge to every [Stat](components/stat.md) in the same way.
+  passes the edge to every [Stat](components/stat.md) in the same way,
+  and a [Pair](components/pair.md) to its name and its value.
 - Where text aligns to a column. The cells of a
   [Table](components/table.md) and the names and values of a
   [Tcard](components/tcard.md) are trimmed, so that the columns line up by

@@ -36,7 +36,14 @@ muted, trimmed to its ink and level with the first line of the value.
 An edit pair has the height of a button (`--kata-box`) and its control
 fills the column. A read pair, a pair with a note and a `top` pair take
 the height of their content; the note, a caption in the color of the
-text, is gap-xs under the value.
+text, is gap-xs under the value. A `top` pair aligns the name with the
+first baseline of the value: the first line of a Textarea, or the first
+line of an InlineEdit at rest, which is its text. The name and the value
+sit side by side, so both are at the edge the pair is at: a value of text
+at the edge of a container with padding is trimmed there, as the name
+is, and its ink is the padding from the edge. A pair with a note, or
+with the name above the value, places them one under the other and
+passes the edge on by their places.
 `indent` moves the name by md for each level. The pair owns the padding
 at its sides: the inset its container declares, none inside a container
 with padding. Below 24rem the name sits above the value.

@@ -1,6 +1,7 @@
 <script lang="ts">
   import {
     Block,
+    InlineEdit,
     NumberInput,
     Pair,
     Select,
@@ -16,6 +17,9 @@
   let width = $state<number | null>(2);
   let note = $state('A note that runs over two lines, written by the person who drew it.');
   let kind = $state('line');
+  let description = $state(
+    'The east bank, from the bridge to the weir.\nDrawn from the survey of May.',
+  );
 </script>
 
 <Example>
@@ -44,6 +48,15 @@
     <Surface width="28rem">
       <Block>
         <Pair label="Note" top><Textarea bind:value={note} ariaLabel="Note" /></Pair>
+      </Block>
+    </Surface>
+  </Case>
+  <Case label="top: a value of several lines that is text at rest (an InlineEdit)">
+    <Surface width="28rem">
+      <Block>
+        <Pair label="Description" top>
+          <InlineEdit bind:value={description} multiline placeholder="Add a description" label="Description" onCommit={() => {}} />
+        </Pair>
       </Block>
     </Surface>
   </Case>
