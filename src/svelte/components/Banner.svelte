@@ -48,6 +48,7 @@
   class="banner {tone}"
   class:floating
   data-inset
+  data-edge-pass
   data-role="banner"
   role={tone === 'error' ? 'alert' : 'status'}
   aria-label={label}
@@ -85,7 +86,8 @@
     @include surface(panel);
   }
   // The icon and the text stay together, on their first baseline; only the action moves to the
-  // next line
+  // next line. The line and the action are placed side by side, so both are at the edges of the
+  // banner (data-edge-pass), whichever reaches lower
   .line {
     display: flex;
     align-items: baseline;
