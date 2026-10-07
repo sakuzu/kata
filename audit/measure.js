@@ -978,14 +978,15 @@
       const body = group.children[1];
       const prev = group.previousElementSibling;
       if (!name || !body || !visible(body) || !prev || !visible(prev)) continue;
-      const nameBottom = inkBottom(name);
+      // The head ends at its last ink: the note's when it has one, else the name's
+      const headBottom = inkBottom(head.querySelector(':scope > .note') ?? name);
       const nameTop = inkTop(name);
       const bodyTop = inkTop(body);
       const prevBottom = inkBottom(prev);
-      if (nameBottom === null || nameTop === null || bodyTop === null || prevBottom === null)
+      if (headBottom === null || nameTop === null || bodyTop === null || prevBottom === null)
         continue;
       const above = nameTop - prevBottom;
-      const below = bodyTop - nameBottom;
+      const below = bodyTop - headBottom;
       // Flush content under a head with an action may lie further by the action's overhang, and
       // flush content without one by the gap-xs above it
       let extra = head ? actionOverhang(group, head) : 0;

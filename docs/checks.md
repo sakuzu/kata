@@ -91,7 +91,8 @@ grow by that padding and the action's overhang (its box, or the reach of
 a control without a line or a surface). Flush content without
 an action keeps gap-xs above it, and its distance may grow by that gap.
 head-near allows the first group to lie further from its head by the
-action's overhang, and the second by the gap-xs.
+action's overhang, and the second by the gap-xs. A head with a note ends
+at the note's ink, so the distance to the content is measured from it.
 
 first-line measures every seat ([a mark beside
 text](measuring.md#a-mark-beside-text)): an element whose `::before` is
