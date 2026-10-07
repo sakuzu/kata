@@ -26,6 +26,7 @@ which receives the place. The action that adds what was chosen goes in
 | `detail` | required | The detail of the current place (a snippet) |
 | `primary` | | The action that adds what was chosen (a snippet) |
 | `onclose` | | Called once when the dialog closes |
+| `flush` | `false` | The detail is not in a Block; it holds its own |
 | `inline` | `false` | The same surface in the flow of a page |
 
 A `PickerSource` is `{ id, label, description?, icon? }`.
@@ -41,6 +42,11 @@ name and its description; the current one is selected. Below 48rem the
 modal fills the screen and the places become [Tabs](../components/tabs.md)
 above the detail. The [Footer](../components/footer.md) holds a close
 button and `primary`.
+
+With `flush` the detail is not in a Block, in both layouts: it reaches
+the edges, and the `detail` snippet places its own
+[Blocks](../components/block.md), [Lists](../components/list.md) and
+[SectionHeaders](../components/section-header.md).
 
 ## Example
 

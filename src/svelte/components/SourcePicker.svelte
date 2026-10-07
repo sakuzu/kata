@@ -36,6 +36,9 @@
   // Below 48rem the modal fills the screen and the places become Tabs above the detail. The Footer
   // holds a close button and, with primary, the action that adds what was chosen.
   //
+  // flush leaves the detail out of the Block, in both layouts: the detail reaches the edges and
+  // places its own Blocks, Lists and SectionHeaders.
+  //
   //   <SourcePicker bind:open title="Add" {sources} current={place} onpick={(id) => (place = id)}>
   //     {#snippet detail(source)}…{/snippet}
   //   </SourcePicker>
@@ -48,6 +51,7 @@
     detail,
     primary,
     onclose,
+    flush = false,
     inline = false,
   }: {
     open?: boolean;
@@ -64,6 +68,8 @@
     primary?: Snippet;
     /** Called once when the dialog closes */
     onclose?: () => void;
+    /** The detail is not in a Block; it places its own Blocks, Lists and SectionHeaders */
+    flush?: boolean;
     /** The same surface in the flow of a page, for documentation */
     inline?: boolean;
   } = $props();
@@ -78,9 +84,13 @@
 {#snippet close()}<Button onclick={() => (open = false)}>{getMessages().close}</Button>{/snippet}
 
 {#snippet pane()}
-  <Block>
+  {#if flush}
     {#if chosen}{@render detail(chosen)}{/if}
-  </Block>
+  {:else}
+    <Block>
+      {#if chosen}{@render detail(chosen)}{/if}
+    </Block>
+  {/if}
 {/snippet}
 
 <Modal bind:open {title} size="xl" flush {inline} {onclose} cancel={close} {primary}>
