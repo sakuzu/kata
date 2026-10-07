@@ -22,6 +22,7 @@ action is `danger`; its button is the one red fill a Footer may hold.
 | `danger` | `false` | A destructive action: the button is `danger-fill` |
 | `busy` | `false` | The action is running: its button is dimmed |
 | `disabled` | `false` | The action cannot run yet |
+| `flush` | `false` | The body has no padding; the children hold their own |
 | `onconfirm` | required | Called when the action is confirmed |
 | `oncancel` | | Called once when it closes without confirming |
 | `inline` | `false` | The same surface in the flow, for documentation |
@@ -36,6 +37,11 @@ close button close it and call `oncancel`; a press on the scrim does
 nothing. Confirming calls `onconfirm` and leaves it open: the
 application shows `busy` while the work runs and sets `open` to false when it is
 done.
+
+With `flush` the body has no padding, as a [Modal](modal.md) with
+`flush`. It is used with children: the paragraph and fields go in a
+[Block](block.md), and a [List](list.md) goes in directly, so its rows
+reach the edges.
 
 ## Example
 

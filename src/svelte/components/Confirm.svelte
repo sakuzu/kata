@@ -15,6 +15,9 @@
   // it; Escape and the close button do. Confirming does not close it: the application sets open to false
   // when the work is done, and can show busy until then.
   //
+  // flush drops the padding of the body, for children that reach the edges: the paragraph and
+  // fields go in a Block, and a List goes in directly.
+  //
   //   <Confirm bind:open title="Delete 4 items?" message="This cannot be undone."
   //     confirmLabel="Delete" danger onconfirm={run} />
   let {
@@ -25,6 +28,7 @@
     confirmLabel,
     cancelLabel,
     danger = false,
+    flush = false,
     inline = false,
     busy = false,
     disabled = false,
@@ -43,6 +47,8 @@
     cancelLabel?: string;
     /** A destructive action: the confirm button is danger-fill */
     danger?: boolean;
+    /** The body reaches the edges; the children hold their own padding */
+    flush?: boolean;
     /** The same surface in the flow of a page, for documentation (open is ignored) */
     inline?: boolean;
     /** The action is running: the confirm button is dimmed and cannot be pressed */
@@ -66,7 +72,7 @@
   }
 </script>
 
-<Modal bind:open size="sm" confirm {inline} {title} onclose={handleClose}>
+<Modal bind:open size="sm" confirm {flush} {inline} {title} onclose={handleClose}>
   {#if children}
     {@render children()}
   {:else}
