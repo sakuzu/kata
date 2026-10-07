@@ -1,1 +1,0 @@
-import{_ as e,o as a,c as s,a2 as i}from"./chunks/framework.BGlkWkwp.js";const c=JSON.parse('{"title":"Layout","description":"","frontmatter":{},"headers":[],"relativePath":"layout.md","filePath":"layout.md"}'),n={name:"layout.md"};function o(h,t,l,d,r,p){return a(),s("div",null,[...t[0]||(t[0]=[i("",39)])])}const g=e(n,[["render",o]]);export{c as __pageData,g as default};
