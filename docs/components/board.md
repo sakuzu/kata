@@ -17,6 +17,7 @@ container to read is a [Card](card.md).
 | Prop | Default | Description |
 | --- | --- | --- |
 | `bare` | `false` | Keeps only its padding, for a slot with a surface |
+| `flush` | `false` | No padding and no gap: the content holds its own |
 | `children` | required | The parts of the picker |
 
 ## Contract
@@ -24,6 +25,13 @@ container to read is a [Card](card.md).
 It fills the width of its container, with the panel surface and a strong
 line, a level above the panel around it. pad-md inside; the content is a
 Stack with gap md. Controls inside have a button's height.
+
+With `flush` the padding goes and the surface and the line stay (with
+`bare` too, only the padding goes). The content stacks with gap 0 and
+reaches the edges, as in a [Panel](panel.md): lists, trees and a
+[Disclosure](disclosure.md) go in directly, so their rows reach the line
+of the board, while the head, a Segmented, a search, Glyphs and fields
+go in a [Block](block.md).
 
 ## Example
 
