@@ -1,10 +1,27 @@
 <script lang="ts">
-  import { Button, Divider, Popover, Row, Text, Toggle } from '@sakuzu/kata/svelte';
+  import {
+    Block,
+    Button,
+    Divider,
+    Icon,
+    List,
+    ListItem,
+    Popover,
+    Row,
+    Text,
+    Toggle,
+  } from '@sakuzu/kata/svelte';
   import Case from '../_shared/Case.svelte';
   import Example from '../_shared/Example.svelte';
 
   let vertices = $state(true);
   let edges = $state(false);
+  let shape = $state('Line');
+  const shapes = [
+    { name: 'Line', icon: 'polyline' },
+    { name: 'Area', icon: 'polygon' },
+    { name: 'Point', icon: 'point' },
+  ] as const;
 </script>
 
 <Example>
@@ -26,6 +43,33 @@
         {#snippet children(close)}
           <Text>Each color is one group of shapes.</Text>
           <Row justify="end"><Button onclick={close}>Close</Button></Row>
+        {/snippet}
+      </Popover>
+    </Row>
+  </Case>
+  <Case label="flush (press to open): a list reaches the edges; text goes in a Block">
+    <Row justify="end">
+      <Popover align="end" flush>
+        {#snippet anchor(toggle, open)}
+          <Button trailing="chevron-down" aria-expanded={open} onclick={toggle}>{shape}</Button>
+        {/snippet}
+        {#snippet children(close)}
+          <Block><Text role="caption" muted>The shape that the next drawing makes.</Text></Block>
+          <List label="Shapes">
+            {#each shapes as s (s.name)}
+              <ListItem
+                columns="auto minmax(0, 1fr)"
+                sel={shape === s.name}
+                aria-current={shape === s.name ? 'true' : undefined}
+                onclick={() => {
+                  shape = s.name;
+                  close();
+                }}
+              >
+                <Icon name={s.icon} /><span>{s.name}</span>
+              </ListItem>
+            {/each}
+          </List>
         {/snippet}
       </Popover>
     </Row>

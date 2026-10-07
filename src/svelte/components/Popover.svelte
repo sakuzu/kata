@@ -11,6 +11,9 @@
   // outside, Escape or Tab closes it; the placement is Dropdown's. A list of actions is a menu
   // (Dropdown with menu), not a Popover.
   //
+  // flush drops the padding: the content reaches the edges and stacks with gap 0, so lists and
+  // section headers go in directly and text and fields go in a Block. gap is not used with flush.
+  //
   //   <Popover align="start">
   //     {#snippet anchor(toggle, open)}
   //       <Button aria-expanded={open} onclick={toggle}>Snapping</Button>
@@ -22,6 +25,7 @@
     align = 'start',
     up = false,
     gap = 'sm',
+    flush = false,
     openInitially = false,
     children,
   }: {
@@ -31,8 +35,10 @@
     align?: 'start' | 'end';
     /** Opens above the trigger, and below only when there is no room above */
     up?: boolean;
-    /** The distance between the children */
+    /** The distance between the children (not used with flush) */
     gap?: 0 | 'sm' | 'md' | 'lg';
+    /** No padding and no gap: the content reaches the edges and holds its own */
+    flush?: boolean;
     /** Open from the start */
     openInitially?: boolean;
     /** The content; it receives the close function */
@@ -43,6 +49,6 @@
 <Dropdown bare {align} {up} {openInitially}>
   {#snippet trigger(toggle, open)}{@render anchor(toggle, open)}{/snippet}
   {#snippet panel(close)}
-    <Bubble {gap}>{@render children(close)}</Bubble>
+    <Bubble {gap} {flush}>{@render children(close)}</Bubble>
   {/snippet}
 </Dropdown>

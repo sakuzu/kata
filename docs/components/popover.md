@@ -17,6 +17,7 @@ with `menu`); a form or a choice that stops the work is a
 | `align` | `start` | The edge of the trigger it lines up with |
 | `up` | `false` | Opens above the trigger, below only without room |
 | `gap` | `sm` | `0`, `sm`, `md` or `lg` between the children |
+| `flush` | `false` | No padding and no gap: the content holds its own |
 | `openInitially` | `false` | Open from the start |
 | `children` | required | The content: a snippet of `(close)` |
 
@@ -29,6 +30,11 @@ the width of a popover and pad-md inside. It is placed as a
 only when there is no room above), gap-md inside the window at the
 sides, and it follows the trigger while it is open. A press outside,
 Escape or Tab closes it.
+
+With `flush` the surface has no padding: the content reaches the edges
+and stacks with gap 0, as in a [Panel](panel.md). Lists, trees and
+section headers go in directly; text and fields go in a
+[Block](block.md). `gap` is not used with `flush`.
 
 ## Example
 
