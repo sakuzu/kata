@@ -8,6 +8,11 @@
   // button, or a bordered text button). The head has the height of its ink; the action overlaps it
   // without taking height.
   //
+  // A head without an action can show a status on the right of the name instead: a short state or
+  // a count (caption, muted). With an action the status is not shown. A note is one sentence that
+  // applies to the whole group, gap-xs under the name (caption, muted, trimmed to its ink); it is
+  // part of the head, so the distance from the head to the content is measured from its ink.
+  //
   // The head is closer to its own content than to what comes before: the break above is the lower
   // half of the previous group plus pad-sm (about pad-lg from the previous ink; pad-lg after a
   // line), and the head is pad-md from the content. The content has pad-md on its sides and bottom,
@@ -25,6 +30,8 @@
   //   </SectionHeader>
   let {
     label,
+    status,
+    note,
     actions,
     flush = false,
     rule = false,
@@ -33,6 +40,10 @@
   }: {
     /** The name of the group */
     label: string;
+    /** A short state or count on the right of the name; not shown with actions */
+    status?: string;
+    /** One sentence that applies to the whole group, under the name */
+    note?: string;
     /** The action on the right of the head */
     actions?: Snippet;
     /** The content reaches the edges (List, Tree, Table, Disclosure) */
@@ -52,9 +63,14 @@
   class:acted={!!actions}
   data-role="section-header"
 >
-  <div class="head" data-role="section-head">
+  <div class="head" class:noted={!!note} data-role="section-head">
     <span class="label">{label}</span>
-    {#if actions}<div class="side">{@render actions()}</div>{/if}
+    {#if actions}
+      <div class="side">{@render actions()}</div>
+    {:else if status}
+      <span class="status">{status}</span>
+    {/if}
+    {#if note}<p class="note">{note}</p>{/if}
   </div>
   <div class="body" data-inset={flush ? undefined : true}>
     {#if flush}{@render children()}{:else}<Stack {gap}>{@render children()}</Stack>{/if}
@@ -129,6 +145,28 @@
     @include text(label);
     @include trim;
     @include ellipsis;
+  }
+  // The status is trimmed like the name, so it takes no more height than the name's ink
+  .status {
+    flex: none;
+    @include text(caption);
+    color: color(muted);
+    @include trim;
+    white-space: nowrap;
+  }
+  // The note takes a line of its own under the name, gap-xs from the name's ink; the head ends at
+  // the note's ink
+  .noted {
+    flex-wrap: wrap;
+    row-gap: gap(xs);
+  }
+  .note {
+    flex: 1 0 100%;
+    min-width: 0;
+    margin: 0;
+    @include text(caption);
+    color: color(muted);
+    @include trim;
   }
   // The action takes width but no height: it overlaps the centre of the name, out of a slot of
   // height 0
