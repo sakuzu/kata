@@ -19,9 +19,12 @@ by looking at what it holds.
 - Without padding: the items reach the edges and bring their own padding
   at the sides. The content of a [Panel](components/panel.md), a
   [Menu](components/menu.md) and a [Drawer](components/drawer.md) are
-  containers without padding. They hold lists, trees, tables and section
-  headers, stacked with gap 0; text and fields go in a Block inside
-  them.
+  containers without padding, and so are a
+  [Popover](components/popover.md), a [Board](components/board.md) and a
+  [Confirm](components/confirm.md) with `flush`, and the detail of a
+  [SourcePicker](workbench/source-picker.md) with `flush`. They hold
+  lists, trees, tables and section headers, stacked with gap 0; text and
+  fields go in a Block inside them.
 
 A container with padding never sits directly in another one without a
 line or a surface between them: a Block inside a Block would add the two
