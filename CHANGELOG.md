@@ -6,6 +6,25 @@ follows semantic versioning.
 
 ## [Unreleased]
 
+## [1.10.0] - 2026-10-07
+
+Containers that hold lists can drop their padding, so that an item that
+keeps its own padding above and below (a ListItem, a Comment, a TreeRow)
+never sits inside another padding (the rule of 1.9.0, #78). Nothing
+changes for existing callers.
+
+- Added: `flush` on Popover (passed to its Bubble), Board (the padding
+  goes, the surface and the line stay), Confirm (passed to its Modal)
+  and SourcePicker (the detail is not wrapped in a Block). The content
+  reaches the edges and stacks with gap 0; text and fields go in a
+  Block, lists go in directly.
+- Added: `status` and `note` on SectionHeader, with the meaning they
+  have in Section. The status sits on the right of the name and is not
+  shown with `actions`; the note is one sentence gap-xs under the name
+  and is part of the head.
+- Changed: the head-near check measures the distance to the content
+  from the head's last ink, the note's when the head has one.
+
 ## [1.9.3] - 2026-10-04
 
 - Fixed: a Row that centres its items centres them on their ink. At
